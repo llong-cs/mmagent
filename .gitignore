@@ -59,3 +59,6 @@ api_config.json
 
 # Test
 test*
+
+# Data
+data/

@@ -225,7 +225,7 @@ class VideoGraph:
     def get_video_graph(self):
         """Get the video graph as a networkx graph."""
         return nx.Graph(self.edges)
-    
+
     def get_video_graph_json(self):
         """Get the video graph as a json object."""
         return json.dumps(self.edges)
