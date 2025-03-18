@@ -177,3 +177,23 @@ Output Example:
 ]
 
 Please only return the high-level thinking, without any additional explanation or formatting."""
+
+prompt_baseline_answer_clipwise_extract = """You are given a video and a question related to that video. You will be shown a specific clip from the video. Your task is to extract any relevant information from this clip that can help answer the question. If the clip does not contain any relevant or helpful information, simply respond with "none"."""
+
+prompt_baseline_answer_clipwise_summarize = """You have watched all segments of a video and extracted relevant information from each one in response to a given question. Your task now is to summarize all the extracted information into a final, concise answer that addresses the question."""
+
+prompt_benchmark_verify_answer = """You are given a question, a ground truth answer, and a baseline answer. Your task is to verify the baseline answer by comparing it to the ground truth answer. If the baseline answer is correct, return "Yes". If the baseline answer is incorrect, return "No".
+
+Input Example:
+
+{
+	"question": "What is the capital of France?",
+	"answer": "Paris",
+	"baseline_answer": "Paris"
+}
+
+Output Example:
+
+Yes
+
+Please only return "Yes" or "No", without any additional explanation or formatting."""

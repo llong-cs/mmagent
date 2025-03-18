@@ -1,8 +1,11 @@
 import numpy as np
 import random
+import networkx as nx
+import json
+import matplotlib.pyplot as plt
 
 class VideoGraph:
-    def __init__(self, max_img_embeddings=10, max_audio_embeddings=10):
+    def __init__(self, max_img_embeddings=10, max_audio_embeddings=10, img_matching_threshold=0.3, audio_matching_threshold=0.7):
         """Initialize a video graph with nodes for faces, voices and text events.
         
         Args:
@@ -14,6 +17,8 @@ class VideoGraph:
         self.max_img_embeddings = max_img_embeddings
         self.max_audio_embeddings = max_audio_embeddings
         self.next_node_id = 0
+        self.img_matching_threshold = img_matching_threshold
+        self.audio_matching_threshold = audio_matching_threshold
 
         # Maintain ordered text nodes
         self.text_nodes = []  # List of text node IDs in insertion order
@@ -26,17 +31,31 @@ class VideoGraph:
             self.metadata = {}
 
     def add_img_node(self, img_embedding):
-        """Add a new face node with initial image embedding."""
+        """Add a new face node with initial image embedding(s).
+        
+        Args:
+            img_embedding: Single embedding or list of embeddings
+        """
         node = self.Node(self.next_node_id, 'img')
-        node.embeddings.append(img_embedding)
+        if isinstance(img_embedding, list):
+            node.embeddings.extend(img_embedding[:self.max_img_embeddings])
+        else:
+            node.embeddings.append(img_embedding)
         self.nodes[self.next_node_id] = node
         self.next_node_id += 1
         return node.id
 
     def add_voice_node(self, audio_embedding):
-        """Add a new voice node with initial audio embedding."""
+        """Add a new voice node with initial audio embedding(s).
+        
+        Args:
+            audio_embedding: Single embedding or list of embeddings
+        """
         node = self.Node(self.next_node_id, 'voice')
-        node.embeddings.append(audio_embedding)
+        if isinstance(audio_embedding, list):
+            node.embeddings.extend(audio_embedding[:self.max_audio_embeddings])
+        else:
+            node.embeddings.append(audio_embedding)
         self.nodes[self.next_node_id] = node
         self.next_node_id += 1
         return node.id
@@ -63,27 +82,27 @@ class VideoGraph:
         """
         if node_id not in self.nodes:
             return False
-            
+
         node = self.nodes[node_id]
         if not isinstance(embeddings, list):
             embeddings = [embeddings]
-            
+
         if node.type == 'img':
             max_emb = self.max_img_embeddings
         elif node.type == 'voice':
             max_emb = self.max_audio_embeddings
         else:
             return False
-            
+
         # Combine existing and new embeddings
         all_embeddings = node.embeddings + embeddings
-        
+
         # If exceeding max limit, randomly select embeddings
         if len(all_embeddings) > max_emb:
             node.embeddings = random.sample(all_embeddings, max_emb)
         else:
             node.embeddings = all_embeddings
-            
+
         return True
 
     def add_edge(self, node_id1, node_id2, weight=1.0):
@@ -132,14 +151,14 @@ class VideoGraph:
         """Calculate average cosine similarity between two lists of embeddings."""
         if not embeddings1 or not embeddings2:
             return 0
-        
+
         similarities = []
         for emb1 in embeddings1:
             for emb2 in embeddings2:
                 similarities.append(self._cosine_similarity(emb1, emb2))
         return np.mean(similarities)
 
-    def search_img_nodes(self, query_embeddings, threshold=0.7):
+    def search_img_nodes(self, query_embeddings):
         """Search for face nodes using image embeddings.
         
         Args:
@@ -151,17 +170,19 @@ class VideoGraph:
         """
         if not isinstance(query_embeddings, list):
             query_embeddings = [query_embeddings]
-            
+
+        threshold = self.img_matching_threshold
+
         results = []
         for node_id, node in self.nodes.items():
             if node.type == 'img':
                 similarity = self._average_similarity(query_embeddings, node.embeddings)
                 if similarity >= threshold:
                     results.append((node_id, similarity))
-        
+
         return sorted(results, key=lambda x: x[1], reverse=True)
 
-    def search_voice_nodes(self, query_embeddings, threshold=0.7):
+    def search_voice_nodes(self, query_embeddings):
         """Search for voice nodes using audio embeddings.
         
         Args:
@@ -173,12 +194,38 @@ class VideoGraph:
         """
         if not isinstance(query_embeddings, list):
             query_embeddings = [query_embeddings]
-            
+
+        threshold = self.audio_matching_threshold
+
         results = []
         for node_id, node in self.nodes.items():
             if node.type == 'voice':
                 similarity = self._average_similarity(query_embeddings, node.embeddings)
                 if similarity >= threshold:
                     results.append((node_id, similarity))
-        
+
         return sorted(results, key=lambda x: x[1], reverse=True)
+
+    def visualize_video_graph(self):
+        """Visualize the video graph using networkx."""
+        G = nx.Graph()
+        for node_id, node in self.nodes.items():
+            G.add_node(node_id, type=node.type)
+            if node.type == 'img':
+                G.nodes[node_id]['embeddings'] = node.embeddings
+            elif node.type == 'voice':
+                G.nodes[node_id]['embeddings'] = node.embeddings
+
+        for (node_id1, node_id2), weight in self.edges.items():
+            G.add_edge(node_id1, node_id2, weight=weight)
+
+        nx.draw(G, with_labels=True)
+        plt.show()
+
+    def get_video_graph(self):
+        """Get the video graph as a networkx graph."""
+        return nx.Graph(self.edges)
+    
+    def get_video_graph_json(self):
+        """Get the video graph as a json object."""
+        return json.dumps(self.edges)
