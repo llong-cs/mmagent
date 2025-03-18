@@ -75,45 +75,28 @@ Output Example:
 
 Please only return the list of captions, without any additional explanation or formatting."""
 
-prompt_audio_diarization = """Generate the ASR (Automatic Speech Recognition) transcript and audio diarization for the provided video, ensuring accurate speaker segmentation and timestamps.
+prompt_audio_diarization = """You are given an audio clip from a video. Your task is to perform Automatic Speech Recognition (ASR) and audio diarization on the provided audio clip. Extract all speech segments with accurate timestamps and speaker identification.
 
 Output Format
 
-Return a JSON object where each key represents a speaker identifier in the format <speaker_1>, <speaker_2>, etc., and each value is a list of speech segments spoken by that speaker. Each segment should have the following fields:
-• "start_time": The start time of the segment in mm:ss format.
-• "end_time": The end time of the segment in mm:ss format.
-• "content": The transcribed text for that segment.
+Return a JSON list where each entry represents a speech segment with the following fields:
+	•	start_time: Start timestamp in hh:mm:ss format.
+	•	end_time: End timestamp in hh:mm:ss format.
+	•	speaker: Speaker identifier in the format <speaker_X> (e.g., <speaker_1>, <speaker_2>, etc.).
+	•	asr: The transcribed text for that segment.
 
 Example Output
 
-{
-    "<speaker_1>": [
-		{
-			"start_time": "00:01",
-			"end_time": "00:05",
-			"content": "Hello, how are you?"
-		},
-		{
-			"start_time": "00:06",
-			"end_time": "00:10",
-			"content": "I'm good, thank you."
-		}
-	],
-	"<speaker_2>": [
-		{
-			"start_time": "00:06",
-			"end_time": "00:10",
-			"content": "I'm good, thank you."
-		}
-	],
+[
+    {"start_time": "00:00:05", "end_time": "00:00:08", "speaker": "<speaker_1>", "asr": "Hello, everyone."},
+    {"start_time": "00:00:09", "end_time": "00:00:12", "speaker": "<speaker_2>", "asr": "Welcome to the meeting."},
     ...
-}
+]
 
-Strict Output Requirements
-	•	Return only the JSON list. Do not include any additional text, explanations, or formatting.
-	•	Ensure accurate timestamps for each segment.
-	•	Use speaker labels in the format <speaker_1>, <speaker_2>, etc.
-	•	Group continuous speech from the same speaker into a single segment whenever possible.
+Requirements
+	•	Ensure precise speech segmentation with accurate timestamps.
+	•	Assign consistent speaker labels, meaning the same speaker should always have the same identifier (e.g., <speaker_1> remains the same throughout the output).
+	•	Return only the JSON list—no additional text, explanations, or formatting.
 	•	Preserve punctuation and capitalization in the ASR output."""
 
 prompt_generate_thinkings_with_ids = """You are given a video, a set of characters, and speakers. Each character is represented by an image with a bounding box, and each speaker is represented by several audio clips, each with a start time, an end time, and content. Each character and speaker is identified by a unique ID, which is enclosed in angle brackets (< >) and corresponds to their provided image or audio clip.
