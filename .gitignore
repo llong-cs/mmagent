@@ -45,7 +45,6 @@ ENV/
 .env.production.local
 
 # Project specific
-data/
 output/
 results/
 temp/
@@ -61,4 +60,4 @@ api_config.json
 test*
 
 # Data
-data/
+data/videos/
