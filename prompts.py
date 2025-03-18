@@ -96,8 +96,8 @@ Example Output
 Requirements
 	•	Ensure precise speech segmentation with accurate timestamps.
 	•	Assign consistent speaker labels, meaning the same speaker should always have the same identifier (e.g., <speaker_1> remains the same throughout the output).
-	•	Return only the JSON list—no additional text, explanations, or formatting.
-	•	Preserve punctuation and capitalization in the ASR output."""
+	•	Preserve punctuation and capitalization in the ASR output.
+	•	Return only the **valid** JSON list—no additional text, explanations, or formatting."""
 
 prompt_generate_thinkings_with_ids = """You are given a video, a set of characters, and speakers. Each character is represented by an image with a bounding box, and each speaker is represented by several audio clips, each with a start time, an end time, and content. Each character and speaker is identified by a unique ID, which is enclosed in angle brackets (< >) and corresponds to their provided image or audio clip.
 

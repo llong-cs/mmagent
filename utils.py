@@ -504,7 +504,7 @@ def refine_json_str(invalid_json):
         invalid_json = invalid_json[:-3].strip()
 
     # Replace single quotes with double quotes (if needed)
-    fixed_json = re.sub(r"'", '"', invalid_json)
+    # fixed_json = re.sub(r"'", '"', invalid_json)
     
     # Fix keys without double quotes
     fixed_json = re.sub(r'(?<=\{|,)\s*([a-zA-Z0-9_]+)\s*:', r'"\1":', fixed_json)
