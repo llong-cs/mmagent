@@ -54,13 +54,16 @@ def get_video_codec(video_path):
     return None
 
 
-def process_video_clip(video_path, start_time, interval, fps):
+def process_video_clip(video_path, start_time, interval, fps=10):
     try:
         base64_data = {}
         video = VideoFileClip(video_path)
 
+        # Ensure start_time + interval doesn't exceed video duration
+        end_time = min(start_time + interval, video.duration)
+        
         # Create subclip
-        clip = video.subclipped(start_time, start_time + interval)
+        clip = video.subclip(start_time, end_time)
 
         # Create temporary files
         temp_files = {
@@ -83,8 +86,9 @@ def process_video_clip(video_path, start_time, interval, fps):
                 base64_data[key] = base64.b64encode(f.read()).decode("utf-8")
             os.remove(path)
 
-        # Extract frames
-        base64_data["frames"] = extract_frames(video_path, start_time, interval, fps)
+        # Extract frames using adjusted interval
+        actual_interval = end_time - start_time
+        base64_data["frames"] = extract_frames(video_path, start_time, actual_interval, fps)
 
         video.close()
         clip.close()
