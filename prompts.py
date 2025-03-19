@@ -32,15 +32,20 @@ If the face meets all the above criteria, return 1. Otherwise, return 0.
 
 Return only 1 or 0, without any additional explanation or formatting."""
 
-prompt_generate_captions_with_ids = """You are given a video and a set of characters and speakers. Each character is represented by an image with a bounding box, and each speaker is represented by several audio clips, each with a start time, an end time, and a content. Each character and speaker is identified by a unique ID, which is enclosed in angle brackets (< >) and corresponds to their provided image or audio clip.
+prompt_generate_captions_with_ids = """You are given a video and a set of characters and speakers. Each character is represented by an image with a bounding box, and each speaker is represented by several audio clips, each with a start time, an end time, and content. Each character and speaker is identified by a unique ID, which is enclosed in angle brackets (< >) and corresponds to their provided image or audio clip.
 
-Your task is to analyze the video and generate a structured list of descriptions, capturing all relevant details for each identified character, including but not limited to:
-	1.	Appearance: Describe their clothing, facial features, and any distinguishing characteristics.
-	2.	Actions & Movements: Describe their gestures, movements, interactions, and any significant physical activity.
-	3.	Spoken Dialogue: Transcribe or summarize any speech spoken by the character, ensuring it is associated with the correct ID.
+Your Task:
+
+Analyze the video and generate a structured list of descriptions that captures all relevant details for each identified character. Your descriptions should include, but are not limited to:
+	1.	Appearance: Clothing, facial features, and any distinguishing characteristics.
+	2.	Actions & Movements: Gestures, movements, interactions, and significant physical activities.
+	3.	Spoken Dialogue: Transcribe or summarize any speech spoken by the character, ensuring it is correctly associated with the corresponding ID.
 	4.	Contextual Behavior: Explain the character's role in the scene, their interactions with other characters, and their emotions.
 
-Each character and speaker must be referred to using their assigned ID enclosed in < > in both input and output. The output should be a list of structured descriptions, ensuring that all relevant information is captured for each identified character and speaker.
+Strict Requirement:
+	•	Every reference to a person must use their exact ID enclosed in angle brackets (< >).
+	•	Do not use inferred names, pronouns, or generic descriptions (e.g., "the man," "the woman," "he," "they").
+	•	Ensure all descriptions remain consistent with the provided IDs and do not introduce assumptions beyond the given data.
 
 Input Example:
 
@@ -63,8 +68,6 @@ Output Example:
 	"<char_101> wears a black suit with a white shirt and tie. He has short black hair and wears glasses.",
 	"<char_101> enters the conference room, shakes hands with <char_102>, and takes a seat.",
 	"<speaker_1> (represented by <char_101>) says: 'Good afternoon, everyone. Let's begin the meeting.'",
-	"<char_102> wears a red dress and has long brown hair.",
-	"<char_102> walks into the restaurant, looks around, and sits at a table.",
 	"<char_102> waves at <char_101> and checks her phone.",
 	"<speaker_2> (represented by <char_102>) says: 'Hey! I was waiting for you. How was your day?'",
 	"<char_103> wears a white hoodie, has a beard, and wears a baseball cap.",
@@ -100,13 +103,18 @@ Requirements
 
 prompt_generate_thinkings_with_ids = """You are given a video, a set of characters, and speakers. Each character is represented by an image with a bounding box, and each speaker is represented by several audio clips, each with a start time, an end time, and content. Each character and speaker is identified by a unique ID, which is enclosed in angle brackets (< >) and corresponds to their provided image or audio clip.
 
-You are also provided with a detailed description of the video scene, including the setting, background actions, and character interactions. Based on this information, your task is to generate high-level thinking, including but not limited to:
-	1.	The correspondence between the characters and the speakers.
-	2.  The relationship between different characters, including their interactions, emotions, and possible connections.
-	3.	The personality traits, profession, hobbies, or any other distinguishing features of each character based on their actions, speech, and appearance.
+You are also provided with a detailed description of the video scene, including the setting, background actions, and character interactions.
+
+Your task:
+
+Based on the provided information, generate high-level thinking, including but not limited to:
+	1.	The correspondence between characters and speakers based on their appearance, speech, and interactions.
+	2.	The relationships between different characters, including their interactions, emotions, and possible connections.
+	3.	Personality traits, profession, hobbies, or distinguishing features of each character, inferred from their actions, speech, and appearance.
 	4.	General knowledge or contextual information relevant to understanding the characters or the situation they are in.
 
-Please focus only on generating the high-level analysis based on the provided video description and character details.
+Strict Requirement:
+Whenever referring to any character or speaker in your generated thinking, you must use their exact ID tag enclosed in angle brackets (< >). Do not use generic descriptions, inferred names, or pronouns (e.g., "he," "she," "the man," "the woman").
 
 The input will contain the following:
 	1.	Video and character details, including their IDs and relevant descriptions (no need for individual character descriptions).
@@ -114,27 +122,26 @@ The input will contain the following:
 
 Input Example:
 
-{
-	"video": "scene_01.mp4",
-	"characters": {
-		"<char_101>": "<img_101>",
-		"<char_102>": "<img_102>",
-		"<char_103>": "<img_103>"
-	},
-	"speakers": [
-		{"start_time": "00:05", "end_time": "00:08", "speaker": "<speaker_1>", "asr": "Hello, everyone."},
-		{"start_time": "00:09", "end_time": "00:12", "speaker": "<speaker_2>", "asr": "Welcome to the meeting."},
-		...
-	],
-	"video_description": [
-		"<char_101> wears a black suit with a white shirt and tie. He has short black hair and wears glasses.",
-		"<char_101> enters the conference room, shakes hands with <char_102>, and takes a seat.",
-		"<speaker_1> (represented by <char_101>) says: 'Good afternoon, everyone. Let's begin the meeting.'",
-		"<char_102> wears a red dress and has long brown hair.",
-		"<char_102> walks into the restaurant, looks around, and sits at a table.",
-		"<char_102> waves at <char_101> and checks her phone."
-	]
-}
+
+video: <input_video>,
+characters: [
+	"<char_101>": <img_101>,
+	"<char_102>": <img_102>,
+	"<char_103>": <img_103>
+],
+speakers: [
+	{"start_time": "00:05", "end_time": "00:08", "speaker": "<speaker_1>", "asr": "Hello, everyone."},
+	{"start_time": "00:09", "end_time": "00:12", "speaker": "<speaker_2>", "asr": "Welcome to the meeting."}
+],
+video descriptions: [
+	"<char_101> wears a black suit with a white shirt and tie. He has short black hair and wears glasses.",
+	"<char_101> enters the conference room, shakes hands with <char_102>, and takes a seat.",
+	"<speaker_1> (represented by <char_101>) says: 'Good afternoon, everyone. Let's begin the meeting.'",
+	"<char_102> wears a red dress and has long brown hair.",
+	"<char_102> walks into the restaurant, looks around, and sits at a table.",
+	"<char_102> waves at <char_101> and checks her phone."
+]
+
 
 Output Example:
 
@@ -146,9 +153,8 @@ Output Example:
 	"<char_103> appears anxious, possibly involved in a tense situation outside the meeting. His nervous movements and behavior hint at an ongoing problem or threat.",
 	"<char_101>'s profession might involve leadership or managerial duties, given their role in the meeting.",
 	"<char_102> may work in a collaborative or supportive role, indicated by her attention to <char_101>.",
-	"<char_103> is a friend of <char_101>.",
-	"<char_103> likes eating at the restaurant.",
-	"The scene suggests a professional environment, with interpersonal dynamics that mix business with potential personal tensions, as evidenced by <char_103>’s behavior.",
+	"<char_103> likes eating at Wendy's restaurant.",
+	"The scene suggests a professional environment, with interpersonal dynamics that mix business with potential personal tensions, as evidenced by <char_103>'s behavior.",
 	"The show is held every 2 months.",
 	"Santa market is a dog-friendly market."
 ]
@@ -157,9 +163,31 @@ Please only return the valid string list, without any additional explanation or 
 
 prompt_baseline_answer_clipwise_extract = """You are given a video and a question related to that video. You will be shown a specific clip from the video. Your task is to extract any relevant information from this clip that can help answer the question. If the clip does not contain any relevant or helpful information, simply respond with "none"."""
 
-prompt_baseline_answer_clipwise_summarize = """You have watched all segments of a video and extracted relevant information from each one in response to a given question. Your task now is to summarize all the extracted information into a final, concise answer that addresses the question."""
+prompt_baseline_answer_clipwise_summarize = """You have reviewed all segments of a video and extracted relevant information in response to a given question. The extracted information is provided in chronological order, following the sequence of the video.
+
+Your task is to distill the most essential core idea from all extracted information and formulate a final answer that is as concise and to the point as possible, while fully addressing the question.
+
+Only provide the direct answer without any explanation, elaboration, or additional commentary."""
 
 prompt_benchmark_verify_answer = """You are provided with a question, the ground truth answer, and a baseline answer. Your task is to assess whether the baseline answer is semantically consistent with the ground truth answer. If the meaning of the baseline answer aligns with the ground truth answer, regardless of exact wording, return "Yes". If the baseline answer is semantically incorrect, return "No".
+
+Input Example:
+
+{
+	"question": "What is the capital of France?",
+	"answer": "Paris",
+	"baseline_answer": "Paris"
+}
+
+Output Example:
+
+Yes
+
+Please only return "Yes" or "No", without any additional explanation or formatting."""
+
+prompt_benchmark_verify_answer_strict = """You are provided with a question, the ground truth answer, and a baseline answer. Your task is to strictly assess whether the baseline answer conveys exactly the same meaning as the ground truth answer, without introducing any additional information.
+
+If the baseline answer is semantically identical to the ground truth answer, return “Yes”. If the baseline answer deviates in meaning, includes incorrect details, or adds information beyond the ground truth answer, return “No”.
 
 Input Example:
 
