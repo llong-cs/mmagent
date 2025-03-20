@@ -31,23 +31,21 @@ def get_video_info(file_path):
         file_info["type"] = "audio"
         return file_info
         
-    # Handle video files
-    cap = cv2.VideoCapture(file_path)
+    # Handle video files using moviepy
+    video = VideoFileClip(file_path)
     
-    # Get basic properties from OpenCV
-    file_info["fps"] = cap.get(cv2.CAP_PROP_FPS)
-    file_info["frames"] = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-    file_info["duration"] = file_info["frames"] / file_info["fps"]
-    file_info["width"] = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-    file_info["height"] = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    # Get basic properties from moviepy
+    file_info["fps"] = video.fps
+    file_info["frames"] = int(video.fps * video.duration)
+    file_info["duration"] = video.duration
+    file_info["width"] = video.size[0]
+    file_info["height"] = video.size[1]
     
-    # Get codec info
-    fourcc = int(cap.get(cv2.CAP_PROP_FOURCC))
-    file_info["fourcc"] = fourcc
-    file_info["codec"] = "".join([chr((fourcc >> 8*i) & 0xFF) for i in range(4)])
+    # Get codec info from moviepy
+    file_info["codec"] = video.reader.infos['video_codec']
     file_info["type"] = "video"
     
-    cap.release()
+    video.close()
     return file_info
 
 def extract_frames(video_path, start_time=None, interval=None, sample_fps=10):
@@ -69,7 +67,7 @@ def extract_frames(video_path, start_time=None, interval=None, sample_fps=10):
         # Convert frame to jpg and base64
         _, buffer = cv2.imencode(".jpg", cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
         frames.append(base64.b64encode(buffer).decode("utf-8"))
-
+        
     video.close()
     return frames
 
