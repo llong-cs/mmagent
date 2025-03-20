@@ -1,11 +1,12 @@
-import cv2
 import base64
+import logging
 import os
 import tempfile
+import math
+import cv2
+import numpy as np
 from moviepy import VideoFileClip
 from pydub import AudioSegment
-import numpy as np
-import logging
 
 # logging.getLogger('moviepy').setLevel(logging.ERROR)
 
@@ -79,16 +80,18 @@ def extract_frames(video_path, start_time=None, interval=None, sample_fps=10):
     return frames
 
 
-def process_video_clip(video_path, start_time, interval, fps=10, video_format="mp4", audio_format="mp3", audio_fps=16000):
+def process_video_clip(video_path, start_time, interval=None, fps=10, video_format="mp4", audio_format="mp3", audio_fps=16000):
     try:
         base64_data = {}
         video = VideoFileClip(video_path)
 
-        # Ensure start_time + interval doesn't exceed video duration
-        end_time = min(start_time + interval, video.duration)
-        
-        # Create subclip
-        clip = video.subclipped(start_time, end_time)
+        if interval is None:
+            # Process entire video
+            clip = video
+        else:
+            # Process subclip
+            end_time = min(start_time + interval, video.duration)
+            clip = video.subclipped(start_time, end_time)
 
         # Create temporary files
         temp_files = {
@@ -123,19 +126,18 @@ def process_video_clip(video_path, start_time, interval, fps=10, video_format="m
         for key, path in temp_paths.items():
             with open(path, "rb") as f:
                 base64_data[key] = base64.b64encode(f.read())
-                # if key == "audio":
-                #     base64_data[key] = base64.b64encode(f.read())
-                # else:
-                #     base64_data[key] = base64.b64encode(f.read()).decode("utf-8")
-            # print(path)
             os.remove(path)
 
         # Extract frames using adjusted interval
-        actual_interval = end_time - start_time
-        base64_data["frames"] = extract_frames(video_path, start_time, actual_interval, fps)
+        if interval is None:
+            base64_data["frames"] = extract_frames(video_path, sample_fps=fps)
+        else:
+            actual_interval = end_time - start_time
+            base64_data["frames"] = extract_frames(video_path, start_time, actual_interval, sample_fps=fps)
 
         video.close()
-        clip.close()
+        if interval is not None:
+            clip.close()
 
         return base64_data["video"], base64_data["frames"], base64_data["audio"]
 
@@ -182,3 +184,56 @@ def get_video_info_from_base64(base64_string):
 
     except Exception as e:
         return {"error": str(e)}
+
+def split_video_into_clips(video_path, interval):
+    """
+    Split a video into clips of specified interval length and save them to a folder.
+    
+    Args:
+        video_path (str): Path to the video file
+        interval (int): Length of each clip in seconds
+        
+    Returns:
+        str: Path to the output folder containing the clips
+    """
+    try:
+        # Create output folder based on video filename
+        video_name = os.path.splitext(os.path.basename(video_path))[0]
+        output_dir = os.path.join(os.path.dirname(video_path), video_name)
+        os.makedirs(output_dir, exist_ok=True)
+
+        # Get video info
+        video_info = get_video_info(video_path)
+        duration = video_info["duration"]
+        format = video_info["format"]
+
+        # Determine codec based on format
+        if format in ['mp4', 'mov']:
+            codec = 'libx264'
+        elif format == 'webm':
+            codec = 'libvpx'
+        else:
+            codec = 'libx264'  # Default to H.264
+
+        # Calculate number of clips
+        num_clips = math.ceil(duration / interval)
+
+        # Open video
+        video = VideoFileClip(video_path)
+
+        # Split and save clips
+        for i in range(num_clips):
+            start_time = i * interval
+            end_time = min((i + 1) * interval, duration)
+
+            clip = video.subclipped(start_time, end_time)
+            output_path = os.path.join(output_dir, f"{i+1}.{format}")
+            clip.write_videofile(output_path, codec=codec)
+            clip.close()
+
+        video.close()
+        return output_dir
+
+    except Exception as e:
+        print(f"Error splitting video into clips: {str(e)}")
+        raise
