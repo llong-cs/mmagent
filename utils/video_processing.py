@@ -4,24 +4,51 @@ import os
 import tempfile
 from moviepy import VideoFileClip
 from pydub import AudioSegment
-from io import BytesIO
 import numpy as np
 
-def get_video_info(video_path):
-    video = VideoFileClip(video_path)
-    video_info = {}
-    video_info["fps"] = video.fps
-    video_info["frames"] = int(video.duration * video.fps)
-    video_info["duration"] = video.duration
-    video_info["path"] = video_path
-    video_info["name"] = video_path.split("/")[-1]
-    video_info["width"] = video.size[0]
-    video_info["height"] = video.size[1]
-    video_info["codec"] = None  # moviepy doesn't expose codec info
-    video_info["format"] = None  # moviepy doesn't expose format info
-    video_info["fourcc"] = None  # moviepy doesn't expose fourcc info
-    video.close()
-    return video_info
+def get_video_info(file_path):
+    """Get video/audio information using appropriate libraries.
+    
+    Args:
+        file_path (str): Path to video or audio file
+        
+    Returns:
+        dict: Dictionary containing media metadata
+    """
+    file_info = {}
+    file_info["path"] = file_path
+    file_info["name"] = file_path.split("/")[-1]
+    file_info["format"] = os.path.splitext(file_path)[1][1:].lower()
+    
+    # Handle audio files
+    audio_formats = ['mp3', 'wav', 'ogg', 'm4a']
+    if file_info["format"] in audio_formats:
+        audio = AudioSegment.from_file(file_path)
+        file_info["duration"] = len(audio) / 1000.0  # Convert ms to seconds
+        file_info["channels"] = audio.channels
+        file_info["sample_width"] = audio.sample_width
+        file_info["frame_rate"] = audio.frame_rate
+        file_info["type"] = "audio"
+        return file_info
+        
+    # Handle video files
+    cap = cv2.VideoCapture(file_path)
+    
+    # Get basic properties from OpenCV
+    file_info["fps"] = cap.get(cv2.CAP_PROP_FPS)
+    file_info["frames"] = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    file_info["duration"] = file_info["frames"] / file_info["fps"]
+    file_info["width"] = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    file_info["height"] = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    
+    # Get codec info
+    fourcc = int(cap.get(cv2.CAP_PROP_FOURCC))
+    file_info["fourcc"] = fourcc
+    file_info["codec"] = "".join([chr((fourcc >> 8*i) & 0xFF) for i in range(4)])
+    file_info["type"] = "video"
+    
+    cap.release()
+    return file_info
 
 def extract_frames(video_path, start_time=None, interval=None, sample_fps=10):
     video = VideoFileClip(video_path)
@@ -47,14 +74,7 @@ def extract_frames(video_path, start_time=None, interval=None, sample_fps=10):
     return frames
 
 
-def get_video_codec(video_path):
-    video = VideoFileClip(video_path)
-    # Note: moviepy doesn't expose codec info directly
-    video.close()
-    return None
-
-
-def process_video_clip(video_path, start_time, interval, fps=10):
+def process_video_clip(video_path, start_time, interval, fps=10, video_format="mp4", audio_format="mp3"):
     try:
         base64_data = {}
         video = VideoFileClip(video_path)
@@ -67,18 +87,32 @@ def process_video_clip(video_path, start_time, interval, fps=10):
 
         # Create temporary files
         temp_files = {
-            "video": tempfile.NamedTemporaryFile(delete=False, suffix=".mp4"),
-            "audio": tempfile.NamedTemporaryFile(delete=False, suffix=".mp3"),
+            "video": tempfile.NamedTemporaryFile(delete=False, suffix=f".{video_format}"),
+            "audio": tempfile.NamedTemporaryFile(delete=False, suffix=f".{audio_format}"),
         }
         temp_paths = {k: f.name for k, f in temp_files.items()}
         for f in temp_files.values():
             f.close()
 
         # Write video without logging
-        clip.write_videofile(temp_paths["video"], codec="libx264", audio_codec="aac", logger=None)
+        if video_format == "mp4":
+            video_codec = "libx264"
+        elif video_format == "webm":
+            video_codec = "libvpx"
+        else:
+            video_codec = "libx264"  # Default to mp4/h264
+            
+        clip.write_videofile(temp_paths["video"], codec=video_codec, audio_codec="aac", logger=None)
 
-        # Write audio without logging 
-        clip.audio.write_audiofile(temp_paths["audio"], codec="libmp3lame", logger=None)
+        # Write audio without logging
+        if audio_format == "mp3":
+            audio_codec = "libmp3lame"
+        elif audio_format == "wav":
+            audio_codec = "pcm_s16le"
+        else:
+            audio_codec = "libmp3lame"  # Default to mp3
+            
+        clip.audio.write_audiofile(temp_paths["audio"], codec=audio_codec, logger=None)
 
         # Read files and convert to Base64
         for key, path in temp_paths.items():
@@ -100,28 +134,22 @@ def process_video_clip(video_path, start_time, interval, fps=10):
         raise
 
 
-def get_audio_info_from_base64(base64_string, format_hint="mp3"):
+def get_audio_info_from_base64(base64_string):
     try:
-        # decoding base64
         audio_data = base64.b64decode(base64_string)
-        audio_io = BytesIO(audio_data)
 
-        if format_hint:
-            audio = AudioSegment.from_file(audio_io, format=format_hint)
-        else:
-            audio = AudioSegment.from_file(audio_io)
+        # Try common audio extensions
+        for ext in ['.mp3', '.wav', '.m4a', '.ogg', '.flac']:
+            try:
+                with tempfile.NamedTemporaryFile(delete=True, suffix=ext) as temp_audio:
+                    temp_audio.write(audio_data)
+                    temp_audio.flush()
+                    return get_video_info(temp_audio.name)
+            except:
+                continue
 
-        duration = len(audio) / 1000  # ms to s
-        channels = audio.channels
-        frame_rate = audio.frame_rate
-        sample_width = audio.sample_width
+        raise Exception("Could not determine audio format")
 
-        return {
-            "duration_seconds": duration,
-            "channels": channels,
-            "frame_rate_hz": frame_rate,
-            "sample_width_bytes": sample_width,
-        }
     except Exception as e:
         return {"error": str(e)}
 
@@ -130,25 +158,17 @@ def get_video_info_from_base64(base64_string):
     try:
         video_data = base64.b64decode(base64_string)
 
-        with tempfile.NamedTemporaryFile(delete=True, suffix=".mp4") as temp_video:
-            temp_video.write(video_data)
-            temp_video.flush()
+        # Try common video extensions
+        for ext in ['.mp4', '.avi', '.mov', '.mkv', '.webm']:
+            try:
+                with tempfile.NamedTemporaryFile(delete=True, suffix=ext) as temp_video:
+                    temp_video.write(video_data)
+                    temp_video.flush()
+                    return get_video_info(temp_video.name)
+            except:
+                continue
 
-            video = VideoFileClip(temp_video.name)
-            video_info = {
-                "fps": video.fps,
-                "frames": int(video.duration * video.fps),
-                "duration": video.duration,
-                "path": temp_video.name,
-                "name": os.path.basename(temp_video.name),
-                "width": video.size[0],
-                "height": video.size[1],
-                "codec": None,
-                "format": None,
-                "fourcc": None,
-            }
-            video.close()
-            return video_info
+        raise Exception("Could not determine video format")
 
     except Exception as e:
         return {"error": str(e)}

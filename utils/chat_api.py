@@ -185,10 +185,15 @@ def generate_messages(inputs):
 
     Args:
         inputs (list): List of input dictionaries with 'type' and 'content' keys
-        type can be "text", "images", "video"
-        content should be a string for text, 
-        a list of base64 encoded images for images, 
-        or a string (url) for video
+        type can be:
+            "text" - text content
+            "image/jpeg", "image/png" - base64 encoded images
+            "video/mp4", "video/webm" - base64 encoded videos
+            "video_url" - video URL
+            "audio/mp3", "audio/wav" - base64 encoded audio
+        content should be a string for text,
+        a list of base64 encoded media for images/video/audio,
+        or a string (url) for video_url
 
     Returns:
         list: Formatted messages for chat completion
@@ -201,14 +206,15 @@ def generate_messages(inputs):
     for input in inputs:
         if input["type"] == "text":
             content.append({"type": "text", "text": input["content"]})
-        elif input["type"] == "images":
+        elif input["type"] in ["images/jpeg", "images/png"]:
+            img_format = input["type"].split("/")[1]
             if isinstance(input["content"][0], str):
                 content.extend(
                     [
                         {
                             "type": "image_url",
                             "image_url": {
-                                "url": f"data:image/jpeg;base64,{img}",
+                                "url": f"data:image/{img_format};base64,{img}",
                                 "detail": "high",
                             },
                         }
@@ -224,7 +230,7 @@ def generate_messages(inputs):
                     content.append({
                         "type": "image_url",
                         "image_url": {
-                            "url": f"data:image/jpeg;base64,{img[1]}",
+                            "url": f"data:image/{img_format};base64,{img[1]}",
                             "detail": "high",
                         },
                     })
@@ -235,19 +241,21 @@ def generate_messages(inputs):
                     "image_url": {"url": input["content"]},
                 }
             )
-        elif input["type"] == "video_base64":
+        elif input["type"] in ["video_base64/mp4", "video_base64/webm"]:
+            video_format = input["type"].split("/")[1]
             content.append(
                 {
                     "type": "image_url",
-                    "image_url": {"url": f"data:video/mp4;base64,{input['content']}"},
+                    "image_url": {"url": f"data:video/{video_format};base64,{input['content']}"},
                 }
-            )        
-        elif input["type"] == "audio":
+            )
+        elif input["type"] in ["audio_base64/mp3", "audio_base64/wav"]:
+            audio_format = input["type"].split("/")[1]
             content.append(
                 {
                     "type": "image_url",
                     "image_url": {
-                        "url": f"data:audio/mp3;base64,{input['content']}"
+                        "url": f"data:audio/{audio_format};base64,{input['content']}"
                     },
                 }
             )
