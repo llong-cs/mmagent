@@ -79,7 +79,7 @@ def extract_frames(video_path, start_time=None, interval=None, sample_fps=10):
     return frames
 
 
-def process_video_clip(video_path, start_time, interval, fps=10, video_format="mp4", audio_format="mp3"):
+def process_video_clip(video_path, start_time, interval, fps=10, video_format="mp4", audio_format="mp3", audio_fps=16000):
     try:
         base64_data = {}
         video = VideoFileClip(video_path)
@@ -109,7 +109,7 @@ def process_video_clip(video_path, start_time, interval, fps=10, video_format="m
             
         clip.write_videofile(temp_paths["video"], codec=video_codec, audio_codec="aac", logger=None)
 
-        # Write audio without logging
+        # Write audio without logging, using specified fps for audio sampling
         if audio_format == "mp3":
             audio_codec = "libmp3lame"
         elif audio_format == "wav":
@@ -117,7 +117,7 @@ def process_video_clip(video_path, start_time, interval, fps=10, video_format="m
         else:
             audio_codec = "libmp3lame"  # Default to mp3
             
-        clip.audio.write_audiofile(temp_paths["audio"], codec=audio_codec, logger=None)
+        clip.audio.write_audiofile(temp_paths["audio"], codec=audio_codec, fps=audio_fps, logger=None)
 
         # Read files and convert to Base64
         for key, path in temp_paths.items():
