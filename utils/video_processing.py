@@ -63,7 +63,7 @@ def process_video_clip(video_path, start_time, interval, fps=10):
         end_time = min(start_time + interval, video.duration)
         
         # Create subclip
-        clip = video.subclip(start_time, end_time)
+        clip = video.subclipped(start_time, end_time)
 
         # Create temporary files
         temp_files = {
