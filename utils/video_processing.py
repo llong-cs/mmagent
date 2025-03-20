@@ -41,8 +41,12 @@ def get_video_info(file_path):
     file_info["width"] = video.size[0]
     file_info["height"] = video.size[1]
     
-    # Get codec info from moviepy
-    file_info["codec"] = video.reader.infos['video_codec']
+    # Get codec info from moviepy if available
+    try:
+        file_info["codec"] = video.reader.infos['video_codec']
+    except (KeyError, AttributeError):
+        file_info["codec"] = "unknown"
+        
     file_info["type"] = "video"
     
     video.close()
