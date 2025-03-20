@@ -5,6 +5,9 @@ import tempfile
 from moviepy import VideoFileClip
 from pydub import AudioSegment
 import numpy as np
+import logging
+
+# logging.getLogger('moviepy').setLevel(logging.ERROR)
 
 def get_video_info(file_path):
     """Get video/audio information using appropriate libraries.
@@ -89,8 +92,8 @@ def process_video_clip(video_path, start_time, interval, fps=10, video_format="m
 
         # Create temporary files
         temp_files = {
-            "video": tempfile.NamedTemporaryFile(delete=False, suffix=f".{video_format}"),
-            "audio": tempfile.NamedTemporaryFile(delete=False, suffix=f".{audio_format}"),
+            "video": tempfile.NamedTemporaryFile(dir="data/videos", delete=False, suffix=f".{video_format}"),
+            "audio": tempfile.NamedTemporaryFile(dir="data/audios", delete=False, suffix=f".{audio_format}"),
         }
         temp_paths = {k: f.name for k, f in temp_files.items()}
         for f in temp_files.values():
@@ -119,9 +122,10 @@ def process_video_clip(video_path, start_time, interval, fps=10, video_format="m
         # Read files and convert to Base64
         for key, path in temp_paths.items():
             with open(path, "rb") as f:
-                base64_data[key] = base64.b64encode(f.read()).decode("utf-8")
-                # base64_data[key] = base64.b64encode(f.read())
-            os.remove(path)
+                # base64_data[key] = base64.b64encode(f.read()).decode("utf-8")
+                base64_data[key] = base64.b64encode(f.read())
+            print(path)
+            # os.remove(path)
 
         # Extract frames using adjusted interval
         actual_interval = end_time - start_time
@@ -142,7 +146,7 @@ def get_audio_info_from_base64(base64_string):
         audio_data = base64.b64decode(base64_string)
 
         # Try common audio extensions
-        for ext in ['.mp3', '.wav', '.m4a', '.ogg', '.flac']:
+        for ext in ['.wav', '.mp3', '.m4a', '.ogg', '.flac']:
             try:
                 with tempfile.NamedTemporaryFile(delete=True, suffix=ext) as temp_audio:
                     temp_audio.write(audio_data)
