@@ -32,11 +32,17 @@ def process_voices(video_graph, base64_audio):
 
 if __name__ == "__main__":
     video_path = "/mnt/bn/videonasi18n/longlin.kylin/vlm-agent-benchmarking/data/videos/raw/720p/5 Poor People vs 1 Secret Millionaire.mp4"
-    clip, _, audio = process_video_clip(video_path, 0, 30, 10, audio_format="wav")
+    print(get_video_info(video_path))
+    # clip, _, audio = process_video_clip(video_path, 0, 30, 10, audio_format="wav")
 
-    outputs = laplace.matx_inference("audio_embedding", {"wav": [audio]})
+    # wav_path = 'data/audios/speaker1_a_cn_16k.wav'
+    # f = open(wav_path, 'rb')
+    # wav_bytes = f.read()
+    # audio = base64.b64encode(wav_bytes)
 
-    emb = outputs.output_bytes_lists["output"][0]
-    format_string = 'f' * (len(emb) // struct.calcsize('f'))
-    double_list_recovered = list(struct.unpack(format_string, emb))
-    print(double_list_recovered)
+    # outputs = laplace.matx_inference("audio_embedding", {"wav": [audio]})
+
+    # emb = outputs.output_bytes_lists["output"][0]
+    # format_string = 'f' * (len(emb) // struct.calcsize('f'))
+    # double_list_recovered = list(struct.unpack(format_string, emb))
+    # print(double_list_recovered)

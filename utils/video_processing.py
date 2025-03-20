@@ -118,6 +118,7 @@ def process_video_clip(video_path, start_time, interval, fps=10, video_format="m
         for key, path in temp_paths.items():
             with open(path, "rb") as f:
                 base64_data[key] = base64.b64encode(f.read()).decode("utf-8")
+                # base64_data[key] = base64.b64encode(f.read())
             os.remove(path)
 
         # Extract frames using adjusted interval
