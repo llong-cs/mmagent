@@ -120,8 +120,8 @@ The input will contain the following:
 	1.	Video and character details, including their IDs and relevant descriptions (no need for individual character descriptions).
 	2.	A detailed description of the video scene.
 
-Input Example:
 
+Input Example:
 
 video: <input_video>,
 characters: [

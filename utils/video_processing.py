@@ -122,11 +122,11 @@ def process_video_clip(video_path, start_time, interval, fps=10, video_format="m
         # Read files and convert to Base64
         for key, path in temp_paths.items():
             with open(path, "rb") as f:
-                # base64_data[key] = base64.b64encode(f.read()).decode("utf-8")
-                if key == "audio":
-                    base64_data[key] = base64.b64encode(f.read())
-                else:
-                    base64_data[key] = base64.b64encode(f.read()).decode("utf-8")
+                base64_data[key] = base64.b64encode(f.read())
+                # if key == "audio":
+                #     base64_data[key] = base64.b64encode(f.read())
+                # else:
+                #     base64_data[key] = base64.b64encode(f.read()).decode("utf-8")
             # print(path)
             os.remove(path)
 

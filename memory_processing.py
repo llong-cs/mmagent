@@ -1,17 +1,38 @@
+"""
+This file contains functions for processing video descriptions and generating captions and thinkings with character IDs.
+"""
+
 import base64
 import json
 import ast
+from io import BytesIO
+
 import numpy as np
 import matplotlib.pyplot as plt
 from PIL import Image, ImageDraw
-from io import BytesIO
 
-from utils.chat_api import *
-from prompts import *
+from utils.chat_api import generate_messages, get_response_with_retry
+from prompts import prompt_generate_captions_with_ids, prompt_generate_thinkings_with_ids
 
 
 
 def generate_thinkings_with_ids(video_context, video_description):
+    """
+    Generate thinking descriptions with character IDs based on video context and description.
+
+    Args:
+        video_context (list): List of context objects containing video information
+        video_description (str): Description of the video content
+
+    Returns:
+        list: Response from the LLM model containing generated thinking descriptions with character IDs
+
+    The function:
+    1. Combines video context with description and prompt
+    2. Generates messages for the LLM model
+    3. Makes API call to Gemini model
+    4. Returns the model's response with thinking descriptions
+    """
     input = video_context + [
         {
             "type": "text",
@@ -32,6 +53,28 @@ def generate_thinkings_with_ids(video_context, video_description):
 def generate_captions_and_thinkings_with_ids(
     base64_video, base64_frames, base64_audio, faces_list, voices_list
 ):
+    """
+    Generate captions and thinking descriptions for video content with character IDs.
+
+    Args:
+        base64_video (bytes): Base64 encoded video data
+        base64_frames (list): List of base64 encoded video frames
+        base64_audio (bytes): Base64 encoded audio data
+        faces_list (dict): Dictionary mapping character IDs to lists of face detections
+        voices_list (list): List of voice/speech segments detected in the audio
+
+    Returns:
+        tuple: A tuple containing:
+            - str: Generated captions with character ID references
+            - str: Generated thinking descriptions with character ID references
+
+    The function:
+    1. Extracts face frames for each character and draws bounding boxes
+    2. Creates a context object with video, face frames and voice data
+    3. Generates captions using an LLM model
+    4. Visualizes the face frames with character IDs
+    5. Generates thinking descriptions based on the captions
+    """
     face_frames = []
 
     print(f"id num: {len(faces_list)}")
@@ -65,7 +108,7 @@ def generate_captions_and_thinkings_with_ids(
     video_context = [
         {
             "type": "video_base64/mp4",
-            "content": base64_video,
+            "content": base64_video.decode("utf-8"),
         },
         {
             "type": "images/jpeg",
@@ -91,7 +134,7 @@ def generate_captions_and_thinkings_with_ids(
     num_faces = len(face_frames)
     num_rows = (num_faces + 2) // 3  # Round up division to get number of rows needed
 
-    fig, axes = plt.subplots(num_rows, 3, figsize=(15, 5 * num_rows))
+    _, axes = plt.subplots(num_rows, 3, figsize=(15, 5 * num_rows))
     axes = axes.ravel()  # Flatten axes array for easier indexing
 
     for i, face_frame in enumerate(face_frames):
@@ -117,6 +160,21 @@ def generate_captions_and_thinkings_with_ids(
     return captions[0], thinkings[0]
 
 def process_descriptions(video_graph, video_descriptions_string):
+    """
+    Process video descriptions and update the video graph with text nodes and edges.
+    
+    Args:
+        video_graph: The video graph object to update
+        video_descriptions_string: String containing video descriptions in JSON format, with entity references
+            in the format <entity_type_id>. For example: "<char_1> walks to <char_2>"
+            
+    The function:
+    1. Converts the JSON string to a list of descriptions
+    2. For each description:
+        - Creates a new text node with the description
+        - Extracts entity references (e.g. char_1, char_2)
+        - Adds edges between the text node and referenced entity nodes
+    """
     def string_to_list(s):
         try:
             # Remove ```json or ``` from start/end
@@ -144,7 +202,7 @@ def process_descriptions(video_graph, video_descriptions_string):
             elif char == ">":
                 in_entity = False
                 node_type, node_id = current_entity.split("_")
-                # TODO: check node_id dtype
+                #TODO: check node_id dtype
                 entities.append((node_type, node_id))
             else:
                 if in_entity:
@@ -161,3 +219,4 @@ def process_descriptions(video_graph, video_descriptions_string):
     descriptions = string_to_list(video_descriptions_string)
     print(descriptions)
     update_video_graph(video_graph, descriptions)
+    

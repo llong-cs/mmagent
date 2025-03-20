@@ -1,10 +1,10 @@
+from concurrent.futures import ThreadPoolExecutor
+from tqdm import tqdm
+
 import euler
 euler.install_thrift_import_hook()
 from idl.base_thrift import *
 from idl.face_processing_thrift import *
-
-from concurrent.futures import ThreadPoolExecutor
-from tqdm import tqdm
 
 # Build client
 # test_client = euler.Client(FaceService, 'tcp://127.0.0.1:8910', timeout=300, transport='buffered')
@@ -18,6 +18,24 @@ test_client = euler.Client(
 CLUSTER_SIZE = 100
 
 def process_batch(params):
+    """
+    Process a batch of video frames to detect faces.
+
+    Args:
+        params (tuple): A tuple containing:
+            - frames (list): List of video frames to process
+            - offset (int): Frame offset to add to detected face frame IDs
+
+    Returns:
+        list: List of detected faces with adjusted frame IDs
+
+    The function:
+    1. Extracts frames and offset from input params
+    2. Creates face detection request for the batch
+    3. Gets face detection response from service
+    4. Adjusts frame IDs of detected faces by adding offset
+    5. Returns list of detected faces
+    """
     frames = params[0]
     offset = params[1]
     req = SingleGetFaceRequest(frames=frames, Base=Base())
@@ -29,8 +47,31 @@ def process_batch(params):
 
 
 def process_faces(video_graph, base64_frames):
+    """
+    Process video frames to detect, cluster and track faces.
+
+    Args:
+        video_graph: Graph object to store face embeddings and relationships
+        base64_frames (list): List of base64 encoded video frames to process
+
+    Returns:
+        dict: Mapping of face IDs to lists of face detections, where each face detection contains:
+            - frame_id (int): Frame number where face was detected
+            - bounding_box (list): Face bounding box coordinates [x1,y1,x2,y2]
+            - face_emb (list): Face embedding vector
+            - cluster_id (int): ID of face cluster from initial clustering
+            - extra_data (dict): Additional face detection metadata
+            - matched_node (int): ID of matched face node in video graph
+
+    The function:
+    1. Splits frames into batches and processes them in parallel to detect faces
+    2. Clusters detected faces to group similar faces together
+    3. Converts face detections to JSON format
+    4. Updates video graph with face embeddings and relationships
+    5. Returns mapping of face IDs to face detections
+    """
     batch_size = len(base64_frames) // CLUSTER_SIZE
-    
+
     def get_embeddings(base64_frames, batch_size):
         num_batches = (len(base64_frames) + batch_size - 1) // batch_size
         batched_frames = [
