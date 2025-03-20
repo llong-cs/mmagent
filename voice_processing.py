@@ -7,7 +7,7 @@ import struct
 from laplace import Client
 
 # laplace = Client("sd://lab.agent.audio_embedding_server?idc=maliva&cluster=default", timeout=500)
-laplace = Client("tcp://10.124.106.165:9486", timeout=500)
+laplace = Client("tcp://10.124.106.228:9473", timeout=500)
 
 def process_voices(video_graph, base64_audio):
     print(get_audio_info_from_base64(base64_audio))
