@@ -11,7 +11,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from PIL import Image, ImageDraw
 
-from utils.chat_api import generate_messages, get_response_with_retry
+from utils.chat_api import generate_messages, get_response_with_retry, parallel_get_embedding
 from prompts import prompt_generate_captions_with_ids, prompt_generate_thinkings_with_ids
 
 
@@ -159,22 +159,28 @@ def generate_captions_and_thinkings_with_ids(
 
     return captions[0], thinkings[0]
 
-def process_descriptions(video_graph, video_descriptions_string):
+def process_captions(video_graph, video_captions_string, type='episodic'):
     """
     Process video descriptions and update the video graph with text nodes and edges.
     
     Args:
         video_graph: The video graph object to update
-        video_descriptions_string: String containing video descriptions in JSON format, with entity references
+        video_captions_string: String containing video captions in JSON format, with entity references
             in the format <entity_type_id>. For example: "<char_1> walks to <char_2>"
             
     The function:
-    1. Converts the JSON string to a list of descriptions
-    2. For each description:
-        - Creates a new text node with the description
+    1. Converts the JSON string to a list of captions
+    2. For each caption:
+        - Creates a new text node with the caption
         - Extracts entity references (e.g. char_1, char_2)
         - Adds edges between the text node and referenced entity nodes
     """
+    def get_caption_embeddings(caption_contents):
+        # calculate the embedding for each caption
+        model = 'text-embedding-3-large'
+        embeddings = parallel_get_embedding(model, caption_contents)
+        return embeddings
+
     def string_to_list(s):
         try:
             # Remove ```json or ``` from start/end
@@ -188,35 +194,84 @@ def process_descriptions(video_graph, video_descriptions_string):
             print(f"Parsing error: {e}")
             return None
 
-    def parse_video_description(video_description):
-        # video_description is a string like this: <char_1> xxx <char_2> xxx
+    def parse_video_caption(video_caption):
+        # video_caption is a string like this: <char_1> xxx <char_2> xxx
         # extract all the elements wrapped by < and >
         entities = []
         current_entity = ""
         in_entity = False
 
-        for char in video_description:
-            if char == "<":
+        for char in video_caption:
+            if char == "<": 
                 in_entity = True
                 current_entity = ""
             elif char == ">":
                 in_entity = False
                 node_type, node_id = current_entity.split("_")
-                #TODO: check node_id dtype
                 entities.append((node_type, node_id))
             else:
                 if in_entity:
                     current_entity += char
         return entities
 
-    def update_video_graph(video_graph, descriptions):
-        for description in descriptions:
-            new_node_id = video_graph.add_text_node(description)
-            entities = parse_video_description(description)
-            for _, node_id in entities:
-                video_graph.add_edge(new_node_id, node_id)
+    def update_video_graph(video_graph, captions, type='episodic'):
+        if type == 'episodic':
+            # create a new text node for each caption
+            for caption in captions:
+                new_node_id = video_graph.add_text_node(caption)
+                entities = parse_video_caption(caption['content'])
+                for entity in entities:
+                    video_graph.add_edge(new_node_id, entity[1])
+        elif type == 'semantic':
+            # update the existing text node for each caption
+            for caption in captions:
+                entities = parse_video_caption(caption)
+                
+                positive_threshold = 0.9
+                negative_threshold = 0
+                
+                related_nodes = []
+                
+                for entity in entities:
+                    node_type = entity[0]
+                    node_id = entity[1]
+                    
+                    existing_node_ids = video_graph.get_connected_nodes(node_id)
+                    related_nodes.extend(existing_node_ids)
+                
+                create_new_node = True
+                # if there is a node with similarity > positive_threshold, then update the edge weight by +1
+                # if there is a node with similarity < negative_threshold, then update the edge weight by -1, and add a new text node and connect it to the existing node
+                # otherwise, add a new text node and connect it to the existing node
+                for node_id in related_nodes:
+                    existing_node_entities = parse_video_caption(video_graph.nodes[node_id].metadata['text'])
+                    embedding = video_graph.nodes[node_id].embeddings[0]
+                    
+                    # see if the caption entities are a subset of the existing node entities
+                    if all(entity in existing_node_entities for entity in entities):
+                        similarity = np.dot(caption['embedding'], embedding) / (np.linalg.norm(caption['embedding']) * np.linalg.norm(embedding))
+                        if similarity > positive_threshold:
+                            video_graph.reinforce_node(node_id)
+                            create_new_node = False
+                        elif similarity < negative_threshold:
+                            video_graph.weaken_node(node_id)
+                            create_new_node = False
+                
+                if create_new_node:
+                    new_node_id = video_graph.add_text_node(caption)
+                    for entity in entities:
+                        video_graph.add_edge(new_node_id, entity[1])
 
-    descriptions = string_to_list(video_descriptions_string)
-    print(descriptions)
-    update_video_graph(video_graph, descriptions)
+    caption_contents = string_to_list(video_captions_string)
+    print(caption_contents)
+    captions_embeddings = get_caption_embeddings(caption_contents)
+
+    captions = []
+    for caption, embedding in zip(caption_contents, captions_embeddings):
+        captions.append({
+            'content': caption,
+            'embedding': embedding
+        })
+
+    update_video_graph(video_graph, captions, type)
     

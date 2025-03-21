@@ -108,7 +108,7 @@ You are also provided with a detailed description of the video scene, including 
 Your task:
 
 Based on the provided information, generate high-level thinking, including but not limited to:
-	1.	The correspondence between characters and speakers based on their appearance, speech, and interactions.
+	1.	The correspondence between characters and speakers based on their appearance, speech, and interactions. (character_id -> speaker_id)
 	2.	The relationships between different characters, including their interactions, emotions, and possible connections.
 	3.	Personality traits, profession, hobbies, or distinguishing features of each character, inferred from their actions, speech, and appearance.
 	4.	General knowledge or contextual information relevant to understanding the characters or the situation they are in.

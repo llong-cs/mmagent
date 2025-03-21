@@ -1,10 +1,18 @@
-import numpy as np
-import random
-import networkx as nx
+"""
+This module defines the VideoGraph class, which is used to represent the video graph.
+"""
+
 import json
+import random
+
 import matplotlib.pyplot as plt
+import networkx as nx
+import numpy as np
 
 class VideoGraph:
+    """
+    This class defines the VideoGraph class, which is used to represent the video graph.
+    """
     def __init__(self, max_img_embeddings=10, max_audio_embeddings=10, img_matching_threshold=0.3, audio_matching_threshold=0.7):
         """Initialize a video graph with nodes for faces, voices and text events.
         
@@ -22,11 +30,30 @@ class VideoGraph:
 
         # Maintain ordered text nodes
         self.text_nodes = []  # List of text node IDs in insertion order
+        self.text_nodes_contents = np.array([])  # Numpy array of processed text contents for searching
+
+    def _process_text(self, text):
+        """Process text for searching by removing special characters and converting to lowercase"""
+        # Remove special characters and convert to lowercase
+        processed = ''.join(c.lower() for c in text if c.isalnum() or c.isspace())
+        return processed
+
+    def where_text(self, search_text):
+        """Search for text in text_nodes_contents and return indices where found
+        
+        Args:
+            search_text: Text to search for
+            
+        Returns:
+            List of indices where text was found
+        """
+        processed_search = self._process_text(search_text)
+        return np.where(np.char.find(self.text_nodes_contents, processed_search) != -1)[0]
 
     class Node:
         def __init__(self, node_id, node_type):
             self.id = node_id
-            self.type = node_type  # 'img', 'voice' or 'text'
+            self.type = node_type  # 'img', 'voice', 'episodic' or 'semantic'
             self.embeddings = []
             self.metadata = {}
 
@@ -60,12 +87,26 @@ class VideoGraph:
         self.next_node_id += 1
         return node.id
 
-    def add_text_node(self, text):
-        """Add a new text node with event description."""
-        node = self.Node(self.next_node_id, 'text')
-        node.metadata['text'] = text
+    def add_text_node(self, text, text_type='episodic'):
+        """Add a new text node with episodic or semantic content.
+        
+        Args:
+            text: Text content
+            text_type: Type of text node ('episodic' or 'semantic')
+        """
+        if text_type not in ['episodic', 'semantic']:
+            raise ValueError("text_type must be either 'episodic' or 'semantic'")
+
+        node = self.Node(self.next_node_id, text_type)
+        node.metadata['text'] = text['content']
+        node.embeddings.append(text['embedding'])
         self.nodes[self.next_node_id] = node
         self.text_nodes.append(self.next_node_id)  # Add to ordered list
+
+        # Process and add text content
+        processed_text = self._process_text(text)
+        self.text_nodes_contents = np.append(self.text_nodes_contents, processed_text)
+
         self.next_node_id += 1
         return node.id
 
@@ -107,23 +148,72 @@ class VideoGraph:
 
     def add_edge(self, node_id1, node_id2, weight=1.0):
         """Add or update bidirectional weighted edges between two nodes.
-        Text-to-text connections are not allowed."""
+        Text-to-text connections are not allowed between same type text nodes."""
         if (node_id1 in self.nodes and node_id2 in self.nodes and
-            not (self.nodes[node_id1].type == 'text' and self.nodes[node_id2].type == 'text')):
+            not (self.nodes[node_id1].type == self.nodes[node_id2].type and 
+                 self.nodes[node_id1].type in ['episodic', 'semantic'])):
             # Add both directions with same weight
             self.edges[(node_id1, node_id2)] = weight
             self.edges[(node_id2, node_id1)] = weight
             return True
         return False
 
-    def update_edge_weight(self, node_id1, node_id2, weight):
+    def update_edge_weight(self, node_id1, node_id2, delta_weight):
         """Update weight of existing bidirectional edge."""
         if (node_id1, node_id2) in self.edges:
             # Update both directions
-            self.edges[(node_id1, node_id2)] = weight
-            self.edges[(node_id2, node_id1)] = weight
+            self.edges[(node_id1, node_id2)] += delta_weight
+            self.edges[(node_id2, node_id1)] += delta_weight
+            # if the weight is less than or equal to 0, remove the edge
+            if self.edges[(node_id1, node_id2)] <= 0:
+                del self.edges[(node_id1, node_id2)]
+                del self.edges[(node_id2, node_id1)]
+                print(f"Edge removed between {node_id1} and {node_id2}")
+                
             return True
         return False
+
+    def reinforce_node(self, node_id, delta_weight=1):
+        """Reinforce all edges connected to the given node.
+        
+        Args:
+            node_id: ID of the node to reinforce
+            delta_weight: Amount to increase edge weights by (default: 1)
+            
+        Returns:
+            int: Number of edges reinforced
+        """
+        if node_id not in self.nodes:
+            return 0
+            
+        reinforced_count = 0
+        for (n1, n2) in list(self.edges.keys()):  # Create a list to avoid modification during iteration
+            if n1 == node_id or n2 == node_id:
+                self.update_edge_weight(n1, n2, delta_weight)
+                reinforced_count += 1
+                
+        return reinforced_count
+
+    def weaken_node(self, node_id, delta_weight=0.5):
+        """Weaken all edges connected to the given node.
+        
+        Args:
+            node_id: ID of the node to weaken
+            delta_weight: Amount to decrease edge weights by (default: 0.5)
+            
+        Returns:
+            int: Number of edges weakened
+        """
+        if node_id not in self.nodes:
+            return 0
+            
+        weakened_count = 0
+        for (n1, n2) in list(self.edges.keys()):  # Create a list to avoid modification during iteration
+            if n1 == node_id or n2 == node_id:
+                self.update_edge_weight(n1, n2, -delta_weight)  # Use negative delta_weight to decrease
+                weakened_count += 1
+                
+        return weakened_count
 
     def get_connected_nodes(self, node_id):
         """Get all nodes connected to given node."""

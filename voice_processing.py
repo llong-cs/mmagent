@@ -181,12 +181,13 @@ def process_voices(video_graph, base64_audio):
 
     def filter_duration_based(audios):
         min_duration = 2
+        max_voices = 3
         filtered_audios = [
             audio
             for audio in audios
             if audio["duration"] >= min_duration
         ]
-        return filtered_audios
+        return filtered_audios[:max_voices]
 
     def update_videograph(video_graph, tempid2audios, filter=None):
         audios_list = []
