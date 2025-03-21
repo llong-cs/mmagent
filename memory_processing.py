@@ -215,6 +215,7 @@ def process_captions(video_graph, video_captions_string, type='episodic'):
         return entities
 
     def update_video_graph(video_graph, captions, type='episodic'):
+        # append all episodic captions to the graph
         if type == 'episodic':
             # create a new text node for each caption
             for caption in captions:
@@ -222,32 +223,40 @@ def process_captions(video_graph, video_captions_string, type='episodic'):
                 entities = parse_video_caption(caption['content'])
                 for entity in entities:
                     video_graph.add_edge(new_node_id, entity[1])
+        # semantic captions can be used to update the existing text nodes, or create new text nodes
         elif type == 'semantic':
-            # update the existing text node for each caption
             for caption in captions:
                 entities = parse_video_caption(caption)
                 
-                positive_threshold = 0.9
-                negative_threshold = 0
+                # update the existing text node for each caption, if needed
+                positive_threshold = 0.8
+                negative_threshold = -0.5
                 
+                # get all nodes that are connected to the caption entities
                 related_nodes = []
                 
                 for entity in entities:
-                    node_type = entity[0]
                     node_id = entity[1]
                     
                     existing_node_ids = video_graph.get_connected_nodes(node_id)
                     related_nodes.extend(existing_node_ids)
                 
-                create_new_node = True
+                # remove duplicates
+                related_nodes = list(set(related_nodes))
+                
                 # if there is a node with similarity > positive_threshold, then update the edge weight by +1
                 # if there is a node with similarity < negative_threshold, then update the edge weight by -1, and add a new text node and connect it to the existing node
                 # otherwise, add a new text node and connect it to the existing node
+                create_new_node = True
+                
                 for node_id in related_nodes:
-                    existing_node_entities = parse_video_caption(video_graph.nodes[node_id].metadata['text'])
-                    embedding = video_graph.nodes[node_id].embeddings[0]
+                    # related nodes to be updated should satisfy two condtions:
+                    # 1. the caption entities are a subset of the existing node entities
+                    # 2. the semantic similarity between the caption and the existing node shows a positive correlation or a negative correlation
                     
                     # see if the caption entities are a subset of the existing node entities
+                    existing_node_entities = parse_video_caption(video_graph.nodes[node_id].metadata['text'])
+                    embedding = video_graph.nodes[node_id].embeddings[0]
                     if all(entity in existing_node_entities for entity in entities):
                         similarity = np.dot(caption['embedding'], embedding) / (np.linalg.norm(caption['embedding']) * np.linalg.norm(embedding))
                         if similarity > positive_threshold:
@@ -263,7 +272,9 @@ def process_captions(video_graph, video_captions_string, type='episodic'):
                         video_graph.add_edge(new_node_id, entity[1])
 
     caption_contents = string_to_list(video_captions_string)
+    
     print(caption_contents)
+    
     captions_embeddings = get_caption_embeddings(caption_contents)
 
     captions = []

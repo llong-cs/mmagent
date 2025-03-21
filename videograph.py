@@ -194,12 +194,12 @@ class VideoGraph:
                 
         return reinforced_count
 
-    def weaken_node(self, node_id, delta_weight=0.5):
+    def weaken_node(self, node_id, delta_weight=1):
         """Weaken all edges connected to the given node.
         
         Args:
             node_id: ID of the node to weaken
-            delta_weight: Amount to decrease edge weights by (default: 0.5)
+            delta_weight: Amount to decrease edge weights by (default: 1)
             
         Returns:
             int: Number of edges weakened
