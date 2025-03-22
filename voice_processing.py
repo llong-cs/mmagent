@@ -5,12 +5,12 @@ import tempfile
 import numpy as np
 from laplace import Client
 from moviepy import AudioFileClip
-
+from pydub import AudioSegment
 from prompts import prompt_audio_diarization
 from utils.chat_api import generate_messages, get_response_with_retry
 from utils.general import validate_and_fix_json
 from utils.video_processing import process_video_clip
-
+import io
 # laplace = Client("sd://lab.agent.audio_embedding_server?idc=maliva&cluster=default", timeout=500)
 laplace = Client("tcp://10.124.106.228:9473", timeout=500)
 
@@ -107,25 +107,39 @@ def process_voices(video_graph, base64_audio):
             start_min, start_sec = map(int, start_time.split(':'))
             end_min, end_sec = map(int, end_time.split(':'))
         except ValueError:
-            return None, False
+            return None
 
         if start_min < 0 or start_sec < 0 or start_sec >= 60:
-            return None, False
+            return None
         if end_min < 0 or end_sec < 0 or end_sec >= 60:
-            return None, False
+            return None
 
         start_time_sec = start_min * 60 + start_sec
         end_time_sec = end_min * 60 + end_sec
 
         if start_time_sec >= end_time_sec:
-            return None, False
+            return None
 
+        # Decode base64 audio into bytes
         audio_data = base64.b64decode(base64_audio)
-        if end_time_sec > len(audio_data):
-            return None, False
+        
+        # Create BytesIO object to hold audio data
+        audio_io = io.BytesIO(audio_data)
+        audio = AudioSegment.from_wav(audio_io)
 
-        audio_data = audio_data[start_time_sec:end_time_sec]
-        return base64.b64encode(audio_data), True
+        # Extract segment
+        if end_time_sec * 1000 > len(audio):  # AudioSegment uses milliseconds
+            return None
+            
+        segment = audio[start_time_sec * 1000:end_time_sec * 1000]
+        
+        # Export segment to bytes buffer
+        segment_buffer = io.BytesIO()
+        segment.export(segment_buffer, format='wav')
+        segment_buffer.seek(0)
+        
+        # Convert to base64
+        return base64.b64encode(segment_buffer.getvalue())
 
     def diarize_audio(base64_audio):
         asrs = None
@@ -176,9 +190,7 @@ def process_voices(video_graph, base64_audio):
             if "audio_segment" not in asr:
                 start_time = asr["start_time"]
                 end_time = asr["end_time"]
-                audio_segment, valid = get_audio_segment(base64_audio, start_time, end_time)
-                if not valid:
-                    asr["audio_segment"] = None
+                audio_segment = get_audio_segment(base64_audio, start_time, end_time)
                 asr["audio_segment"] = audio_segment
 
             if asr[key] not in mapping:
@@ -187,7 +199,10 @@ def process_voices(video_graph, base64_audio):
 
         # Sort segments for each speaker by duration
         for speaker in mapping:
-            mapping[speaker] = sorted(mapping[speaker], key=lambda x: x["duration"], reverse=True)
+            # Filter out entries with None audio_segment first, then sort by duration
+            mapping[speaker] = sorted([x for x in mapping[speaker] if x["audio_segment"] is not None], 
+                                   key=lambda x: x["duration"], 
+                                   reverse=True)
 
         return mapping
 
@@ -227,7 +242,7 @@ def process_voices(video_graph, base64_audio):
     print(asrs)
     tempid2audios = establish_mapping(asrs, key="speaker")
     for _, audios in tempid2audios.items():
-        audio_segments = [audio["audio_segment"] for audio in audios if audio["audio_segment"] is not None]
+        audio_segments = [audio["audio_segment"] for audio in audios]
         embeddings = get_normed_audio_embeddings(audio_segments)
         for audio, embedding in zip(audios, embeddings):
             audio["embedding"] = embedding
