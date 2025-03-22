@@ -81,7 +81,9 @@ def get_normed_audio_embeddings(base64_audios):
     """
     print(type(base64_audios))
     print(type(base64_audios[0]))
+    print(base64_audios)
     outputs = laplace.matx_inference("audio_embedding", {"wav": base64_audios})
+    print(outputs)
     embeddings = outputs.output_bytes_lists["output"]
     normed_embeddings = [normalize_embedding(embedding) for embedding in embeddings]
     return normed_embeddings
@@ -171,12 +173,13 @@ def process_voices(video_graph, base64_audio):
             raise ValueError(f"Key {key} not found in ASR results")
 
         for asr in asrs:
-            start_time = asr["start_time"]
-            end_time = asr["end_time"]
-            audio_segment, valid = get_audio_segment(base64_audio, start_time, end_time)
-            if not valid:
-                continue
-            asr["audio_segment"] = audio_segment
+            if "audio_segment" not in asr:
+                start_time = asr["start_time"]
+                end_time = asr["end_time"]
+                audio_segment, valid = get_audio_segment(base64_audio, start_time, end_time)
+                if not valid:
+                    asr["audio_segment"] = None
+                asr["audio_segment"] = audio_segment
 
             if asr[key] not in mapping:
                 mapping[asr[key]] = []
@@ -221,9 +224,10 @@ def process_voices(video_graph, base64_audio):
         return audios_list
 
     asrs = diarize_audio(base64_audio)
+    print(asrs)
     tempid2audios = establish_mapping(asrs, key="speaker")
     for _, audios in tempid2audios.items():
-        audio_segments = [audio["audio_segment"] for audio in audios]
+        audio_segments = [audio["audio_segment"] for audio in audios if audio["audio_segment"] is not None]
         embeddings = get_normed_audio_embeddings(audio_segments)
         for audio, embedding in zip(audios, embeddings):
             audio["embedding"] = embedding
@@ -237,6 +241,8 @@ def process_voices(video_graph, base64_audio):
 if __name__ == "__main__":
     video_path = "/mnt/bn/videonasi18n/longlin.kylin/vlm-agent-benchmarking/data/videos/raw/720p/5 Poor People vs 1 Secret Millionaire.mp4"
     clip, _, audio = process_video_clip(video_path, 0, 3, 10, audio_format="wav")
+
+    # print(audio)
 
     outputs = laplace.matx_inference("audio_embedding", {"wav": [audio, audio]})
 

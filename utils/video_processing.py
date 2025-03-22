@@ -81,7 +81,7 @@ def extract_frames(video_path, start_time=None, interval=None, sample_fps=10):
     return frames
 
 
-def process_video_clip(video_path, start_time, interval=None, fps=10, video_format="mp4", audio_format="mp3", audio_fps=16000): 
+def process_video_clip(video_path, start_time, interval=None, fps=10, video_format="mp4", audio_format="wav", audio_fps=16000): 
     try                                                                                                                       : 
         base64_data = {}
         video = VideoFileClip(video_path)
@@ -95,7 +95,7 @@ def process_video_clip(video_path, start_time, interval=None, fps=10, video_form
         else:
             # Process subclip
             end_time = min(start_time + interval, video.duration)
-            clip = video.subclip(start_time, end_time)
+            clip = video.subclipped(start_time, end_time)
             
             # Create temporary video file using context manager
             with tempfile.NamedTemporaryFile(dir="data/videos", suffix=f".{video_format}") as temp_video:
