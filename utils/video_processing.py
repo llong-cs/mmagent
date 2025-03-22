@@ -7,6 +7,7 @@ import cv2
 import numpy as np
 from moviepy import VideoFileClip
 from pydub import AudioSegment
+from tqdm import tqdm
 
 # logging.getLogger('moviepy').setLevel(logging.ERROR)
 
@@ -102,15 +103,18 @@ def process_video_clip(video_path, start_time, interval=None, fps=10, video_form
         for f in temp_files.values():
             f.close()
 
-        # Write video without logging
-        if video_format == "mp4":
-            video_codec = "libx264"
-        elif video_format == "webm":
-            video_codec = "libvpx"
+        # Determine codecs based on format
+        if video_format in ['mp4', 'mov']:
+            video_codec = 'libx264'
+            audio_codec = 'aac'
+        elif video_format == 'webm':
+            video_codec = 'libvpx'
+            audio_codec = 'libvorbis'
         else:
-            video_codec = "libx264"  # Default to mp4/h264
+            video_codec = 'libx264'  # Default to H.264
+            audio_codec = 'aac'
             
-        clip.write_videofile(temp_paths["video"], codec=video_codec, audio_codec="aac", logger=None)
+        clip.write_videofile(temp_paths["video"], codec=video_codec, audio_codec=audio_codec, logger=None, threads=4)
 
         # Write audio without logging, using specified fps for audio sampling
         if audio_format == "mp3":
@@ -185,7 +189,7 @@ def get_video_info_from_base64(base64_string):
     except Exception as e:
         return {"error": str(e)}
 
-def split_video_into_clips(video_path, interval):
+def split_video_into_clips(video_path, interval, output_dir, output_format='mp4'):
     """
     Split a video into clips of specified interval length and save them to a folder.
     
@@ -199,41 +203,46 @@ def split_video_into_clips(video_path, interval):
     try:
         # Create output folder based on video filename
         video_name = os.path.splitext(os.path.basename(video_path))[0]
-        output_dir = os.path.join(os.path.dirname(video_path), video_name)
+        output_dir = os.path.join(output_dir, video_name)
         os.makedirs(output_dir, exist_ok=True)
 
         # Get video info
         video_info = get_video_info(video_path)
         duration = video_info["duration"]
-        format = video_info["format"]
+        # format = video_info["format"]
 
-        # Determine codec based on format
-        if format in ['mp4', 'mov']:
-            codec = 'libx264'
-        elif format == 'webm':
-            codec = 'libvpx'
+        # Determine codecs based on format
+        if output_format in ['mp4', 'mov']:
+            video_codec = 'libx264'
+            audio_codec = 'aac'
+        elif output_format == 'webm':
+            video_codec = 'libvpx'
+            audio_codec = 'libvorbis'
         else:
-            codec = 'libx264'  # Default to H.264
+            video_codec = 'libx264'  # Default to H.264
+            audio_codec = 'aac'
 
         # Calculate number of clips
         num_clips = math.ceil(duration / interval)
 
-        # Open video
-        video = VideoFileClip(video_path)
-
-        # Split and save clips
-        for i in range(num_clips):
+        # Open video using context manager
+        for i in tqdm(range(num_clips)):
             start_time = i * interval
             end_time = min((i + 1) * interval, duration)
+            # Create and process clip in its own context
+            with VideoFileClip(video_path) as video:
+                with video.subclipped(start_time, end_time) as clip:
+                    output_path = os.path.join(output_dir, f"{i+1}.{output_format}")
+                    clip.write_videofile(output_path, codec=video_codec, audio_codec=audio_codec, logger=None, threads=4)
 
-            clip = video.subclipped(start_time, end_time)
-            output_path = os.path.join(output_dir, f"{i+1}.{format}")
-            clip.write_videofile(output_path, codec=codec)
-            clip.close()
-
-        video.close()
         return output_dir
 
     except Exception as e:
         print(f"Error splitting video into clips: {str(e)}")
         raise
+
+if __name__ == "__main__":
+    video_path = "/mnt/bn/videonasi18n/longlin.kylin/vlm-agent-benchmarking/data/videos/raw/720p/5 Poor People vs 1 Secret Millionaire.mp4"
+    interval = 30
+    output_dir = "data/videos/clipped"
+    split_video_into_clips(video_path, interval, output_dir)

@@ -79,6 +79,8 @@ def get_normed_audio_embeddings(base64_audios):
     Returns:
         list: List of normalized audio embeddings
     """
+    print(type(base64_audios))
+    print(type(base64_audios[0]))
     outputs = laplace.matx_inference("audio_embedding", {"wav": base64_audios})
     embeddings = outputs.output_bytes_lists["output"]
     normed_embeddings = [normalize_embedding(embedding) for embedding in embeddings]
@@ -229,7 +231,7 @@ if __name__ == "__main__":
     video_path = "/mnt/bn/videonasi18n/longlin.kylin/vlm-agent-benchmarking/data/videos/raw/720p/5 Poor People vs 1 Secret Millionaire.mp4"
     clip, _, audio = process_video_clip(video_path, 0, 3, 10, audio_format="wav")
 
-    outputs = laplace.matx_inference("audio_embedding", {"wav": [audio]})
+    outputs = laplace.matx_inference("audio_embedding", {"wav": [audio, audio]})
 
     emb = outputs.output_bytes_lists["output"][0]
     format_string = 'f' * (len(emb) // struct.calcsize('f'))
