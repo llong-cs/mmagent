@@ -81,56 +81,56 @@ def extract_frames(video_path, start_time=None, interval=None, sample_fps=10):
     return frames
 
 
-def process_video_clip(video_path, start_time, interval=None, fps=10, video_format="mp4", audio_format="mp3", audio_fps=16000):
-    try:
+def process_video_clip(video_path, start_time, interval=None, fps=10, video_format="mp4", audio_format="mp3", audio_fps=16000): 
+    try                                                                                                                       : 
         base64_data = {}
         video = VideoFileClip(video_path)
 
         if interval is None:
             # Process entire video
             clip = video
+            # Read video file directly
+            with open(video_path, "rb") as f:
+                base64_data["video"] = base64.b64encode(f.read())
         else:
             # Process subclip
             end_time = min(start_time + interval, video.duration)
-            clip = video.subclipped(start_time, end_time)
-
-        # Create temporary files
-        temp_files = {
-            "video": tempfile.NamedTemporaryFile(dir="data/videos", delete=False, suffix=f".{video_format}"),
-            "audio": tempfile.NamedTemporaryFile(dir="data/audios", delete=False, suffix=f".{audio_format}"),
-        }
-        temp_paths = {k: f.name for k, f in temp_files.items()}
-        for f in temp_files.values():
-            f.close()
-
-        # Determine codecs based on format
-        if video_format in ['mp4', 'mov']:
-            video_codec = 'libx264'
-            audio_codec = 'aac'
-        elif video_format == 'webm':
-            video_codec = 'libvpx'
-            audio_codec = 'libvorbis'
-        else:
-            video_codec = 'libx264'  # Default to H.264
-            audio_codec = 'aac'
+            clip = video.subclip(start_time, end_time)
             
-        clip.write_videofile(temp_paths["video"], codec=video_codec, audio_codec=audio_codec, logger=None, threads=4)
+            # Create temporary video file using context manager
+            with tempfile.NamedTemporaryFile(dir="data/videos", suffix=f".{video_format}") as temp_video:
+                # Determine codecs based on format
+                if video_format in ['mp4', 'mov']:
+                    video_codec = 'libx264'
+                    audio_codec = 'aac'
+                elif video_format == 'webm':
+                    video_codec = 'libvpx'
+                    audio_codec = 'libvorbis'
+                else:
+                    video_codec = 'libx264'  # Default to H.264
+                    audio_codec = 'aac'
+                
+                clip.write_videofile(temp_video.name, codec=video_codec, audio_codec=audio_codec, logger=None, threads=4)
 
-        # Write audio without logging, using specified fps for audio sampling
-        if audio_format == "mp3":
-            audio_codec = "libmp3lame"
-        elif audio_format == "wav":
-            audio_codec = "pcm_s16le"
-        else:
-            audio_codec = "libmp3lame"  # Default to mp3
+                # Read video file and convert to Base64
+                temp_video.seek(0)
+                base64_data["video"] = base64.b64encode(temp_video.read())
+
+        # Create temporary audio file using context manager
+        with tempfile.NamedTemporaryFile(dir="data/audios", suffix=f".{audio_format}") as temp_audio:
+            # Write audio without logging, using specified fps for audio sampling
+            if audio_format == "mp3":
+                audio_codec = "libmp3lame"
+            elif audio_format == "wav":
+                audio_codec = "pcm_s16le"
+            else:
+                audio_codec = "libmp3lame"  # Default to mp3
             
-        clip.audio.write_audiofile(temp_paths["audio"], codec=audio_codec, fps=audio_fps, logger=None)
+            clip.audio.write_audiofile(temp_audio.name, codec=audio_codec, fps=audio_fps, logger=None)
 
-        # Read files and convert to Base64
-        for key, path in temp_paths.items():
-            with open(path, "rb") as f:
-                base64_data[key] = base64.b64encode(f.read())
-            os.remove(path)
+            # Read audio file and convert to Base64
+            temp_audio.seek(0)
+            base64_data["audio"] = base64.b64encode(temp_audio.read())
 
         # Extract frames using adjusted interval
         if interval is None:

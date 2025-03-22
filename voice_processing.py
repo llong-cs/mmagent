@@ -126,21 +126,28 @@ def process_voices(video_graph, base64_audio):
         return base64.b64encode(audio_data), True
 
     def diarize_audio(base64_audio):
-        input = [
-            {
-                "type": "audio_base64/wav",
-                "content": base64_audio.decode("utf-8"),
-            },
-            {
-                "type": "text",
-                "content": prompt_audio_diarization,
-            },
-        ]
-        messages = generate_messages(input)
-        model = "gemini-1.5-pro-002"
-        response = get_response_with_retry(model, messages)
+        asrs = None
+        count = 0
+        while not asrs:
+            count += 1
+            print(f"Diarizing audio {count} times")
+            if count > 3:
+                raise Exception("Failed to diarize audio")
+            input = [
+                {
+                    "type": "audio_base64/wav",
+                    "content": base64_audio.decode("utf-8"),
+                },
+                {
+                    "type": "text",
+                    "content": prompt_audio_diarization,
+                },
+            ]
+            messages = generate_messages(input)
+            model = "gemini-1.5-pro-002"
+            response = get_response_with_retry(model, messages)
 
-        asrs = validate_and_fix_json(response[0])
+            asrs = validate_and_fix_json(response[0])
 
         for asr in asrs:
             start_min, start_sec = map(int, asr["start_time"].split(':'))
