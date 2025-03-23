@@ -202,3 +202,29 @@ Output Example:
 Yes
 
 Please only return "Yes" or "No", without any additional explanation or formatting."""
+
+prompt_memory_retrieval = """You will be given a question. Your task is to generate {query_num} distinct and well-defined queries that will be encoded into embeddings and used to retrieve relevant information from a memory bank via vector similarity search. The goal is to retrieve information that is useful for answering the question.
+
+For each query:
+	1.	Clearly define the specific information need it targets, based on your understanding of the question.
+	2.	Make the query concise, focused, and semantically rich, to ensure effective encoding and retrieval.
+	3.	Remember that the queries will be used for embedding-based retrieval, so avoid vague or overly broad formulations.
+	4.	Ensure diversity among the queries, covering different aspects or subtopics of the original question where applicable.
+
+Example Input:
+How did the protagonist’s relationship with her father influence her decision to leave home in the story?
+
+Example Output (as a Python-style string list):
+
+queries = [
+    "Conflicts between the protagonist and her father",  # emotional or ideological tensions
+    "Father's actions that discouraged the protagonist's independence",  # restrictions or controlling behavior
+    "Reasons the protagonist gave for leaving home"  # direct motivations or reflections
+]
+
+Note that the output should be a valid Python string list, without any additional explanation or formatting.
+
+Input:
+{question}
+
+Output:"""

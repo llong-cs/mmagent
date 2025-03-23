@@ -14,6 +14,8 @@ import io
 # laplace = Client("sd://lab.agent.audio_embedding_server?idc=maliva&cluster=default", timeout=500)
 laplace = Client("tcp://10.124.106.228:9473", timeout=500)
 
+MAX_RETRIES = 3
+
 def process_audio_base64(base64_audio, target_fps=16000, audio_format='wav'):
     """
     Process audio base64 string to binary with target frame rate and format
@@ -138,28 +140,27 @@ def process_voices(video_graph, base64_audio):
         return base64.b64encode(segment_buffer.getvalue())
 
     def diarize_audio(base64_audio):
+        input = [
+            {
+                "type": "audio_base64/wav",
+                "content": base64_audio.decode("utf-8"),
+            },
+            {
+                "type": "text",
+                "content": prompt_audio_diarization,
+            },
+        ]
+        messages = generate_messages(input)
+        model = "gemini-1.5-pro-002"
         asrs = None
-        count = 0
-        while not asrs:
-            count += 1
-            print(f"Diarizing audio {count} times")
-            if count > 3:
-                raise Exception("Failed to diarize audio")
-            input = [
-                {
-                    "type": "audio_base64/wav",
-                    "content": base64_audio.decode("utf-8"),
-                },
-                {
-                    "type": "text",
-                    "content": prompt_audio_diarization,
-                },
-            ]
-            messages = generate_messages(input)
-            model = "gemini-1.5-pro-002"
+        for i in range(MAX_RETRIES):
+            print(f"Diarizing audio {i} times")
             response = get_response_with_retry(model, messages)
-
             asrs = validate_and_fix_json(response[0])
+            if asrs is not None:
+                break
+        if asrs is None:
+            raise Exception("Failed to diarize audio")
 
         for asr in asrs:
             start_min, start_sec = map(int, asr["start_time"].split(':'))

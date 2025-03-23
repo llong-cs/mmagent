@@ -13,7 +13,7 @@ class VideoGraph:
     """
     This class defines the VideoGraph class, which is used to represent the video graph.
     """
-    def __init__(self, max_img_embeddings=10, max_audio_embeddings=10, img_matching_threshold=0.3, audio_matching_threshold=0.7):
+    def __init__(self, max_img_embeddings=10, max_audio_embeddings=10, img_matching_threshold=0.3, audio_matching_threshold=0.7, text_matching_threshold=0.8):
         """Initialize a video graph with nodes for faces, voices and text events.
         
         Args:
@@ -27,7 +27,7 @@ class VideoGraph:
         self.next_node_id = 0
         self.img_matching_threshold = img_matching_threshold
         self.audio_matching_threshold = audio_matching_threshold
-
+        self.text_matching_threshold = text_matching_threshold
         # Maintain ordered text nodes
         self.text_nodes = []  # List of text node IDs in insertion order
         self.text_nodes_contents = np.array([])  # Numpy array of processed text contents for searching
@@ -295,6 +295,22 @@ class VideoGraph:
                     results.append((node_id, similarity))
 
         return sorted(results, key=lambda x: x[1], reverse=True)
+    
+    def search_text_nodes(self, query_embedding):
+        """Search for text nodes using text embedding.
+        
+        Args:
+            query_embedding: Single embedding
+        """
+        query_embedding = [query_embedding]
+        threshold = self.text_matching_threshold
+        results = []
+        for node_id in self.text_nodes:
+            node = self.nodes[node_id]
+            similarity = self._average_similarity(query_embedding, node.embeddings)
+            if similarity >= threshold:
+                results.append(node_id)
+        return results
 
     def visualize_video_graph(self):
         """Visualize the video graph using networkx."""

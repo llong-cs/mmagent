@@ -12,9 +12,10 @@ import matplotlib.pyplot as plt
 from PIL import Image, ImageDraw
 
 from utils.chat_api import generate_messages, get_response_with_retry, parallel_get_embedding
+from utils.general import validate_and_fix_python_list
 from prompts import prompt_generate_captions_with_ids, prompt_generate_thinkings_with_ids
 
-
+MAX_RETRIES = 3
 
 def generate_thinkings_with_ids(video_context, video_description):
     """
@@ -45,9 +46,16 @@ def generate_thinkings_with_ids(video_context, video_description):
     ]
     messages = generate_messages(input)
     model = "gemini-1.5-pro-002"
-    response = get_response_with_retry(model, messages)
-
-    return response
+    thinkings = None
+    for i in range(MAX_RETRIES):
+        print(f"Generating thinkings {i} times")
+        thinkings_string = get_response_with_retry(model, messages)[0]
+        thinkings = validate_and_fix_python_list(thinkings_string)
+        if thinkings is not None:
+            break
+    if thinkings is None:
+        raise Exception("Failed to generate thinkings")
+    return thinkings
 
 
 def generate_captions_and_thinkings_with_ids(
@@ -135,7 +143,15 @@ def generate_captions_and_thinkings_with_ids(
 
     messages = generate_messages(input)
     model = "gemini-1.5-pro-002"
-    captions = get_response_with_retry(model, messages)
+    captions = None
+    for i in range(MAX_RETRIES):
+        print(f"Generating captions {i} times")
+        captions_string = get_response_with_retry(model, messages)[0]
+        captions = validate_and_fix_python_list(captions_string)
+        if captions is not None:
+            break
+    if captions is None:
+        raise Exception("Failed to generate captions")
 
     # Visualize face frames with IDs
     num_faces = len(face_frames)
@@ -162,11 +178,11 @@ def generate_captions_and_thinkings_with_ids(
 
     print(voices_list)
 
-    thinkings = generate_thinkings_with_ids(video_context, captions[0])
+    thinkings = generate_thinkings_with_ids(video_context, captions)
 
-    return captions[0], thinkings[0]
+    return captions, thinkings
 
-def process_captions(video_graph, video_captions_string, type='episodic'):
+def process_captions(video_graph, caption_contents, type='episodic'):
     """
     Process video descriptions and update the video graph with text nodes and edges.
     
@@ -187,19 +203,6 @@ def process_captions(video_graph, video_captions_string, type='episodic'):
         model = 'text-embedding-3-large'
         embeddings = parallel_get_embedding(model, caption_contents)
         return embeddings
-
-    def string_to_list(s):
-        try:
-            # Remove ```json or ``` from start/end
-            s = s.strip("```json").strip("```")
-            result = ast.literal_eval(s)
-            if isinstance(result, list):
-                return result
-            else:
-                raise ValueError("Input string is not a list")
-        except (SyntaxError, ValueError) as e:
-            print(f"Parsing error: {e}")
-            return None
 
     def parse_video_caption(video_caption):
         # video_caption is a string like this: <char_1> xxx <char_2> xxx
@@ -277,8 +280,6 @@ def process_captions(video_graph, video_captions_string, type='episodic'):
                     new_node_id = video_graph.add_text_node(caption)
                     for entity in entities:
                         video_graph.add_edge(new_node_id, entity[1])
-
-    caption_contents = string_to_list(video_captions_string)
     
     print(caption_contents)
     

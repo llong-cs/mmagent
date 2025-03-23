@@ -4,7 +4,7 @@ import subprocess
 from datetime import datetime
 from moviepy import *
 import re
-
+import ast
 
 # file processing
 def get_video_paths(video_url, task):
@@ -231,3 +231,26 @@ def validate_and_fix_json(invalid_json):
     except json.JSONDecodeError as e:
         print(f"Still unable to fix: {e}")
         return None
+    
+def validate_and_fix_python_list(invalid_list_string):
+    """Validate and fix Python list string.
+
+    Args:
+        invalid_list (str): Raw Python list string with potential markdown formatting
+
+    Returns:
+        list: Validated and fixed Python list
+    """
+    try:
+        # Remove ```json or ``` from start/end
+        s = invalid_list_string.strip("```json").strip("```")
+        result = ast.literal_eval(s)
+        if isinstance(result, list):
+            return result
+        else:
+            raise ValueError("Input string is not a list")
+    except (SyntaxError, ValueError) as e:
+        print(f"Parsing error: {e}")
+        return None
+    
+    
