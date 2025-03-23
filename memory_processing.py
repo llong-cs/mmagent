@@ -103,8 +103,15 @@ def generate_captions_and_thinkings_with_ids(
         frame_base64 = base64.b64encode(buffered.getvalue()).decode()
         face_frames.append((f"<char_{char_id}>:", frame_base64))
 
-    # print(video_url)
-    print(len(base64_video))
+    voices_input = {}
+    for id, voices in voices_list.items():
+        voices_input[f"<speaker_{id}>"] = [{
+            "start_time": voice["start_time"],
+            "end_time": voice["end_time"],
+            "content": voice["asr"]
+        } for voice in voices]
+
+
     video_context = [
         {
             "type": "video_base64/mp4",
@@ -116,7 +123,7 @@ def generate_captions_and_thinkings_with_ids(
         },
         {
             "type": "text",
-            "content": json.dumps(voices_list),
+            "content": json.dumps(voices_input),
         },
     ]
     input = video_context + [

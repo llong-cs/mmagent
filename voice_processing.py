@@ -79,11 +79,7 @@ def get_normed_audio_embeddings(base64_audios):
     Returns:
         list: List of normalized audio embeddings
     """
-    print(type(base64_audios))
-    print(type(base64_audios[0]))
-    print(base64_audios)
     outputs = laplace.matx_inference("audio_embedding", {"wav": base64_audios})
-    print(outputs)
     embeddings = outputs.output_bytes_lists["output"]
     normed_embeddings = [normalize_embedding(embedding) for embedding in embeddings]
     return normed_embeddings
@@ -193,16 +189,20 @@ def process_voices(video_graph, base64_audio):
                 audio_segment = get_audio_segment(base64_audio, start_time, end_time)
                 asr["audio_segment"] = audio_segment
 
-            if asr[key] not in mapping:
-                mapping[asr[key]] = []
-            mapping[asr[key]].append(asr)
+            id = asr[key]
+            if id not in mapping:
+                mapping[id] = []
+            mapping[id].append(asr)
 
         # Sort segments for each speaker by duration
-        for speaker in mapping:
+        for id in mapping:
             # Filter out entries with None audio_segment first, then sort by duration
-            mapping[speaker] = sorted([x for x in mapping[speaker] if x["audio_segment"] is not None], 
+            mapping[id] = sorted([x for x in mapping[id] if x["audio_segment"] is not None], 
                                    key=lambda x: x["duration"], 
                                    reverse=True)
+
+        # Filter out speakers with no segments
+        mapping = {k: v for k, v in mapping.items() if v}
 
         return mapping
 
@@ -223,15 +223,15 @@ def process_voices(video_graph, base64_audio):
                 filtered_audios = filter(audios)
             else:
                 filtered_audios = audios
-            filtered_embeddings = [audio["embedding"] for audio in filtered_audios]
-            matched_nodes = video_graph.search_voice_nodes(filtered_embeddings)
+            voice_embs = [audio["embedding"] for audio in filtered_audios]
+            matched_nodes = video_graph.search_voice_nodes(voice_embs)
             if len(matched_nodes) > 0:
                 matched_node = matched_nodes[0][0]
-                video_graph.add_embedding(matched_node, filtered_embeddings)
+                video_graph.add_embedding(matched_node, voice_embs)
                 for audio in audios:
                     audio["matched_node"] = matched_node
             else:
-                matched_node = video_graph.add_voice_node(filtered_embeddings)
+                matched_node = video_graph.add_voice_node(voice_embs)
                 for audio in audios:
                     audio["matched_node"] = matched_node
             audios_list.extend(filtered_audios)
@@ -247,7 +247,7 @@ def process_voices(video_graph, base64_audio):
         for audio, embedding in zip(audios, embeddings):
             audio["embedding"] = embedding
 
-    audios_list = update_videograph(video_graph, tempid2audios, filter_duration_based)
+    audios_list = update_videograph(video_graph, tempid2audios, filter=filter_duration_based)
     id2audios = establish_mapping(audios_list, key="matched_node")
 
     return id2audios
