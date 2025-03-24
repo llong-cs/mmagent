@@ -57,32 +57,9 @@ def generate_thinkings_with_ids(video_context, video_description):
         raise Exception("Failed to generate thinkings")
     return thinkings
 
-
-def generate_captions_and_thinkings_with_ids(
+def generate_video_context(
     base64_video, base64_frames, base64_audio, faces_list, voices_list
 ):
-    """
-    Generate captions and thinking descriptions for video content with character IDs.
-
-    Args:
-        base64_video (bytes): Base64 encoded video data
-        base64_frames (list): List of base64 encoded video frames
-        base64_audio (bytes): Base64 encoded audio data
-        faces_list (dict): Dictionary mapping character IDs to lists of face detections
-        voices_list (list): List of voice/speech segments detected in the audio
-
-    Returns:
-        tuple: A tuple containing:
-            - str: Generated captions with character ID references
-            - str: Generated thinking descriptions with character ID references
-
-    The function:
-    1. Extracts face frames for each character and draws bounding boxes
-    2. Creates a context object with video, face frames and voice data
-    3. Generates captions using an LLM model
-    4. Visualizes the face frames with character IDs
-    5. Generates thinking descriptions based on the captions
-    """
     face_frames = []
 
     print(f"id num: {len(faces_list)}")
@@ -110,49 +87,7 @@ def generate_captions_and_thinkings_with_ids(
         frame_img.save(buffered, format="JPEG")
         frame_base64 = base64.b64encode(buffered.getvalue()).decode()
         face_frames.append((f"<char_{char_id}>:", frame_base64))
-
-    voices_input = {}
-    for id, voices in voices_list.items():
-        voices_input[f"<speaker_{id}>"] = [{
-            "start_time": voice["start_time"],
-            "end_time": voice["end_time"],
-            "content": voice["asr"]
-        } for voice in voices]
-
-
-    video_context = [
-        {
-            "type": "video_base64/mp4",
-            "content": base64_video.decode("utf-8"),
-        },
-        {
-            "type": "images/jpeg",
-            "content": face_frames,
-        },
-        {
-            "type": "text",
-            "content": json.dumps(voices_input),
-        },
-    ]
-    input = video_context + [
-        {
-            "type": "text",
-            "content": prompt_generate_captions_with_ids,
-        }
-    ]
-
-    messages = generate_messages(input)
-    model = "gemini-1.5-pro-002"
-    captions = None
-    for i in range(MAX_RETRIES):
-        print(f"Generating captions {i} times")
-        captions_string = get_response_with_retry(model, messages)[0]
-        captions = validate_and_fix_python_list(captions_string)
-        if captions is not None:
-            break
-    if captions is None:
-        raise Exception("Failed to generate captions")
-
+    
     # Visualize face frames with IDs
     num_faces = len(face_frames)
     num_rows = (num_faces + 2) // 3  # Round up division to get number of rows needed
@@ -176,7 +111,80 @@ def generate_captions_and_thinkings_with_ids(
     plt.tight_layout()
     plt.show()
 
+    voices_input = {}
+    for id, voices in voices_list.items():
+        voices_input[f"<speaker_{id}>"] = [{
+            "start_time": voice["start_time"],
+            "end_time": voice["end_time"],
+            "content": voice["asr"]
+        } for voice in voices]
+
     print(voices_input)
+
+    video_context = [
+        {
+            "type": "video_base64/mp4",
+            "content": base64_video.decode("utf-8"),
+        },
+        {
+            "type": "images/jpeg",
+            "content": face_frames,
+        },
+        {
+            "type": "text",
+            "content": json.dumps(voices_input),
+        },
+    ]
+
+    return video_context
+
+def generate_captions_and_thinkings_with_ids(
+    base64_video, base64_frames, base64_audio, faces_list, voices_list
+):
+    """
+    Generate captions and thinking descriptions for video content with character IDs.
+
+    Args:
+        base64_video (bytes): Base64 encoded video data
+        base64_frames (list): List of base64 encoded video frames
+        base64_audio (bytes): Base64 encoded audio data
+        faces_list (dict): Dictionary mapping character IDs to lists of face detections
+        voices_list (list): List of voice/speech segments detected in the audio
+
+    Returns:
+        tuple: A tuple containing:
+            - str: Generated captions with character ID references
+            - str: Generated thinking descriptions with character ID references
+
+    The function:
+    1. Extracts face frames for each character and draws bounding boxes
+    2. Creates a context object with video, face frames and voice data
+    3. Generates captions using an LLM model
+    4. Visualizes the face frames with character IDs
+    5. Generates thinking descriptions based on the captions
+    """
+    video_context = generate_video_context(
+        base64_video, base64_frames, base64_audio, faces_list, voices_list
+    )
+
+    input = video_context + [
+        {
+            "type": "text",
+            "content": prompt_generate_captions_with_ids,
+        }
+    ]
+
+    messages = generate_messages(input)
+    model = "gemini-1.5-pro-002"
+    captions = None
+    for i in range(MAX_RETRIES):
+        print(f"Generating captions {i} times")
+        captions_string = get_response_with_retry(model, messages)[0]
+        captions = validate_and_fix_python_list(captions_string)
+        if captions is not None:
+            break
+    if captions is None:
+        raise Exception("Failed to generate captions")
 
     thinkings = generate_thinkings_with_ids(video_context, captions)
 
@@ -198,10 +206,13 @@ def process_captions(video_graph, caption_contents, type='episodic'):
         - Extracts entity references (e.g. char_1, char_2)
         - Adds edges between the text node and referenced entity nodes
     """
-    def get_caption_embeddings(caption_contents):
+    def get_caption_embeddings(caption_contents, prefix='', suffix='Based on the memory, you can learn that'):
         # calculate the embedding for each caption
         model = 'text-embedding-3-large'
-        embeddings = parallel_get_embedding(model, caption_contents)
+
+        caption_contents = [prefix + caption + suffix for caption in caption_contents]
+
+        embeddings = parallel_get_embedding(model, caption_contents)[0]
         return embeddings
 
     def parse_video_caption(video_caption):
@@ -218,6 +229,7 @@ def process_captions(video_graph, caption_contents, type='episodic'):
             elif char == ">":
                 in_entity = False
                 node_type, node_id = current_entity.split("_")
+                node_id = int(node_id)
                 entities.append((node_type, node_id))
             else:
                 if in_entity:

@@ -2,6 +2,8 @@ import json
 import openai
 from concurrent.futures import ThreadPoolExecutor
 from time import sleep
+import logging
+import httpx
 
 # api utils
 
@@ -86,7 +88,8 @@ def get_embedding(model, text):
     Returns:
         tuple: (embedding vector, total tokens used)
     """
-    return client[model].embeddings.create(input=text, model=model).data[0].embedding, client[model].embeddings.create(input=text, model=model).usage.total_tokens
+    response = client[model].embeddings.create(input=text, model=model)
+    return response.data[0].embedding, response.usage.total_tokens
 
 
 def get_embedding_with_retry(model, text):
@@ -123,8 +126,16 @@ def parallel_get_embedding(model, texts):
     """
     max_workers = min(len(texts), config[model]["qpm"])
     
+    httpx_logger = logging.getLogger("httpx")
+    original_log_level = httpx_logger.level
+    httpx_logger.setLevel(logging.CRITICAL)
+
+
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         results = list(executor.map(lambda x: get_embedding_with_retry(model, x), texts))
+
+    httpx_logger.setLevel(original_log_level)
+    
     # Split results into embeddings and tokens
     embeddings = [result[0] for result in results]
     tokens = [result[1] for result in results]

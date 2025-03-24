@@ -70,6 +70,9 @@ class VideoGraph:
             node.embeddings.append(img_embedding)
         self.nodes[self.next_node_id] = node
         self.next_node_id += 1
+
+        print(f"Image node added with ID {node.id}")
+
         return node.id
 
     def add_voice_node(self, audio_embedding):
@@ -85,6 +88,9 @@ class VideoGraph:
             node.embeddings.append(audio_embedding)
         self.nodes[self.next_node_id] = node
         self.next_node_id += 1
+
+        print(f"Voice node added with ID {node.id}")
+
         return node.id
 
     def add_text_node(self, text, text_type='episodic'):
@@ -108,6 +114,9 @@ class VideoGraph:
         self.text_nodes_contents = np.append(self.text_nodes_contents, processed_text)
 
         self.next_node_id += 1
+
+        print(f"Text node of type {text_type} added with ID {node.id} and content: {text['content']}")
+
         return node.id
 
     def add_embedding(self, node_id, embeddings):
@@ -143,6 +152,8 @@ class VideoGraph:
             node.embeddings = random.sample(all_embeddings, max_emb)
         else:
             node.embeddings = all_embeddings
+        
+        print(f"Embeddings added to node {node_id}")
 
         return True
 
@@ -155,6 +166,7 @@ class VideoGraph:
             # Add both directions with same weight
             self.edges[(node_id1, node_id2)] = weight
             self.edges[(node_id2, node_id1)] = weight
+            print(f"Edge added between {node_id1} and {node_id2}")
             return True
         return False
 
@@ -169,7 +181,6 @@ class VideoGraph:
                 del self.edges[(node_id1, node_id2)]
                 del self.edges[(node_id2, node_id1)]
                 print(f"Edge removed between {node_id1} and {node_id2}")
-                
             return True
         return False
 
@@ -191,6 +202,8 @@ class VideoGraph:
             if n1 == node_id or n2 == node_id:
                 self.update_edge_weight(n1, n2, delta_weight)
                 reinforced_count += 1
+
+        print(f"{reinforced_count} edges reinforced for node {node_id}")
                 
         return reinforced_count
 
@@ -212,6 +225,8 @@ class VideoGraph:
             if n1 == node_id or n2 == node_id:
                 self.update_edge_weight(n1, n2, -delta_weight)  # Use negative delta_weight to decrease
                 weakened_count += 1
+
+        print(f"{weakened_count} edges weakened for node {node_id}")
                 
         return weakened_count
 

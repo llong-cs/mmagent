@@ -36,44 +36,47 @@ prompt_generate_captions_with_ids = """You are given a video and a set of charac
 
 Your Task:
 
-Analyze the video and generate a structured list of descriptions that captures all relevant details for each identified character. Your descriptions should include, but are not limited to:
-	1.	Appearance: Clothing, facial features, and any distinguishing characteristics.
-	2.	Actions & Movements: Gestures, movements, interactions, and significant physical activities.
-	3.	Spoken Dialogue: Transcribe or summarize any speech spoken by the character, ensuring it is correctly associated with the corresponding ID.
-	4.	Contextual Behavior: Explain the character's role in the scene, their interactions with other characters, and their emotions.
+Analyze the video and generate a structured list of descriptions that captures all relevant details for each identified character. Each description should focus on a single aspect and include (but not limited to) the following:
+	1.	Appearance: Describe one specific aspect of the character's appearance, such as their clothing, facial features, or any distinguishing characteristics. Each description should cover only one aspect (e.g., don't mix facial features with clothing).
+	2.	Actions & Movements: Describe one specific gesture, movement, or interaction performed by the character. Do not mix multiple actions or interactions in a single description.
+	3.	Spoken Dialogue: Transcribe or summarize a specific instance of speech spoken by the character, correctly associating it with the corresponding ID. Each description should focus on one spoken statement, ensuring that it is clear and accurately attributed.
+	4.	Contextual Behavior: Describe one specific aspect of the character's role in the scene or their interaction with another character, focusing on their behavior, emotional state, or relationships. Avoid combining multiple behaviors or emotional states in a single description.
 
 Strict Requirement:
 	•	Every reference to a person must use their exact ID enclosed in angle brackets (< >).
 	•	Do not use inferred names, pronouns, or generic descriptions (e.g., "the man," "the woman," "he," "they").
+	•	Each description should focus on one specific detail and provide sufficient specificity and clarity for the given aspect. Avoid combining unrelated details in a single description.
 	•	Ensure all descriptions remain consistent with the provided IDs and do not introduce assumptions beyond the given data.
 
-Input Example:
+Example Input:
 
 {
-	"video": "scene_01.mp4",
+	"video": <input_video>,
 	"characters": {
-		"<char_101>": "<img_101>",
-		"<char_102>": "<img_102>",
-		"<char_103>": "<img_103>"
+		"<char_1>": <img_1>,
+		"<char_2>": <img_2>,
+		"<char_3>": <img_3>
 	},
-	"speakers": {
-		"<speaker_1>": "<audio_1>",
-		"<speaker_2>": "<audio_2>"
-	}
+	"speakers": [
+		{"start_time": "00:05", "end_time": "00:08", "speaker": "<speaker_1>", "asr": "Hello, everyone."},
+		{"start_time": "00:09", "end_time": "00:12", "speaker": "<speaker_2>", "asr": "Welcome to the meeting."},
+		...
+	]
 }
 
-Output Example:
+Example Output:
 
 [
-	"<char_101> wears a black suit with a white shirt and tie. He has short black hair and wears glasses.",
-	"<char_101> enters the conference room, shakes hands with <char_102>, and takes a seat.",
-	"<speaker_1> (represented by <char_101>) says: 'Good afternoon, everyone. Let's begin the meeting.'",
-	"<char_102> waves at <char_101> and checks her phone.",
-	"<speaker_2> (represented by <char_102>) says: 'Hey! I was waiting for you. How was your day?'",
-	"<char_103> wears a white hoodie, has a beard, and wears a baseball cap.",
-	"<char_103> runs across the street, looking back over his shoulder.",
-	"<char_103> hides behind a car and checks his surroundings.",
-	"<char_103> says: 'I think someone is following me.'"
+	"<char_1> wears a black suit with a white shirt and tie.",
+    "<char_1> has short black hair and wears glasses.",
+	"<char_1> enters the conference room, shakes hands with <char_2>, and takes a seat.",
+	"<speaker_1> (represented by <char_1>) says: 'Good afternoon, everyone. Let's begin the meeting.'",
+	"<char_2> waves at <char_1> and checks her phone.",
+	"<speaker_2> (represented by <char_2>) says: 'Hey! I was waiting for you. How was your day?'",
+	"<char_3> wears a white hoodie, has a beard, and wears a baseball cap.",
+	"<char_3> runs across the street, looking back over his shoulder.",
+	"<char_3> hides behind a car and checks his surroundings.",
+	"<char_3> says: 'I think someone is following me.'"
 ]
 
 Please only return the valid string list, without any additional explanation or formatting."""
@@ -103,58 +106,65 @@ Requirements
 
 prompt_generate_thinkings_with_ids = """You are given a video, a set of characters, and speakers. Each character is represented by an image with a bounding box, and each speaker is represented by several audio clips, each with a start time, an end time, and content. Each character and speaker is identified by a unique ID, which is enclosed in angle brackets (< >) and corresponds to their provided image or audio clip.
 
-You are also provided with a detailed description of the video scene, including the setting, background actions, and character interactions.
+You are also provided with a detailed description of the video scene, including the events happening in the video, the setting, background actions, and character interactions.
 
-Your task:
+Your Task:
 
-Based on the provided information, generate high-level thinking, including but not limited to:
-	1.	The correspondence between characters and speakers based on their appearance, speech, and interactions. (character_id -> speaker_id)
+Based on the video content, generate high-level thinking conclusions, including but not limited to:
+	1.	The correspondence between characters and speakers based on their appearance, speech, and interactions (e.g., character_id -> speaker_id).
 	2.	The relationships between different characters, including their interactions, emotions, and possible connections.
-	3.	Personality traits, profession, hobbies, or distinguishing features of each character, inferred from their actions, speech, and appearance.
-	4.	General knowledge or contextual information relevant to understanding the characters or the situation they are in.
+	3.	Inferences about the personality traits, profession, hobbies, or distinguishing features of each character, derived from their actions, speech, and appearance.
+	4.	Relevant general knowledge or contextual information that helps to understand the characters or the situation they are in.
 
 Strict Requirement:
-Whenever referring to any character or speaker in your generated thinking, you must use their exact ID tag enclosed in angle brackets (< >). Do not use generic descriptions, inferred names, or pronouns (e.g., "he," "she," "the man," "the woman").
+	•	Every reference to a person must use their exact ID enclosed in angle brackets (< >).
+	•	Do not use generic descriptions, inferred names, or pronouns (e.g., "he," "they," "the man").
+	•	Focus solely on high-level conclusions derived from the video content and avoid simply repeating information already present in the descriptions or providing basic visual details.
+	•	Provide only the final high-level thinking conclusions, without detailing the reasoning process or restating simple observations from the video.
 
 The input will contain the following:
 	1.	Video and character details, including their IDs and relevant descriptions (no need for individual character descriptions).
-	2.	A detailed description of the video scene.
+	2.	A series of detailed descriptions of the video.
+
+Example Input:
+
+{
+	"video": <input_video>,
+	"characters": [
+		"<char_1>": <img_1>,
+		"<char_2>": <img_2>,
+		"<char_3>": <img_3>
+	],
+	"speakers": [
+		{"start_time": "00:05", "end_time": "00:08", "speaker": "<speaker_1>", "asr": "Hello, everyone."},
+		{"start_time": "00:09", "end_time": "00:12", "speaker": "<speaker_2>", "asr": "Welcome to the meeting."},
+		...
+	],
+	"video_descriptions": [
+		"<char_1> wears a black suit with a white shirt and tie.", 
+        "<char_1> has short black hair and wears glasses.",
+		"<char_1> enters the conference room, shakes hands with <char_2>, and takes a seat.",
+		"<speaker_1> (represented by <char_1>) says: 'Good afternoon, everyone. Let's begin the meeting.'",
+		"<char_2> wears a red dress and has long brown hair.",
+		"<char_2> walks into the restaurant, looks around, and sits at a table.",
+		"<char_2> waves at <char_1> and checks her phone."
+	]
+}
 
 
-Input Example:
 
-video: <input_video>,
-characters: [
-	"<char_101>": <img_101>,
-	"<char_102>": <img_102>,
-	"<char_103>": <img_103>
-],
-speakers: [
-	{"start_time": "00:05", "end_time": "00:08", "speaker": "<speaker_1>", "asr": "Hello, everyone."},
-	{"start_time": "00:09", "end_time": "00:12", "speaker": "<speaker_2>", "asr": "Welcome to the meeting."}
-],
-video descriptions: [
-	"<char_101> wears a black suit with a white shirt and tie. He has short black hair and wears glasses.",
-	"<char_101> enters the conference room, shakes hands with <char_102>, and takes a seat.",
-	"<speaker_1> (represented by <char_101>) says: 'Good afternoon, everyone. Let's begin the meeting.'",
-	"<char_102> wears a red dress and has long brown hair.",
-	"<char_102> walks into the restaurant, looks around, and sits at a table.",
-	"<char_102> waves at <char_101> and checks her phone."
-]
-
-
-Output Example:
+Example Output:
 
 [
-    "<char_101> is <speaker_1>.",
-	"<char_102> is <speaker_2>.",
-	"<char_101> is likely an executive or a presenter, leading a meeting. Their formal attire and position in the room suggest authority and professionalism.",
-	"<char_102> seems to be a colleague, possibly engaged in the meeting, as they are seated and focused on <char_101>.",
-	"<char_103> appears anxious, possibly involved in a tense situation outside the meeting. His nervous movements and behavior hint at an ongoing problem or threat.",
-	"<char_101>'s profession might involve leadership or managerial duties, given their role in the meeting.",
-	"<char_102> may work in a collaborative or supportive role, indicated by her attention to <char_101>.",
-	"<char_103> likes eating at Wendy's restaurant.",
-	"The scene suggests a professional environment, with interpersonal dynamics that mix business with potential personal tensions, as evidenced by <char_103>'s behavior.",
+    "<char_1> is <speaker_1>.",
+	"<char_2> is <speaker_2>.",
+	"<char_1>'s name is David",
+    "<speaker_1>'s name is Alice",
+	"<char_1> is likely an executive or a presenter, leading a meeting.",
+	"<char_2> seems to be a colleague, possibly engaged in the meeting.",
+	"<char_3> appears anxious, possibly involved in a tense situation outside the meeting.",
+	"<char_2> may work in a collaborative or supportive role.",
+	"<char_3> likes eating at Wendy's restaurant.",
 	"The show is held every 2 months.",
 	"Santa market is a dog-friendly market."
 ]
@@ -203,28 +213,35 @@ Yes
 
 Please only return "Yes" or "No", without any additional explanation or formatting."""
 
-prompt_memory_retrieval = """You will be given a question. Your task is to generate {query_num} distinct and well-defined queries that will be encoded into embeddings and used to retrieve relevant information from a memory bank via vector similarity search. The goal is to retrieve information that is useful for answering the question.
+prompt_memory_retrieval = """You will be given a question and some “existing knowledge” relevant to the question. Your task is to generate {query_num} distinct and well-defined queries that will be encoded into embeddings and used to retrieve relevant information from a memory bank via vector similarity search. The goal is to retrieve information that is useful for answering the question, considering both the question and the provided existing knowledge.
 
 For each query:
-	1.	Clearly define the specific information need it targets, based on your understanding of the question.
+	1.	Clearly define the specific information need it targets, based on your understanding of the question and the existing knowledge.
 	2.	Make the query concise, focused, and semantically rich, to ensure effective encoding and retrieval.
 	3.	Remember that the queries will be used for embedding-based retrieval, so avoid vague or overly broad formulations.
-	4.	Ensure diversity among the queries, covering different aspects or subtopics of the original question where applicable.
+	4.	Ensure diversity among the queries, covering different aspects or subtopics of the original question where applicable, and incorporating the existing knowledge into the query generation.
 
 Example Input:
-How did the protagonist’s relationship with her father influence her decision to leave home in the story?
+Question: How did the protagonist's relationship with her father influence her decision to leave home in the story?
+Existing Knowledge:
+	•	The protagonist's father is portrayed as controlling and overprotective.
+	•	The protagonist often feels restricted in her actions due to her father's behavior.
+	•	The protagonist's decision to leave home is motivated by a desire for independence.
 
 Example Output (as a Python-style string list):
 
-queries = [
-    "Conflicts between the protagonist and her father",  # emotional or ideological tensions
-    "Father's actions that discouraged the protagonist's independence",  # restrictions or controlling behavior
-    "Reasons the protagonist gave for leaving home"  # direct motivations or reflections
+[
+	"Conflicts between the protagonist and her father", 
+	"Father's actions that discouraged the protagonist's independence", 
+	"Reasons the protagonist gave for leaving home " 
 ]
 
-Note that the output should be a valid Python string list, without any additional explanation or formatting.
+Please return the output as a valid Python string list, without any additional explanation or formatting.
 
 Input:
 {question}
+
+Existing Knowledge:
+{existing_knowledge}
 
 Output:"""
