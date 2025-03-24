@@ -87,7 +87,7 @@ def get_normed_audio_embeddings(base64_audios):
     return normed_embeddings
 
 
-def process_voices(video_graph, base64_audio):
+def process_voices(video_graph, base64_audio, base64_video):
     def get_audio_segment(base64_audio, start_time, end_time):
         """
         Get audio segment from base64 audio string
@@ -139,11 +139,11 @@ def process_voices(video_graph, base64_audio):
         # Convert to base64
         return base64.b64encode(segment_buffer.getvalue())
 
-    def diarize_audio(base64_audio):
+    def diarize_audio(base64_video):
         input = [
             {
-                "type": "audio_base64/wav",
-                "content": base64_audio.decode("utf-8"),
+                "type": "video_base64/mp4",
+                "content": base64_video.decode("utf-8"),
             },
             {
                 "type": "text",
@@ -239,7 +239,7 @@ def process_voices(video_graph, base64_audio):
 
         return audios_list
 
-    asrs = diarize_audio(base64_audio)
+    asrs = diarize_audio(base64_video)
     print(asrs)
     tempid2audios = establish_mapping(asrs, key="speaker")
     for _, audios in tempid2audios.items():

@@ -81,7 +81,7 @@ Example Output:
 
 Please only return the valid string list, without any additional explanation or formatting."""
 
-prompt_audio_diarization = """You are given an audio clip from a video. Your task is to perform Automatic Speech Recognition (ASR) and audio diarization on the provided audio clip. Extract all speech segments with accurate timestamps and speaker identification.
+prompt_audio_diarization = """You are given a video. Your task is to perform Automatic Speech Recognition (ASR) and audio diarization on the provided video. Extract all speech segments with accurate timestamps and speaker identification.
 
 Output Format
 

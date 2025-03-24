@@ -13,7 +13,7 @@ class VideoGraph:
     """
     This class defines the VideoGraph class, which is used to represent the video graph.
     """
-    def __init__(self, max_img_embeddings=10, max_audio_embeddings=10, img_matching_threshold=0.3, audio_matching_threshold=0.7, text_matching_threshold=0.8):
+    def __init__(self, max_img_embeddings=10, max_audio_embeddings=10, img_matching_threshold=0.3, audio_matching_threshold=0.5, text_matching_threshold=0.75):
         """Initialize a video graph with nodes for faces, voices and text events.
         
         Args:
@@ -160,9 +160,7 @@ class VideoGraph:
     def add_edge(self, node_id1, node_id2, weight=1.0):
         """Add or update bidirectional weighted edges between two nodes.
         Text-to-text connections are not allowed between same type text nodes."""
-        if (node_id1 in self.nodes and node_id2 in self.nodes and
-            not (self.nodes[node_id1].type == self.nodes[node_id2].type and 
-                 self.nodes[node_id1].type in ['episodic', 'semantic'])):
+        if (node_id1 in self.nodes and node_id2 in self.nodes and not (self.nodes[node_id1].type == self.nodes[node_id2].type and self.nodes[node_id1].type in ['episodic', 'semantic'])):
             # Add both directions with same weight
             self.edges[(node_id1, node_id2)] = weight
             self.edges[(node_id2, node_id1)] = weight
@@ -230,13 +228,13 @@ class VideoGraph:
                 
         return weakened_count
 
-    def get_connected_nodes(self, node_id):
+    def get_connected_nodes(self, node_id, type=['img', 'voice', 'episodic', 'semantic']):
         """Get all nodes connected to given node."""
         connected = set()  # Use set to avoid duplicates due to bidirectional edges
         for (n1, n2), _ in self.edges.items():
-            if n1 == node_id:
+            if n1 == node_id and self.nodes[n2].type in type:
                 connected.add(n2)
-            elif n2 == node_id:
+            elif n2 == node_id and self.nodes[n1].type in type:
                 connected.add(n1)
         return list(connected)
 
@@ -311,13 +309,71 @@ class VideoGraph:
 
         return sorted(results, key=lambda x: x[1], reverse=True)
     
-    def step(self, nodes):
-        connected_nodes = [self.get_connected_nodes(node_id) for node_id in nodes]
-        connected_nodes = [node for sublist in connected_nodes for node in sublist]
-        connected_nodes = list(set(connected_nodes))
-        return connected_nodes
+    def get_entity_info(self, anchor_nodes, drop_threshold=0.9):
+        """Get information about entities by retrieving connected episodic and semantic nodes.
+        
+        This function takes a list of anchor nodes and finds all connected image and voice nodes as entity nodes.
+        For each entity node, it retrieves all connected episodic nodes and semantic nodes. The semantic nodes
+        are filtered to remove redundant information by comparing similarity between node embeddings.
+
+        Args:
+            anchor_nodes (list): List of node IDs to use as anchor points for finding entities
+            drop_threshold (float): Similarity threshold above which semantic nodes are considered redundant (default: 0.9)
+            
+        Returns:
+            list: List of node IDs for episodic and filtered semantic nodes connected to all found entities
+            
+        Raises:
+            ValueError: If any found entity node ID is not found or is not an image/voice node
+        """
+        entity_nodes = set()
+        for anchor_node in anchor_nodes:
+            entity_nodes.update(self.get_connected_nodes(anchor_node, type=['voice', 'img']))
+            
+        entity_nodes = list(entity_nodes)
+        
+        info_nodes = []
+        
+        for entity_id in entity_nodes:
+            if entity_id not in self.nodes or (self.nodes[entity_id].type not in ['img', 'voice']):
+                raise ValueError(f"Node {entity_id} is not an image or voice node")
+            connected_episodic_nodes = self.get_connected_nodes(entity_id, type=['episodic'])
+            info_nodes.extend(connected_episodic_nodes)
+            connected_semantic_nodes = self.get_connected_nodes(entity_id, type=['semantic'])
+            
+            # Filter semantic nodes by iteratively removing nodes with high similarity
+            while True:
+                # Check all pairs of remaining semantic nodes
+                nodes_to_remove = set()
+                for i, node_id1 in enumerate(connected_semantic_nodes):
+                    for node_id2 in connected_semantic_nodes[i+1:]:
+                        # Calculate similarity between node embeddings
+                        similarity = self._average_similarity(
+                            self.nodes[node_id1].embeddings,
+                            self.nodes[node_id2].embeddings
+                        )
+                        
+                        # If similarity exceeds threshold, remove the node with lower edge weight
+                        if similarity > drop_threshold:
+                            edge_weight1 = self.edges.get((entity_id, node_id1), 0)
+                            edge_weight2 = self.edges.get((entity_id, node_id2), 0)
+                            if edge_weight1 < edge_weight2:
+                                nodes_to_remove.add(node_id1)
+                            else:
+                                nodes_to_remove.add(node_id2)
+                
+                # If no nodes need to be removed, we're done
+                if not nodes_to_remove:
+                    break
+                    
+                # Remove the identified nodes
+                connected_semantic_nodes = [n for n in connected_semantic_nodes if n not in nodes_to_remove]
+                
+            info_nodes.extend(connected_semantic_nodes)
+            
+        return info_nodes
     
-    def search_text_nodes(self, query_embedding, topk=3):
+    def search_text_nodes(self, query_embedding):
         query_embedding = [query_embedding]
         threshold = self.text_matching_threshold
         
@@ -328,13 +384,10 @@ class VideoGraph:
             if similarity >= threshold:
                 matched_text_nodes.append((node_id, similarity))
         
-        matched_text_nodes = sorted(matched_text_nodes, key=lambda x: x[1], reverse=True)[:topk]
+        matched_text_nodes = sorted(matched_text_nodes, key=lambda x: x[1], reverse=True)
         matched_text_nodes = [node_id for node_id, _ in matched_text_nodes]
         
-        single_step_connected_nodes = self.step(matched_text_nodes)
-        second_step_connected_nodes = self.step(single_step_connected_nodes)
-        
-        return second_step_connected_nodes
+        return matched_text_nodes
 
     def visualize_video_graph(self):
         """Visualize the video graph using networkx."""

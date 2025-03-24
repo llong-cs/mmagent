@@ -206,7 +206,7 @@ def process_captions(video_graph, caption_contents, type='episodic'):
         - Extracts entity references (e.g. char_1, char_2)
         - Adds edges between the text node and referenced entity nodes
     """
-    def get_caption_embeddings(caption_contents, prefix='', suffix='Based on the memory, you can learn that'):
+    def get_caption_embeddings(caption_contents, prefix='Memory: ', suffix='Based on the memory, you can learn that'):
         # calculate the embedding for each caption
         model = 'text-embedding-3-large'
 
@@ -251,20 +251,12 @@ def process_captions(video_graph, caption_contents, type='episodic'):
                 entities = parse_video_caption(caption)
                 
                 # update the existing text node for each caption, if needed
-                positive_threshold = 0.8
+                positive_threshold = 0.9
                 negative_threshold = -0.5
                 
-                # get all nodes that are connected to the caption entities
-                related_nodes = []
-                
-                for entity in entities:
-                    node_id = entity[1]
-                    
-                    existing_node_ids = video_graph.get_connected_nodes(node_id)
-                    related_nodes.extend(existing_node_ids)
-                
-                # remove duplicates
-                related_nodes = list(set(related_nodes))
+                # get all (possible) related nodes            
+                node_id = entities[0][1]
+                related_nodes = video_graph.get_connected_nodes(node_id, type='semantic')
                 
                 # if there is a node with similarity > positive_threshold, then update the edge weight by +1
                 # if there is a node with similarity < negative_threshold, then update the edge weight by -1, and add a new text node and connect it to the existing node
@@ -277,9 +269,9 @@ def process_captions(video_graph, caption_contents, type='episodic'):
                     # 2. the semantic similarity between the caption and the existing node shows a positive correlation or a negative correlation
                     
                     # see if the caption entities are a subset of the existing node entities
-                    existing_node_entities = parse_video_caption(video_graph.nodes[node_id].metadata['text'])
+                    related_node_entities = parse_video_caption(video_graph.nodes[node_id].metadata['text'])
                     embedding = video_graph.nodes[node_id].embeddings[0]
-                    if all(entity in existing_node_entities for entity in entities):
+                    if all(entity in related_node_entities for entity in entities):
                         similarity = np.dot(caption['embedding'], embedding) / (np.linalg.norm(caption['embedding']) * np.linalg.norm(embedding))
                         if similarity > positive_threshold:
                             video_graph.reinforce_node(node_id)
