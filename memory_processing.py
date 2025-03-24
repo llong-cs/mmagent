@@ -176,7 +176,7 @@ def generate_captions_and_thinkings_with_ids(
     plt.tight_layout()
     plt.show()
 
-    print(voices_list)
+    print(voices_input)
 
     thinkings = generate_thinkings_with_ids(video_context, captions)
 

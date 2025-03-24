@@ -296,21 +296,30 @@ class VideoGraph:
 
         return sorted(results, key=lambda x: x[1], reverse=True)
     
-    def search_text_nodes(self, query_embedding):
-        """Search for text nodes using text embedding.
-        
-        Args:
-            query_embedding: Single embedding
-        """
+    def step(self, nodes):
+        connected_nodes = [self.get_connected_nodes(node_id) for node_id in nodes]
+        connected_nodes = [node for sublist in connected_nodes for node in sublist]
+        connected_nodes = list(set(connected_nodes))
+        return connected_nodes
+    
+    def search_text_nodes(self, query_embedding, topk=3):
         query_embedding = [query_embedding]
         threshold = self.text_matching_threshold
-        results = []
+        
+        matched_text_nodes = []
         for node_id in self.text_nodes:
             node = self.nodes[node_id]
             similarity = self._average_similarity(query_embedding, node.embeddings)
             if similarity >= threshold:
-                results.append(node_id)
-        return results
+                matched_text_nodes.append((node_id, similarity))
+        
+        matched_text_nodes = sorted(matched_text_nodes, key=lambda x: x[1], reverse=True)[:topk]
+        matched_text_nodes = [node_id for node_id, _ in matched_text_nodes]
+        
+        single_step_connected_nodes = self.step(matched_text_nodes)
+        second_step_connected_nodes = self.step(single_step_connected_nodes)
+        
+        return second_step_connected_nodes
 
     def visualize_video_graph(self):
         """Visualize the video graph using networkx."""
