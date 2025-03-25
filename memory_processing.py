@@ -227,28 +227,37 @@ def process_captions(video_graph, caption_contents, type='episodic'):
                 in_entity = True
                 current_entity = ""
             elif char == ">":
-                in_entity = False
-                node_type, node_id = current_entity.split("_")
-                node_id = int(node_id)
-                entities.append((node_type, node_id))
+                if in_entity:
+                    in_entity = False
+                    node_type, node_id = current_entity.split("_")
+                    node_id = int(node_id)
+                    entities.append((node_type, node_id))
             else:
                 if in_entity:
                     current_entity += char
         return entities
+
+    def insert_caption(video_graph, caption, type='episodic'):
+        # create a new text node for each caption
+        new_node_id = video_graph.add_text_node(caption, type)
+        entities = parse_video_caption(caption['content'])
+        for entity in entities:
+            video_graph.add_edge(new_node_id, entity[1])
 
     def update_video_graph(video_graph, captions, type='episodic'):
         # append all episodic captions to the graph
         if type == 'episodic':
             # create a new text node for each caption
             for caption in captions:
-                new_node_id = video_graph.add_text_node(caption)
-                entities = parse_video_caption(caption['content'])
-                for entity in entities:
-                    video_graph.add_edge(new_node_id, entity[1])
+                insert_caption(video_graph, caption, type)
         # semantic captions can be used to update the existing text nodes, or create new text nodes
         elif type == 'semantic':
             for caption in captions:
                 entities = parse_video_caption(caption)
+
+                if len(entities) == 0:
+                    insert_caption(video_graph, caption, type)
+                    continue
                 
                 # update the existing text node for each caption, if needed
                 positive_threshold = 0.9
@@ -281,9 +290,7 @@ def process_captions(video_graph, caption_contents, type='episodic'):
                             create_new_node = False
                 
                 if create_new_node:
-                    new_node_id = video_graph.add_text_node(caption)
-                    for entity in entities:
-                        video_graph.add_edge(new_node_id, entity[1])
+                    insert_caption(video_graph, caption, type)
     
     print(caption_contents)
     

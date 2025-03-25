@@ -13,7 +13,7 @@ class VideoGraph:
     """
     This class defines the VideoGraph class, which is used to represent the video graph.
     """
-    def __init__(self, max_img_embeddings=10, max_audio_embeddings=10, img_matching_threshold=0.3, audio_matching_threshold=0.5, text_matching_threshold=0.75):
+    def __init__(self, max_img_embeddings=10, max_audio_embeddings=10, img_matching_threshold=0.3, audio_matching_threshold=0.6, text_matching_threshold=0.75):
         """Initialize a video graph with nodes for faces, voices and text events.
         
         Args:

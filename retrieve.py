@@ -1,15 +1,24 @@
 from videograph import VideoGraph
-from utils.chat_api import generate_messages, get_response_with_retry, parallel_get_embedding
+from utils.chat_api import (
+    generate_messages,
+    get_response_with_retry,
+    parallel_get_embedding,
+)
 from utils.general import validate_and_fix_python_list
 from prompts import prompt_memory_retrieval
 
 MAX_RETRIES = 3
 
+
 def generate_queries(question, existing_knowledge=None, query_num=1):
     input = [
         {
             "type": "text",
-            "content": prompt_memory_retrieval.format(question=question, query_num=query_num, existing_knowledge=existing_knowledge),
+            "content": prompt_memory_retrieval.format(
+                question=question,
+                query_num=query_num,
+                existing_knowledge=existing_knowledge,
+            ),
         }
     ]
     messages = generate_messages(input)
@@ -24,6 +33,7 @@ def generate_queries(question, existing_knowledge=None, query_num=1):
     if queries is None:
         raise Exception("Failed to generate queries")
     return queries
+
 
 def retrieve_from_videograph(videograph, question, topk=3):
     queries = generate_queries(question)

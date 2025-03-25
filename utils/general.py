@@ -5,6 +5,10 @@ from datetime import datetime
 from moviepy import *
 import re
 import ast
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.metrics.pairwise import cosine_similarity
+from itertools import combinations
 
 # file processing
 def get_video_paths(video_url, task):
@@ -253,4 +257,22 @@ def validate_and_fix_python_list(invalid_list_string):
         print(f"Parsing error: {e}")
         return None
     
+def plot_cosine_similarity_distribution(embeddings):
+    # 转换为 numpy 数组
+    embeddings = np.array(embeddings)
     
+    # 计算所有组合的相似度
+    sim_scores = []
+    for i, j in combinations(range(len(embeddings)), 2):
+        sim = cosine_similarity(embeddings[i].reshape(1, -1), embeddings[j].reshape(1, -1))[0][0]
+        sim_scores.append(sim)
+
+    # 绘制直方图
+    plt.figure(figsize=(8, 5))
+    plt.hist(sim_scores, bins=30, color='skyblue', edgecolor='black')
+    plt.title('Pairwise Cosine Similarity Distribution')
+    plt.xlabel('Cosine Similarity')
+    plt.ylabel('Frequency')
+    plt.grid(True, linestyle='--', alpha=0.5)
+    plt.tight_layout()
+    plt.show()
