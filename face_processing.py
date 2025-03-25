@@ -17,35 +17,6 @@ test_client = euler.Client(
 
 CLUSTER_SIZE = 100
 
-def process_batch(params):
-    """
-    Process a batch of video frames to detect faces.
-
-    Args:
-        params (tuple): A tuple containing:
-            - frames (list): List of video frames to process
-            - offset (int): Frame offset to add to detected face frame IDs
-
-    Returns:
-        list: List of detected faces with adjusted frame IDs
-
-    The function:
-    1. Extracts frames and offset from input params
-    2. Creates face detection request for the batch
-    3. Gets face detection response from service
-    4. Adjusts frame IDs of detected faces by adding offset
-    5. Returns list of detected faces
-    """
-    frames = params[0]
-    offset = params[1]
-    req = SingleGetFaceRequest(frames=frames, Base=Base())
-    resp = test_client.SingleGetFace(req)
-    faces = resp.faces
-    for face in faces:
-        face.frame_id += offset
-    return faces
-
-
 def process_faces(video_graph, base64_frames):
     """
     Process video frames to detect, cluster and track faces.
@@ -70,7 +41,35 @@ def process_faces(video_graph, base64_frames):
     4. Updates video graph with face embeddings and relationships
     5. Returns mapping of face IDs to face detections
     """
-    batch_size = len(base64_frames) // CLUSTER_SIZE
+    batch_size = max(len(base64_frames) // CLUSTER_SIZE, 8)
+    
+    def _process_batch(params):
+        """
+        Process a batch of video frames to detect faces.
+
+        Args:
+            params (tuple): A tuple containing:
+                - frames (list): List of video frames to process
+                - offset (int): Frame offset to add to detected face frame IDs
+
+        Returns:
+            list: List of detected faces with adjusted frame IDs
+
+        The function:
+        1. Extracts frames and offset from input params
+        2. Creates face detection request for the batch
+        3. Gets face detection response from service
+        4. Adjusts frame IDs of detected faces by adding offset
+        5. Returns list of detected faces
+        """
+        frames = params[0]
+        offset = params[1]
+        req = SingleGetFaceRequest(frames=frames, Base=Base())
+        resp = test_client.SingleGetFace(req)
+        faces = resp.faces
+        for face in faces:
+            face.frame_id += offset
+        return faces
 
     def get_embeddings(base64_frames, batch_size):
         num_batches = (len(base64_frames) + batch_size - 1) // batch_size
@@ -84,7 +83,7 @@ def process_faces(video_graph, base64_frames):
         # parallel process the batches
         with ThreadPoolExecutor(max_workers=num_batches) as executor:
             for batch_faces in tqdm(
-                executor.map(process_batch, batched_frames), total=num_batches
+                executor.map(_process_batch, batched_frames), total=num_batches
             ):
                 faces.extend(batch_faces)
 
@@ -138,16 +137,19 @@ def process_faces(video_graph, base64_frames):
                 filtered_faces = filter(faces)
             else:
                 filtered_faces = faces
-            face_embs = [face["face_emb"] for face in filtered_faces]
-            matched_nodes = video_graph.search_img_nodes(face_embs)
+            face_info = {
+                "embeddings": [face["face_emb"] for face in filtered_faces],
+                "contents": [face["extra_data"]["face_base64"] for face in filtered_faces],
+            }
+            matched_nodes = video_graph.search_img_nodes(face_info)
             if len(matched_nodes) > 0:
                 matched_node = matched_nodes[0][0]
-                video_graph.add_embedding(matched_node, face_embs)
-                for face in faces:
+                video_graph.update_node(matched_node, face_info)
+                for face in filtered_faces:
                     face["matched_node"] = matched_node
             else:
-                matched_node = video_graph.add_img_node(face_embs)
-                for face in faces:
+                matched_node = video_graph.add_img_node(face_info)
+                for face in filtered_faces:
                     face["matched_node"] = matched_node
             faces_list.extend(filtered_faces)
 

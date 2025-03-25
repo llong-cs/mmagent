@@ -17,46 +17,6 @@ from prompts import prompt_generate_captions_with_ids, prompt_generate_thinkings
 
 MAX_RETRIES = 3
 
-def generate_thinkings_with_ids(video_context, video_description):
-    """
-    Generate thinking descriptions with character IDs based on video context and description.
-
-    Args:
-        video_context (list): List of context objects containing video information
-        video_description (str): Description of the video content
-
-    Returns:
-        list: Response from the LLM model containing generated thinking descriptions with character IDs
-
-    The function:
-    1. Combines video context with description and prompt
-    2. Generates messages for the LLM model
-    3. Makes API call to Gemini model
-    4. Returns the model's response with thinking descriptions
-    """
-    input = video_context + [
-        {
-            "type": "text",
-            "content": f"video_description: {video_description}",
-        },
-        {
-            "type": "text",
-            "content": prompt_generate_thinkings_with_ids,
-        },
-    ]
-    messages = generate_messages(input)
-    model = "gemini-1.5-pro-002"
-    thinkings = None
-    for i in range(MAX_RETRIES):
-        print(f"Generating thinkings {i} times")
-        thinkings_string = get_response_with_retry(model, messages)[0]
-        thinkings = validate_and_fix_python_list(thinkings_string)
-        if thinkings is not None:
-            break
-    if thinkings is None:
-        raise Exception("Failed to generate thinkings")
-    return thinkings
-
 def generate_video_context(
     base64_video, base64_frames, base64_audio, faces_list, voices_list
 ):
@@ -137,6 +97,46 @@ def generate_video_context(
     ]
 
     return video_context
+
+def generate_thinkings_with_ids(video_context, video_description):
+    """
+    Generate thinking descriptions with character IDs based on video context and description.
+
+    Args:
+        video_context (list): List of context objects containing video information
+        video_description (str): Description of the video content
+
+    Returns:
+        list: Response from the LLM model containing generated thinking descriptions with character IDs
+
+    The function:
+    1. Combines video context with description and prompt
+    2. Generates messages for the LLM model
+    3. Makes API call to Gemini model
+    4. Returns the model's response with thinking descriptions
+    """
+    input = video_context + [
+        {
+            "type": "text",
+            "content": f"video_description: {video_description}",
+        },
+        {
+            "type": "text",
+            "content": prompt_generate_thinkings_with_ids,
+        },
+    ]
+    messages = generate_messages(input)
+    model = "gemini-1.5-pro-002"
+    thinkings = None
+    for i in range(MAX_RETRIES):
+        print(f"Generating thinkings {i} times")
+        thinkings_string = get_response_with_retry(model, messages)[0]
+        thinkings = validate_and_fix_python_list(thinkings_string)
+        if thinkings is not None:
+            break
+    if thinkings is None:
+        raise Exception("Failed to generate thinkings")
+    return thinkings
 
 def generate_captions_and_thinkings_with_ids(
     base64_video, base64_frames, base64_audio, faces_list, voices_list
@@ -299,8 +299,8 @@ def process_captions(video_graph, caption_contents, type='episodic'):
     captions = []
     for caption, embedding in zip(caption_contents, captions_embeddings):
         captions.append({
-            'content': caption,
-            'embedding': embedding
+            'contents': [caption],
+            'embeddings': [embedding]
         })
 
     update_video_graph(video_graph, captions, type)

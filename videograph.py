@@ -5,6 +5,12 @@ import random
 
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
+import matplotlib.pyplot as plt
+import base64
+from io import BytesIO
+from PIL import Image
+import numpy as np
+import math
 
 class VideoGraph:
     """
@@ -64,8 +70,7 @@ class VideoGraph:
         img_embeddings = imgs['embeddings']
         node.embeddings.extend(img_embeddings[:self.max_img_embeddings])
         
-        node.metadata['contents'] = []
-        node.metadata['contents'].extend(imgs['contents'])
+        node.metadata['contents'] = imgs['contents']
         
         self.nodes[self.next_node_id] = node
         self.next_node_id += 1
@@ -86,8 +91,7 @@ class VideoGraph:
         audio_embeddings = audios['embeddings']
         node.embeddings.extend(audio_embeddings[:self.max_audio_embeddings])
         
-        node.metadata['contents'] = []
-        node.metadata['contents'].extend(audios['contents'])
+        node.metadata['contents'] = audios['contents']
         
         self.nodes[self.next_node_id] = node
         self.next_node_id += 1
@@ -107,15 +111,15 @@ class VideoGraph:
             raise ValueError("text_type must be either 'episodic' or 'semantic'")
 
         node = self.Node(self.next_node_id, text_type)
-        node.embeddings.append(text['embedding'])
-        node.metadata['contents'] = [text['content']]
+        node.embeddings = text['embeddings']
+        node.metadata['contents'] = text['contents']
         
         self.nodes[self.next_node_id] = node
-        self.text_nodes.append(self.next_node_id)  # Add to ordered list
+        self.text_nodes.append(node.id)  # Add to ordered list
 
         self.next_node_id += 1
 
-        print(f"Text node of type {text_type} added with ID {node.id} and content: {text['content']}")
+        print(f"Text node of type {text_type} added with ID {node.id} and contents: {text['contents']}")
 
         return node.id
 
@@ -240,7 +244,7 @@ class VideoGraph:
                 connected.add(n1)
         return list(connected)
 
-    def search_img_nodes(self, query_embeddings):
+    def search_img_nodes(self, img_info):
         """Search for face nodes using image embeddings.
         
         Args:
@@ -250,8 +254,8 @@ class VideoGraph:
         Returns:
             List of (node_id, similarity_score) tuples sorted by score
         """
-        if not isinstance(query_embeddings[0], list):
-            query_embeddings = [query_embeddings]
+        query_embeddings = img_info["embeddings"]
+        contents = img_info["contents"]
 
         threshold = self.img_matching_threshold
 
@@ -369,11 +373,91 @@ class VideoGraph:
         
         return matched_text_nodes
     
+    def print_faces(self, img_nodes):
+        """Print faces for given image nodes in a grid layout with 9 faces per row.
+        
+        Args:
+            img_nodes (list): List of image node IDs to display faces for
+        """
+        # Skip if no nodes to display
+        if not img_nodes:
+            return
+            
+        # Get all face images from the nodes with their node IDs
+        face_images = []
+        node_ids = []
+        for node_id in img_nodes:
+            if node_id not in self.nodes or self.nodes[node_id].type != 'img':
+                continue
+            face_base64_list = self.nodes[node_id].metadata['contents']
+            for face_base64 in face_base64_list:
+                # Convert base64 to PIL Image
+                face_bytes = base64.b64decode(face_base64)
+                face_img = Image.open(BytesIO(face_bytes))
+                face_images.append(face_img)
+                node_ids.append(node_id)
+                
+        # Skip if no faces found
+        if not face_images:
+            return
+            
+        # Calculate grid dimensions
+        n_faces = len(face_images)
+        n_cols = 9
+        n_rows = (n_faces + n_cols - 1) // n_cols  # Ceiling division
+        
+        # Create figure and subplots
+        _, axes = plt.subplots(n_rows, n_cols, figsize=(20, 4*n_rows))
+        if n_rows == 1:
+            axes = axes.reshape(1, -1)
+            
+        # Plot faces with node IDs as titles
+        for idx, (img, node_id) in enumerate(zip(face_images, node_ids)):
+            row = idx // n_cols
+            col = idx % n_cols
+            axes[row, col].imshow(img)
+            axes[row, col].set_title(f'Node {node_id}')
+            axes[row, col].axis('off')
+            
+        # Hide empty subplots
+        for idx in range(len(face_images), n_rows * n_cols):
+            row = idx // n_cols
+            col = idx % n_cols
+            axes[row, col].axis('off')
+            
+        plt.tight_layout()
+        plt.show()
+        
     def print_voice_nodes(self):
         for node_id, node in self.nodes.items():
             if node.type == 'voice':
-                print("-"*100, f"Voice Node {node_id}", "-"*100)
-                print(f"Contents: {node.metadata['contents']}")
+                continue
+            print("-"*100, f"Voice Node {node_id}", "-"*100)
+            print(f"Contents: {node.metadata['contents']}")
+            
+            connected_image_nodes = self.get_connected_nodes(node_id, type=['img'])
+            print(f"Connected Image Nodes: {connected_image_nodes}")
+            self.print_faces(connected_image_nodes)
+            
+            connected_text_nodes = self.get_connected_nodes(node_id, type=['episodic', 'semantic'])
+            print(f"Connected Text Nodes: {connected_text_nodes}")
+            connected_texts = [self.nodes[text_id].metadata['contents'] for text_id in connected_text_nodes]
+            print(f"Connected Text Contents: {connected_texts}")
     
     def print_img_nodes(self):
-        pass
+        for node_id, node in self.nodes.items():
+            if node.type == 'img':
+                continue
+            print("-"*100, f"Image Node {node_id}", "-"*100)
+            print(f"Contents: {node.metadata['contents']}")
+            self.print_faces([node_id])
+            
+            connected_voice_nodes = self.get_connected_nodes(node_id, type=['voice'])
+            print(f"Connected Voice Nodes: {connected_voice_nodes}")
+            connected_voice_contents = [self.nodes[voice_id].metadata['contents'] for voice_id in connected_voice_nodes]
+            print(f"Connected Voice Contents: {connected_voice_contents}")
+            
+            connected_text_nodes = self.get_connected_nodes(node_id, type=['episodic', 'semantic'])
+            print(f"Connected Text Nodes: {connected_text_nodes}")
+            connected_texts = [self.nodes[text_id].metadata['contents'] for text_id in connected_text_nodes]
+            print(f"Connected Text Contents: {connected_texts}")
