@@ -293,13 +293,21 @@ def save_video_graph(video_graph, save_dir, config):
         config (dict): Configuration settings
     """
     file_name = f"{config['video_path'].split('/')[-1].split('.')[0].replace(' ', '-')}_{config['interval_seconds']}_{config['fps']}_{config['segment_limit']}.pkl"
-    with open(os.path.join(save_dir, file_name), "wb") as f:
+    os.m
+    save_path = os.path.join(save_dir, file_name)
+    with open(save_path, "wb") as f:
+        print(f"Saving video graph to {save_path}")
         pickle.dump(video_graph, f)
 
 def load_video_graph(load_dir, config):
     """Load video graph from pickle file.
     """
     file_name = f"{config['video_path'].split('/')[-1].split('.')[0].replace(' ', '-')}_{config['interval_seconds']}_{config['fps']}_{config['segment_limit']}.pkl"
-    with open(os.path.join(load_dir, file_name), "rb") as f:   
+    save_path = os.path.join(load_dir, file_name)
+    if not os.path.exists(save_path):
+        print("Video graph not found")
+        return None
+    with open(save_path, "rb") as f:  
+        print(f"Loading video graph from {save_path}")
         return pickle.load(f)
     
