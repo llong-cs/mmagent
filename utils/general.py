@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics.pairwise import cosine_similarity
 from itertools import combinations
 import struct
+import pickle
 # file processing
 def get_video_paths(video_url, task):
     """Generate video and segment paths from URL and task.
@@ -283,3 +284,22 @@ def normalize_embedding(embedding):
     emb = np.array(struct.unpack(format_string, embedding))
     norm = np.linalg.norm(emb)
     return (emb / norm).tolist() if norm > 0 else emb.tolist()
+
+def save_video_graph(video_graph, save_dir, config):
+    """Save video graph to pickle file.
+
+    Args:
+        video_graph (VideoGraph): Video graph to save
+        config (dict): Configuration settings
+    """
+    file_name = f"{config['video_path'].split('/')[-1].split('.')[0].replace(' ', '-')}_{config['interval_seconds']}_{config['fps']}_{config['segment_limit']}.pkl"
+    with open(os.path.join(save_dir, file_name), "wb") as f:
+        pickle.dump(video_graph, f)
+
+def load_video_graph(load_dir, config):
+    """Load video graph from pickle file.
+    """
+    file_name = f"{config['video_path'].split('/')[-1].split('.')[0].replace(' ', '-')}_{config['interval_seconds']}_{config['fps']}_{config['segment_limit']}.pkl"
+    with open(os.path.join(load_dir, file_name), "rb") as f:   
+        return pickle.load(f)
+    

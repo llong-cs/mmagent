@@ -430,7 +430,7 @@ class VideoGraph:
         
     def print_voice_nodes(self):
         for node_id, node in self.nodes.items():
-            if node.type == 'voice':
+            if node.type != 'voice':
                 continue
             print("-"*100, f"Voice Node {node_id}", "-"*100)
             print(f"Contents: {node.metadata['contents']}")
@@ -446,7 +446,7 @@ class VideoGraph:
     
     def print_img_nodes(self):
         for node_id, node in self.nodes.items():
-            if node.type == 'img':
+            if node.type != 'img':
                 continue
             print("-"*100, f"Image Node {node_id}", "-"*100)
             print(f"Contents: {node.metadata['contents']}")
