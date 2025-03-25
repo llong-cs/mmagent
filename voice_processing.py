@@ -6,7 +6,7 @@ import numpy as np
 from laplace import Client
 from moviepy import AudioFileClip
 from pydub import AudioSegment
-from prompts import prompt_audio_diarization
+from prompts import prompt_audio_diarization, prompt_audio_segmentation
 from utils.chat_api import generate_messages, get_response_with_retry
 from utils.general import validate_and_fix_json, plot_cosine_similarity_distribution
 from utils.video_processing import process_video_clip
@@ -148,7 +148,7 @@ def process_voices(video_graph, base64_audio, base64_video):
             },
             {
                 "type": "text",
-                "content": prompt_audio_diarization,
+                "content": prompt_audio_segmentation,
             },
         ]
         messages = generate_messages(input)
@@ -170,6 +170,16 @@ def process_voices(video_graph, base64_audio, base64_video):
 
         return asrs
 
+    def create_audio_segments(asrs):
+        for asr in asrs:
+            if "audio_segment" not in asr:
+                start_time = asr["start_time"]
+                end_time = asr["end_time"]
+                audio_segment = get_audio_segment(base64_audio, start_time, end_time)
+                asr["audio_segment"] = audio_segment
+
+        return asrs
+    
     def establish_mapping(asrs, key="speaker"):
         """
         Establish mapping between audio segments and characters based on ASR results
@@ -185,11 +195,6 @@ def process_voices(video_graph, base64_audio, base64_video):
             raise ValueError(f"Key {key} not found in ASR results")
 
         for asr in asrs:
-            if "audio_segment" not in asr:
-                start_time = asr["start_time"]
-                end_time = asr["end_time"]
-                audio_segment = get_audio_segment(base64_audio, start_time, end_time)
-                asr["audio_segment"] = audio_segment
 
             id = asr[key]
             if id not in mapping:
@@ -210,54 +215,88 @@ def process_voices(video_graph, base64_audio, base64_video):
 
     def filter_duration_based(audios):
         min_duration = 2
-        max_voices = 3
         filtered_audios = [
             audio
             for audio in audios
             if audio["duration"] >= min_duration
         ]
-        return filtered_audios[:max_voices]
+        return filtered_audios
+    
+    # def update_videograph(video_graph, tempid2audios, filter=None):
+    #     audios_list = []
+    #     for tempid, audios in tempid2audios.items():
+    #         if filter:
+    #             filtered_audios = filter(audios)
+    #         else:
+    #             filtered_audios = audios
+    #         voice_embs = [audio["embedding"] for audio in filtered_audios]
+    #         if len(voice_embs) == 0:
+    #             continue
+    #         else:
+    #             matched_nodes = video_graph.search_voice_nodes(voice_embs)
+    #             if len(matched_nodes) > 0:
+    #                 matched_node = matched_nodes[0][0]
+    #                 video_graph.add_embedding(matched_node, voice_embs)
+    #                 for audio in audios:
+    #                     audio["matched_node"] = matched_node
+    #             else:
+    #                 matched_node = video_graph.add_voice_node(voice_embs)
+    #                 for audio in audios:
+    #                     audio["matched_node"] = matched_node
 
-    def update_videograph(video_graph, tempid2audios, filter=None):
+    #         audios_list.extend(audios)
+
+    #     return audios_list
+
+    # asrs = diarize_audio(base64_video)
+    # print(asrs)
+    # tempid2audios = establish_mapping(asrs, key="speaker")
+
+    # for _, audios in tempid2audios.items():
+    #     audio_segments = [audio["audio_segment"] for audio in audios]
+    #     embeddings = get_normed_audio_embeddings(audio_segments)
+    #     all_embeddings.extend(embeddings)
+    #     for audio, embedding in zip(audios, embeddings):
+    #         audio["embedding"] = embedding
+    
+    # plot_cosine_similarity_distribution(all_embeddings)
+
+    # audios_list = update_videograph(video_graph, tempid2audios, filter=filter_duration_based)
+    # id2audios = establish_mapping(audios_list, key="matched_node")
+
+    # return id2audios
+    
+    def update_videograph(video_graph, audios, filter=None):
         audios_list = []
-        for tempid, audios in tempid2audios.items():
-            if filter:
-                filtered_audios = filter(audios)
+        if filter:
+            filtered_audios = filter(audios)
+        else:
+            filtered_audios = audios
+        for audio in filtered_audios:
+            voice_emb = audio["embedding"]
+            matched_nodes = video_graph.search_voice_nodes(voice_emb)
+            if len(matched_nodes) > 0:
+                matched_node = matched_nodes[0][0]
+                video_graph.add_embedding(matched_node, voice_emb)
+                audio["matched_node"] = matched_node
             else:
-                filtered_audios = audios
-            voice_embs = [audio["embedding"] for audio in filtered_audios]
-            if len(voice_embs) == 0:
-                continue
-            else:
-                matched_nodes = video_graph.search_voice_nodes(voice_embs)
-                if len(matched_nodes) > 0:
-                    matched_node = matched_nodes[0][0]
-                    video_graph.add_embedding(matched_node, voice_embs)
-                    for audio in audios:
-                        audio["matched_node"] = matched_node
-                else:
-                    matched_node = video_graph.add_voice_node(voice_embs)
-                    for audio in audios:
-                        audio["matched_node"] = matched_node
+                matched_node = video_graph.add_voice_node(voice_emb)
+                audio["matched_node"] = matched_node
 
-            audios_list.extend(audios)
+            audios_list.append(audio)
 
         return audios_list
 
     asrs = diarize_audio(base64_video)
     print(asrs)
-    tempid2audios = establish_mapping(asrs, key="speaker")
+    audios = create_audio_segments(asrs)
+    audio_segments = [audio["audio_segment"] for audio in audios]
+    embeddings = get_normed_audio_embeddings(audio_segments)
+    all_embeddings.extend(embeddings)
+    for audio, embedding in zip(audios, embeddings):
+        audio["embedding"] = embedding
 
-    for _, audios in tempid2audios.items():
-        audio_segments = [audio["audio_segment"] for audio in audios]
-        embeddings = get_normed_audio_embeddings(audio_segments)
-        all_embeddings.extend(embeddings)
-        for audio, embedding in zip(audios, embeddings):
-            audio["embedding"] = embedding
-    
-    plot_cosine_similarity_distribution(all_embeddings)
-
-    audios_list = update_videograph(video_graph, tempid2audios, filter=filter_duration_based)
+    audios_list = update_videograph(video_graph, audios, filter=filter_duration_based)
     id2audios = establish_mapping(audios_list, key="matched_node")
 
     return id2audios

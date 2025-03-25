@@ -104,6 +104,27 @@ Requirements
 	•	Preserve punctuation and capitalization in the ASR output.
 	•	Return only the valid json list without other additional text, explanations, or formatting."""
 
+prompt_audio_segmentation = """You are given a video. Your task is to perform Automatic Speech Recognition (ASR) and audio diarization on the provided video. Extract all speech segments with accurate timestamps and segment them by speaker turns (i.e., different speakers should have separate segments), but without assigning speaker identifiers.
+
+Output Format
+Return a JSON list where each entry represents a speech segment with the following fields:
+	•	start_time: Start timestamp in MM:SS format.
+	•	end_time: End timestamp in MM:SS format.
+	•	asr: The transcribed text for that segment.
+
+Example Output
+
+[
+    {"start_time": "00:05", "end_time": "00:08", "asr": "Hello, everyone."},
+    {"start_time": "00:09", "end_time": "00:12", "asr": "Welcome to the meeting."}
+]
+
+Requirements
+	•	Ensure precise speech segmentation with accurate timestamps.
+	•	Segment based on speaker turns (i.e., different speakers’ utterances should be separated).
+	•	Preserve punctuation and capitalization in the ASR output.
+	•	Return only the valid JSON list without additional text, explanations, or formatting."""
+
 prompt_generate_thinkings_with_ids = """You are given a video, a set of characters, and speakers. Each character is represented by an image with a bounding box, and each speaker is represented by several audio clips, each with a start time, an end time, and content. Each character and speaker is identified by a unique ID, which is enclosed in angle brackets (< >) and corresponds to their provided image or audio clip.
 
 You are also provided with a detailed description of the video scene, including the events happening in the video, the setting, background actions, and character interactions.
