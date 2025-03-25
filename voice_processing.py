@@ -170,7 +170,7 @@ def process_voices(video_graph, base64_audio, base64_video):
 
         return asrs
 
-    def create_audio_segments(asrs):
+    def create_audio_segments(base64_audio, asrs):
         for asr in asrs:
             if "audio_segment" not in asr:
                 start_time = asr["start_time"]
@@ -273,7 +273,7 @@ def process_voices(video_graph, base64_audio, base64_video):
         else:
             filtered_audios = audios
         for audio in filtered_audios:
-            voice_emb = audio["embedding"]
+            voice_emb = [audio["embedding"]]
             matched_nodes = video_graph.search_voice_nodes(voice_emb)
             if len(matched_nodes) > 0:
                 matched_node = matched_nodes[0][0]
@@ -289,7 +289,8 @@ def process_voices(video_graph, base64_audio, base64_video):
 
     asrs = diarize_audio(base64_video)
     print(asrs)
-    audios = create_audio_segments(asrs)
+    audios = create_audio_segments(base64_audio, asrs)
+    audios = [audio for audio in audios if audio["audio_segment"] is not None]
     audio_segments = [audio["audio_segment"] for audio in audios]
     embeddings = get_normed_audio_embeddings(audio_segments)
     all_embeddings.extend(embeddings)
@@ -300,7 +301,6 @@ def process_voices(video_graph, base64_audio, base64_video):
     id2audios = establish_mapping(audios_list, key="matched_node")
 
     return id2audios
-
 
 if __name__ == "__main__":
     video_path = "/mnt/bn/videonasi18n/longlin.kylin/vlm-agent-benchmarking/data/videos/raw/720p/5 Poor People vs 1 Secret Millionaire.mp4"

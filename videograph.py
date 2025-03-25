@@ -8,12 +8,13 @@ import random
 import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
+from sklearn.metrics.pairwise import cosine_similarity
 
 class VideoGraph:
     """
     This class defines the VideoGraph class, which is used to represent the video graph.
     """
-    def __init__(self, max_img_embeddings=10, max_audio_embeddings=10, img_matching_threshold=0.3, audio_matching_threshold=0.55, text_matching_threshold=0.75):
+    def __init__(self, max_img_embeddings=10, max_audio_embeddings=10, img_matching_threshold=0.3, audio_matching_threshold=0.5, text_matching_threshold=0.75):
         """Initialize a video graph with nodes for faces, voices and text events.
         
         Args:
@@ -75,13 +76,18 @@ class VideoGraph:
 
         return node.id
 
-    def add_voice_node(self, audio_embedding):
+    # TODO
+    def add_voice_node(self, audio):
         """Add a new voice node with initial audio embedding(s).
         
         Args:
             audio_embedding: Single embedding or list of embeddings
         """
+        audio_embedding = audio['embedding']
+        audio_asr = audio['asr']
         node = self.Node(self.next_node_id, 'voice')
+        node.metadata['asr'] = []
+        node.metadata['asr'].append(audio_asr)
         if isinstance(audio_embedding, list):
             node.embeddings.extend(audio_embedding[:self.max_audio_embeddings])
         else:
@@ -119,6 +125,7 @@ class VideoGraph:
 
         return node.id
 
+    # TODO
     def add_embedding(self, node_id, embeddings):
         """Add embeddings to an existing node. If total embeddings exceed max limit,
         randomly select embeddings to keep.
@@ -142,7 +149,7 @@ class VideoGraph:
         elif node.type == 'voice':
             max_emb = self.max_audio_embeddings
         else:
-            return False
+            raise ValueError("Node type must be either 'img' or'voice' to add embeddings")
 
         # Combine existing and new embeddings
         all_embeddings = node.embeddings + embeddings
@@ -304,6 +311,7 @@ class VideoGraph:
         for node_id, node in self.nodes.items():
             if node.type == 'voice':
                 similarity = self._average_similarity(query_embeddings, node.embeddings)
+                # print(similarity)
                 if similarity >= threshold:
                     results.append((node_id, similarity))
 
