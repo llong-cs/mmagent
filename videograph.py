@@ -10,7 +10,7 @@ class VideoGraph:
     """
     This class defines the VideoGraph class, which is used to represent the video graph.
     """
-    def __init__(self, max_img_embeddings=10, max_audio_embeddings=20, img_matching_threshold=0.3, audio_matching_threshold=0.5, text_matching_threshold=0.75):
+    def __init__(self, max_img_embeddings=10, max_audio_embeddings=20, img_matching_threshold=0.3, audio_matching_threshold=0.6, text_matching_threshold=0.75):
         """Initialize a video graph with nodes for faces, voices and text events.
         
         Args:
@@ -87,7 +87,7 @@ class VideoGraph:
         node.embeddings.extend(audio_embeddings[:self.max_audio_embeddings])
         
         node.metadata['contents'] = []
-        node.metadata['contents'].extend(audios['asrs'])
+        node.metadata['contents'].extend(audios['contents'])
         
         self.nodes[self.next_node_id] = node
         self.next_node_id += 1

@@ -219,7 +219,7 @@ def process_voices(video_graph, base64_audio, base64_video):
                 "embeddings": [audio["embedding"]],
                 "contents": [audio["asr"]]
             }
-            matched_nodes = video_graph.search_voice_nodes(audio_info["embeddings"])
+            matched_nodes = video_graph.search_voice_nodes(audio_info)
             if len(matched_nodes) > 0:
                 matched_node = matched_nodes[0][0]
                 video_graph.update_node(matched_node, audio_info)
