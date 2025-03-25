@@ -4,88 +4,16 @@ import tempfile
 
 import numpy as np
 from laplace import Client
-from moviepy import AudioFileClip
 from pydub import AudioSegment
 from prompts import prompt_audio_diarization, prompt_audio_segmentation
 from utils.chat_api import generate_messages, get_response_with_retry
-from utils.general import validate_and_fix_json, plot_cosine_similarity_distribution
+from utils.general import validate_and_fix_json, normalize_embedding
 from utils.video_processing import process_video_clip
 import io
-# laplace = Client("sd://lab.agent.audio_embedding_server?idc=maliva&cluster=default", timeout=500)
+
 laplace = Client("tcp://10.124.106.228:9473", timeout=500)
 
 MAX_RETRIES = 3
-all_embeddings = []
-
-def process_audio_base64(base64_audio, target_fps=16000, audio_format='wav'):
-    """
-    Process audio base64 string to binary with target frame rate and format
-    Args:
-        base64_audio: base64 encoded audio string
-        target_fps: target frame rate, default 16000
-        audio_format: target audio format (e.g. 'wav', 'mp3', etc), default 'wav'
-    Returns:
-        Binary audio data with target frame rate
-    """
-    try:
-        # Create temp files for processing
-        with tempfile.NamedTemporaryFile(suffix=f'.{audio_format}', delete=True) as temp_in, \
-             tempfile.NamedTemporaryFile(suffix=f'.{audio_format}', delete=True) as temp_out:
-
-            # Write base64 to temp input file
-            audio_data = base64.b64decode(base64_audio)
-            temp_in.write(audio_data)
-            temp_in.flush()
-
-            # Load and resample audio using moviepy
-            audio = AudioFileClip(temp_in.name)
-            resampled_audio = audio.set_fps(target_fps)
-
-            # Set audio codec based on format
-            if audio_format == 'mp3':
-                audio_codec = 'libmp3lame'
-            elif audio_format == 'wav':
-                audio_codec = 'pcm_s16le'
-            else:
-                audio_codec = 'libmp3lame'  # Default to mp3
-
-            # Write resampled audio to temp output file
-            resampled_audio.write_audiofile(temp_out.name, fps=target_fps, codec=audio_codec, logger=None)
-
-            # Read binary data
-            temp_out.seek(0)
-            binary_audio = temp_out.read()
-
-            audio.close()
-            resampled_audio.close()
-
-            return binary_audio
-
-    except Exception as e:
-        print(f"Error processing audio: {str(e)}")
-        raise
-
-def normalize_embedding(embedding):
-    """Normalize embedding to unit length."""
-    format_string = 'f' * (len(embedding) // struct.calcsize('f'))
-    emb = np.array(struct.unpack(format_string, embedding))
-    norm = np.linalg.norm(emb)
-    return (emb / norm).tolist() if norm > 0 else emb.tolist()
-
-def get_normed_audio_embeddings(base64_audios):
-    """
-    Get normalized audio embeddings for a list of base64 audio strings
-    
-    Args:
-        base64_audios (list): List of base64 encoded audio strings
-        
-    Returns:
-        list: List of normalized audio embeddings
-    """
-    outputs = laplace.matx_inference("audio_embedding", {"wav": base64_audios})
-    embeddings = outputs.output_bytes_lists["output"]
-    normed_embeddings = [normalize_embedding(embedding) for embedding in embeddings]
-    return normed_embeddings
 
 
 def process_voices(video_graph, base64_audio, base64_video):
@@ -108,15 +36,13 @@ def process_voices(video_graph, base64_audio, base64_video):
         except ValueError:
             return None
 
-        if start_min < 0 or start_sec < 0 or start_sec >= 60:
-            return None
-        if end_min < 0 or end_sec < 0 or end_sec >= 60:
+        if (start_min < 0 or start_sec < 0 or start_sec >= 60) or (end_min < 0 or end_sec < 0 or end_sec >= 60):
             return None
 
-        start_time_sec = start_min * 60 + start_sec
-        end_time_sec = end_min * 60 + end_sec
+        start_time_msec = (start_min * 60 + start_sec) * 1000
+        end_time_msec = (end_min * 60 + end_sec) * 1000
 
-        if start_time_sec >= end_time_sec:
+        if start_time_msec >= end_time_msec:
             return None
 
         # Decode base64 audio into bytes
@@ -127,10 +53,10 @@ def process_voices(video_graph, base64_audio, base64_video):
         audio = AudioSegment.from_wav(audio_io)
 
         # Extract segment
-        if end_time_sec * 1000 > len(audio):  # AudioSegment uses milliseconds
+        if end_time_msec > len(audio):  # AudioSegment uses milliseconds
             return None
             
-        segment = audio[start_time_sec * 1000:end_time_sec * 1000]
+        segment = audio[start_time_msec:end_time_msec]
         
         # Export segment to bytes buffer
         segment_buffer = io.BytesIO()
@@ -169,6 +95,24 @@ def process_voices(video_graph, base64_audio, base64_video):
             asr["duration"] = (end_min * 60 + end_sec) - (start_min * 60 + start_sec)
 
         return asrs
+
+    def get_normed_audio_embeddings(audios):
+        """
+        Get normalized audio embeddings for a list of base64 audio strings
+        
+        Args:
+            base64_audios (list): List of base64 encoded audio strings
+            
+        Returns:
+            list: List of normalized audio embeddings
+        """
+        audio_segments = [audio["audio_segment"] for audio in audios]
+        outputs = laplace.matx_inference("audio_embedding", {"wav": audio_segments})
+        embeddings = outputs.output_bytes_lists["output"]
+        normed_embeddings = [normalize_embedding(embedding) for embedding in embeddings]
+        for audio, embedding in zip(audios, normed_embeddings):
+            audio["embedding"] = embedding
+        return audios
 
     def create_audio_segments(base64_audio, asrs):
         for asr in asrs:
@@ -255,11 +199,9 @@ def process_voices(video_graph, base64_audio, base64_video):
     # for _, audios in tempid2audios.items():
     #     audio_segments = [audio["audio_segment"] for audio in audios]
     #     embeddings = get_normed_audio_embeddings(audio_segments)
-    #     all_embeddings.extend(embeddings)
     #     for audio, embedding in zip(audios, embeddings):
     #         audio["embedding"] = embedding
     
-    # plot_cosine_similarity_distribution(all_embeddings)
 
     # audios_list = update_videograph(video_graph, tempid2audios, filter=filter_duration_based)
     # id2audios = establish_mapping(audios_list, key="matched_node")
@@ -273,14 +215,17 @@ def process_voices(video_graph, base64_audio, base64_video):
         else:
             filtered_audios = audios
         for audio in filtered_audios:
-            voice_emb = [audio["embedding"]]
-            matched_nodes = video_graph.search_voice_nodes(voice_emb)
+            audio_info = {
+                "embeddings": [audio["embedding"]],
+                "contents": [audio["asr"]]
+            }
+            matched_nodes = video_graph.search_voice_nodes(audio_info["embeddings"])
             if len(matched_nodes) > 0:
                 matched_node = matched_nodes[0][0]
-                video_graph.add_embedding(matched_node, voice_emb)
+                video_graph.update_node(matched_node, audio_info)
                 audio["matched_node"] = matched_node
             else:
-                matched_node = video_graph.add_voice_node(voice_emb)
+                matched_node = video_graph.add_voice_node(audio_info)
                 audio["matched_node"] = matched_node
 
             audios_list.append(audio)
@@ -288,14 +233,10 @@ def process_voices(video_graph, base64_audio, base64_video):
         return audios_list
 
     asrs = diarize_audio(base64_video)
-    print(asrs)
     audios = create_audio_segments(base64_audio, asrs)
     audios = [audio for audio in audios if audio["audio_segment"] is not None]
-    audio_segments = [audio["audio_segment"] for audio in audios]
-    embeddings = get_normed_audio_embeddings(audio_segments)
-    all_embeddings.extend(embeddings)
-    for audio, embedding in zip(audios, embeddings):
-        audio["embedding"] = embedding
+    
+    audios = get_normed_audio_embeddings(audios)
 
     audios_list = update_videograph(video_graph, audios, filter=filter_duration_based)
     id2audios = establish_mapping(audios_list, key="matched_node")

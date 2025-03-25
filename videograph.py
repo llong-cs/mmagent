@@ -1,12 +1,8 @@
 """
 This module defines the VideoGraph class, which is used to represent the video graph.
 """
-
-import json
 import random
 
-import matplotlib.pyplot as plt
-import networkx as nx
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -14,7 +10,7 @@ class VideoGraph:
     """
     This class defines the VideoGraph class, which is used to represent the video graph.
     """
-    def __init__(self, max_img_embeddings=10, max_audio_embeddings=10, img_matching_threshold=0.3, audio_matching_threshold=0.5, text_matching_threshold=0.75):
+    def __init__(self, max_img_embeddings=10, max_audio_embeddings=20, img_matching_threshold=0.3, audio_matching_threshold=0.5, text_matching_threshold=0.75):
         """Initialize a video graph with nodes for faces, voices and text events.
         
         Args:
@@ -23,33 +19,17 @@ class VideoGraph:
         """
         self.nodes = {}  # node_id -> node object
         self.edges = {}  # (node_id1, node_id2) -> edge weight
+        # Maintain ordered text nodes
+        self.text_nodes = []  # List of text node IDs in insertion order
+        
         self.max_img_embeddings = max_img_embeddings
         self.max_audio_embeddings = max_audio_embeddings
-        self.next_node_id = 0
+        
         self.img_matching_threshold = img_matching_threshold
         self.audio_matching_threshold = audio_matching_threshold
         self.text_matching_threshold = text_matching_threshold
-        # Maintain ordered text nodes
-        self.text_nodes = []  # List of text node IDs in insertion order
-        self.text_nodes_contents = np.array([])  # Numpy array of processed text contents for searching
-
-    def _process_text(self, text):
-        """Process text for searching by removing special characters and converting to lowercase"""
-        # Remove special characters and convert to lowercase
-        processed = ''.join(c.lower() for c in text if c.isalnum() or c.isspace())
-        return processed
-
-    def where_text(self, search_text):
-        """Search for text in text_nodes_contents and return indices where found
         
-        Args:
-            search_text: Text to search for
-            
-        Returns:
-            List of indices where text was found
-        """
-        processed_search = self._process_text(search_text)
-        return np.where(np.char.find(self.text_nodes_contents, processed_search) != -1)[0]
+        self.next_node_id = 0
 
     class Node:
         def __init__(self, node_id, node_type):
@@ -57,18 +37,36 @@ class VideoGraph:
             self.type = node_type  # 'img', 'voice', 'episodic' or 'semantic'
             self.embeddings = []
             self.metadata = {}
+            
+    def _average_similarity(self, embeddings1, embeddings2):
+        """Calculate average cosine similarity between two lists of embeddings."""
+        if not embeddings1 or not embeddings2:
+            return 0
+            
+        # Convert lists to numpy arrays
+        emb1_array = np.array(embeddings1)
+        emb2_array = np.array(embeddings2)
+        
+        # Calculate pairwise cosine similarities between all embeddings
+        similarities = cosine_similarity(emb1_array, emb2_array)
+        
+        # Return mean of all pairwise similarities
+        return np.mean(similarities)
 
-    def add_img_node(self, img_embedding):
+    def add_img_node(self, imgs):
         """Add a new face node with initial image embedding(s).
         
         Args:
             img_embedding: Single embedding or list of embeddings
         """
         node = self.Node(self.next_node_id, 'img')
-        if isinstance(img_embedding, list):
-            node.embeddings.extend(img_embedding[:self.max_img_embeddings])
-        else:
-            node.embeddings.append(img_embedding)
+        
+        img_embeddings = imgs['embeddings']
+        node.embeddings.extend(img_embeddings[:self.max_img_embeddings])
+        
+        node.metadata['contents'] = []
+        node.metadata['contents'].extend(imgs['contents'])
+        
         self.nodes[self.next_node_id] = node
         self.next_node_id += 1
 
@@ -77,21 +75,20 @@ class VideoGraph:
         return node.id
 
     # TODO
-    def add_voice_node(self, audio):
+    def add_voice_node(self, audios):
         """Add a new voice node with initial audio embedding(s).
         
         Args:
             audio_embedding: Single embedding or list of embeddings
         """
-        audio_embedding = audio['embedding']
-        audio_asr = audio['asr']
         node = self.Node(self.next_node_id, 'voice')
-        node.metadata['asr'] = []
-        node.metadata['asr'].append(audio_asr)
-        if isinstance(audio_embedding, list):
-            node.embeddings.extend(audio_embedding[:self.max_audio_embeddings])
-        else:
-            node.embeddings.append(audio_embedding)
+        
+        audio_embeddings = audios['embeddings']
+        node.embeddings.extend(audio_embeddings[:self.max_audio_embeddings])
+        
+        node.metadata['contents'] = []
+        node.metadata['contents'].extend(audios['asrs'])
+        
         self.nodes[self.next_node_id] = node
         self.next_node_id += 1
 
@@ -110,14 +107,11 @@ class VideoGraph:
             raise ValueError("text_type must be either 'episodic' or 'semantic'")
 
         node = self.Node(self.next_node_id, text_type)
-        node.metadata['text'] = text['content']
         node.embeddings.append(text['embedding'])
+        node.metadata['contents'] = [text['content']]
+        
         self.nodes[self.next_node_id] = node
         self.text_nodes.append(self.next_node_id)  # Add to ordered list
-
-        # Process and add text content
-        processed_text = self._process_text(text)
-        self.text_nodes_contents = np.append(self.text_nodes_contents, processed_text)
 
         self.next_node_id += 1
 
@@ -126,23 +120,24 @@ class VideoGraph:
         return node.id
 
     # TODO
-    def add_embedding(self, node_id, embeddings):
-        """Add embeddings to an existing node. If total embeddings exceed max limit,
-        randomly select embeddings to keep.
+    def update_node(self, node_id, update_info):
+        """Update an existing node.
         
         Args:
             node_id: ID of target node
-            embeddings: Single embedding or list of embeddings
+            update_info: Dictionary of update information
             
         Returns:
             Boolean indicating success
         """
         if node_id not in self.nodes:
-            return False
+            raise ValueError(f"Node {node_id} not found")
 
         node = self.nodes[node_id]
-        if not isinstance(embeddings, list):
-            embeddings = [embeddings]
+        
+        node.metadata['contents'].extend(update_info['contents'])
+        
+        embeddings = update_info['embeddings']
 
         if node.type == 'img':
             max_emb = self.max_img_embeddings
@@ -160,7 +155,7 @@ class VideoGraph:
         else:
             node.embeddings = all_embeddings
         
-        print(f"Embeddings added to node {node_id}")
+        print(f"Node {node_id} updated with {len(embeddings)} embeddings")
 
         return True
 
@@ -245,29 +240,6 @@ class VideoGraph:
                 connected.add(n1)
         return list(connected)
 
-    def get_text_nodes_in_order(self):
-        """Get text nodes in their insertion order."""
-        return self.text_nodes.copy()
-
-    def _cosine_similarity(self, emb1, emb2):
-        """Calculate cosine similarity between two embeddings."""
-        norm1 = np.linalg.norm(emb1)
-        norm2 = np.linalg.norm(emb2)
-        if norm1 == 0 or norm2 == 0:
-            return 0
-        return np.dot(emb1, emb2) / (norm1 * norm2)
-
-    def _average_similarity(self, embeddings1, embeddings2):
-        """Calculate average cosine similarity between two lists of embeddings."""
-        if not embeddings1 or not embeddings2:
-            return 0
-
-        similarities = []
-        for emb1 in embeddings1:
-            for emb2 in embeddings2:
-                similarities.append(self._cosine_similarity(emb1, emb2))
-        return np.mean(similarities)
-
     def search_img_nodes(self, query_embeddings):
         """Search for face nodes using image embeddings.
         
@@ -278,7 +250,7 @@ class VideoGraph:
         Returns:
             List of (node_id, similarity_score) tuples sorted by score
         """
-        if not isinstance(query_embeddings, list):
+        if not isinstance(query_embeddings[0], list):
             query_embeddings = [query_embeddings]
 
         threshold = self.img_matching_threshold
@@ -292,7 +264,7 @@ class VideoGraph:
 
         return sorted(results, key=lambda x: x[1], reverse=True)
 
-    def search_voice_nodes(self, query_embeddings):
+    def search_voice_nodes(self, audio_info):
         """Search for voice nodes using audio embeddings.
         
         Args:
@@ -302,8 +274,8 @@ class VideoGraph:
         Returns:
             List of (node_id, similarity_score) tuples sorted by score
         """
-        if not isinstance(query_embeddings, list):
-            query_embeddings = [query_embeddings]
+        query_embeddings = audio_info["embeddings"]
+        contents = audio_info["contents"]
 
         threshold = self.audio_matching_threshold
 
@@ -396,27 +368,12 @@ class VideoGraph:
         matched_text_nodes = [node_id for node_id, _ in matched_text_nodes]
         
         return matched_text_nodes
-
-    def visualize_video_graph(self):
-        """Visualize the video graph using networkx."""
-        G = nx.Graph()
+    
+    def print_voice_nodes(self):
         for node_id, node in self.nodes.items():
-            G.add_node(node_id, type=node.type)
-            if node.type == 'img':
-                G.nodes[node_id]['embeddings'] = node.embeddings
-            elif node.type == 'voice':
-                G.nodes[node_id]['embeddings'] = node.embeddings
-
-        for (node_id1, node_id2), weight in self.edges.items():
-            G.add_edge(node_id1, node_id2, weight=weight)
-
-        nx.draw(G, with_labels=True)
-        plt.show()
-
-    def get_video_graph(self):
-        """Get the video graph as a networkx graph."""
-        return nx.Graph(self.edges)
-
-    def get_video_graph_json(self):
-        """Get the video graph as a json object."""
-        return json.dumps(self.edges)
+            if node.type == 'voice':
+                print("-"*100, f"Voice Node {node_id}", "-"*100)
+                print(f"Contents: {node.metadata['contents']}")
+    
+    def print_img_nodes(self):
+        pass

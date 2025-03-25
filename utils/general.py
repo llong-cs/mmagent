@@ -9,7 +9,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics.pairwise import cosine_similarity
 from itertools import combinations
-
+import struct
 # file processing
 def get_video_paths(video_url, task):
     """Generate video and segment paths from URL and task.
@@ -276,3 +276,10 @@ def plot_cosine_similarity_distribution(embeddings):
     plt.grid(True, linestyle='--', alpha=0.5)
     plt.tight_layout()
     plt.show()
+
+def normalize_embedding(embedding):
+    """Normalize embedding to unit length."""
+    format_string = 'f' * (len(embedding) // struct.calcsize('f'))
+    emb = np.array(struct.unpack(format_string, embedding))
+    norm = np.linalg.norm(emb)
+    return (emb / norm).tolist() if norm > 0 else emb.tolist()
