@@ -242,7 +242,13 @@ def split_video_into_clips(video_path, interval, output_dir, output_format='mp4'
         raise
 
 if __name__ == "__main__":
-    video_path = "/mnt/bn/videonasi18n/longlin.kylin/vlm-agent-benchmarking/data/videos/raw/720p/5 Poor People vs 1 Secret Millionaire.mp4"
+    video_paths = [
+        "data/videos/raw/360p/n-B_kmAebbQ.mp4",
+        "data/videos/raw/360p/GTIjylkB-TI.mp4",
+        "data/videos/raw/360p/jvUX3ocBSCk.mp4",
+        "data/videos/raw/360p/UPk8fzT4t8o.mp4"
+    ]
     interval = 30
     output_dir = "data/videos/clipped"
-    split_video_into_clips(video_path, interval, output_dir)
+    for video_path in video_paths:
+        split_video_into_clips(video_path, interval, output_dir)

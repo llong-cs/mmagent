@@ -435,29 +435,24 @@ class VideoGraph:
             print("-"*100, f"Voice Node {node_id}", "-"*100)
             print(f"Contents: {node.metadata['contents']}")
             
-            connected_image_nodes = self.get_connected_nodes(node_id, type=['img'])
-            print(f"Connected Image Nodes: {connected_image_nodes}")
-            self.print_faces(connected_image_nodes)
-            
             connected_text_nodes = self.get_connected_nodes(node_id, type=['episodic', 'semantic'])
-            print(f"Connected Text Nodes: {connected_text_nodes}")
+            print(f"Connected Nodes: {connected_text_nodes}")
             connected_texts = [self.nodes[text_id].metadata['contents'] for text_id in connected_text_nodes]
-            print(f"Connected Text Contents: {connected_texts}")
+            print(f"Connected Nodes Contents: {connected_texts}")
     
     def print_img_nodes(self):
         for node_id, node in self.nodes.items():
             if node.type != 'img':
                 continue
             print("-"*100, f"Image Node {node_id}", "-"*100)
-            print(f"Contents: {node.metadata['contents']}")
             self.print_faces([node_id])
             
-            connected_voice_nodes = self.get_connected_nodes(node_id, type=['voice'])
-            print(f"Connected Voice Nodes: {connected_voice_nodes}")
-            connected_voice_contents = [self.nodes[voice_id].metadata['contents'] for voice_id in connected_voice_nodes]
-            print(f"Connected Voice Contents: {connected_voice_contents}")
-            
             connected_text_nodes = self.get_connected_nodes(node_id, type=['episodic', 'semantic'])
-            print(f"Connected Text Nodes: {connected_text_nodes}")
+            print(f"Connected Nodes: {connected_text_nodes}")
             connected_texts = [self.nodes[text_id].metadata['contents'] for text_id in connected_text_nodes]
-            print(f"Connected Text Contents: {connected_texts}")
+            print(f"Connected Nodes Contents: {connected_texts}")
+            
+    def visualize(self):
+        """Visualize the video graph."""
+        self.print_img_nodes()
+        self.print_voice_nodes()

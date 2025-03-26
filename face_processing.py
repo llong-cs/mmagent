@@ -41,7 +41,7 @@ def process_faces(video_graph, base64_frames):
     4. Updates video graph with face embeddings and relationships
     5. Returns mapping of face IDs to face detections
     """
-    batch_size = max(len(base64_frames) // CLUSTER_SIZE, 8)
+    batch_size = max(len(base64_frames) // CLUSTER_SIZE, 4)
     
     def _process_batch(params):
         """
@@ -157,6 +157,9 @@ def process_faces(video_graph, base64_frames):
 
     faces = get_embeddings(base64_frames, batch_size)
 
+    if len(faces) == 0:
+        return {}
+
     faces_json = [
         {
             "frame_id": face.frame_id,
@@ -173,6 +176,9 @@ def process_faces(video_graph, base64_frames):
     tagged_faces_json = update_videograph(
         video_graph, tempid2faces, filter=filter_score_based
     )
+
+    if len(tagged_faces_json) == 0:
+        return {}
 
     id2faces = establish_mapping(tagged_faces_json, key="matched_node")
 

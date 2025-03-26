@@ -215,6 +215,9 @@ def generate_messages(inputs):
     )
     content = []
     for input in inputs:
+        if not input["content"]:
+            print("empty content, skip")
+            continue
         if input["type"] == "text":
             content.append({"type": "text", "text": input["content"]})
         elif input["type"] in ["images/jpeg", "images/png"]:
