@@ -242,6 +242,7 @@ class VideoGraph:
         return weakened_count
     
     def summarize(self):
+        new_semantic_memory = []
         for node in self.nodes.values():
             if node.type != "img" and node.type != "voice":
                 continue
@@ -265,8 +266,10 @@ class VideoGraph:
                     break
             if summary is None:
                 raise Exception("Failed to generate summary")
+
+            new_semantic_memory.extend(summary)
             
-            process_captions(self, summary, type='semantic')
+        process_captions(self, new_semantic_memory, type='semantic')
     
     # Retrieval functions
 
@@ -470,7 +473,7 @@ class VideoGraph:
         for node_id, node in self.nodes.items():
             if node.type != 'voice':
                 continue
-            print("-"*100, f"Voice Node {node_id}", "-"*100)
+            print("-"*50, f"Voice Node {node_id}", "-"*50)
             print(f"Contents: {node.metadata['contents']}")
             
             connected_text_nodes = self.get_connected_nodes(node_id, type=['episodic', 'semantic'])
@@ -482,13 +485,14 @@ class VideoGraph:
         for node_id, node in self.nodes.items():
             if node.type != 'img':
                 continue
-            print("-"*100, f"Image Node {node_id}", "-"*100)
-            self.print_faces([node_id])
-            
+            print("-"*50, f"Image Node {node_id}", "-"*50)
+
             connected_text_nodes = self.get_connected_nodes(node_id, type=['episodic', 'semantic'])
             print(f"Connected Nodes: {connected_text_nodes}")
             connected_texts = [self.nodes[text_id].metadata['contents'] for text_id in connected_text_nodes]
             print(f"Connected Nodes Contents: {connected_texts}")
+
+            self.print_faces([node_id])
             
     def visualize(self):
         """Visualize the video graph."""
