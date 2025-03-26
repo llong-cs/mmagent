@@ -4,7 +4,6 @@ This file contains functions for processing video descriptions and generating ca
 
 import base64
 import json
-import ast
 from io import BytesIO
 
 import numpy as np
@@ -20,9 +19,10 @@ processing_config = json.load(open("configs/processing_config.json"))
 MAX_RETRIES = processing_config["max_retries"]
 
 def generate_video_context(
-    base64_video, base64_frames, base64_audio, faces_list, voices_list
+    video_graph, base64_video, base64_frames, base64_audio, faces_list, voices_list
 ):
     face_frames = []
+    history_length = processing_config["history_length"]
 
     # Iterate through faces directly
     if len(faces_list) > 0:
@@ -84,6 +84,10 @@ def generate_video_context(
         } for voice in voices]
 
     print(f"Diarized dialogues: {voices_input}")
+    
+    # get the last history_length texts
+    history_nodes = video_graph.text_nodes[-history_length:]
+    history_texts = [video_graph.nodes[node_id].metadata['contents'][0] for node_id in history_nodes]
 
     video_context = [
         {
@@ -97,6 +101,10 @@ def generate_video_context(
         {
             "type": "text",
             "content": json.dumps(voices_input),
+        },
+        {
+            "type": "text",
+            "content": f"History: {history_texts}",
         },
     ]
 
@@ -143,7 +151,7 @@ def generate_thinkings_with_ids(video_context, video_description):
     return thinkings
 
 def generate_captions_and_thinkings_with_ids(
-    base64_video, base64_frames, base64_audio, faces_list, voices_list
+    video_graph,base64_video, base64_frames, base64_audio, faces_list, voices_list
 ):
     """
     Generate captions and thinking descriptions for video content with character IDs.
@@ -168,7 +176,7 @@ def generate_captions_and_thinkings_with_ids(
     5. Generates thinking descriptions based on the captions
     """
     video_context = generate_video_context(
-        base64_video, base64_frames, base64_audio, faces_list, voices_list
+        video_graph, base64_video, base64_frames, base64_audio, faces_list, voices_list
     )
 
     input = video_context + [

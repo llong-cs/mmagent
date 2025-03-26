@@ -34,19 +34,32 @@ Return only 1 or 0, without any additional explanation or formatting."""
 
 prompt_generate_captions_with_ids = """You are given a video and a set of characters and speakers. Each character is represented by an image with a bounding box, and each speaker is represented by several audio clips, each with a start time, an end time, and content. Each character and speaker is identified by a unique ID, which is enclosed in angle brackets (< >) and corresponds to their provided image or audio clip.
 
+Note: The start_time and end_time fields in the speaker information use the MM:SS format (minutes:seconds), representing the position within the video timeline.
+
+⸻
+
 Your Task:
 
-Analyze the video and generate a structured list of descriptions that captures all relevant details for each identified character. Each description should focus on a single aspect and include (but not limited to) the following:
-	1.	Appearance: Describe one specific aspect of the character's appearance, such as their clothing, facial features, or any distinguishing characteristics. Each description should cover only one aspect (e.g., don't mix facial features with clothing).
+Analyze the video and generate a structured list of descriptions that captures all relevant details for each identified character. Each description should focus on a single specific aspect, and include (but is not limited to) the following categories:
+	1.	Appearance: Describe one specific aspect of the character’s appearance, such as their clothing, facial features, or any distinguishing characteristics. Each description should cover only one aspect (e.g., don’t mix facial features with clothing).
 	2.	Actions & Movements: Describe one specific gesture, movement, or interaction performed by the character. Do not mix multiple actions or interactions in a single description.
-	3.	Spoken Dialogue: Transcribe or summarize a specific instance of speech spoken by the character, correctly associating it with the corresponding ID. Each description should focus on one spoken statement, ensuring that it is clear and accurately attributed.
-	4.	Contextual Behavior: Describe one specific aspect of the character's role in the scene or their interaction with another character, focusing on their behavior, emotional state, or relationships. Avoid combining multiple behaviors or emotional states in a single description.
+	•	If possible, include natural time expressions (e.g., in the morning, at night, during lunch) or location context (e.g., in the office, on the street) to provide clearer situational grounding.
+	3.	Spoken Dialogue: Transcribe or summarize a specific instance of speech spoken by the character, correctly associating it with the corresponding ID.
+	•	Use the start_time and end_time fields (in MM:SS format) to mark when the statement was spoken.
+	•	If inferable, also include contextual information such as location or general time of day.
+	4.	Contextual Behavior: Describe one specific aspect of the character’s role in the scene or their interaction with another character, focusing on their behavior, emotional state, or relationships.
+	•	Include natural time and/or location clues where relevant (e.g., in the evening at the dinner table, early morning outside the building).
 
-Strict Requirement:
-	•	Every reference to a person must use their exact ID enclosed in angle brackets (< >).
+⸻
+
+Strict Requirements:
+	•	Every reference to a person must use their exact ID enclosed in angle brackets (e.g., <char_1>, <speaker_2>).
 	•	Do not use inferred names, pronouns, or generic descriptions (e.g., "the man," "the woman," "he," "they").
-	•	Each description should focus on one specific detail and provide sufficient specificity and clarity for the given aspect. Avoid combining unrelated details in a single description.
-	•	Ensure all descriptions remain consistent with the provided IDs and do not introduce assumptions beyond the given data.
+	•	Each description must focus on one specific detail and provide sufficient specificity and clarity for the given aspect.
+	•	Whenever possible, include natural time expressions and physical location cues in the descriptions to improve contextual understanding.
+	•	Ensure all descriptions remain consistent with the provided IDs and do not introduce assumptions beyond what can be inferred from the video and audio content.
+
+⸻
 
 Example Input:
 
@@ -59,25 +72,30 @@ Example Input:
 	},
 	"speakers": [
 		{"start_time": "00:05", "end_time": "00:08", "speaker": "<speaker_1>", "asr": "Hello, everyone."},
-		{"start_time": "00:09", "end_time": "00:12", "speaker": "<speaker_2>", "asr": "Welcome to the meeting."},
-		...
+		{"start_time": "00:09", "end_time": "00:12", "speaker": "<speaker_2>", "asr": "Welcome to the meeting."}
 	]
 }
+
+
+
+⸻
 
 Example Output:
 
 [
 	"<char_1> wears a black suit with a white shirt and tie.",
     "<char_1> has short black hair and wears glasses.",
-	"<char_1> enters the conference room, shakes hands with <char_2>, and takes a seat.",
-	"<speaker_1> (represented by <char_1>) says: 'Good afternoon, everyone. Let's begin the meeting.'",
-	"<char_2> waves at <char_1> and checks her phone.",
-	"<speaker_2> (represented by <char_2>) says: 'Hey! I was waiting for you. How was your day?'",
-	"<char_3> wears a white hoodie, has a beard, and wears a baseball cap.",
-	"<char_3> runs across the street, looking back over his shoulder.",
-	"<char_3> hides behind a car and checks his surroundings.",
-	"<char_3> says: 'I think someone is following me.'"
+	"<char_1> enters the conference room in the morning, shakes hands with <char_2>, and takes a seat near the window.",
+	"<speaker_1> says at 00:05–00:08: 'Hello, everyone.' during a morning meeting in the office.",
+	"<char_2> waves at <char_1> and checks her phone while standing by the window.",
+	"<speaker_2> says at 00:09–00:12: 'Welcome to the meeting.' in a formal tone inside the boardroom.",
+	"<char_3> runs across the street at night, looking back over his shoulder.",
+	"<char_3> hides behind a parked car near the intersection under dim street lights."
 ]
+
+
+
+⸻
 
 Please only return the valid string list, without any additional explanation or formatting."""
 
@@ -128,6 +146,8 @@ Requirements
 prompt_generate_thinkings_with_ids = """You are given a video, a set of characters, and speakers. Each character is represented by an image with a bounding box, and each speaker is represented by several audio clips, each with a start time, an end time, and content. Each character and speaker is identified by a unique ID, which is enclosed in angle brackets (< >) and corresponds to their provided image or audio clip.
 
 You are also provided with a detailed description of the video scene, including the events happening in the video, the setting, background actions, and character interactions.
+
+Note: The start_time and end_time fields in the speaker information use the MM:SS format (minutes:seconds), representing the position within the video timeline.
 
 Your Task:
 
@@ -264,5 +284,71 @@ Input:
 
 Existing Knowledge:
 {existing_knowledge}
+
+Output:"""
+
+prompt_node_summarization = """You are an expert-level reasoning assistant. Given a specific node ID and a set of existing observations or knowledge points about this node in the format shown below, generate new high-level thinking conclusions. These conclusions should reflect abstract inferences or summarizations that go beyond simple visual facts or surface-level descriptions.
+
+⸻
+
+Input Format:
+	•	A target node_id (e.g., <char_1>)
+	•	A list of observations or knowledge points, each formatted as a short declarative sentence. For example:
+		•	"<char_1> is <speaker_1>."
+		•	"<char_1>'s name is David."
+		•	"<char_1> is likely an executive or a presenter, leading a meeting."
+		•	"<char_3> appears anxious, possibly involved in a tense situation outside the meeting."
+		•	"<char_2> may work in a collaborative or supportive role."
+
+⸻
+
+Your Task:
+
+Generate new high-level thinking conclusions related to the given node. These should include, but are not limited to:
+	1.	Identity correspondences, such as which speaker a character is, or vice versa.
+	2.	Relationships between the node and other characters (e.g., social, emotional, professional).
+	3.	Personality traits, roles, occupations, or behavioral patterns inferred from observed actions and dialogue.
+	4.	Background knowledge or contextual reasoning that helps better understand the node’s role or state in the video.
+
+⸻
+
+Strict Constraints:
+	•	Every person mentioned must be referenced using their exact ID in angle brackets (e.g., <char_1>, <speaker_2>).
+	•	Do not use names, pronouns, or vague terms like "the man" or "she."
+	•	Do not restate simple input facts or give low-level visual details.
+	•	Only return the final high-level conclusions, omitting intermediate reasoning steps.
+
+⸻
+
+Example
+
+Node: <char_1>
+
+History Information:
+[
+	"<speaker_1>'s name is David.",
+	"<speaker_1> is <char_1>.",
+	"<speaker_2> is <char_2>.",
+	"<char_1> is leading the conversation and assigning tasks.",
+	"<char_2> appears to be listening attentively and taking notes."
+]
+
+Output:
+[
+	"<char_1>'s name is David.",
+	"<char_1> likely holds a leadership or managerial role.",
+	"<char_1> appears to be in a position of authority over <char_2>."
+]
+
+⸻
+
+Please only return the valid string list, without any additional explanation or formatting. 
+
+Now, use the same logic and structure to analyze the new input.
+
+Node: {node_id}
+
+History Information:
+{history_information}
 
 Output:"""

@@ -10,7 +10,14 @@ import base64
 from io import BytesIO
 from PIL import Image
 import numpy as np
-import math
+import json
+from memory_processing import process_captions
+from prompts import prompt_node_summarization
+from utils.chat_api import generate_messages, get_response_with_retry
+from utils.general import validate_and_fix_python_list
+
+processing_config = json.load(open("configs/processing_config.json"))
+MAX_RETRIES = processing_config["max_retries"]
 
 class VideoGraph:
     """
@@ -59,6 +66,8 @@ class VideoGraph:
         # Return mean of all pairwise similarities
         return np.mean(similarities)
 
+    # Modification functions
+    
     def add_img_node(self, imgs):
         """Add a new face node with initial image embedding(s).
         
@@ -79,7 +88,6 @@ class VideoGraph:
 
         return node.id
 
-    # TODO
     def add_voice_node(self, audios):
         """Add a new voice node with initial audio embedding(s).
         
@@ -123,7 +131,6 @@ class VideoGraph:
 
         return node.id
 
-    # TODO
     def update_node(self, node_id, update_info):
         """Update an existing node.
         
@@ -233,6 +240,35 @@ class VideoGraph:
         print(f"{weakened_count} edges weakened for node {node_id}")
                 
         return weakened_count
+    
+    def summarize(self):
+        for node in self.nodes.values():
+            if node.type != "img" and node.type != "voice":
+                continue
+            connected_text_nodes = self.get_connected_nodes(node.id, type=['episodic', 'semantic'])
+            connected_text_nodes_contents = [self.nodes[text_id].metadata['contents'][0] for text_id in connected_text_nodes]
+            node_id = '<char_'+str(node.id)+'>' if node.type == 'img' else '<speaker_'+str(node.id)+'>'
+            input = [
+                {
+                    "type": "text",
+                    "content": prompt_node_summarization.format(node_id=node_id, history_information=connected_text_nodes_contents),
+                }
+            ]
+            messages = generate_messages(input)
+            model = "gpt-4o-2024-11-20"
+            summary = None
+            for i in range(MAX_RETRIES):
+                print(f"Generating summary {i} times")
+                summary_string = get_response_with_retry(model, messages)[0]
+                summary = validate_and_fix_python_list(summary_string)
+                if summary is not None:
+                    break
+            if summary is None:
+                raise Exception("Failed to generate summary")
+            
+            process_captions(self, summary, type='semantic')
+    
+    # Retrieval functions
 
     def get_connected_nodes(self, node_id, type=['img', 'voice', 'episodic', 'semantic']):
         """Get all nodes connected to given node."""
@@ -372,6 +408,8 @@ class VideoGraph:
         matched_text_nodes = [node_id for node_id, _ in matched_text_nodes]
         
         return matched_text_nodes
+    
+    # Visualization functions
     
     def print_faces(self, img_nodes):
         """Print faces for given image nodes in a grid layout with 9 faces per row.

@@ -285,7 +285,7 @@ def normalize_embedding(embedding):
     norm = np.linalg.norm(emb)
     return (emb / norm).tolist() if norm > 0 else emb.tolist()
 
-def save_video_graph(video_graph, video_path, save_dir, configs):
+def save_video_graph(video_graph, video_path, save_dir, configs, file_name=None):
     """Save video graph to pickle file.
 
     Args:
@@ -293,7 +293,8 @@ def save_video_graph(video_graph, video_path, save_dir, configs):
         config (dict): Configuration settings
     """
     processing_config, memory_config = configs
-    file_name = f"{video_path.split('/')[-1].split('.')[0].replace(' ', '-')}_{processing_config['interval_seconds']}_{processing_config['fps']}_{processing_config['segment_limit']}_{memory_config['max_img_embeddings']}_{memory_config['max_audio_embeddings']}_{memory_config['img_matching_threshold']}_{memory_config['audio_matching_threshold']}_{memory_config['text_matching_threshold']}.pkl"
+    if not file_name:
+        file_name = f"{video_path.split('/')[-1].split('.')[0].replace(' ', '-')}_{processing_config['interval_seconds']}_{processing_config['fps']}_{processing_config['segment_limit']}_{memory_config['max_img_embeddings']}_{memory_config['max_audio_embeddings']}_{memory_config['img_matching_threshold']}_{memory_config['audio_matching_threshold']}_{memory_config['text_matching_threshold']}.pkl"
     os.makedirs(save_dir, exist_ok=True)
     save_path = os.path.join(save_dir, file_name)
     with open(save_path, "wb") as f:

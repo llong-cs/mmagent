@@ -13,5 +13,6 @@
     "face_quality_score_threshold": 22,
     "max_faces_per_character": 3,
     "min_duration_for_audio": 2,
+    "history_length": 20,
     "max_retries": 3
 }

@@ -141,6 +141,8 @@ def process_faces(video_graph, base64_frames):
                 filtered_faces = filter(faces)
             else:
                 filtered_faces = faces
+            if len(filtered_faces) == 0:
+                continue
             face_info = {
                 "embeddings": [face["face_emb"] for face in filtered_faces],
                 "contents": [face["extra_data"]["face_base64"] for face in filtered_faces],
