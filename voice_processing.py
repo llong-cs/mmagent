@@ -1,6 +1,7 @@
 import base64
 import struct
 import tempfile
+import json
 
 import numpy as np
 from laplace import Client
@@ -13,7 +14,9 @@ import io
 
 laplace = Client("tcp://10.124.106.228:9473", timeout=500)
 
-MAX_RETRIES = 3
+processing_config = json.load(open("processing_config.json"))
+
+MAX_RETRIES = processing_config["max_retries"]
 
 
 def process_voices(video_graph, base64_audio, base64_video):
@@ -158,7 +161,7 @@ def process_voices(video_graph, base64_audio, base64_video):
         return mapping
 
     def filter_duration_based(audios):
-        min_duration = 2
+        min_duration = processing_config["min_duration_for_audio"]
         filtered_audios = [
             audio
             for audio in audios

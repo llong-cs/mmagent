@@ -1,0 +1,17 @@
+{
+    "video_paths": [
+        "data/videos/clipped/n-B_kmAebbQ",
+        "data/videos/clipped/GTIjylkB-TI",
+        "data/videos/clipped/jvUX3ocBSCk",
+        "data/videos/clipped/UPk8fzT4t8o"
+    ],
+    "interval_seconds": 60,
+    "fps": 5,
+    "segment_limit": 5,
+    "cluster_size": 100,
+    "face_detection_score_threshold": 0.85,
+    "face_quality_score_threshold": 22,
+    "max_faces_per_character": 3,
+    "min_duration_for_audio": 2,
+    "max_retries": 3
+}

@@ -1,10 +1,12 @@
 from concurrent.futures import ThreadPoolExecutor
 from tqdm import tqdm
+import json
 
 import euler
 euler.install_thrift_import_hook()
 from idl.base_thrift import *
 from idl.face_processing_thrift import *
+
 
 # Build client
 # test_client = euler.Client(FaceService, 'tcp://127.0.0.1:8910', timeout=300, transport='buffered')
@@ -15,7 +17,9 @@ test_client = euler.Client(
     transport="buffered",
 )
 
-CLUSTER_SIZE = 100
+processing_config = json.load(open("processing_config.json"))
+
+CLUSTER_SIZE = processing_config["cluster_size"]
 
 def process_faces(video_graph, base64_frames):
     """
@@ -117,9 +121,9 @@ def process_faces(video_graph, base64_frames):
         return mapping
 
     def filter_score_based(faces):
-        dthresh = 0.85
-        qthresh = 22
-        max_faces = 3
+        dthresh = processing_config["face_detection_score_threshold"]
+        qthresh = processing_config["face_quality_score_threshold"]
+        max_faces = processing_config["max_faces_per_character"]
         filtered_faces = [
             face
             for face in faces

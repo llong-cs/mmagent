@@ -285,31 +285,28 @@ def normalize_embedding(embedding):
     norm = np.linalg.norm(emb)
     return (emb / norm).tolist() if norm > 0 else emb.tolist()
 
-def save_video_graph(video_graph, save_dir, configs):
+def save_video_graph(video_graph, video_path, save_dir, configs):
     """Save video graph to pickle file.
 
     Args:
         video_graph (VideoGraph): Video graph to save
         config (dict): Configuration settings
     """
-    video_config, memory_config = configs
-    file_name = f"{video_config['video_path'].split('/')[-1].split('.')[0].replace(' ', '-')}_{video_config['interval_seconds']}_{video_config['fps']}_{video_config['segment_limit']}_{memory_config['max_img_embeddings']}_{memory_config['max_audio_embeddings']}_{memory_config['img_matching_threshold']}_{memory_config['audio_matching_threshold']}_{memory_config['text_matching_threshold']}.pkl"
+    processing_config, memory_config = configs
+    file_name = f"{video_path.split('/')[-1].split('.')[0].replace(' ', '-')}_{processing_config['interval_seconds']}_{processing_config['fps']}_{processing_config['segment_limit']}_{memory_config['max_img_embeddings']}_{memory_config['max_audio_embeddings']}_{memory_config['img_matching_threshold']}_{memory_config['audio_matching_threshold']}_{memory_config['text_matching_threshold']}.pkl"
     os.makedirs(save_dir, exist_ok=True)
     save_path = os.path.join(save_dir, file_name)
     with open(save_path, "wb") as f:
         print(f"Saving video graph to {save_path}")
         pickle.dump(video_graph, f)
 
-def load_video_graph(load_dir, configs):
+def load_video_graph(video_graph_path):
     """Load video graph from pickle file.
     """
-    video_config, memory_config = configs
-    file_name = f"{video_config['video_path'].split('/')[-1].split('.')[0].replace(' ', '-')}_{video_config['interval_seconds']}_{video_config['fps']}_{video_config['segment_limit']}_{memory_config['max_img_embeddings']}_{memory_config['max_audio_embeddings']}_{memory_config['img_matching_threshold']}_{memory_config['audio_matching_threshold']}_{memory_config['text_matching_threshold']}.pkl"
-    save_path = os.path.join(load_dir, file_name)
-    if not os.path.exists(save_path):
+    if not os.path.exists(video_graph_path):
         print("Video graph not found")
         return None
-    with open(save_path, "rb") as f:  
-        print(f"Loading video graph from {save_path}")
+    with open(video_graph_path, "rb") as f:  
+        print(f"Loading video graph from {video_graph_path}")
         return pickle.load(f)
     
