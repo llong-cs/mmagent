@@ -17,7 +17,7 @@ test_client = euler.Client(
     transport="buffered",
 )
 
-processing_config = json.load(open("processing_config.json"))
+processing_config = json.load(open("configs/processing_config.json"))
 
 CLUSTER_SIZE = processing_config["cluster_size"]
 

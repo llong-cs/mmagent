@@ -14,7 +14,7 @@ import io
 
 laplace = Client("tcp://10.124.106.228:9473", timeout=500)
 
-processing_config = json.load(open("processing_config.json"))
+processing_config = json.load(open("configs/processing_config.json"))
 
 MAX_RETRIES = processing_config["max_retries"]
 
