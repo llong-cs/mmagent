@@ -18,6 +18,32 @@ processing_config = json.load(open("configs/processing_config.json"))
 
 MAX_RETRIES = processing_config["max_retries"]
 
+def parse_video_caption(video_caption):
+        # video_caption is a string like this: <char_1> xxx <char_2> xxx
+        # extract all the elements wrapped by < and >
+        entities = []
+        current_entity = ""
+        in_entity = False
+
+        for char in video_caption:
+            if char == "<": 
+                in_entity = True
+                current_entity = ""
+            elif char == ">":
+                if in_entity:
+                    in_entity = False
+                    try:
+                        node_type, node_id = current_entity.split("_")
+                        node_id = int(node_id)
+                        entities.append((node_type, node_id))
+                    except Exception as e:
+                        print(f"Entities parsing error: {e}")
+                        continue
+            else:
+                if in_entity:
+                    current_entity += char
+        return entities
+
 def generate_video_context(
     video_graph, base64_video, base64_frames, base64_audio, faces_list, voices_list, visualize=False
 ):
@@ -228,32 +254,6 @@ def process_captions(video_graph, caption_contents, type='episodic'):
 
         embeddings = parallel_get_embedding(model, caption_contents)[0]
         return embeddings
-
-    def parse_video_caption(video_caption):
-        # video_caption is a string like this: <char_1> xxx <char_2> xxx
-        # extract all the elements wrapped by < and >
-        entities = []
-        current_entity = ""
-        in_entity = False
-
-        for char in video_caption:
-            if char == "<": 
-                in_entity = True
-                current_entity = ""
-            elif char == ">":
-                if in_entity:
-                    in_entity = False
-                    try:
-                        node_type, node_id = current_entity.split("_")
-                        node_id = int(node_id)
-                        entities.append((node_type, node_id))
-                    except Exception as e:
-                        print(f"Entities parsing error: {e}")
-                        continue
-            else:
-                if in_entity:
-                    current_entity += char
-        return entities
 
     def insert_caption(video_graph, caption, type='episodic'):
         # create a new text node for each caption

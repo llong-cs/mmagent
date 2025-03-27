@@ -314,3 +314,42 @@ History Information:
 {history_information}
 
 Output:"""
+
+prompt_extract_entities = """You are given a set of semantic memory, which contains various descriptions of characters, actions, interactions, and events. Each description may refer to characters, speakers, or actions and includes unique IDs enclosed in angle brackets (< >). Your task is to identify equivalent nodes that refer to the same character across different descriptions.
+
+For each group of descriptions that refer to the same character, extract and represent them as equivalence relationships using strings in the following format: "Equivalence: <node_1>, <node_2>".
+
+Strict Requirements:
+	•	Identify all equivalent nodes, ensuring they refer to the same character or entity across different descriptions.
+	•	Use the exact IDs in angle brackets (e.g., <char_1>, <speaker_2>) in your equivalence statements.
+	•	Provide the output as a list of strings, each string in the form of "Equivalence: <node_1>, <node_2>".
+	•	Focus on finding relationships that represent the same individual, ignoring irrelevant information or assumptions.
+
+Example Input:
+
+[
+	"<char_1> wears a black suit and glasses.",
+	"<char_1> shakes hands with <char_2>.",
+	"<speaker_1> says: 'Hello, everyone.'",
+	"<char_2> wears a red dress and has long brown hair.",
+	"<char_2> listens attentively to <char_1>.",
+	"<speaker_2> says: 'Welcome to the meeting.'",
+	"<char_1> is the host of the meeting.",
+	"<char_2> is a colleague of <char_1>."
+	"Equivalence: <char_3>, <speaker_3>."
+]
+
+Example Output:
+
+[
+	"Equivalence: <char_1>, <speaker_1>.",
+	"Equivalence: <char_2>, <speaker_2>.",
+	"Equivalence: <char_3>, <speaker_3>."
+]
+
+Please only return the valid string list, without any additional explanation or formatting.
+
+Input:
+{semantic_memory}
+
+Output:"""

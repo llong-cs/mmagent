@@ -5,14 +5,15 @@ import random
 
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.cluster import DBSCAN
 import matplotlib.pyplot as plt
 import base64
 from io import BytesIO
 from PIL import Image
 import numpy as np
 import json
-from memory_processing import process_captions
-from prompts import prompt_node_summarization
+from memory_processing import process_captions, parse_video_caption
+from prompts import prompt_node_summarization, prompt_extract_entities
 from utils.chat_api import generate_messages, get_response_with_retry
 from utils.general import validate_and_fix_python_list
 
@@ -66,6 +67,32 @@ class VideoGraph:
         
         # Return mean of all pairwise similarities
         return np.mean(similarities)
+    
+    def _cluster_semantic_nodes(self, nodes, threshold=0.9):
+        # cluster the nodes using cosine similarity
+        # return a list of clusters, each cluster is a list of node ids
+        # each node id is a string
+        
+        # calculate pairwise cosine similarities between all nodes
+        embeddings = [self.nodes[node_id].embeddings[0] for node_id in nodes]
+        similarities = cosine_similarity(embeddings)
+        
+        # Convert similarity matrix to distance matrix
+        # For cosine similarity s, distance = 1 - s
+        # This ensures that:
+        # - Similar vectors (s close to 1) have small distance
+        # - Dissimilar vectors (s close to 0) have large distance
+        distances = 1 - similarities
+        
+        # cluster the nodes using DBSCAN
+        # eps should now be the maximum allowed distance (1 - threshold)
+        dbscan_model = DBSCAN(eps=(1 - threshold), min_samples=1, metric='precomputed')
+        
+        # get the clusters
+        clusters = dbscan_model.fit_predict(distances)
+        
+        # return the clusters
+        return clusters
 
     # Modification functions
     
@@ -274,8 +301,129 @@ class VideoGraph:
             
         process_captions(self, new_semantic_memory, type='semantic')
         
+    def fix_collisions(self, node_id, mode='argmax'):
+        # detect collisions through clustering (one-node-cluster is allowed)
+        # mode: argmax, dropout
+        # argmax: select the node with the highest edge weight from each cluster
+        # dropout: drop nodes by specific probability (according to relative edge weights) from each cluster
+        
+        # get all connected semantic nodes
+        connected_nodes = self.get_connected_nodes(node_id, type=['semantic'])
+        
+        # cluster the connected nodes
+        clusters = self._cluster_semantic_nodes(connected_nodes)
+        
+        cluster_ids = list(set(clusters))
+        cluster_ids.sort()
+        
+        filtered_nodes = []
+        
+        for cluster_id in cluster_ids:
+            cluster_nodes = [connected_nodes[i] for i in range(len(connected_nodes)) if clusters[i] == cluster_id]
+            if len(cluster_nodes) == 1:
+                filtered_nodes.append(cluster_nodes[0])
+            if mode == 'argmax':
+                # select the node with the highest edge weight
+                max_edge_weight = 0
+                max_edge_weight_node = None
+                for node in cluster_nodes:
+                    if self.edges[(node_id, node)] > max_edge_weight:
+                        max_edge_weight = self.edges[(node_id, node)]
+                        max_edge_weight_node = node
+                filtered_nodes.append(max_edge_weight_node)
+            elif mode == 'dropout':
+                # drop nodes by probability of edge_weights/max(edge_weights)
+                edge_weights = [self.edges[(node_id, node)] for node in cluster_nodes]
+                max_edge_weight = max(edge_weights)
+                probabilities = [edge_weights[i] / max_edge_weight for i in range(len(edge_weights))]
+                filtered_nodes.extend(np.random.choice(cluster_nodes, size=len(cluster_nodes), p=probabilities))
+                
+        return filtered_nodes
+    
     def extract_equivalent_nodes(self):
-        pass
+        # Initialize disjoint set data structure
+        parent = {}
+        rank = {}
+        
+        def find(x):
+            # Find root/representative of set with path compression
+            if x not in parent:
+                parent[x] = x
+                rank[x] = 0
+                return x
+            if parent[x] != x:
+                parent[x] = find(parent[x])
+            return parent[x]
+            
+        def union(x, y):
+            # Union by rank
+            px, py = find(x), find(y)
+            if px == py:
+                return
+            if rank[px] < rank[py]:
+                px, py = py, px
+            parent[py] = px
+            if rank[px] == rank[py]:
+                rank[px] += 1
+                
+        # Process each voice node
+        for node_id in self.nodes:
+            if self.nodes[node_id].type != 'voice':
+                continue
+                
+            # Get filtered semantic nodes and their contents
+            filtered_semantic_nodes = self.fix_collisions(node_id, mode='dropout')
+            filtered_semantics = [self.nodes[filtered_semantic_node].metadata['contents'][0] 
+                                for filtered_semantic_node in filtered_semantic_nodes]
+            
+            # Generate equivalences using LLM
+            input = [
+                {
+                    "type": "text", 
+                    "content": prompt_extract_entities.format(semantic_memory=filtered_semantics),
+                }
+            ]
+            messages = generate_messages(input)
+            model = "gpt-4o-2024-11-20"
+            equivalences = None
+            
+            for i in range(MAX_RETRIES):
+                print(f"Generating equivalences {i} times")
+                equivalences_string = get_response_with_retry(model, messages)[0]
+                equivalences = validate_and_fix_python_list(equivalences_string)
+                if equivalences is not None:
+                    break
+                    
+            if equivalences is None:
+                raise Exception("Failed to generate equivalences")
+            
+            # Add equivalent nodes to disjoint sets
+            for equivalence in equivalences:
+                entities = parse_video_caption(equivalence)
+                if len(entities) >= 2:
+                    # Union all entities in this equivalence group
+                    first_entity = entities[0][1]  # Get ID of first entity
+                    for entity in entities[1:]:
+                        union(first_entity, entity[1])
+
+        # Group nodes by their representative (character)
+        character_groups = {}
+        character_count = 0
+        root_to_character = {}
+        
+        # Find all nodes that are in the disjoint sets
+        for x in parent:
+            root = find(x)
+            if root not in root_to_character:
+                root_to_character[root] = f"character_{character_count}"
+                character_count += 1
+            character = root_to_character[root]
+            if character not in character_groups:
+                character_groups[character] = []
+            character_groups[character].append(x)
+            
+        return character_groups
+                
     
     # Retrieval functions
 
