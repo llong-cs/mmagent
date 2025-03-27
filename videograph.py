@@ -34,6 +34,7 @@ class VideoGraph:
         self.edges = {}  # (node_id1, node_id2) -> edge weight
         # Maintain ordered text nodes
         self.text_nodes = []  # List of text node IDs in insertion order
+        self.event_sequence = []
         
         self.max_img_embeddings = max_img_embeddings
         self.max_audio_embeddings = max_audio_embeddings
@@ -124,6 +125,8 @@ class VideoGraph:
         
         self.nodes[self.next_node_id] = node
         self.text_nodes.append(node.id)  # Add to ordered list
+        if text_type == 'episodic':
+            self.event_sequence.append(node.id)
 
         self.next_node_id += 1
 
@@ -270,6 +273,9 @@ class VideoGraph:
             new_semantic_memory.extend(summary)
             
         process_captions(self, new_semantic_memory, type='semantic')
+        
+    def extract_equivalent_nodes(self):
+        pass
     
     # Retrieval functions
 

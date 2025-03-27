@@ -19,7 +19,7 @@ processing_config = json.load(open("configs/processing_config.json"))
 MAX_RETRIES = processing_config["max_retries"]
 
 def generate_video_context(
-    video_graph, base64_video, base64_frames, base64_audio, faces_list, voices_list
+    video_graph, base64_video, base64_frames, base64_audio, faces_list, voices_list, visualize=False
 ):
     face_frames = []
     history_length = processing_config["history_length"]
@@ -50,27 +50,28 @@ def generate_video_context(
             face_frames.append((f"<char_{char_id}>:", frame_base64))
         
         # Visualize face frames with IDs
-        num_faces = len(face_frames)
-        num_rows = (num_faces + 2) // 3  # Round up division to get number of rows needed
+        if visualize:
+            num_faces = len(face_frames)
+            num_rows = (num_faces + 2) // 3  # Round up division to get number of rows needed
 
-        _, axes = plt.subplots(num_rows, 3, figsize=(15, 5 * num_rows))
-        axes = axes.ravel()  # Flatten axes array for easier indexing
+            _, axes = plt.subplots(num_rows, 3, figsize=(15, 5 * num_rows))
+            axes = axes.ravel()  # Flatten axes array for easier indexing
 
-        for i, face_frame in enumerate(face_frames):
-            # Convert base64 to image array
-            img_bytes = base64.b64decode(face_frame[1])
-            img_array = np.array(Image.open(BytesIO(img_bytes)))
+            for i, face_frame in enumerate(face_frames):
+                # Convert base64 to image array
+                img_bytes = base64.b64decode(face_frame[1])
+                img_array = np.array(Image.open(BytesIO(img_bytes)))
 
-            axes[i].imshow(img_array)
-            axes[i].set_title(face_frame[0])
-            axes[i].axis("off")
+                axes[i].imshow(img_array)
+                axes[i].set_title(face_frame[0])
+                axes[i].axis("off")
 
-        # Hide empty subplots
-        for j in range(i + 1, len(axes)):
-            axes[j].axis("off")
+            # Hide empty subplots
+            for j in range(i + 1, len(axes)):
+                axes[j].axis("off")
 
-        plt.tight_layout()
-        plt.show()
+            plt.tight_layout()
+            plt.show()
     else:
         face_frames = []
         print("No qualified faces detected")
@@ -83,10 +84,11 @@ def generate_video_context(
             "content": voice["asr"]
         } for voice in voices]
 
-    print(f"Diarized dialogues: {voices_input}")
+    if visualize:
+        print(f"Diarized dialogues: {voices_input}")
     
     # get the last history_length texts
-    history_nodes = video_graph.text_nodes[-history_length:]
+    history_nodes = video_graph.event_sequence[-history_length:]
     history_texts = [video_graph.nodes[node_id].metadata['contents'][0] for node_id in history_nodes]
 
     video_context = [
@@ -269,7 +271,7 @@ def process_captions(video_graph, caption_contents, type='episodic'):
         # semantic captions can be used to update the existing text nodes, or create new text nodes
         elif type == 'semantic':
             for caption in captions:
-                entities = parse_video_caption(caption)
+                entities = parse_video_caption(caption['contents'][0])
 
                 if len(entities) == 0:
                     insert_caption(video_graph, caption, type)
@@ -281,7 +283,7 @@ def process_captions(video_graph, caption_contents, type='episodic'):
                 
                 # get all (possible) related nodes            
                 node_id = entities[0][1]
-                related_nodes = video_graph.get_connected_nodes(node_id, type='semantic')
+                related_nodes = video_graph.get_connected_nodes(node_id, type=['semantic'])
                 
                 # if there is a node with similarity > positive_threshold, then update the edge weight by +1
                 # if there is a node with similarity < negative_threshold, then update the edge weight by -1, and add a new text node and connect it to the existing node
@@ -294,10 +296,10 @@ def process_captions(video_graph, caption_contents, type='episodic'):
                     # 2. the semantic similarity between the caption and the existing node shows a positive correlation or a negative correlation
                     
                     # see if the caption entities are a subset of the existing node entities
-                    related_node_entities = parse_video_caption(video_graph.nodes[node_id].metadata['text'])
+                    related_node_entities = parse_video_caption(video_graph.nodes[node_id].metadata['contents'][0])
                     embedding = video_graph.nodes[node_id].embeddings[0]
                     if all(entity in related_node_entities for entity in entities):
-                        similarity = np.dot(caption['embedding'], embedding) / (np.linalg.norm(caption['embedding']) * np.linalg.norm(embedding))
+                        similarity = np.dot(caption['embeddings'][0], embedding) / (np.linalg.norm(caption['embeddings'][0]) * np.linalg.norm(embedding))
                         if similarity > positive_threshold:
                             video_graph.reinforce_node(node_id)
                             create_new_node = False

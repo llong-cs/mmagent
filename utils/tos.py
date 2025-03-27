@@ -7,13 +7,13 @@ import string
 # os.environ['CONSUL_HTTP_PORT'] = 2280
 # PSM、Cluster、Idc、Accesskey 和 Bucket 可在 TOS 用户平台 > Bucket 详情 > 概览页中查找。具体查询方式详见方式二：通过 “psm+idc” 访问 TOS 桶 。
 
-server = "va"
+server = "cn"
 if server == "cn":
     ak = "YFPD6L54IEAAU421YMSG"
     bucket_name = "vlm-agent"
     tos_psm = "toutiao.tos.tosapi"
     tos_cluster = "default"
-    tos_idc = "lf"
+    tos_idc = "hl"
     base_url = "https://tosv.byted.org/obj/vlm-agent/"
 elif server == "va":
     ak = "BX2M82TQJ7UVTYXYO19Z"
@@ -64,3 +64,5 @@ def upload_one_sample(file, do_upload=True):
         return -1, ""
     return obj_url
 
+if __name__ == "__main__":
+    upload_one_sample("/Users/bytedance/Downloads/tmp6nvagz76.wav")
