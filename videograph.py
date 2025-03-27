@@ -332,11 +332,13 @@ class VideoGraph:
                         max_edge_weight_node = node
                 filtered_nodes.append(max_edge_weight_node)
             elif mode == 'dropout':
-                # drop nodes by probability of edge_weights/max(edge_weights)
+                # Take each node with probability proportional to its edge weight
                 edge_weights = [self.edges[(node_id, node)] for node in cluster_nodes]
                 max_edge_weight = max(edge_weights)
                 probabilities = [edge_weights[i] / max_edge_weight for i in range(len(edge_weights))]
-                filtered_nodes.extend(np.random.choice(cluster_nodes, size=len(cluster_nodes), p=probabilities))
+                for i, node in enumerate(cluster_nodes):
+                    if random.random() < probabilities[i]:
+                        filtered_nodes.append(node)
                 
         return filtered_nodes
     
