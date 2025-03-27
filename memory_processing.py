@@ -47,7 +47,7 @@ def generate_video_context(
             buffered = BytesIO()
             frame_img.save(buffered, format="JPEG")
             frame_base64 = base64.b64encode(buffered.getvalue()).decode()
-            face_frames.append((f"<char_{char_id}>:", frame_base64))
+            face_frames.append((f"<face_{char_id}>:", frame_base64))
         
         # Visualize face frames with IDs
         if visualize:
@@ -78,7 +78,7 @@ def generate_video_context(
 
     voices_input = {}
     for id, voices in voices_list.items():
-        voices_input[f"<speaker_{id}>"] = [{
+        voices_input[f"<voice_{id}>"] = [{
             "start_time": voice["start_time"],
             "end_time": voice["end_time"],
             "content": voice["asr"]

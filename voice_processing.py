@@ -6,7 +6,7 @@ import json
 import numpy as np
 from laplace import Client
 from pydub import AudioSegment
-from prompts import prompt_audio_diarization, prompt_audio_segmentation
+from prompts import prompt_audio_segmentation
 from utils.chat_api import generate_messages, get_response_with_retry
 from utils.general import validate_and_fix_json, normalize_embedding
 from utils.video_processing import process_video_clip
