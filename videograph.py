@@ -340,7 +340,7 @@ class VideoGraph:
                 
         return filtered_nodes
     
-    def extract_equivalent_nodes(self):
+    def extract_equivalences(self):
         # Initialize disjoint set data structure
         parent = {}
         rank = {}
