@@ -1,16 +1,17 @@
-from videograph import VideoGraph
+from videograph import Videograph
 from utils.chat_api import (
     generate_messages,
     get_response_with_retry,
     parallel_get_embedding,
 )
 from utils.general import validate_and_fix_python_list
-from prompts import prompt_memory_retrieval
+from prompts import prompt_memory_retrieval, prompt_answer_with_retrieval
+from memory_processing import parse_video_caption
 
 MAX_RETRIES = 3
 
 
-def generate_queries(question, existing_knowledge=None, query_num=1):
+def generate_queries(question, existing_knowledge=None, query_num=2):
     input = [
         {
             "type": "text",
@@ -35,7 +36,7 @@ def generate_queries(question, existing_knowledge=None, query_num=1):
     return queries
 
 
-def retrieve_from_videograph(videograph, question, topk=3):
+def retrieve_from_videograph(video_graph, question, topk=5):
     queries = generate_queries(question)
     print(f"Queries: {queries}")
 
@@ -45,16 +46,40 @@ def retrieve_from_videograph(videograph, question, topk=3):
     related_nodes = []
 
     for query_embedding in query_embeddings:
-        nodes = videograph.search_text_nodes(query_embedding, topk)
-        related_nodes.extend(nodes)
+        nodes = video_graph.search_text_nodes([query_embedding])
+        related_nodes.extend(nodes[:topk])
 
     related_nodes = list(set(related_nodes))
     return related_nodes
 
-def answer_with_retrieval(videograph, question):
-    pass
+def answer_with_retrieval(video_graph, question):
+    related_nodes = retrieve_from_videograph(video_graph, question)
+    video_graph.refresh_equivalences()
+    related_memories = [video_graph.nodes[node_id].metadata['contents'][0] for node_id in related_nodes]
+    # replace the entities in the memories with the character mappings
+    for memory in related_memories:
+        entities = parse_video_caption(memory)
+        for entity in entities:
+            entity_str = entity[0]+'_'+entity[1]
+            if entity_str in video_graph.reverse_character_mappings:
+                memory = memory.replace(entity_str, video_graph.reverse_character_mappings[entity_str])
+    print(related_memories)
+    input = [
+        {
+            "type": "text",
+            "content": prompt_answer_with_retrieval.format(
+                question=question,
+                related_memories=related_memories,
+            ),
+        }
+    ]
+    messages = generate_messages(input)
+    model = "gpt-4o-2024-11-20"
+    answer = get_response_with_retry(model, messages)[0]
+    print(answer)
+    return related_memories, answer
 
 if __name__ == "__main__":
-    videograph = VideoGraph()
+    video_graph = Videograph()
     question = "What is the main character's name?"
-    answer_with_retrieval(videograph, question)
+    related_memories, answer = answer_with_retrieval(video_graph, question)

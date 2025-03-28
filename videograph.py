@@ -24,7 +24,7 @@ class VideoGraph:
     """
     This class defines the VideoGraph class, which is used to represent the video graph.
     """
-    def __init__(self, max_img_embeddings=10, max_audio_embeddings=20, img_matching_threshold=0.3, audio_matching_threshold=0.6, text_matching_threshold=0.75):
+    def __init__(self, max_img_embeddings=10, max_audio_embeddings=20, img_matching_threshold=0.3, audio_matching_threshold=0.6, text_matching_threshold=0.7):
         """Initialize a video graph with nodes for faces, voices and text events.
         
         Args:
@@ -279,7 +279,7 @@ class VideoGraph:
                 continue
             connected_text_nodes = self.get_connected_nodes(node.id, type=['episodic', 'semantic'])
             connected_text_nodes_contents = [self.nodes[text_id].metadata['contents'][0] for text_id in connected_text_nodes]
-            node_id = '<char_'+str(node.id)+'>' if node.type == 'img' else '<speaker_'+str(node.id)+'>'
+            node_id = '<face_'+str(node.id)+'>' if node.type == 'img' else '<voice_'+str(node.id)+'>'
             input = [
                 {
                     "type": "text",
@@ -365,7 +365,7 @@ class VideoGraph:
                 
         return filtered_nodes
     
-    def extract_equivalences(self):
+    def refresh_equivalences(self):
         # Initialize disjoint set data structure
         parent = {}
         rank = {}
@@ -436,22 +436,30 @@ class VideoGraph:
                         union(first_entity, entity[1])
 
         # Group nodes by their representative (character)
-        character_groups = {}
+        character_mappings = {}
         character_count = 0
         root_to_character = {}
         
         # Find all nodes that are in the disjoint sets
         for x in parent:
             root = find(x)
+            tag = 'face_'+str(x) if self.nodes[x].type == 'img' else 'voice_'+str(x)
             if root not in root_to_character:
                 root_to_character[root] = f"character_{character_count}"
                 character_count += 1
             character = root_to_character[root]
-            if character not in character_groups:
-                character_groups[character] = []
-            character_groups[character].append(x)
+            if character not in character_mappings:
+                character_mappings[character] = []
+            character_mappings[character].append(tag)
+        
+        # create reverse mapping
+        reverse_character_mappings = {}
+        for character, tags in character_mappings.items():
+            for tag in tags:
+                reverse_character_mappings[tag] = character
             
-        return character_groups
+        self.character_mappings = character_mappings
+        self.reverse_character_mappings = reverse_character_mappings
                 
     
     # Retrieval functions
@@ -579,14 +587,13 @@ class VideoGraph:
             
         return info_nodes
     
-    def search_text_nodes(self, query_embedding):
-        query_embedding = [query_embedding]
+    def search_text_nodes(self, query_embeddings):
         threshold = self.text_matching_threshold
         
         matched_text_nodes = []
         for node_id in self.text_nodes:
             node = self.nodes[node_id]
-            similarity = self._average_similarity(query_embedding, node.embeddings)
+            similarity = self._average_similarity(query_embeddings, node.embeddings)
             if similarity >= threshold:
                 matched_text_nodes.append((node_id, similarity))
         

@@ -216,7 +216,7 @@ Yes
 
 Please only return "Yes" or "No", without any additional explanation or formatting."""
 
-prompt_memory_retrieval = """You will be given a question and some “existing knowledge” relevant to the question. Your task is to generate {query_num} distinct and well-defined queries that will be encoded into embeddings and used to retrieve relevant information from a memory bank via vector similarity search. The goal is to retrieve information that is useful for answering the question, considering both the question and the provided existing knowledge.
+prompt_memory_retrieval = """You will be given a question and possibly some "existing knowledge" relevant to the question. Your task is to generate a list of distinct and well-defined queries of given length that will be encoded into embeddings and used to retrieve relevant information from a memory bank via vector similarity search. The goal is to retrieve information that is useful for answering the question, considering both the question and the provided existing knowledge.
 
 For each query:
 	1.	Clearly define the specific information need it targets, based on your understanding of the question and the existing knowledge.
@@ -225,13 +225,19 @@ For each query:
 	4.	Ensure diversity among the queries, covering different aspects or subtopics of the original question where applicable, and incorporating the existing knowledge into the query generation.
 
 Example Input:
-Question: How did the protagonist's relationship with her father influence her decision to leave home in the story?
-Existing Knowledge:
-	•	The protagonist's father is portrayed as controlling and overprotective.
-	•	The protagonist often feels restricted in her actions due to her father's behavior.
-	•	The protagonist's decision to leave home is motivated by a desire for independence.
 
-Example Output (as a Python-style string list):
+Question: How did the protagonist's relationship with her father influence her decision to leave home in the story?
+
+Query Number: 3
+
+Existing Knowledge:
+[
+	"The protagonist's father is portrayed as controlling and overprotective.",
+	"The protagonist often feels restricted in her actions due to her father's behavior.",
+	"The protagonist's decision to leave home is motivated by a desire for independence."
+]
+
+Example Output:
 
 [
 	"Conflicts between the protagonist and her father", 
@@ -242,10 +248,11 @@ Example Output (as a Python-style string list):
 Please return the output as a valid Python string list, without any additional explanation or formatting.
 
 Input:
-{question}
+Question: {question}
 
-Existing Knowledge:
-{existing_knowledge}
+Query Number: {query_num}
+
+Existing Knowledge: {existing_knowledge}
 
 Output:"""
 
@@ -351,5 +358,13 @@ Please only return the valid string list, without any additional explanation or 
 
 Input:
 {semantic_memory}
+
+Output:"""
+
+prompt_answer_with_retrieval = """You are given a question and a list of related memories. Your task is to answer the question based on the provided memories.
+
+Question: {question}
+
+Related Memories: {related_memories}
 
 Output:"""
