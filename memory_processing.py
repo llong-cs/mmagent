@@ -246,7 +246,7 @@ def process_captions(video_graph, caption_contents, type='episodic'):
         - Extracts entity references (e.g. char_1, char_2)
         - Adds edges between the text node and referenced entity nodes
     """
-    def get_caption_embeddings(caption_contents, prefix='Memory: ', suffix='Based on the memory, you can learn that'):
+    def get_caption_embeddings(caption_contents, prefix='', suffix=''):
         # calculate the embedding for each caption
         model = 'text-embedding-3-large'
 

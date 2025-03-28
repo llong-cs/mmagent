@@ -12,6 +12,7 @@ from io import BytesIO
 from PIL import Image
 import numpy as np
 import json
+from tqdm import tqdm
 from memory_processing import process_captions, parse_video_caption
 from prompts import prompt_node_summarization, prompt_extract_entities
 from utils.chat_api import generate_messages, get_response_with_retry
@@ -24,7 +25,7 @@ class VideoGraph:
     """
     This class defines the VideoGraph class, which is used to represent the video graph.
     """
-    def __init__(self, max_img_embeddings=10, max_audio_embeddings=20, img_matching_threshold=0.3, audio_matching_threshold=0.6, text_matching_threshold=0.7):
+    def __init__(self, max_img_embeddings=10, max_audio_embeddings=20, img_matching_threshold=0.3, audio_matching_threshold=0.6, text_matching_threshold=0.25):
         """Initialize a video graph with nodes for faces, voices and text events.
         
         Args:
@@ -84,6 +85,10 @@ class VideoGraph:
         # - Similar vectors (s close to 1) have small distance
         # - Dissimilar vectors (s close to 0) have large distance
         distances = 1 - similarities
+        # filter out negative distances
+        distances[distances < 0] = 0
+
+        # print(distances)
         
         # cluster the nodes using DBSCAN
         # eps should now be the maximum allowed distance (1 - threshold)
@@ -392,7 +397,7 @@ class VideoGraph:
                 rank[px] += 1
                 
         # Process each voice node
-        for node_id in self.nodes:
+        for node_id in tqdm(self.nodes):
             if self.nodes[node_id].type != 'voice':
                 continue
                 
@@ -594,11 +599,12 @@ class VideoGraph:
         for node_id in self.text_nodes:
             node = self.nodes[node_id]
             similarity = self._average_similarity(query_embeddings, node.embeddings)
+            # print(similarity, threshold)
             if similarity >= threshold:
                 matched_text_nodes.append((node_id, similarity))
         
         matched_text_nodes = sorted(matched_text_nodes, key=lambda x: x[1], reverse=True)
-        matched_text_nodes = [node_id for node_id, _ in matched_text_nodes]
+        matched_text_nodes = [node_info[0] for node_info in matched_text_nodes]
         
         return matched_text_nodes
     

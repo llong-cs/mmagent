@@ -4,7 +4,7 @@
     ],
     "interval_seconds": 60,
     "fps": 5,
-    "segment_limit": 5,
+    "segment_limit": 10,
     "cluster_size": 100,
     "face_detection_score_threshold": 0.85,
     "face_quality_score_threshold": 22,

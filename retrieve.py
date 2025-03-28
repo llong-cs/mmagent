@@ -1,4 +1,4 @@
-from videograph import Videograph
+from videograph import VideoGraph
 from utils.chat_api import (
     generate_messages,
     get_response_with_retry,
@@ -52,17 +52,21 @@ def retrieve_from_videograph(video_graph, question, topk=5):
     related_nodes = list(set(related_nodes))
     return related_nodes
 
-def answer_with_retrieval(video_graph, question):
-    related_nodes = retrieve_from_videograph(video_graph, question)
-    video_graph.refresh_equivalences()
+def answer_with_retrieval(video_graph, question, topk=5, auto_refresh=False):
+    related_nodes = retrieve_from_videograph(video_graph, question, topk)
+
+    if auto_refresh:
+        video_graph.refresh_equivalences()
     related_memories = [video_graph.nodes[node_id].metadata['contents'][0] for node_id in related_nodes]
     # replace the entities in the memories with the character mappings
-    for memory in related_memories:
+    for i, memory in enumerate(related_memories):
         entities = parse_video_caption(memory)
         for entity in entities:
-            entity_str = entity[0]+'_'+entity[1]
-            if entity_str in video_graph.reverse_character_mappings:
-                memory = memory.replace(entity_str, video_graph.reverse_character_mappings[entity_str])
+            entity_str = f"{entity[0]}_{entity[1]}"
+            if entity_str in video_graph.reverse_character_mappings.keys():
+                print("yes")
+                print(entity_str, video_graph.reverse_character_mappings[entity_str])
+                related_memories[i] = memory.replace(entity_str, video_graph.reverse_character_mappings[entity_str])
     print(related_memories)
     input = [
         {
@@ -80,6 +84,6 @@ def answer_with_retrieval(video_graph, question):
     return related_memories, answer
 
 if __name__ == "__main__":
-    video_graph = Videograph()
+    video_graph = VideoGraph()
     question = "What is the main character's name?"
     related_memories, answer = answer_with_retrieval(video_graph, question)
