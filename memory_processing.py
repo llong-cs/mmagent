@@ -246,11 +246,9 @@ def process_captions(video_graph, caption_contents, type='episodic'):
         - Extracts entity references (e.g. char_1, char_2)
         - Adds edges between the text node and referenced entity nodes
     """
-    def get_caption_embeddings(caption_contents, prefix='', suffix=''):
+    def get_caption_embeddings(caption_contents):
         # calculate the embedding for each caption
         model = 'text-embedding-3-large'
-
-        caption_contents = [prefix + caption + suffix for caption in caption_contents]
 
         embeddings = parallel_get_embedding(model, caption_contents)[0]
         return embeddings
@@ -278,8 +276,8 @@ def process_captions(video_graph, caption_contents, type='episodic'):
                     continue
                 
                 # update the existing text node for each caption, if needed
-                positive_threshold = 0.9
-                negative_threshold = -0.5
+                positive_threshold = 0.85
+                negative_threshold = 0
                 
                 # get all (possible) related nodes            
                 node_id = entities[0][1]
@@ -309,8 +307,6 @@ def process_captions(video_graph, caption_contents, type='episodic'):
                 
                 if create_new_node:
                     insert_caption(video_graph, caption, type)
-    
-    print(caption_contents)
     
     captions_embeddings = get_caption_embeddings(caption_contents)
 
