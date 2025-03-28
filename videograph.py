@@ -75,6 +75,7 @@ class VideoGraph:
         
         # calculate pairwise cosine similarities between all nodes
         embeddings = [self.nodes[node_id].embeddings[0] for node_id in nodes]
+
         similarities = cosine_similarity(embeddings)
         
         # Convert similarity matrix to distance matrix
@@ -301,7 +302,7 @@ class VideoGraph:
             
         process_captions(self, new_semantic_memory, type='semantic')
         
-    def fix_collisions(self, node_id, mode='argmax'):
+    def fix_collisions(self, node_id, mode='argmax', logging=False):
         # detect collisions through clustering (one-node-cluster is allowed)
         # mode: argmax, dropout
         # argmax: select the node with the highest edge weight from each cluster
@@ -310,6 +311,9 @@ class VideoGraph:
         # get all connected semantic nodes
         connected_nodes = self.get_connected_nodes(node_id, type=['semantic'])
         
+        if len(connected_nodes) == 0:
+            return []
+
         # cluster the connected nodes
         clusters = self._cluster_semantic_nodes(connected_nodes)
         
@@ -320,8 +324,10 @@ class VideoGraph:
         
         for cluster_id in cluster_ids:
             cluster_nodes = [connected_nodes[i] for i in range(len(connected_nodes)) if clusters[i] == cluster_id]
+
             if len(cluster_nodes) == 1:
                 filtered_nodes.append(cluster_nodes[0])
+                continue
             if mode == 'argmax':
                 # select the node with the highest edge weight
                 max_edge_weight = 0
@@ -339,6 +345,23 @@ class VideoGraph:
                 for i, node in enumerate(cluster_nodes):
                     if random.random() < probabilities[i]:
                         filtered_nodes.append(node)
+            else:
+                raise ValueError("Unknown mode")
+            
+            if logging:
+                print('=' * 80)
+                print(f"Cluster {cluster_id} has {len(cluster_nodes)} nodes: {cluster_nodes}")
+                for node in cluster_nodes:
+                    print('-' * 80)
+                    print(f"Node {node} [edge weight]: {self.edges[(node_id, node)]}")
+                    print(f"Node {node} [content]: {self.nodes[node].metadata['contents'][0]}")
+
+                print('*' * 80)
+                print(f"Cluster {cluster_id} has {len(filtered_nodes)} nodes after filtering: {filtered_nodes}")
+                for node in filtered_nodes:
+                    print('-' * 80)
+                    print(f"Node {node} [edge weight]: {self.edges[(node_id, node)]}")
+                    print(f"Node {node} [content]: {self.nodes[node].metadata['contents'][0]}")
                 
         return filtered_nodes
     
@@ -374,7 +397,11 @@ class VideoGraph:
                 continue
                 
             # Get filtered semantic nodes and their contents
-            filtered_semantic_nodes = self.fix_collisions(node_id, mode='dropout')
+            filtered_semantic_nodes = self.fix_collisions(node_id, mode='argmax')
+
+            if len(filtered_semantic_nodes) == 0:
+                continue
+
             filtered_semantics = [self.nodes[filtered_semantic_node].metadata['contents'][0] 
                                 for filtered_semantic_node in filtered_semantic_nodes]
             
