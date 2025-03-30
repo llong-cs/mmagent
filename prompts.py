@@ -216,38 +216,60 @@ Yes
 
 Please only return "Yes" or "No", without any additional explanation or formatting."""
 
-prompt_memory_retrieval = """You will be given a question and possibly some "existing knowledge" relevant to the question. Your task is to generate a list of distinct and well-defined queries of given length that will be encoded into embeddings and used to retrieve relevant information from a memory bank via vector similarity search. The goal is to retrieve information that is useful for answering the question, considering both the question and the provided existing knowledge.
+prompt_memory_retrieval = """You are given a question and possibly some relevant existing knowledge. Your task is to generate a list of distinct and well-defined queries that will be encoded into embeddings and used to retrieve relevant information from a memory bank via vector similarity search. The goal is to retrieve information that will help answer the question, considering both the question and the provided existing knowledge.
 
 For each query:
-	1.	Clearly define the specific information need it targets, based on your understanding of the question and the existing knowledge.
-	2.	Make the query concise, focused, and semantically rich, to ensure effective encoding and retrieval.
-	3.	Remember that the queries will be used for embedding-based retrieval, so avoid vague or overly broad formulations.
-	4.	Ensure diversity among the queries, covering different aspects or subtopics of the original question where applicable, and incorporating the existing knowledge into the query generation.
+	1.	Identify broad topics or themes that may help answer the question. These themes should cover a range of aspects that might provide useful context or background to the question. Think about different angles, including but not limited to character names, behaviors, relationships, personality traits, actions, and key events.
+	2.	Make each query concise and focused on a specific piece of information that might help answer the question, based on the broad themes you identified.
+	3.	Ensure diversity in the queries by covering different facets of the question. This includes but is not limited to things like character interactions, emotions, motivations, actions, key dialogue, character appearances, and context.
+	4.	Avoid vague or overly broad formulations. Focus on queries that are specific, actionable, and that provide clear, targeted information for embedding-based retrieval.
+	5.	The queries should reflect a wide variety of themes and topics, allowing the system to retrieve information from different angles.
+
+The example memory bank contains descriptions like:
+	•	"<voice_0> introduces four individuals named Denny, Herm, Aaron, and JC, along with five other unnamed individuals."
+	•	"<face_9> wears a black jacket, a plaid shirt, and jeans."
+	•	"<face_4> points at <face_9>."
+	•	"<face_1> is likely an executive or a presenter, leading a meeting."
+	•	"<face_3> says, 'Cuz you was in the guest of Black Privilege, and I think we had to pay him.'"
+	•	"Equivalence: <face_3>, <voice_2>"
+	•	"<face_9>, <face_7>, <face_8>, and <face_10> stand and listen to the commentary from the individuals at the table."
 
 Example Input:
 
-Question: How did the protagonist's relationship with her father influence her decision to leave home in the story?
+Question: How did Sarah's relationship with her father, David, influence her decision to leave home in the story?
 
-Query Number: 3
+Query Number: 10
 
 Existing Knowledge:
 [
-	"The protagonist's father is portrayed as controlling and overprotective.",
-	"The protagonist often feels restricted in her actions due to her father's behavior.",
-	"The protagonist's decision to leave home is motivated by a desire for independence."
+	"David is portrayed as controlling and overprotective of Sarah.",
+	"Sarah often feels restricted in her actions due to David's behavior.",
+	"Sarah's decision to leave home is motivated by a desire for independence."
 ]
 
 Example Output:
 
 [
-	"Conflicts between the protagonist and her father", 
-	"Father's actions that discouraged the protagonist's independence", 
-	"Reasons the protagonist gave for leaving home " 
+	"Names of the characters",
+    "Sarah and David's father-daughter relationship dynamics",
+    "David's controlling behavior towards Sarah",
+    "How Sarah's desire for independence influenced her decision",
+    "Sarah's feelings of restriction due to David's overprotectiveness",
+    "Key events in the story that highlight Sarah's struggle for independence",
+    "Character traits of Sarah and David in the story",
+    "David's impact on Sarah's emotional and mental state",
+    "Turning points in the story related to Sarah's decision to leave home",
+    "How Sarah's relationship with her father shaped her actions and choices"
 ]
 
-Please return the output as a valid Python string list, without any additional explanation or formatting.
+Now, given the example memory bank, here is how the system will generate queries:
+	1.	Identify broad themes such as character relationships, motivations, emotions, actions, and pivotal moments in the story.
+	2.	Ensure the queries cover a variety of aspects of the question, such as character dynamics, feelings of restriction, desire for freedom, and key story events that can provide insight into the protagonist's decision.
+
+Please ensure that the output queries are diverse, targeted, and well-aligned with the provided knowledge while covering different angles of the question.
 
 Input:
+
 Question: {question}
 
 Query Number: {query_num}

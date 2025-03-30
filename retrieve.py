@@ -11,7 +11,7 @@ from memory_processing import parse_video_caption
 MAX_RETRIES = 3
 
 
-def generate_queries(question, existing_knowledge=None, query_num=2):
+def generate_queries(question, existing_knowledge=None, query_num=5):
     input = [
         {
             "type": "text",
@@ -36,8 +36,8 @@ def generate_queries(question, existing_knowledge=None, query_num=2):
     return queries
 
 
-def retrieve_from_videograph(video_graph, question, topk=5):
-    queries = generate_queries(question)
+def retrieve_from_videograph(video_graph, question, query_num=5, topk=5):
+    queries = generate_queries(question, query_num)
     print(f"Queries: {queries}")
 
     model = "text-embedding-3-large"
@@ -52,8 +52,8 @@ def retrieve_from_videograph(video_graph, question, topk=5):
     related_nodes = list(set(related_nodes))
     return related_nodes
 
-def answer_with_retrieval(video_graph, question, topk=5, auto_refresh=False):
-    related_nodes = retrieve_from_videograph(video_graph, question, topk)
+def answer_with_retrieval(video_graph, question, query_num=5, topk=5, auto_refresh=False):
+    related_nodes = retrieve_from_videograph(video_graph, question, query_num, topk)
 
     if auto_refresh:
         video_graph.refresh_equivalences()
@@ -64,8 +64,6 @@ def answer_with_retrieval(video_graph, question, topk=5, auto_refresh=False):
         for entity in entities:
             entity_str = f"{entity[0]}_{entity[1]}"
             if entity_str in video_graph.reverse_character_mappings.keys():
-                print("yes")
-                print(entity_str, video_graph.reverse_character_mappings[entity_str])
                 related_memories[i] = memory.replace(entity_str, video_graph.reverse_character_mappings[entity_str])
     print(related_memories)
     input = [

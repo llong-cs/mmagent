@@ -599,7 +599,6 @@ class VideoGraph:
         for node_id in self.text_nodes:
             node = self.nodes[node_id]
             similarity = self._average_similarity(query_embeddings, node.embeddings)
-            print(similarity, threshold)
             if similarity >= threshold:
                 matched_text_nodes.append((node_id, similarity))
         

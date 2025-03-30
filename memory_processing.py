@@ -249,7 +249,6 @@ def process_captions(video_graph, caption_contents, type='episodic'):
     def get_caption_embeddings(caption_contents):
         # calculate the embedding for each caption
         model = 'text-embedding-3-large'
-
         embeddings = parallel_get_embedding(model, caption_contents)[0]
         return embeddings
 
