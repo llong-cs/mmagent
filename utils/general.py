@@ -11,6 +11,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 from itertools import combinations
 import struct
 import pickle
+from chat_api import parallel_get_whisper
+
 # file processing
 def get_video_paths(video_url, task):
     """Generate video and segment paths from URL and task.
