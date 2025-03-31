@@ -26,8 +26,8 @@ def back_translate(video_graph, queries):
         to_be_translated = [query]
         for entity in entities:
             entity_str = f"{entity[0]}_{entity[1]}"
-            if entity_str in video_graph.reverse_character_mappings.keys():
-                mappings = video_graph.reverse_character_mappings[entity_str]
+            if entity_str in video_graph.character_mappings.keys():
+                mappings = video_graph.character_mappings[entity_str]
                 
                 # Create new queries for each mapping
                 new_queries = []
@@ -56,6 +56,7 @@ def generate_queries(question, related_memories, query_num=5):
     ]
     messages = generate_messages(input)
     model = "gpt-4o-2024-11-20"
+    # model = "gemini-1.5-pro-002"
     queries = None
     for i in range(MAX_RETRIES):
         print(f"Generating queries {i} times")
@@ -70,6 +71,7 @@ def generate_queries(question, related_memories, query_num=5):
 
 def retrieve_from_videograph(video_graph, question, related_memories, query_num=5, topk=5):
     queries = generate_queries(question, related_memories, query_num)
+    queries = back_translate(video_graph, queries)
     print(f"Queries: {queries}")
 
     model = "text-embedding-3-large"
@@ -113,12 +115,14 @@ def answer_with_retrieval(video_graph, question, query_num=5, topk=5, auto_refre
         ]
         messages = generate_messages(input)
         model = "gpt-4o-2024-11-20"
+        # model = "gemini-1.5-pro-002"
         answer = get_response_with_retry(model, messages)[0]
         print(answer)
         
         answer_type = answer[answer.find("[")+1:answer.find("]")] if "[" in answer and "]" in answer else ""
         if answer_type.lower() == "intermediate":
             continue_retrieving = True
+            question += answer[answer.find("]")+1:]
         elif answer_type.lower() == "final":
             continue_retrieving = False
         else:

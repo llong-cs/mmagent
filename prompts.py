@@ -397,9 +397,15 @@ Output:"""
 prompt_answer_with_retrieval = """You are given a question and a list of related memories. Your task is to answer the question based on the provided memories, ensuring that your response is clearly categorized as either an intermediate thought process or a final answer.
 
 For each answer:
-	1.	If you are not yet certain about the final answer and need to express an intermediate step, start the response with "[INTERMEDIATE]" and include details such as character IDs or inferred relationships from the provided memories. Intermediate answers may contain tags.
-	2.	If you arrive at the final answer, start the response with "[FINAL]" and provide the final answer without using any tags or character placeholders. The final answer should be a clear, human-readable piece of information derived from the memories.
+	1.	If you have not yet gathered complete information to provide the final answer and need to express an intermediate step, start the response with "[INTERMEDIATE]" and include details such as character IDs or inferred relationships from the provided memories. When referencing characters, use their exact ID format (e.g., <character_1>) and do not modify it. Additionally, include the next step or question that needs to be resolved in the process, such as any missing information or further clarification required to reach the final answer.
+	2.	If you have gathered enough information to provide the final answer, start the response with "[FINAL]" and provide the final answer using specific names for characters. 
 
+Strict Requirements:
+	•	Do not use tags or placeholders like <character_1> in [FINAL] answers. 
+	•	Do not use ambiguous descriptive references in [FINAL] answers. 
+	•	The final answer should be a clear, human-readable piece of information derived from the memories. 
+	•	If the characters' specific names are unknown, respond with [INTERMEDIATE] answers and include a next step of identifying the characters' names.
+    
 Example 1:
 
 Question: Who is the host of the meeting?
@@ -413,7 +419,7 @@ Related Memories:
 
 Answer:
 
-[INTERMEDIATE] <character_1> is the host of the meeting.
+[INTERMEDIATE] <character_1> is the host of the meeting. Next, I need to verify the identity the name of <character_1>.
 
 Example 2:
 
