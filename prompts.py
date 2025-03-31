@@ -216,50 +216,62 @@ Yes
 
 Please only return "Yes" or "No", without any additional explanation or formatting."""
 
-prompt_memory_retrieval = """You are given a question and possibly some relevant existing knowledge. Your task is to generate a list of distinct and well-defined queries that will be encoded into embeddings and used to retrieve relevant information from a memory bank via vector similarity search. The goal is to retrieve information that will help answer the question, considering both the question and the provided existing knowledge.
+prompt_memory_retrieval = """You are given a question and some relevant knowledge. Your task is to generate a list of distinct and well-defined queries that will be encoded into embeddings and used to retrieve relevant information from a memory bank via vector similarity search. The goal is to retrieve additional information that will help answer the question, considering both the question and the provided knowledge.
 
 For each query:
-	1.	Identify broad topics or themes that may help answer the question. These themes should cover a range of aspects that might provide useful context or background to the question. Think about different angles, including but not limited to character names, behaviors, relationships, personality traits, actions, and key events.
-	2.	Make each query concise and focused on a specific piece of information that might help answer the question, based on the broad themes you identified.
-	3.	Ensure diversity in the queries by covering different facets of the question. This includes but is not limited to things like character interactions, emotions, motivations, actions, key dialogue, character appearances, and context.
-	4.	Avoid vague or overly broad formulations. Focus on queries that are specific, actionable, and that provide clear, targeted information for embedding-based retrieval.
-	5.	The queries should reflect a wide variety of themes and topics, allowing the system to retrieve information from different angles.
+	1.	Identify broad topics or themes that may help answer the question. These themes should cover aspects that provide useful context or background to the question and go beyond the existing knowledge you have. Think about different angles, including but not limited to character names, behaviors, relationships, personality traits, actions, and key events.
+	2.	Make each query concise and focused on a specific piece of information that could help answer the question, based on the broad themes you identified. The query should target information **outside of the existing knowledge** that might help answer the question.
+	3.	Ensure diversity in the queries by covering different facets of the question. This includes things like character interactions, emotions, motivations, actions, key dialogue, character appearances, and context that have not yet been provided.
+	4.	Avoid vague or overly broad formulations. Focus on generating queries that are actionable and specific, which will provide clear, targeted information for embedding-based retrieval.
+	5.	The queries should reflect a wide variety of themes and topics, allowing the system to retrieve information from different angles that may not have been covered by the provided knowledge.
 
 The example memory bank contains descriptions like:
 	•	"<voice_0> introduces four individuals named Denny, Herm, Aaron, and JC, along with five other unnamed individuals."
 	•	"<face_9> wears a black jacket, a plaid shirt, and jeans."
 	•	"<face_4> points at <face_9>."
 	•	"<face_1> is likely an executive or a presenter, leading a meeting."
-	•	"<face_3> says, 'Cuz you was in the guest of Black Privilege, and I think we had to pay him.'"
 	•	"Equivalence: <face_3>, <voice_2>"
-	•	"<face_9>, <face_7>, <face_8>, and <face_10> stand and listen to the commentary from the individuals at the table."
 
-Example Input:
+Example 1:
 
 Question: How did Sarah's relationship with her father, David, influence her decision to leave home in the story?
 
-Query Number: 10
+Number of Queries: 6
 
-Existing Knowledge:
+Knowledge:
+[]
+
+Queries:
+
 [
-	"David is portrayed as controlling and overprotective of Sarah.",
-	"Sarah often feels restricted in her actions due to David's behavior.",
-	"Sarah's decision to leave home is motivated by a desire for independence."
+	"Names of the characters.",
+    "Sarah and David's father-daughter relationship dynamics.",
+    "David's controlling behavior towards Sarah.",
+    "How Sarah's desire for independence influenced her decision.",
+    "Sarah's feelings of restriction due to David's overprotectiveness.",
+    "Character traits of Sarah and David in the story."
 ]
 
-Example Output:
+Example 2:
+
+Question: Who is the host of the meeting?
+
+Number of Queries: 3
+
+Knowledge:
+[
+	"<voice_1> introduces the meeting and assigns tasks to the participants.",
+	"<face_2> listens attentively to <face_1> and takes notes.",
+	"Equivalence: <face_1>, <voice_1>.",
+	"<character_1> is the host of the meeting."
+]
+
+Queries:
 
 [
-	"Names of the characters",
-    "Sarah and David's father-daughter relationship dynamics",
-    "David's controlling behavior towards Sarah",
-    "How Sarah's desire for independence influenced her decision",
-    "Sarah's feelings of restriction due to David's overprotectiveness",
-    "Key events in the story that highlight Sarah's struggle for independence",
-    "Character traits of Sarah and David in the story",
-    "David's impact on Sarah's emotional and mental state",
-    "Turning points in the story related to Sarah's decision to leave home",
-    "How Sarah's relationship with her father shaped her actions and choices"
+	"What is the name of <face_1>?",
+	"What is the name of <voice_1>?",
+	"What is the name of <character_1>?"
 ]
 
 Now, given the example memory bank, here is how the system will generate queries:
@@ -272,11 +284,11 @@ Input:
 
 Question: {question}
 
-Query Number: {query_num}
+Number of Queries: {query_num}
 
-Existing Knowledge: {existing_knowledge}
+Knowledge: {knowledge}
 
-Output:"""
+Queries:"""
 
 prompt_node_summarization = """You are an expert-level reasoning assistant. Given a specific node ID and a set of existing observations or knowledge points about this node in the format shown below, generate new high-level thinking conclusions. These conclusions should reflect abstract inferences or summarizations that go beyond simple visual facts or surface-level descriptions.
 
@@ -339,8 +351,7 @@ Now, use the same logic and structure to analyze the new input.
 
 Node: {node_id}
 
-History Information:
-{history_information}
+History Information: {history_information}
 
 Output:"""
 
@@ -383,10 +394,51 @@ Input:
 
 Output:"""
 
-prompt_answer_with_retrieval = """You are given a question and a list of related memories. Your task is to answer the question based on the provided memories.
+prompt_answer_with_retrieval = """You are given a question and a list of related memories. Your task is to answer the question based on the provided memories, ensuring that your response is clearly categorized as either an intermediate thought process or a final answer.
+
+For each answer:
+	1.	If you are not yet certain about the final answer and need to express an intermediate step, start the response with "[INTERMEDIATE]" and include details such as character IDs or inferred relationships from the provided memories. Intermediate answers may contain tags.
+	2.	If you arrive at the final answer, start the response with "[FINAL]" and provide the final answer without using any tags or character placeholders. The final answer should be a clear, human-readable piece of information derived from the memories.
+
+Example 1:
+
+Question: Who is the host of the meeting?
+
+Related Memories:
+
+[
+    "<character_1> introduces the meeting and assigns tasks to the participants.",
+    "<character_2> listens attentively to <character_1> and takes notes."
+]
+
+Answer:
+
+[INTERMEDIATE] <character_1> is the host of the meeting.
+
+Example 2:
+
+Question: Who is the host of the meeting?
+
+Related Memories:
+
+[
+    "<character_1> introduces the meeting and assigns tasks to the participants.",
+    "<character_2> listens attentively to <character_1> and takes notes.",
+    "<character_1> says: 'My name is David.'"
+]
+
+Answer:
+
+[FINAL] David is the host of the meeting.
+
+Your Task:
+	•	If you can definitively answer the question based on the provided memories, start your response with "[FINAL]" and avoid using  tags.
+	•	If you need more information to make the final decision, provide an intermediate answer with the "[INTERMEDIATE]" tag and include  tags for relationships or inferred information.
+
+Please ensure that the output includes only one type of answer: either "[INTERMEDIATE]" or "[FINAL]".
 
 Question: {question}
 
 Related Memories: {related_memories}
 
-Output:"""
+Answer:"""

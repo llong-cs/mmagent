@@ -10,15 +10,47 @@ from memory_processing import parse_video_caption
 
 MAX_RETRIES = 3
 
+def translate(video_graph, memories):
+    for i, memory in enumerate(memories):
+        entities = parse_video_caption(memory)
+        for entity in entities:
+            entity_str = f"{entity[0]}_{entity[1]}"
+            if entity_str in video_graph.reverse_character_mappings.keys():
+                memories[i] = memory.replace(entity_str, video_graph.reverse_character_mappings[entity_str])
+    return memories
 
-def generate_queries(question, existing_knowledge=None, query_num=5):
+def back_translate(video_graph, queries):
+    translated_queries = []
+    for i, query in enumerate(queries):
+        entities = parse_video_caption(query)
+        to_be_translated = [query]
+        for entity in entities:
+            entity_str = f"{entity[0]}_{entity[1]}"
+            if entity_str in video_graph.reverse_character_mappings.keys():
+                mappings = video_graph.reverse_character_mappings[entity_str]
+                
+                # Create new queries for each mapping
+                new_queries = []
+                for mapping in mappings:
+                    for partially_translated in to_be_translated:
+                        new_query = partially_translated.replace(entity_str, mapping)
+                        new_queries.append(new_query)
+                
+                # Update translated_query with all variants
+                to_be_translated = new_queries
+                
+        # Add all variants of the translated query
+        translated_queries.extend(to_be_translated)
+    return translated_queries
+
+def generate_queries(question, related_memories, query_num=5):
     input = [
         {
             "type": "text",
             "content": prompt_memory_retrieval.format(
                 question=question,
                 query_num=query_num,
-                existing_knowledge=existing_knowledge,
+                knowledge=related_memories,
             ),
         }
     ]
@@ -36,8 +68,8 @@ def generate_queries(question, existing_knowledge=None, query_num=5):
     return queries
 
 
-def retrieve_from_videograph(video_graph, question, query_num=5, topk=5):
-    queries = generate_queries(question, query_num)
+def retrieve_from_videograph(video_graph, question, related_memories, query_num=5, topk=5):
+    queries = generate_queries(question, related_memories, query_num)
     print(f"Queries: {queries}")
 
     model = "text-embedding-3-large"
@@ -53,35 +85,47 @@ def retrieve_from_videograph(video_graph, question, query_num=5, topk=5):
     return related_nodes
 
 def answer_with_retrieval(video_graph, question, query_num=5, topk=5, auto_refresh=False):
-    related_nodes = retrieve_from_videograph(video_graph, question, query_num, topk)
-
     if auto_refresh:
         video_graph.refresh_equivalences()
-    related_memories = [video_graph.nodes[node_id].metadata['contents'][0] for node_id in related_nodes]
-    # replace the entities in the memories with the character mappings
-    for i, memory in enumerate(related_memories):
-        entities = parse_video_caption(memory)
-        for entity in entities:
-            entity_str = f"{entity[0]}_{entity[1]}"
-            if entity_str in video_graph.reverse_character_mappings.keys():
-                related_memories[i] = memory.replace(entity_str, video_graph.reverse_character_mappings[entity_str])
-    print(related_memories)
-    input = [
-        {
-            "type": "text",
-            "content": prompt_answer_with_retrieval.format(
-                question=question,
-                related_memories=related_memories,
-            ),
-        }
-    ]
-    messages = generate_messages(input)
-    model = "gpt-4o-2024-11-20"
-    answer = get_response_with_retry(model, messages)[0]
-    print(answer)
-    return related_memories, answer
+        
+    related_nodes = []
+    related_memories = []
+    
+    continue_retrieving = True
+    while continue_retrieving:
+        new_nodes = retrieve_from_videograph(video_graph, question, related_memories, query_num, topk)
+        new_nodes = [new_node for new_node in new_nodes if new_node not in related_nodes]
+        related_nodes.extend(new_nodes)
+            
+        new_memories = [video_graph.nodes[node_id].metadata['contents'][0] for node_id in new_nodes]
+        new_memories = translate(video_graph, new_memories)
+        print(new_memories)
+        related_memories.extend(new_memories)
+        # replace the entities in the memories with the character mappings
+        input = [
+            {
+                "type": "text",
+                "content": prompt_answer_with_retrieval.format(
+                    question=question,
+                    related_memories=related_memories,
+                ),
+            }
+        ]
+        messages = generate_messages(input)
+        model = "gpt-4o-2024-11-20"
+        answer = get_response_with_retry(model, messages)[0]
+        print(answer)
+        
+        answer_type = answer[answer.find("[")+1:answer.find("]")] if "[" in answer and "]" in answer else ""
+        if answer_type.lower() == "intermediate":
+            continue_retrieving = True
+        elif answer_type.lower() == "final":
+            continue_retrieving = False
+        else:
+            raise ValueError(f"Unknown answer type: {answer_type}")
+    return answer
 
 if __name__ == "__main__":
     video_graph = VideoGraph()
     question = "What is the main character's name?"
-    related_memories, answer = answer_with_retrieval(video_graph, question)
+    answer = answer_with_retrieval(video_graph, question)
