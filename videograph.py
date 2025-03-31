@@ -20,6 +20,7 @@ from utils.general import validate_and_fix_python_list
 
 processing_config = json.load(open("configs/processing_config.json"))
 MAX_RETRIES = processing_config["max_retries"]
+logging = processing_config["logging"]
 
 class VideoGraph:
     """
@@ -118,7 +119,8 @@ class VideoGraph:
         self.nodes[self.next_node_id] = node
         self.next_node_id += 1
 
-        print(f"Image node added with ID {node.id}")
+        if logging == "DETAIL":
+            print(f"Image node added with ID {node.id}")
 
         return node.id
 
@@ -138,7 +140,8 @@ class VideoGraph:
         self.nodes[self.next_node_id] = node
         self.next_node_id += 1
 
-        print(f"Voice node added with ID {node.id}")
+        if logging == "DETAIL":
+            print(f"Voice node added with ID {node.id}")
 
         return node.id
 
@@ -164,7 +167,8 @@ class VideoGraph:
 
         self.next_node_id += 1
 
-        print(f"Text node of type {text_type} added with ID {node.id} and contents: {text['contents']}")
+        if logging == "DETAIL":
+            print(f"Text node of type {text_type} added with ID {node.id} and contents: {text['contents']}")
 
         return node.id
 
@@ -203,7 +207,8 @@ class VideoGraph:
         else:
             node.embeddings = all_embeddings
         
-        print(f"Node {node_id} updated with {len(embeddings)} embeddings")
+        if logging == "DETAIL":
+            print(f"Node {node_id} updated with {len(embeddings)} embeddings")
 
         return True
 
@@ -214,7 +219,8 @@ class VideoGraph:
             # Add both directions with same weight
             self.edges[(node_id1, node_id2)] = weight
             self.edges[(node_id2, node_id1)] = weight
-            print(f"Edge added between {node_id1} and {node_id2}")
+            if logging == "DETAIL":
+                print(f"Edge added between {node_id1} and {node_id2}")
             return True
         return False
 
@@ -228,7 +234,8 @@ class VideoGraph:
             if self.edges[(node_id1, node_id2)] <= 0:
                 del self.edges[(node_id1, node_id2)]
                 del self.edges[(node_id2, node_id1)]
-                print(f"Edge removed between {node_id1} and {node_id2}")
+                if logging == "DETAIL":
+                    print(f"Edge removed between {node_id1} and {node_id2}")
             return True
         return False
 
@@ -251,7 +258,8 @@ class VideoGraph:
                 self.update_edge_weight(n1, n2, delta_weight)
                 reinforced_count += 1
 
-        print(f"{reinforced_count} edges reinforced for node {node_id}")
+        if logging == "DETAIL":
+            print(f"{reinforced_count} edges reinforced for node {node_id}")
                 
         return reinforced_count
 
@@ -274,7 +282,8 @@ class VideoGraph:
                 self.update_edge_weight(n1, n2, -delta_weight)  # Use negative delta_weight to decrease
                 weakened_count += 1
 
-        print(f"{weakened_count} edges weakened for node {node_id}")
+        if logging == "DETAIL":
+            print(f"{weakened_count} edges weakened for node {node_id}")
                 
         return weakened_count
     
@@ -296,7 +305,6 @@ class VideoGraph:
             model = "gpt-4o-2024-11-20"
             summary = None
             for i in range(MAX_RETRIES):
-                print(f"Generating summary {i} times")
                 summary_string = get_response_with_retry(model, messages)[0]
                 summary = validate_and_fix_python_list(summary_string)
                 if summary is not None:
@@ -308,7 +316,7 @@ class VideoGraph:
             
         process_captions(self, new_semantic_memory, type='semantic')
         
-    def fix_collisions(self, node_id, mode='argmax', logging=False):
+    def fix_collisions(self, node_id, mode='argmax'):
         # detect collisions through clustering (one-node-cluster is allowed)
         # mode: argmax, dropout
         # argmax: select the node with the highest edge weight from each cluster
@@ -354,7 +362,7 @@ class VideoGraph:
             else:
                 raise ValueError("Unknown mode")
             
-            if logging:
+            if logging == "DETAIL":
                 print('=' * 80)
                 print(f"Cluster {cluster_id} has {len(cluster_nodes)} nodes: {cluster_nodes}")
                 for node in cluster_nodes:
@@ -423,7 +431,6 @@ class VideoGraph:
             equivalences = None
             
             for i in range(MAX_RETRIES):
-                print(f"Generating equivalences {i} times")
                 equivalences_string = get_response_with_retry(model, messages)[0]
                 equivalences = validate_and_fix_python_list(equivalences_string)
                 if equivalences is not None:
@@ -609,7 +616,7 @@ class VideoGraph:
     
     def search_text_nodes_by_clip(self, clip_id):
         """Search for text nodes by clip id."""
-        return [node_id for node_id in self.text_nodes if 'timestamp' in self.nodes[node_id].metadata and self.nodes[node_id].metadata['timestamp'] == clip_id]
+        return [node_id for node_id in self.text_nodes if self.nodes[node_id].metadata['timestamp'] == clip_id]
     
     # Visualization functions
     

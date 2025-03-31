@@ -17,6 +17,7 @@ from prompts import prompt_generate_captions_with_ids, prompt_generate_thinkings
 processing_config = json.load(open("configs/processing_config.json"))
 
 MAX_RETRIES = processing_config["max_retries"]
+logging = processing_config["logging"]
 
 def parse_video_caption(video_caption):
         # video_caption is a string like this: <char_1> xxx <char_2> xxx
@@ -45,14 +46,13 @@ def parse_video_caption(video_caption):
         return entities
 
 def generate_video_context(
-    video_graph, base64_video, base64_frames, base64_audio, faces_list, voices_list, visualize=False
+    video_graph, base64_video, base64_frames, base64_audio, faces_list, voices_list
 ):
     face_frames = []
     history_length = processing_config["history_length"]
 
     # Iterate through faces directly
     if len(faces_list) > 0:
-        print(f"{len(faces_list)} faces detected")
         for char_id, faces in faces_list.items():
             face = faces[0]
             frame_id = face["frame_id"]
@@ -76,7 +76,7 @@ def generate_video_context(
             face_frames.append((f"<face_{char_id}>:", frame_base64))
         
         # Visualize face frames with IDs
-        if visualize:
+        if logging == "DETAIL":
             num_faces = len(face_frames)
             num_rows = (num_faces + 2) // 3  # Round up division to get number of rows needed
 
@@ -110,7 +110,7 @@ def generate_video_context(
             "content": voice["asr"]
         } for voice in voices]
 
-    if visualize:
+    if logging == "DETAIL":
         print(f"Diarized dialogues: {voices_input}")
     
     # get the last history_length texts
@@ -169,7 +169,6 @@ def generate_thinkings_with_ids(video_context, video_description):
     model = "gemini-1.5-pro-002"
     thinkings = None
     for i in range(MAX_RETRIES):
-        print(f"Generating thinkings {i} times")
         thinkings_string = get_response_with_retry(model, messages)[0]
         thinkings = validate_and_fix_python_list(thinkings_string)
         if thinkings is not None:
@@ -218,7 +217,6 @@ def generate_captions_and_thinkings_with_ids(
     model = "gemini-1.5-pro-002"
     captions = None
     for i in range(MAX_RETRIES):
-        print(f"Generating captions {i} times")
         captions_string = get_response_with_retry(model, messages)[0]
         captions = validate_and_fix_python_list(captions_string)
         if captions is not None:

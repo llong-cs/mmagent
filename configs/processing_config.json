@@ -15,5 +15,6 @@
     "query_num": 10,
     "topk": 5,
     "max_retrieval_steps": 3,
-    "retrieval_threshold": 0.4
+    "retrieval_threshold": 0.4,
+    "logging": "INFO"
 }

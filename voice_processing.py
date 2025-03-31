@@ -84,7 +84,6 @@ def process_voices(video_graph, base64_audio, base64_video):
         model = "gemini-1.5-pro-002"
         asrs = None
         for i in range(MAX_RETRIES):
-            print(f"Diarizing audio {i} times")
             response = get_response_with_retry(model, messages)
             asrs = validate_and_fix_json(response[0])
             if asrs is not None:
