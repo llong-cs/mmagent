@@ -12,7 +12,7 @@ from PIL import Image, ImageDraw
 
 from utils.chat_api import generate_messages, get_response_with_retry, parallel_get_embedding
 from utils.general import validate_and_fix_python_list
-from prompts import prompt_generate_captions_with_ids, prompt_generate_thinkings_with_ids
+from prompts import prompt_generate_captions_with_ids, prompt_generate_thinkings_with_ids, prompt_generate_captions_with_ids_
 
 processing_config = json.load(open("configs/processing_config.json"))
 
@@ -210,7 +210,7 @@ def generate_captions_and_thinkings_with_ids(
     input = video_context + [
         {
             "type": "text",
-            "content": prompt_generate_captions_with_ids,
+            "content": prompt_generate_captions_with_ids_,
         }
     ]
 

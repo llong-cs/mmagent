@@ -32,9 +32,9 @@ If the face meets all the above criteria, return 1. Otherwise, return 0.
 
 Return only 1 or 0, without any additional explanation or formatting."""
 
-prompt_generate_captions_with_ids = """You are given a video, a set of characters. Each character (some of them may indicate the same individual) is represented by a face image with a bounding box or several voice clips, each with a start time, an end time (both in MM:SS format), and content. Each face and voice is identified by a unique ID enclosed in angle brackets (< >).
+prompt_generate_captions_with_ids = """You are given a video, a set of character features. Each feature (some of them may belong to the same character) can be a face image represented by a video frame with a bounding box, or can be a voice feature represented by several speech segments, each with a start time, an end time (both in MM:SS format), and the corresponding content. Each face and voice feature is identified by a unique ID enclosed in angle brackets (< >).
 
-Additionally, you are provided with episodic history, representing events from previous clips.
+Additionally, you are provided with episodic history, representing events from previous consecutive clips.
 
 Your Task:
 
@@ -61,10 +61,16 @@ Example Input:
 		"<face_2>": <img_2>,
 		"<face_3>": <img_3>
 	},
-	"speakers": [
-		{"start_time": "00:05", "end_time": "00:08", "speaker": "<voice_1>", "asr": "Hello, everyone."},
-		{"start_time": "00:09", "end_time": "00:12", "speaker": "<voice_2>", "asr": "Welcome to the meeting."}
-	],
+	"speakers": {
+		"<voice_1>": [
+			{"start_time": "00:05", "end_time": "00:08", "asr": "Hello, everyone."},
+			{"start_time": "00:09", "end_time": "00:12", "asr": "Let's get started with today's agenda."}
+		],
+		"<voice_2>": [
+			{"start_time": "00:15", "end_time": "00:18", "asr": "Thank you for having me here."},
+			{"start_time": "00:19", "end_time": "00:22", "asr": "I'm excited to share my presentation."}
+		]
+	},
 	"episodic_history": [
 		"<face_1> wears a black suit with a white shirt and tie.",
 		"<face_1> has short black hair and wears glasses.",
@@ -82,6 +88,68 @@ Example Output:
 	"<face_1> adjusts his tie and starts speaking to the group.",
 	"<face_2> listens attentively to <face_1>'s speech and nods in agreement.",
 	"<face_3> enters the room from the back, looking a bit anxious and unsure."
+]
+
+Please only return the valid string list, without any additional explanation or formatting."""
+
+prompt_generate_captions_with_ids_ = """You are given a video, a set of character features. Each feature (some of them may belong to the same character) can be a face image represented by a video frame with a bounding box, or can be a voice feature represented by several speech segments, each with a start time, an end time (both in MM:SS format), and the corresponding content. Each face and voice feature is identified by a unique ID enclosed in angle brackets (< >).
+
+Additionally, you are provided with episodic history, representing events from previous consecutive clips.
+
+Your Task:
+
+Based on the video content and episodic history, generate a detailed and cohesive description of the video clip. The description should focus on the entire event, incorporating all relevant aspects of the characters, their actions, spoken dialogue, and interactions in a narrative format. The description should include (but is not limited to) the following categories:
+
+	1.	Characters' Appearance: Describe one specific aspect of the character's appearance, such as their clothing, facial features, or any distinguishing characteristics.
+	2.	Characters' Actions & Movements: Describe one specific gesture, movement, or interaction performed by the character.
+	3.	Characters' Spoken Dialogue: Transcribe or summarize a specific instance of speech spoken by the character.
+	4.	Characters' Contextual Behavior: Describe one specific aspect of the character's role in the scene or their interaction with another character, focusing on their behavior, emotional state, or relationships.
+
+Strict Requirements:
+	•	Every reference to a character must use their corresponding feature ID enclosed in angle brackets (e.g., <face_1>, <voice_2>).
+	•	Do not use generic descriptions, inferred names, or pronouns to refer to characters (e.g., "he," "they," "the man").
+	•	Seperate the complete description into multiple parts, each part focusing on a specific aspect of the video clip.
+	•	Whenever possible, include natural time expressions and physical location cues in the descriptions to improve contextual understanding. These should be based on inferred situational context (e.g., "in the evening at the dinner table," "early morning outside the building"), not on video clip timestamps.
+	•	Ensure all descriptions remain consistent with the provided IDs and do not introduce assumptions beyond what can be inferred from the video and audio content.
+
+Example Input:
+
+{
+	"video": <input_video>,
+	"characters": {
+		"<face_1>": <img_1>,
+		"<face_2>": <img_2>,
+		"<face_3>": <img_3>
+	},
+	"speakers": {
+		"<voice_1>": [
+			{"start_time": "00:05", "end_time": "00:08", "asr": "Hello, everyone."},
+			{"start_time": "00:09", "end_time": "00:12", "asr": "Let's get started with today's agenda."}
+		],
+		"<voice_2>": [
+			{"start_time": "00:15", "end_time": "00:18", "asr": "Thank you for having me here."},
+			{"start_time": "00:19", "end_time": "00:22", "asr": "I'm excited to share my presentation."}
+		]
+	},
+	"episodic_history": [
+		"<face_1> wears a black suit with a white shirt and tie.",
+		"<face_1> has short black hair and wears glasses.",
+		"<face_1> enters the conference room and shakes hands with <face_2>.",
+		"<face_2> sits down at the table next to <face_1> after briefly greeting <face_1>.",
+		"<voice_1> says: 'Good afternoon, everyone. Let's begin the meeting.'",
+		"<face_2> wears a red dress and has long brown hair.",
+		"<face_2> waves at <face_1> while sitting at the table and checks her phone."
+	]
+}
+
+Example Output:
+
+[
+	"In the bright conference room, <face_1> enters confidently, adjusting his black suit with a white shirt and tie. He has short black hair and wears glasses, giving a professional appearance as he approaches <face_2> to shake hands.",
+	"<face_2>, dressed in a striking red dress with long brown hair, smiles warmly and greets <face_1>. She then sits down at the table beside him, glancing at her phone briefly while occasionally looking up.",
+	"<voice_1> speaks to the group, 'Good afternoon, everyone. Let's begin the meeting.' His voice commands attention as the room quiets, and all eyes turn to him.",
+	"<face_2> listens attentively to <voice_1>'s words, nodding in agreement while still occasionally checking her phone. The atmosphere is professional, with the participants settling into their roles for the meeting.",
+	"<face_1> adjusts his tie and begins discussing the agenda, engaging the participants in a productive conversation."
 ]
 
 Please only return the valid string list, without any additional explanation or formatting."""
