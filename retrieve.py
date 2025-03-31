@@ -177,8 +177,7 @@ def answer_with_retrieval(video_graph, question, query_num=5, topk=5, auto_refre
             print(f"New memories from clip {new_clip}: {related_memories[new_clip]}")        
             
         # sort related_memories by timestamp
-        related_memories = dict(sorted(related_memories.items(), key=lambda x: x[0]))
-        
+        related_memories = dict(sorted(related_memories.items(), key=lambda x: x[0]))        
 
         # replace the entities in the memories with the character mappings
         input = [
@@ -186,7 +185,7 @@ def answer_with_retrieval(video_graph, question, query_num=5, topk=5, auto_refre
                 "type": "text",
                 "content": prompt_answer_with_retrieval_clipwise.format(
                     question=question,
-                    related_memories=json.dumps({str(k): v for k, v in related_memories.items()}),
+                    related_memories=json.dumps({f"clip_{k}": v for k, v in related_memories.items()}),
                 ),
             }
         ]
