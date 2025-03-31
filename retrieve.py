@@ -1,3 +1,4 @@
+import json
 from videograph import VideoGraph
 from utils.chat_api import (
     generate_messages,
@@ -184,7 +185,7 @@ def answer_with_retrieval(video_graph, question, query_num=5, topk=5, auto_refre
                 "type": "text",
                 "content": prompt_answer_with_retrieval_clipwise.format(
                     question=question,
-                    related_memories={f"clip_{k}": v for k, v in related_memories.items()},
+                    related_memories=json.dumps({f"clip_{k}": v for k, v in related_memories.items()}),
                 ),
             }
         ]
