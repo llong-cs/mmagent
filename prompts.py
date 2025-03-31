@@ -467,8 +467,12 @@ Output:"""
 prompt_answer_with_retrieval = """You are given a question and a list of related memories. Your task is to answer the question based on the provided memories, ensuring that your response is clearly categorized as either an intermediate thought process or a final answer.
 
 For each answer:
-	1.	If you have not yet gathered complete information to provide the final answer and need to express an intermediate step, start the response with "[INTERMEDIATE]" and include details such as character IDs or inferred relationships from the provided memories. When referencing characters, use their exact ID format (e.g., <character_1>) and do not modify it. Additionally, include the next step or question that needs to be resolved in the process, such as any missing information or further clarification required to reach the final answer.
-	2.	If you have gathered enough information to provide the final answer, start the response with "[FINAL]" and provide the final answer using specific names for characters. 
+	1.	If you have gathered enough information to provide the final answer, start the response with "[FINAL]" and write the answer.
+	•	In [FINAL] answers, when you need to refer to a character, use their specific names, instead of id tags like <character_1>, or ambiguous descriptions like "the man in the suit" or "the person speaking.".
+	•	If the characters' names are unknown and references are needed, do not fabricate them -- return an [INTERMEDIATE] answer and explain what information is still needed.
+	2.	If you have not yet gathered complete information to provide the final answer and need to express an intermediate step, start the response with "[INTERMEDIATE]".
+	•	In [INTERMEDIATE] answers, when referencing characters, you can use their feature ID (e.g., <character_1>) from the memories. 
+	•	In each [INTERMEDIATE] answer, include the next step or question that needs to be resolved in order to reach the final answer, such as identifying a character's name or confirming a specific event.
 
 Strict Requirements:
 	•	Do not use tags or placeholders like <character_1> in [FINAL] answers. 
@@ -524,11 +528,12 @@ prompt_answer_with_retrieval_clipwise = """You are given a question and a dictio
 Your task is to answer the question based on all provided memories, ensuring that your response is clearly categorized as either an intermediate thought process or a final answer.
 
 For each answer:
-	1.	If you have not yet gathered complete information to provide the final answer and need to express an intermediate step, start the response with "[INTERMEDIATE]" and include details such as character IDs or inferred relationships from the provided memories. When referencing characters, use their exact ID format (e.g., <character_1>) and do not modify it. Additionally, include the next step or question that needs to be resolved in the process, such as identifying a character's name or confirming a specific event.
-	2.	If you have gathered enough information to provide the final answer, start the response with "[FINAL]" and write the answer using specific character names only.
-	•	Do not use tags or placeholders like <character_1> in [FINAL] answers.
-	•	Do not use ambiguous descriptions like "the man in the suit" or "the person speaking."
-	•	If the characters' names are unknown, do not fabricate them -- return an [INTERMEDIATE] answer and explain what information is still needed.
+	1.	If you have gathered enough information to provide the final answer, start the response with "[FINAL]" and write the answer.
+	•	In [FINAL] answers, when you need to refer to a character, use their specific names, instead of id tags like <character_1>, or ambiguous descriptions like "the man in the suit" or "the person speaking.".
+	•	If the characters' names are unknown and references are needed, do not fabricate them -- return an [INTERMEDIATE] answer and explain what information is still needed.
+	2.	If you have not yet gathered complete information to provide the final answer and need to express an intermediate step, start the response with "[INTERMEDIATE]".
+	•	In [INTERMEDIATE] answers, when referencing characters, you can use their feature ID (e.g., <character_1>) from the memories. 
+	•	In each [INTERMEDIATE] answer, include the next step or question that needs to be resolved in order to reach the final answer, such as identifying a character's name or confirming a specific event.
 
 Example 1
 

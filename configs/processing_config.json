@@ -13,8 +13,8 @@
     "history_length": 10,
     "max_retries": 3,
     "query_num": 10,
-    "topk": 5,
+    "topk": 3,
     "max_retrieval_steps": 3,
-    "retrieval_threshold": 0.4,
+    "retrieval_threshold": 0,
     "logging": "INFO"
 }
