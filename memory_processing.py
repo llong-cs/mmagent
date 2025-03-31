@@ -230,7 +230,7 @@ def generate_captions_and_thinkings_with_ids(
 
     return captions, thinkings
 
-def process_captions(video_graph, caption_contents, type='episodic'):
+def process_captions(video_graph, caption_contents, clip_id, type='episodic'):
     """
     Process video descriptions and update the video graph with text nodes and edges.
     
@@ -254,7 +254,7 @@ def process_captions(video_graph, caption_contents, type='episodic'):
 
     def insert_caption(video_graph, caption, type='episodic'):
         # create a new text node for each caption
-        new_node_id = video_graph.add_text_node(caption, type)
+        new_node_id = video_graph.add_text_node(caption, clip_id, type)
         entities = parse_video_caption(caption['contents'][0])
         for entity in entities:
             video_graph.add_edge(new_node_id, entity[1])

@@ -142,7 +142,7 @@ class VideoGraph:
 
         return node.id
 
-    def add_text_node(self, text, text_type='episodic'):
+    def add_text_node(self, text, clip_id, text_type='episodic'):
         """Add a new text node with episodic or semantic content.
         
         Args:
@@ -155,6 +155,7 @@ class VideoGraph:
         node = self.Node(self.next_node_id, text_type)
         node.embeddings = text['embeddings']
         node.metadata['contents'] = text['contents']
+        node.metadata['timestamp'] = clip_id
         
         self.nodes[self.next_node_id] = node
         self.text_nodes.append(node.id)  # Add to ordered list
@@ -603,9 +604,12 @@ class VideoGraph:
                 matched_text_nodes.append((node_id, similarity))
         
         matched_text_nodes = sorted(matched_text_nodes, key=lambda x: x[1], reverse=True)
-        matched_text_nodes = [node_info[0] for node_info in matched_text_nodes]
         
         return matched_text_nodes
+    
+    def search_text_nodes_by_clip(self, clip_id):
+        """Search for text nodes by clip id."""
+        return [node_id for node_id in self.text_nodes if 'timestamp' in self.nodes[node_id].metadata and self.nodes[node_id].metadata['timestamp'] == clip_id]
     
     # Visualization functions
     
