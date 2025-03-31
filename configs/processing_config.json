@@ -10,11 +10,11 @@
     "face_quality_score_threshold": 22,
     "max_faces_per_character": 3,
     "min_duration_for_audio": 2,
-    "history_length": 10,
+    "history_length": 1,
     "max_retries": 3,
     "query_num": 10,
     "topk": 3,
     "max_retrieval_steps": 3,
-    "retrieval_threshold": 0,
-    "logging": "INFO"
+    "logging": "INFO",
+    "save_dir": "data/video_graphs"
 }

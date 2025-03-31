@@ -26,7 +26,7 @@ class VideoGraph:
     """
     This class defines the VideoGraph class, which is used to represent the video graph.
     """
-    def __init__(self, max_img_embeddings=10, max_audio_embeddings=20, img_matching_threshold=0.3, audio_matching_threshold=0.6, text_matching_threshold=0.25):
+    def __init__(self, max_img_embeddings=10, max_audio_embeddings=20, img_matching_threshold=0.3, audio_matching_threshold=0.6):
         """Initialize a video graph with nodes for faces, voices and text events.
         
         Args:
@@ -37,14 +37,15 @@ class VideoGraph:
         self.edges = {}  # (node_id1, node_id2) -> edge weight
         # Maintain ordered text nodes
         self.text_nodes = []  # List of text node IDs in insertion order
-        self.event_sequence = []
+        
+        self.text_nodes_by_clip = {}
+        self.event_sequence_by_clip = {}
         
         self.max_img_embeddings = max_img_embeddings
         self.max_audio_embeddings = max_audio_embeddings
         
         self.img_matching_threshold = img_matching_threshold
         self.audio_matching_threshold = audio_matching_threshold
-        self.text_matching_threshold = text_matching_threshold
         
         self.next_node_id = 0
 
@@ -162,8 +163,13 @@ class VideoGraph:
         
         self.nodes[self.next_node_id] = node
         self.text_nodes.append(node.id)  # Add to ordered list
+        if clip_id not in self.text_nodes_by_clip:
+            self.text_nodes_by_clip[clip_id] = []
+        self.text_nodes_by_clip[clip_id].append(node.id)
         if text_type == 'episodic':
-            self.event_sequence.append(node.id)
+            if clip_id not in self.event_sequence_by_clip:
+                self.event_sequence_by_clip[clip_id] = []
+            self.event_sequence_by_clip[clip_id].append(node.id)
 
         self.next_node_id += 1
 
@@ -600,8 +606,7 @@ class VideoGraph:
             
         return info_nodes
     
-    def search_text_nodes(self, query_embeddings):
-        threshold = self.text_matching_threshold
+    def search_text_nodes(self, query_embeddings, threshold=0.4):
         
         matched_text_nodes = []
         for node_id in self.text_nodes:
@@ -613,10 +618,6 @@ class VideoGraph:
         matched_text_nodes = sorted(matched_text_nodes, key=lambda x: x[1], reverse=True)
         
         return matched_text_nodes
-    
-    def search_text_nodes_by_clip(self, clip_id):
-        """Search for text nodes by clip id."""
-        return [node_id for node_id in self.text_nodes if self.nodes[node_id].metadata['timestamp'] == clip_id]
     
     # Visualization functions
     

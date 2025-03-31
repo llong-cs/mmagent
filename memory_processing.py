@@ -46,10 +46,9 @@ def parse_video_caption(video_caption):
         return entities
 
 def generate_video_context(
-    video_graph, base64_video, base64_frames, base64_audio, faces_list, voices_list
+    base64_video, base64_frames, faces_list, voices_list
 ):
     face_frames = []
-    history_length = processing_config["history_length"]
 
     # Iterate through faces directly
     if len(faces_list) > 0:
@@ -112,10 +111,6 @@ def generate_video_context(
 
     if logging == "DETAIL":
         print(f"Diarized dialogues: {voices_input}")
-    
-    # get the last history_length texts
-    history_nodes = video_graph.event_sequence[-history_length:]
-    history_texts = [video_graph.nodes[node_id].metadata['contents'][0] for node_id in history_nodes]
 
     video_context = [
         {
@@ -129,11 +124,7 @@ def generate_video_context(
         {
             "type": "text",
             "content": json.dumps(voices_input),
-        },
-        {
-            "type": "text",
-            "content": f"History: {history_texts}",
-        },
+        }
     ]
 
     return video_context
@@ -155,10 +146,11 @@ def generate_thinkings_with_ids(video_context, video_description):
     3. Makes API call to Gemini model
     4. Returns the model's response with thinking descriptions
     """
+    
     input = video_context + [
         {
             "type": "text",
-            "content": f"video_description: {video_description}",
+            "content": f"Video descriptions: {video_description}",
         },
         {
             "type": "text",
@@ -178,7 +170,7 @@ def generate_thinkings_with_ids(video_context, video_description):
     return thinkings
 
 def generate_captions_and_thinkings_with_ids(
-    video_graph,base64_video, base64_frames, base64_audio, faces_list, voices_list
+    video_graph, base64_video, base64_frames, faces_list, voices_list, clip_id
 ):
     """
     Generate captions and thinking descriptions for video content with character IDs.
@@ -203,10 +195,24 @@ def generate_captions_and_thinkings_with_ids(
     5. Generates thinking descriptions based on the captions
     """
     video_context = generate_video_context(
-        video_graph, base64_video, base64_frames, base64_audio, faces_list, voices_list
+        base64_video, base64_frames, faces_list, voices_list
     )
+    
+    # get the last history_length texts
+    history_length = processing_config["history_length"]
+    history_nodes = []
+    for i in range(max(0, clip_id - history_length), clip_id):
+        history_nodes.extend(video_graph.event_sequence_by_clip[i])
+    history_texts = [video_graph.nodes[node_id].metadata['contents'][0] for node_id in history_nodes]
+    
+    previous_clip_descriptions = [
+        {
+            "type": "text",
+            "content": f"Previous clip descriptions: {history_texts}",
+        }
+    ]
 
-    input = video_context + [
+    input = video_context + previous_clip_descriptions + [
         {
             "type": "text",
             "content": prompt_generate_captions_with_ids_,
@@ -224,7 +230,7 @@ def generate_captions_and_thinkings_with_ids(
     if captions is None:
         raise Exception("Failed to generate captions")
 
-    thinkings = generate_thinkings_with_ids(video_context, captions)
+    thinkings = generate_thinkings_with_ids(video_context, history_texts + captions)
 
     return captions, thinkings
 

@@ -81,7 +81,7 @@ def generate_queries(question, related_memories, query_num=5):
 #     related_nodes = []
 
 #     for query_embedding in query_embeddings:
-#         nodes = video_graph.search_text_nodes([query_embedding])
+#         nodes = video_graph.search_text_nodes([query_embedding], threshold=0.5)
 #         related_nodes.extend(nodes[:topk])
 
 #     related_nodes = list(set(related_nodes))
@@ -142,7 +142,7 @@ def retrieve_from_videograph(video_graph, question, related_memories, query_num=
     clip_scores = {}
 
     for query_embedding in query_embeddings:
-        nodes = video_graph.search_text_nodes([query_embedding])
+        nodes = video_graph.search_text_nodes([query_embedding], threshold=0.2)
         for node in nodes:
             node_id = node[0]
             node_score = node[1]
@@ -171,13 +171,13 @@ def answer_with_retrieval(video_graph, question, query_num=5, topk=5, auto_refre
         related_clips.extend(new_clips)
         
         for new_clip in new_clips:
-            related_nodes = video_graph.search_text_nodes_by_clip(new_clip)
+            related_nodes = video_graph.text_nodes_by_clip[new_clip]
             related_memories[new_clip] = translate(video_graph, [video_graph.nodes[node_id].metadata['contents'][0] for node_id in related_nodes])
             
             print(f"New memories from clip {new_clip}: {related_memories[new_clip]}")        
             
         # sort related_memories by timestamp
-        related_memories = dict(sorted(related_memories.items(), key=lambda x: x[0]))        
+        related_memories = dict(sorted(related_memories.items(), key=lambda x: x[0]))
 
         # replace the entities in the memories with the character mappings
         input = [

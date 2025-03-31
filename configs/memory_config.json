@@ -2,6 +2,5 @@
     "max_img_embeddings": 10,
     "max_audio_embeddings": 20,
     "img_matching_threshold": 0.3,
-    "audio_matching_threshold": 0.6,
-    "text_matching_threshold": 0.75
+    "audio_matching_threshold": 0.6
 }

@@ -92,13 +92,34 @@ Example Output:
 
 Please only return the valid string list, without any additional explanation or formatting."""
 
+prompt_audio_segmentation = """You are given a video. Your task is to perform Automatic Speech Recognition (ASR) and audio diarization on the provided video. Extract all speech segments with accurate timestamps and segment them by speaker turns (i.e., different speakers should have separate segments), but without assigning speaker identifiers.
+
+Return a JSON list where each entry represents a speech segment with the following fields:
+	•	start_time: Start timestamp in MM:SS format.
+	•	end_time: End timestamp in MM:SS format.
+	•	asr: The transcribed text for that segment.
+
+Example Output:
+
+[
+    {"start_time": "00:05", "end_time": "00:08", "asr": "Hello, everyone."},
+    {"start_time": "00:09", "end_time": "00:12", "asr": "Welcome to the meeting."}
+]
+
+Strict Requirements:
+
+	•	Ensure precise speech segmentation with accurate timestamps.
+	•	Segment based on speaker turns (i.e., different speakers' utterances should be separated).
+	•	Preserve punctuation and capitalization in the ASR output.
+	•	Return only the valid JSON list without additional text, explanations, or formatting."""
+
 prompt_generate_captions_with_ids_ = """You are given a video, a set of character features. Each feature (some of them may belong to the same character) can be a face image represented by a video frame with a bounding box, or can be a voice feature represented by several speech segments, each with a start time, an end time (both in MM:SS format), and the corresponding content. Each face and voice feature is identified by a unique ID enclosed in angle brackets (< >).
 
-Additionally, you are provided with episodic history, representing events from previous consecutive clips.
+Additionally, you are provided with previous clip descriptions, representing events from previous consecutive clips.
 
 Your Task:
 
-Based on the video content and episodic history, generate a detailed and cohesive description of the video clip. The description should focus on the entire event, incorporating all relevant aspects of the characters, their actions, spoken dialogue, and interactions in a narrative format. The description should include (but is not limited to) the following categories:
+Based on the video content and previous clip descriptions, generate a detailed and cohesive description of the video clip. The description should focus on the entire event, incorporating all relevant aspects of the characters, their actions, spoken dialogue, and interactions in a narrative format. The description should include (but is not limited to) the following categories:
 
 	1.	Characters' Appearance: Describe the characters' appearance, such as their clothing, facial features, or any distinguishing characteristics.
 	2.	Characters' Actions & Movements: Describe specific gesture, movement, or interaction performed by the characters.
@@ -133,7 +154,7 @@ Example Input:
 			{"start_time": "00:19", "end_time": "00:22", "asr": "I'm excited to share my presentation."}
 		]
 	},
-	"episodic_history": [
+	"previous_clip_descriptions": [
 		"<face_1> wears a black suit with a white shirt and tie.",
 		"<face_1> has short black hair and wears glasses.",
 		"<face_1> enters the conference room and shakes hands with <face_2>.",
@@ -156,46 +177,77 @@ Example Output:
 
 Please only return the valid string list, without any additional explanation or formatting."""
 
-prompt_audio_segmentation = """You are given a video. Your task is to perform Automatic Speech Recognition (ASR) and audio diarization on the provided video. Extract all speech segments with accurate timestamps and segment them by speaker turns (i.e., different speakers should have separate segments), but without assigning speaker identifiers.
+prompt_generate_thinkings_with_ids = """You are given a video, a set of character features. Each feature (some of them may belong to the same character) can be a face image represented by a video frame with a bounding box, or can be a voice feature represented by several speech segments, each with a start time, an end time (both in MM:SS format), and the corresponding content. Each face and voice feature is identified by a unique ID enclosed in angle brackets (< >).
 
-Return a JSON list where each entry represents a speech segment with the following fields:
-	•	start_time: Start timestamp in MM:SS format.
-	•	end_time: End timestamp in MM:SS format.
-	•	asr: The transcribed text for that segment.
-
-Example Output:
-
-[
-    {"start_time": "00:05", "end_time": "00:08", "asr": "Hello, everyone."},
-    {"start_time": "00:09", "end_time": "00:12", "asr": "Welcome to the meeting."}
-]
-
-Strict Requirements:
-
-	•	Ensure precise speech segmentation with accurate timestamps.
-	•	Segment based on speaker turns (i.e., different speakers' utterances should be separated).
-	•	Preserve punctuation and capitalization in the ASR output.
-	•	Return only the valid JSON list without additional text, explanations, or formatting."""
-
-prompt_generate_thinkings_with_ids = """You are given a video, a set of characters. Each character (some of them may indicate the same individual) is represented by a face image with a bounding box or several voice clips, each with a start time, an end time (both in MM:SS format), and content. Each face and voice is identified by a unique ID enclosed in angle brackets (< >).
-
-You are also provided with a detailed description of the video scene, including events, setting, background actions, and character interactions, along with episodic history to maintain temporal coherence.
+You are also provided with detailed descriptions of previous and current video clips.
 
 Your Task:
 
-Based on the video content and episodic descriptions, generate high-level thinking conclusions, including but not limited to:
+Based on the video content and episodic descriptions, generate high-level reasoning-based conclusions in the following five categories. Your output should go beyond surface-level observations and reflect abstract understanding, character relationships, and narrative-level insights.
 
-	1.	Identifying the correspondence between faces and voices based on the video context. Specifically, find as many equivalent nodes as possible (e.g., Equivalence: <face_1>, <voice_1>).
-	2.	The relationships between different characters, including their interactions, emotions, and possible connections.
-	3.	Inferences about the personality traits, profession, hobbies, or distinguishing features of each character, derived from their actions, speech, and appearance.
-	4.	Relevant general knowledge or contextual information that helps to understand the characters or the situation they are in.
+1. Equivalence Identification
+
+Identify which face features (e.g., <face_1>) and voice features (e.g., <voice_2>) refer to the same character based on appearance, speech, and contextual clues.
+	•	Use the exact format: Equivalence: <face_x>, <voice_y>.
+	•	Aim to find as many confident equivalence matches as possible.
+
+2. Character-Level Attributes
+
+Infer general attributes of individual characters based on their appearance, speech, actions, and interactions. These may include:
+	•	Name (only if explicitly mentioned or can be inferred from the video),
+	•	Personality traits (e.g., confident, anxious, introverted),
+	•	Profession or role (e.g., host, manager, newcomer),
+	•	Interests or social background (when inferable),
+	•	Distinctive behavioral or physical features (e.g., speaks formally, adjusts tie often).
+
+Focus on high-level identity construction, not low-level visual facts.
+
+3. Interpersonal Relationships & Social Dynamics
+
+Analyze the relationships and dynamics between characters, including:
+	•	Social/professional roles (e.g., mentor-mentee, host-guest),
+	•	Emotional undertones (e.g., tension, respect, sarcasm),
+	•	Power dynamics (e.g., dominance, deference, negotiation),
+	•	Signs of cooperation, conflict, familiarity, or exclusion.
+
+Focus on how characters relate to and affect each other within the scene.
+
+4. Video-Level Plot Understanding
+
+Summarize the main storyline, structure, or purpose of the current video clip. Go beyond individual actions to describe:
+	•	The core event or theme (e.g., an introductory roundtable, a disagreement unfolding),
+	•	The narrative arc of the scene (e.g., greeting -> discussion -> conflict),
+	•	The overall atmosphere or pacing (e.g., tense, formal, light-hearted),
+	•	Any cause-effect chains or collective behaviors (e.g., someone enters late -> others react).
+
+This is about capturing the big-picture structure and meaning of the scene.
+
+5. Contextual or General Knowledge
+
+Provide external or contextual knowledge that helps make sense of the situation, environment, or social cues, such as:
+	•	Likely setting or scenario (e.g., corporate meeting, reality show),
+	•	Cultural or procedural norms (e.g., “introducing oneself at the start implies leadership”),
+	•	Background world knowledge (e.g., “being seated at the head of the table often signals authority”),
+	•	Any general knowledge that can help understand the scene or the settings (e.g., "the meeting is held every 2 months"),
+	•	Any relevant common-sense reasoning or genre conventions.
+
+This helps ground the scene in broader real-world understanding.
+
+Output Format
+
+	•	Each sentence should represent a single high-level conclusion.
+	•	Use the exact character IDs (e.g., <face_1>, <voice_2>) in place of names unless a name is explicitly known.
+	•	Do not use pronouns (e.g., “he”, “she”) or vague phrases (“this person”).
+	•	Do not repeat basic visual descriptions or observations from the input.
+	•	Do not explain the reasoning process—only output the final conclusions.
 
 Strict Requirements:
 
-	•	Every reference to a character must use their exact ID enclosed in angle brackets (e.g., <face_1>, <voice_2>), instead of generic descriptions or pronouns.
+	•	Every reference to a character must use their corresponding feature ID enclosed in angle brackets (e.g., <face_1>, <voice_2>), instead of generic descriptions or pronouns.
 	•	Focus solely on high-level conclusions derived from the video content and avoid simply repeating information already present in the descriptions or providing basic visual details.
 	•	Provide only the final high-level thinking conclusions, without detailing the reasoning process or restating simple observations from the video.
-	•	Always highlight equivalent nodes using the format: “Equivalence: <node_1>, <node_2>”.
+	•	Pay more attention to features that are most likely to be the same person, using the format: "Equivalence: <feature_1>, <feature_2>".
+	•	Your output should be a Python list of well-formed, concise English sentences (one per item).
 
 Example Input:
 
@@ -206,21 +258,22 @@ Example Input:
 		"<face_2>": <img_2>,
 		"<face_3>": <img_3>
 	},
-	"speakers": [
-		{"start_time": "00:05", "end_time": "00:08", "speaker": "<voice_1>", "asr": "Hello, everyone."},
-		{"start_time": "00:09", "end_time": "00:12", "speaker": "<voice_2>", "asr": "Welcome to the meeting."}
-	],
-	"episodic_history": [
-		"<face_1> wears a black suit with a white shirt and tie.",
-		"<face_1> has short black hair and wears glasses.",
+	"speakers": {
+		"<voice_1>": [
+			{"start_time": "00:05", "end_time": "00:08", "asr": "Hello, everyone."},
+			{"start_time": "00:09", "end_time": "00:12", "asr": "Let's get started with today's agenda."}
+		],
+		"<voice_2>": [
+			{"start_time": "00:15", "end_time": "00:18", "asr": "Thank you for having me here."},
+			{"start_time": "00:19", "end_time": "00:22", "asr": "I'm excited to share my presentation."}
+		]
+	},
+	"video_descriptions": [
+		"<face_1> wears a black suit with a white shirt and tie and has short black hair and wears glasses.",
 		"<face_1> enters the conference room and shakes hands with <face_2>.",
 		"<face_2> sits down at the table next to <face_1> after briefly greeting <face_1>.",
 		"<voice_1> says: 'Good afternoon, everyone. Let's begin the meeting.'",
-		"<face_2> wears a red dress and has long brown hair.",
-		"<face_2> waves at <face_1> while sitting at the table and checks her phone."
-	],
-	"video_descriptions": [
-		"<face_1> adjusts his tie and starts speaking to the group.",
+		"<face_2> waves at <face_1> while sitting at the table and checks her phone.",
 		"<face_2> listens attentively to <face_1>'s speech and nods in agreement.",
 		"<face_3> enters the room from the back, looking a bit anxious and unsure."
 	]
@@ -233,13 +286,14 @@ Example Output:
 	"Equivalence: <face_2>, <voice_2>.",
 	"<face_1>'s name is David.",
     "<voice_1>'s name is Alice.",
-	"<face_1> is likely an executive or a presenter, leading a meeting.",
-	"<face_2> seems to be a colleague, possibly engaged in the meeting.",
-	"<face_3> appears anxious, possibly involved in a tense situation outside the meeting.",
-	"<face_2> may work in a collaborative or supportive role.",
-	"<face_3> likes eating at Wendy's restaurant.",
-	"The show is held every 2 months.",
-	"Santa market is a dog-friendly market."
+	"<face_1> holds a position of authority, likely as the meeting's organizer or a senior executive.",
+    "<face_2> shows social awareness and diplomacy, possibly indicating experience in public or client-facing roles.",
+    "<face_3> feels out of place in the meeting context, which may suggest a new or unexpected presence in the group dynamic.",
+    "<face_1> demonstrates control and composure, suggesting a high level of professionalism and confidence under pressure.",
+    "The interaction between <face_1> and <face_2> suggests a working relationship built on mutual respect.",
+    "The formality of the setting and <face_1>'s language imply a corporate or institutional environment.",
+    "The seating arrangement and gesture hierarchy suggest <face_1> leads, while <face_2> supports.",
+    "The overall tone of the meeting is structured and goal-oriented, indicating it is part of a larger organizational workflow."
 ]
 
 Please only return the valid string list, without any additional explanation or formatting."""
