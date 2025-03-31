@@ -100,14 +100,16 @@ Your Task:
 
 Based on the video content and episodic history, generate a detailed and cohesive description of the video clip. The description should focus on the entire event, incorporating all relevant aspects of the characters, their actions, spoken dialogue, and interactions in a narrative format. The description should include (but is not limited to) the following categories:
 
-	1.	Characters' Appearance: Describe one specific aspect of the character's appearance, such as their clothing, facial features, or any distinguishing characteristics.
-	2.	Characters' Actions & Movements: Describe one specific gesture, movement, or interaction performed by the character.
-	3.	Characters' Spoken Dialogue: Transcribe or summarize a specific instance of speech spoken by the character.
-	4.	Characters' Contextual Behavior: Describe one specific aspect of the character's role in the scene or their interaction with another character, focusing on their behavior, emotional state, or relationships.
+	1.	Characters' Appearance: Describe the characters' appearance, such as their clothing, facial features, or any distinguishing characteristics.
+	2.	Characters' Actions & Movements: Describe specific gesture, movement, or interaction performed by the characters.
+	3.	Characters' Spoken Dialogue: Transcribe or summarize what are spoken by the characters.
+	4.	Characters' Contextual Behavior: Describe the characters' roles in the scene or their interaction with other characters, focusing on their behavior, emotional state, or relationships.
 
 Strict Requirements:
 	•	Every reference to a character must use their corresponding feature ID enclosed in angle brackets (e.g., <face_1>, <voice_2>).
 	•	Do not use generic descriptions, inferred names, or pronouns to refer to characters (e.g., "he," "they," "the man").
+    •	The generated descriptions of the vdieo clip should include every details in the video.
+    •	Pay close attention to the characters' introduction of their names or their other identifications.
 	•	Seperate the complete description into multiple parts, each part focusing on a specific aspect of the video clip.
 	•	Whenever possible, include natural time expressions and physical location cues in the descriptions to improve contextual understanding. These should be based on inferred situational context (e.g., "in the evening at the dinner table," "early morning outside the building"), not on video clip timestamps.
 	•	Ensure all descriptions remain consistent with the provided IDs and do not introduce assumptions beyond what can be inferred from the video and audio content.
