@@ -170,9 +170,7 @@ if __name__ == "__main__":
 
     # Process videos in parallel using ThreadPoolExecutor with max_workers limit
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        # Submit all video processing tasks
-        futures = [executor.submit(process_single_video, path) for path in video_paths]
-        
-        # Wait for all tasks to complete with progress bar
-        for future in tqdm(futures, total=len(futures), desc="Processing videos"):
-            future.result()
+        # Process videos in parallel using map
+        list(tqdm(executor.map(process_single_video, video_paths), 
+                 total=len(video_paths), 
+                 desc="Processing videos"))
