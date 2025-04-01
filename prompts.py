@@ -624,3 +624,19 @@ Related Memories:
 {related_memories}
 
 Answer:"""
+
+prompt_answer_with_retrieval_clipwise_final = """You are given a question and a dictionary of related memories. Each key in the dictionary is a clip_id (a positive integer), representing a video segment in chronological order. The corresponding value is a list of memory strings from that clip.
+
+Your task is to answer the question based on all the provided memories.
+
+Important Instructions:
+	•	When referring to a character, always use their specific name if it appears in the memories.
+	•	Do not use placeholder IDs like <character_1>, or vague descriptions such as “the man in the suit” or “the person speaking”.
+	•	Your answer should be short, clear, and directly address the question.
+	•	Avoid repeating or summarizing the memories—focus only on delivering the final answer.
+
+Question: {question}
+
+Related Memories: {related_memories}
+
+Answer:"""

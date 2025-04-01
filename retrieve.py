@@ -6,10 +6,12 @@ from utils.chat_api import (
     parallel_get_embedding,
 )
 from utils.general import validate_and_fix_python_list
-from prompts import prompt_memory_retrieval, prompt_answer_with_retrieval_clipwise, prompt_answer_with_retrieval
+from prompts import prompt_memory_retrieval, prompt_answer_with_retrieval_clipwise, prompt_answer_with_retrieval_clipwise_final
 from memory_processing import parse_video_caption
 
-MAX_RETRIES = 3
+processing_config = json.load(open("configs/processing_config.json"))
+MAX_RETRIES = processing_config["max_retries"]
+max_retrieval_steps = processing_config["max_retrieval_steps"]
 
 def translate(video_graph, memories):
     for i, memory in enumerate(memories):
@@ -164,8 +166,7 @@ def answer_with_retrieval(video_graph, question, query_num=5, topk=5, auto_refre
     related_clips = []
     related_memories = {}
     
-    continue_retrieving = True
-    while continue_retrieving:
+    for i in range(max_retrieval_steps):
         new_clips = retrieve_from_videograph(video_graph, question, related_memories, query_num, topk)
         new_clips = [new_clip for new_clip in new_clips if new_clip not in related_clips]
         related_clips.extend(new_clips)
@@ -197,13 +198,27 @@ def answer_with_retrieval(video_graph, question, query_num=5, topk=5, auto_refre
         
         answer_type = answer[answer.find("[")+1:answer.find("]")] if "[" in answer and "]" in answer else ""
         if answer_type.lower() == "intermediate":
-            continue_retrieving = True
             question += answer[answer.find("]")+1:]
         elif answer_type.lower() == "final":
-            continue_retrieving = False
+            break
         else:
             raise ValueError(f"Unknown answer type: {answer_type}")
-    return answer
+    
+    input = [
+        {
+            "type": "text",
+            "content": prompt_answer_with_retrieval_clipwise_final.format(
+                question=question,
+                related_memories=json.dumps({f"clip_{k}": v for k, v in related_memories.items()}),
+            ),
+        }
+    ]
+    messages = generate_messages(input)
+    model = "gpt-4o-2024-11-20"
+    final_answer = get_response_with_retry(model, messages)[0]
+    print(f"Final answer: {final_answer}")
+    
+    return final_answer
 
 if __name__ == "__main__":
     video_graph = VideoGraph()
