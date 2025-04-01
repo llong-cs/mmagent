@@ -162,6 +162,7 @@ def generate_thinkings_with_ids(video_context, video_description):
     thinkings = None
     for i in range(MAX_RETRIES):
         thinkings_string = get_response_with_retry(model, messages)[0]
+        # print(thinkings_string)
         thinkings = validate_and_fix_python_list(thinkings_string)
         if thinkings is not None:
             break

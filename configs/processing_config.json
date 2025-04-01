@@ -1,10 +1,14 @@
 {
     "video_paths": [
-        "data/videos/clipped/5 Poor People vs 1 Secret Millionaire"
+        "data/videos/clipped/5 Poor People vs 1 Secret Millionaire",
+        "data/videos/clipped/GTIjylkB-TI",
+        "data/videos/clipped/jvUX3ocBSCk",
+        "data/videos/clipped/n-B_kmAebbQ",
+        "data/videos/clipped/UPk8fzT4t8o"
     ],
     "interval_seconds": 60,
     "fps": 5,
-    "segment_limit": 5,
+    "segment_limit": -1,
     "cluster_size": 100,
     "face_detection_score_threshold": 0.85,
     "face_quality_score_threshold": 22,

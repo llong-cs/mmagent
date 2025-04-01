@@ -250,7 +250,7 @@ def validate_and_fix_python_list(invalid_list_string):
     """
     try:
         # Remove ```json or ``` from start/end
-        s = invalid_list_string.strip("```json").strip("```")
+        s = invalid_list_string.strip("```json").strip("```python").strip("```")
         result = ast.literal_eval(s)
         if isinstance(result, list):
             return result
@@ -298,7 +298,7 @@ def save_video_graph(video_graph, video_path, save_dir, configs, file_name=None)
     """
     if not file_name:
         processing_config, memory_config = configs
-        file_name = f"{video_path.split('/')[-1].split('.')[0].replace(' ', '-')}_{processing_config['interval_seconds']}_{processing_config['fps']}_{processing_config['segment_limit']}_{memory_config['max_img_embeddings']}_{memory_config['max_audio_embeddings']}_{memory_config['img_matching_threshold']}_{memory_config['audio_matching_threshold']}_{memory_config['text_matching_threshold']}.pkl"
+        file_name = f"{video_path.split('/')[-1].split('.')[0].replace(' ', '-')}_{processing_config['interval_seconds']}_{processing_config['fps']}_{processing_config['segment_limit']}_{memory_config['max_img_embeddings']}_{memory_config['max_audio_embeddings']}_{memory_config['img_matching_threshold']}_{memory_config['audio_matching_threshold']}.pkl"
     os.makedirs(save_dir, exist_ok=True)
     save_path = os.path.join(save_dir, file_name)
     with open(save_path, "wb") as f:

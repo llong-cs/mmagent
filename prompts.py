@@ -90,7 +90,7 @@ Example Output:
 	"<face_3> enters the room from the back, looking a bit anxious and unsure."
 ]
 
-Please only return the valid string list, without any additional explanation or formatting."""
+Please only return the valid string list (which starts with "[" and ends with "]"), without any additional explanation or formatting."""
 
 prompt_audio_segmentation = """You are given a video. Your task is to perform Automatic Speech Recognition (ASR) and audio diarization on the provided video. Extract all speech segments with accurate timestamps and segment them by speaker turns (i.e., different speakers should have separate segments), but without assigning speaker identifiers.
 
@@ -175,71 +175,62 @@ Example Output:
 	"<face_1> adjusts his tie and begins discussing the agenda, engaging the participants in a productive conversation."
 ]
 
-Please only return the valid string list, without any additional explanation or formatting."""
+Please only return the valid string list (which starts with "[" and ends with "]"), without any additional explanation or formatting."""
 
-prompt_generate_thinkings_with_ids = """You are given a video, a set of character features. Each feature (some of them may belong to the same character) can be a face image represented by a video frame with a bounding box, or can be a voice feature represented by several speech segments, each with a start time, an end time (both in MM:SS format), and the corresponding content. Each face and voice feature is identified by a unique ID enclosed in angle brackets (< >).
+prompt_generate_thinkings_with_ids = """You are given a video and a set of character features. Each feature is either a face (represented by a video frame with a bounding box) or a voice (represented by speech segments with MM:SS timestamps and transcripts). Each feature has a unique ID in angle brackets (e.g., <face_1>, <voice_2>).
 
 You are also provided with detailed descriptions of previous and current video clips.
 
 Your Task:
 
-Based on the video content and episodic descriptions, generate high-level reasoning-based conclusions in the following five categories. Your output should go beyond surface-level observations and reflect abstract understanding, character relationships, and narrative-level insights.
+Generate a list of high-level reasoning-based conclusions across the following five categories, going beyond surface-level observations:
 
 1. Equivalence Identification
 
-Identify which face features (e.g., <face_1>) and voice features (e.g., <voice_2>) refer to the same character based on appearance, speech, and contextual clues.
-	•	Use the exact format: Equivalence: <face_x>, <voice_y>.
-	•	Aim to find as many confident equivalence matches as possible.
+Identify which face and voice features refer to the same character.
+• Use the exact format: Equivalence: <face_x>, <voice_y>.
+• Include as many confident matches as possible.
 
 2. Character-Level Attributes
 
-Infer general attributes of individual characters based on their appearance, speech, actions, and interactions. These may include:
-	•	Name (only if explicitly mentioned or can be inferred from the video),
-	•	Personality traits (e.g., confident, anxious, introverted),
-	•	Profession or role (e.g., host, manager, newcomer),
-	•	Interests or social background (when inferable),
-	•	Distinctive behavioral or physical features (e.g., speaks formally, adjusts tie often).
+Infer abstract attributes for each character, such as:
+• Name (if explicitly stated),
+• Personality (e.g., confident, nervous),
+• Role/profession (e.g., host, newcomer),
+• Interests or background (when inferable),
+• Distinctive behaviors or traits (e.g., speaks formally, fidgets).
+Avoid restating visual facts—focus on identity construction.
 
-Focus on high-level identity construction, not low-level visual facts.
+3. Interpersonal Relationships & Dynamics
 
-3. Interpersonal Relationships & Social Dynamics
-
-Analyze the relationships and dynamics between characters, including:
-	•	Social/professional roles (e.g., mentor-mentee, host-guest),
-	•	Emotional undertones (e.g., tension, respect, sarcasm),
-	•	Power dynamics (e.g., dominance, deference, negotiation),
-	•	Signs of cooperation, conflict, familiarity, or exclusion.
-
-Focus on how characters relate to and affect each other within the scene.
+Describe the relationships and interactions between characters:
+• Roles (e.g., host-guest, leader-subordinate),
+• Emotions or tone (e.g., respect, tension),
+• Power dynamics (e.g., who leads),
+• Evidence of cooperation, exclusion, conflict, etc.
 
 4. Video-Level Plot Understanding
 
-Summarize the main storyline, structure, or purpose of the current video clip. Go beyond individual actions to describe:
-	•	The core event or theme (e.g., an introductory roundtable, a disagreement unfolding),
-	•	The narrative arc of the scene (e.g., greeting -> discussion -> conflict),
-	•	The overall atmosphere or pacing (e.g., tense, formal, light-hearted),
-	•	Any cause-effect chains or collective behaviors (e.g., someone enters late -> others react).
+Summarize the scene-level narrative, such as:
+• Main event or theme,
+• Narrative arc or sequence (e.g., intro → discussion → reaction),
+• Overall tone (e.g., formal, tense),
+• Cause-effect or group dynamics.
 
-This is about capturing the big-picture structure and meaning of the scene.
+5. Contextual & General Knowledge
 
-5. Contextual or General Knowledge
+Include general knowledge that can be learned from the video, such as:
+• Likely setting or genre (e.g., corporate meeting, game show),
+• Cultural/procedural norms,
+• Real-world knowledge (e.g., "Alice market is pet-friendly"),
+• Common-sense or format conventions.
 
-Provide external or contextual knowledge that helps make sense of the situation, environment, or social cues, such as:
-	•	Likely setting or scenario (e.g., corporate meeting, reality show),
-	•	Cultural or procedural norms (e.g., “introducing oneself at the start implies leadership”),
-	•	Background world knowledge (e.g., “being seated at the head of the table often signals authority”),
-	•	Any general knowledge that can help understand the scene or the settings (e.g., "the meeting is held every 2 months"),
-	•	Any relevant common-sense reasoning or genre conventions.
+Output Format:
 
-This helps ground the scene in broader real-world understanding.
-
-Output Format
-
-	•	Each sentence should represent a single high-level conclusion.
-	•	Use the exact character IDs (e.g., <face_1>, <voice_2>) in place of names unless a name is explicitly known.
-	•	Do not use pronouns (e.g., “he”, “she”) or vague phrases (“this person”).
-	•	Do not repeat basic visual descriptions or observations from the input.
-	•	Do not explain the reasoning process—only output the final conclusions.
+• A Python list of concise English sentences, each expressing one high-level conclusion.
+• Use exact feature IDs (e.g., <face_1>, <voice_2>); do not use pronouns or vague terms.
+• Do not include reasoning steps or restate input observations.
+• Only output the final conclusions.
 
 Strict Requirements:
 
@@ -256,7 +247,6 @@ Example Input:
 	"characters": {
 		"<face_1>": <img_1>,
 		"<face_2>": <img_2>,
-		"<face_3>": <img_3>
 	},
 	"speakers": {
 		"<voice_1>": [
@@ -272,10 +262,8 @@ Example Input:
 		"<face_1> wears a black suit with a white shirt and tie and has short black hair and wears glasses.",
 		"<face_1> enters the conference room and shakes hands with <face_2>.",
 		"<face_2> sits down at the table next to <face_1> after briefly greeting <face_1>.",
-		"<voice_1> says: 'Good afternoon, everyone. Let's begin the meeting.'",
 		"<face_2> waves at <face_1> while sitting at the table and checks her phone.",
 		"<face_2> listens attentively to <face_1>'s speech and nods in agreement.",
-		"<face_3> enters the room from the back, looking a bit anxious and unsure."
 	]
 }
 
@@ -283,20 +271,15 @@ Example Output:
 
 [
     "Equivalence: <face_1>, <voice_1>.",
-	"Equivalence: <face_2>, <voice_2>.",
 	"<face_1>'s name is David.",
-    "<voice_1>'s name is Alice.",
 	"<face_1> holds a position of authority, likely as the meeting's organizer or a senior executive.",
     "<face_2> shows social awareness and diplomacy, possibly indicating experience in public or client-facing roles.",
-    "<face_3> feels out of place in the meeting context, which may suggest a new or unexpected presence in the group dynamic.",
     "<face_1> demonstrates control and composure, suggesting a high level of professionalism and confidence under pressure.",
     "The interaction between <face_1> and <face_2> suggests a working relationship built on mutual respect.",
-    "The formality of the setting and <face_1>'s language imply a corporate or institutional environment.",
-    "The seating arrangement and gesture hierarchy suggest <face_1> leads, while <face_2> supports.",
     "The overall tone of the meeting is structured and goal-oriented, indicating it is part of a larger organizational workflow."
 ]
 
-Please only return the valid string list, without any additional explanation or formatting."""
+Please only return the valid string list (which starts with "[" and ends with "]"), without any additional explanation or formatting."""
 
 prompt_baseline_answer_clipwise_extract = """You are given a video and a question related to that video. You will be shown a specific clip from the video. Your task is to extract any relevant information from this clip that can help answer the question. If the clip does not contain any relevant or helpful information, simply respond with "none"."""
 
@@ -511,7 +494,7 @@ Example Output:
 	"Equivalence: <char_3>, <speaker_3>."
 ]
 
-Please only return the valid string list, without any additional explanation or formatting.
+Please only return the valid string list (which starts with "[" and ends with "]"), without any additional explanation or formatting.
 
 Input:
 {semantic_memory}
