@@ -144,7 +144,7 @@ def retrieve_from_videograph(video_graph, question, related_memories, query_num=
     clip_scores = {}
 
     for query_embedding in query_embeddings:
-        nodes = video_graph.search_text_nodes([query_embedding], threshold=0.2)
+        nodes = video_graph.search_text_nodes([query_embedding], threshold=0.1)
         for node in nodes:
             node_id = node[0]
             node_score = node[1]

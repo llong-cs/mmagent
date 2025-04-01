@@ -17,7 +17,7 @@
     "history_length": 1,
     "max_retries": 3,
     "query_num": 10,
-    "topk": 3,
+    "topk": 5,
     "max_retrieval_steps": 3,
     "logging": "INFO",
     "save_dir": "data/video_graphs"
