@@ -215,4 +215,4 @@ if __name__ == "__main__":
     
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         args = [(video_path, interval, output_dir) for video_path in video_paths]
-        list(executor.map(process_video_parallel, args))
+        list(tqdm(executor.map(process_video_parallel, args), total=len(args), desc="Processing videos"))

@@ -90,22 +90,19 @@ def streaming_process_video(video_graph, video_path, preprocessing=False):
 
         # Process each interval
         clip_id = 0
-        for start_time in tqdm(np.arange(0, video_info["duration"], interval_seconds)):
+        for start_time in np.arange(0, video_info["duration"], interval_seconds):
             if start_time + interval_seconds > video_info["duration"]:
                 break
 
             print("=" * 20)
 
-            print(f"Loading {clip_id}-th clip starting at {start_time} seconds...")
+            print(f"Starting processing {clip_id}-th (out of {math.ceil(video_info['duration'] / interval_seconds)}) clip starting at {start_time} seconds...")
             base64_video, base64_frames, base64_audio = process_video_clip(
                 video_path, start_time, interval_seconds, fps, audio_format="wav"
             )
 
             # Process frames for this interval
             if base64_frames:
-                print(
-                    f"Starting processing {clip_id}-th clip starting at {start_time} seconds..."
-                )
                 process_segment(
                     video_graph,
                     base64_video,
@@ -130,12 +127,12 @@ def streaming_process_video(video_graph, video_path, preprocessing=False):
         ]
         video_files.sort(key=lambda x: int("".join(filter(str.isdigit, x))))
 
-        for clip_id, video_file in enumerate(tqdm(video_files)):
+        for clip_id, video_file in enumerate(video_files):
             if segment_limit > 0 and clip_id >= segment_limit:
                 break
             print("=" * 20)
             full_path = os.path.join(video_path, video_file)
-            print(f"Starting processing {clip_id}-th clip: {full_path}")
+            print(f"Starting processing {clip_id}-th (out of {len(video_files)}) clip: {full_path}")
 
             base64_video, base64_frames, base64_audio = process_video_clip(
                 full_path, 0, None, fps, audio_format="wav"
@@ -175,6 +172,6 @@ if __name__ == "__main__":
         # Submit all video processing tasks
         futures = [executor.submit(process_single_video, path) for path in video_paths]
         
-        # Wait for all tasks to complete
-        for future in futures:
+        # Wait for all tasks to complete with progress bar
+        for future in tqdm(futures, total=len(futures), desc="Processing videos"):
             future.result()
