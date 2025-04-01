@@ -13,6 +13,9 @@ import struct
 import pickle
 from utils.chat_api import parallel_get_whisper
 
+processing_config = json.load(open("configs/processing_config.json"))
+memory_config = json.load(open("configs/memory_config.json"))
+
 # file processing
 def get_video_paths(video_url, task):
     """Generate video and segment paths from URL and task.
@@ -289,16 +292,22 @@ def normalize_embedding(embedding):
     norm = np.linalg.norm(emb)
     return (emb / norm).tolist() if norm > 0 else emb.tolist()
 
-def save_video_graph(video_graph, video_path, save_dir, configs, file_name=None):
+def generate_file_name(video_path):
+    return f"{video_path.split('/')[-1].split('.')[0].replace(' ', '-')}_{processing_config['interval_seconds']}_{processing_config['fps']}_{processing_config['segment_limit']}_{memory_config['max_img_embeddings']}_{memory_config['max_audio_embeddings']}_{memory_config['img_matching_threshold']}_{memory_config['audio_matching_threshold']}"
+
+def get_video_prefix(clip_id, video_path):
+    pass
+
+def save_video_graph(video_graph, video_path, file_name=None):
     """Save video graph to pickle file.
 
     Args:
         video_graph (VideoGraph): Video graph to save
         config (dict): Configuration settings
     """
+    save_dir = processing_config["save_dir"]
     if not file_name:
-        processing_config, memory_config = configs
-        file_name = f"{video_path.split('/')[-1].split('.')[0].replace(' ', '-')}_{processing_config['interval_seconds']}_{processing_config['fps']}_{processing_config['segment_limit']}_{memory_config['max_img_embeddings']}_{memory_config['max_audio_embeddings']}_{memory_config['img_matching_threshold']}_{memory_config['audio_matching_threshold']}.pkl"
+        file_name = generate_file_name(video_path) + ".pkl"
     os.makedirs(save_dir, exist_ok=True)
     save_path = os.path.join(save_dir, file_name)
     with open(save_path, "wb") as f:

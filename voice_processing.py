@@ -1,9 +1,8 @@
 import base64
 import struct
-import tempfile
 import json
+import os
 
-import numpy as np
 from laplace import Client
 from pydub import AudioSegment
 from prompts import prompt_audio_segmentation
@@ -19,7 +18,7 @@ processing_config = json.load(open("configs/processing_config.json"))
 MAX_RETRIES = processing_config["max_retries"]
 
 
-def process_voices(video_graph, base64_audio, base64_video):
+def process_voices(video_graph, base64_audio, base64_video, save_path, preprocessing=False):
     def get_audio_segment(base64_audio, start_time, end_time):
         """
         Get audio segment from base64 audio string
@@ -234,11 +233,22 @@ def process_voices(video_graph, base64_audio, base64_video):
 
         return audios_list
 
-    asrs = diarize_audio(base64_video)
-    audios = create_audio_segments(base64_audio, asrs)
-    audios = [audio for audio in audios if audio["audio_segment"] is not None]
+    # Check if intermediate results exist
+    if os.path.exists(save_path):
+        with open(save_path, "r") as f:
+            audios_json = json.load(f)
+    else:
+        asrs = diarize_audio(base64_video)
+        audios = create_audio_segments(base64_audio, asrs)
+        audios = [audio for audio in audios if audio["audio_segment"] is not None]
+        
+        audios = get_normed_audio_embeddings(audios)
     
-    audios = get_normed_audio_embeddings(audios)
+        with open(save_path, "w") as f:
+            json.dump(audios_json, f)
+    
+    if preprocessing:
+        return {}
 
     audios_list = update_videograph(video_graph, audios, filter=filter_duration_based)
     id2audios = establish_mapping(audios_list, key="matched_node")

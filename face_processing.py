@@ -1,6 +1,7 @@
 from concurrent.futures import ThreadPoolExecutor
 from tqdm import tqdm
 import json
+import os
 
 import euler
 euler.install_thrift_import_hook()
@@ -19,9 +20,9 @@ test_client = euler.Client(
 
 processing_config = json.load(open("configs/processing_config.json"))
 
-CLUSTER_SIZE = processing_config["cluster_size"]
+cluster_size = processing_config["cluster_size"]
 
-def process_faces(video_graph, base64_frames):
+def process_faces(video_graph, base64_frames, save_path, preprocessing=False):
     """
     Process video frames to detect, cluster and track faces.
 
@@ -45,7 +46,7 @@ def process_faces(video_graph, base64_frames):
     4. Updates video graph with face embeddings and relationships
     5. Returns mapping of face IDs to face detections
     """
-    batch_size = max(len(base64_frames) // CLUSTER_SIZE, 4)
+    batch_size = max(len(base64_frames) // cluster_size, 4)
     
     def _process_batch(params):
         """
@@ -160,22 +161,33 @@ def process_faces(video_graph, base64_frames):
             faces_list.extend(filtered_faces)
 
         return faces_list
+    
+    # Check if intermediate results exist
+    if os.path.exists(save_path):
+        with open(save_path, "r") as f:
+            faces_json = json.load(f)
+    else:
+        faces = get_embeddings(base64_frames, batch_size)
 
-    faces = get_embeddings(base64_frames, batch_size)
+        if len(faces) == 0:
+            return {}
 
-    if len(faces) == 0:
+        faces_json = [
+            {
+                "frame_id": face.frame_id,
+                "bounding_box": face.bounding_box,
+                "face_emb": face.face_emb,
+                "cluster_id": face.cluster_id,
+                "extra_data": face.extra_data,
+            }
+            for face in faces
+        ]
+        
+        with open(save_path, "w") as f:
+            json.dump(faces_json, f)
+            
+    if preprocessing:
         return {}
-
-    faces_json = [
-        {
-            "frame_id": face.frame_id,
-            "bounding_box": face.bounding_box,
-            "face_emb": face.face_emb,
-            "cluster_id": face.cluster_id,
-            "extra_data": face.extra_data,
-        }
-        for face in faces
-    ]
 
     tempid2faces = establish_mapping(faces_json, key="cluster_id")
 

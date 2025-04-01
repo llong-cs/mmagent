@@ -3,13 +3,21 @@ import logging
 import os
 import tempfile
 import math
+import json
 import cv2
 import numpy as np
 from moviepy import VideoFileClip
-from pydub import AudioSegment
 from tqdm import tqdm
+from concurrent.futures import ThreadPoolExecutor
+import multiprocessing
 
-# logging.getLogger('moviepy').setLevel(logging.ERROR)
+# Disable moviepy logging
+logging.getLogger('moviepy').setLevel(logging.ERROR)
+# Disable moviepy's tqdm progress bar
+logging.getLogger('moviepy.video.io.VideoFileClip').setLevel(logging.ERROR)
+logging.getLogger('moviepy.audio.io.AudioFileClip').setLevel(logging.ERROR)
+
+processing_config = json.load(open("configs/processing_config.json"))
 
 def get_video_info(file_path):
     """Get video/audio information using appropriate libraries.
@@ -24,20 +32,9 @@ def get_video_info(file_path):
     file_info["path"] = file_path
     file_info["name"] = file_path.split("/")[-1]
     file_info["format"] = os.path.splitext(file_path)[1][1:].lower()
-    
-    # Handle audio files
-    audio_formats = ['mp3', 'wav', 'ogg', 'm4a']
-    if file_info["format"] in audio_formats:
-        audio = AudioSegment.from_file(file_path)
-        file_info["duration"] = len(audio) / 1000.0  # Convert ms to seconds
-        file_info["channels"] = audio.channels
-        file_info["sample_width"] = audio.sample_width
-        file_info["frame_rate"] = audio.frame_rate
-        file_info["type"] = "audio"
-        return file_info
         
     # Handle video files using moviepy
-    video = VideoFileClip(file_path)
+    video = VideoFileClip(file_path, logger=None)  # Disable logging for this instance
     
     # Get basic properties from moviepy
     file_info["fps"] = video.fps
@@ -46,19 +43,11 @@ def get_video_info(file_path):
     file_info["width"] = video.size[0]
     file_info["height"] = video.size[1]
     
-    # Get codec info from moviepy if available
-    try:
-        file_info["codec"] = video.reader.infos['video_codec']
-    except (KeyError, AttributeError):
-        file_info["codec"] = "unknown"
-        
-    file_info["type"] = "video"
-    
     video.close()
     return file_info
 
 def extract_frames(video_path, start_time=None, interval=None, sample_fps=10):
-    video = VideoFileClip(video_path)
+    video = VideoFileClip(video_path, logger=None)
 
     # if start_time and interval are not provided, sample the whole video at sample_fps
     if start_time is None and interval is None:
@@ -84,7 +73,7 @@ def extract_frames(video_path, start_time=None, interval=None, sample_fps=10):
 def process_video_clip(video_path, start_time, interval=None, fps=10, video_format="mp4", audio_format="wav", audio_fps=16000): 
     try                                                                                                                       : 
         base64_data = {}
-        video = VideoFileClip(video_path)
+        video = VideoFileClip(video_path, logger=None)
 
         if interval is None:
             # Process entire video
@@ -149,46 +138,6 @@ def process_video_clip(video_path, start_time, interval=None, fps=10, video_form
         print(f"Error processing video clip: {str(e)}")
         raise
 
-
-def get_audio_info_from_base64(base64_string):
-    try:
-        audio_data = base64.b64decode(base64_string)
-
-        # Try common audio extensions
-        for ext in ['.wav', '.mp3', '.m4a', '.ogg', '.flac']:
-            try:
-                with tempfile.NamedTemporaryFile(delete=True, suffix=ext) as temp_audio:
-                    temp_audio.write(audio_data)
-                    temp_audio.flush()
-                    return get_video_info(temp_audio.name)
-            except:
-                continue
-
-        raise Exception("Could not determine audio format")
-
-    except Exception as e:
-        return {"error": str(e)}
-
-
-def get_video_info_from_base64(base64_string):
-    try:
-        video_data = base64.b64decode(base64_string)
-
-        # Try common video extensions
-        for ext in ['.mp4', '.avi', '.mov', '.mkv', '.webm']:
-            try:
-                with tempfile.NamedTemporaryFile(delete=True, suffix=ext) as temp_video:
-                    temp_video.write(video_data)
-                    temp_video.flush()
-                    return get_video_info(temp_video.name)
-            except:
-                continue
-
-        raise Exception("Could not determine video format")
-
-    except Exception as e:
-        return {"error": str(e)}
-
 def split_video_into_clips(video_path, interval, output_dir, output_format='mp4'):
     """
     Split a video into clips of specified interval length and save them to a folder.
@@ -230,7 +179,7 @@ def split_video_into_clips(video_path, interval, output_dir, output_format='mp4'
             start_time = i * interval
             end_time = min((i + 1) * interval, duration)
             # Create and process clip in its own context
-            with VideoFileClip(video_path) as video:
+            with VideoFileClip(video_path, logger=None) as video:
                 with video.subclipped(start_time, end_time) as clip:
                     output_path = os.path.join(output_dir, f"{i+1}.{output_format}")
                     clip.write_videofile(output_path, codec=video_codec, audio_codec=audio_codec, logger=None, threads=4)
@@ -242,13 +191,28 @@ def split_video_into_clips(video_path, interval, output_dir, output_format='mp4'
         raise
 
 if __name__ == "__main__":
-    video_paths = [
-        "data/videos/raw/360p/n-B_kmAebbQ.mp4",
-        "data/videos/raw/360p/GTIjylkB-TI.mp4",
-        "data/videos/raw/360p/jvUX3ocBSCk.mp4",
-        "data/videos/raw/360p/UPk8fzT4t8o.mp4"
-    ]
-    interval = 30
-    output_dir = "data/videos/clipped"
-    for video_path in video_paths:
-        split_video_into_clips(video_path, interval, output_dir)
+    annotations = json.load(open("data/annotations/video_list_CZ_answer_clipwise_0320.json"))
+    video_paths = [video["path"] for video in annotations]
+    video_paths = [os.path.join("/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos", video_path.split("/")[-1]) for video_path in video_paths]
+    interval = processing_config["interval_seconds"]
+    output_dir = processing_config["input_dir"]
+    
+    def process_video_parallel(args):
+        video_path, interval, output_dir = args
+        try:
+            split_video_into_clips(video_path, interval, output_dir)
+        except Exception as e:
+            print(f"Error processing {video_path}: {str(e)}")
+    
+    # Calculate optimal number of workers
+    cpu_count = multiprocessing.cpu_count()
+    # For I/O bound tasks like video processing, we can use slightly more workers than CPU cores
+    # but we'll cap it to avoid system overload
+    max_workers = min(cpu_count * 1.5, 32)  # Cap at 32 workers maximum
+    max_workers = int(max_workers)  # Convert to integer
+    
+    print(f"Using {max_workers} workers (CPU cores: {cpu_count})")
+    
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        args = [(video_path, interval, output_dir) for video_path in video_paths]
+        list(executor.map(process_video_parallel, args))

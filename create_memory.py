@@ -1,0 +1,180 @@
+import numpy as np
+from tqdm import tqdm
+import os
+import json
+
+from videograph import VideoGraph
+from utils.general import *
+from utils.video_processing import *
+from utils.chat_api import *
+from prompts import *
+
+from face_processing import process_faces
+from voice_processing import process_voices
+from memory_processing import (
+    process_captions,
+    generate_captions_and_thinkings_with_ids,
+)
+
+processing_config = json.load(open("configs/processing_config.json"))
+memory_config = json.load(open("configs/memory_config.json"))
+
+def process_segment(
+    video_graph,
+    base64_video,
+    base64_frames,
+    base64_audio,
+    clip_id,
+    video_path,
+    preprocessing=False,
+):
+    save_path = os.path.join(
+        processing_config["intermediate_save_dir"], generate_file_name(video_path)
+    )
+
+    id2voices = process_voices(
+        video_graph,
+        base64_audio,
+        base64_video,
+        save_path=os.path.join(save_path, f"clip_{clip_id}_voices.json"),
+        preprocessing=preprocessing,
+    )
+    print("Finish processing voices")
+
+    id2faces = process_faces(
+        video_graph,
+        base64_frames,
+        save_path=os.path.join(save_path, f"clip_{clip_id}_faces.json"),
+        preprocessing=preprocessing,
+    )
+    print("Finish processing faces")
+
+    if preprocessing:
+        print("Finish preprocessing segment")
+        return
+
+    episodic_captions, semantic_captions = generate_captions_and_thinkings_with_ids(
+        video_graph,
+        base64_video,
+        base64_frames,
+        id2faces,
+        id2voices,
+        clip_id,
+    )
+
+    process_captions(video_graph, episodic_captions, clip_id, type="episodic")
+    process_captions(video_graph, semantic_captions, clip_id, type="semantic")
+
+    print("Finish processing segment")
+
+
+def streaming_process_video(video_graph, video_path, preprocessing=False):
+    """Process video segments at specified intervals with given fps.
+
+    Args:
+        video_graph (VideoGraph): Graph object to store video information
+        video_path (str): Path to the video file or directory containing clips
+        interval_seconds (float): Time interval between segments in seconds
+        fps (float): Frames per second to extract from each segment
+
+    Returns:
+        None: Updates video_graph in place with processed segments
+    """
+    interval_seconds = processing_config["interval_seconds"]
+    fps = processing_config["fps"]
+    segment_limit = processing_config["segment_limit"]
+
+    if os.path.isfile(video_path):
+        # Process single video file
+        video_info = get_video_info(video_path)
+
+        # Process each interval
+        clip_id = 0
+        for start_time in tqdm(np.arange(0, video_info["duration"], interval_seconds)):
+            if start_time + interval_seconds > video_info["duration"]:
+                break
+
+            print("=" * 20)
+
+            print(f"Loading {clip_id}-th clip starting at {start_time} seconds...")
+            base64_video, base64_frames, base64_audio = process_video_clip(
+                video_path, start_time, interval_seconds, fps, audio_format="wav"
+            )
+
+            # Process frames for this interval
+            if base64_frames:
+                print(
+                    f"Starting processing {clip_id}-th clip starting at {start_time} seconds..."
+                )
+                process_segment(
+                    video_graph,
+                    base64_video,
+                    base64_frames,
+                    base64_audio,
+                    clip_id,
+                    video_path,
+                    preprocessing,
+                )
+
+            clip_id += 1
+
+            if segment_limit > 0 and clip_id >= segment_limit:
+                break
+
+    elif os.path.isdir(video_path):
+        # Process directory of numbered clips
+        files = os.listdir(video_path)
+        # Filter for video files and sort by numeric value in filename
+        video_files = [
+            f for f in files if any(f.endswith(ext) for ext in [".mp4", ".avi", ".mov"])
+        ]
+        video_files.sort(key=lambda x: int("".join(filter(str.isdigit, x))))
+
+        for clip_id, video_file in enumerate(tqdm(video_files)):
+            if segment_limit > 0 and clip_id >= segment_limit:
+                break
+            print("=" * 20)
+            full_path = os.path.join(video_path, video_file)
+            print(f"Starting processing {clip_id}-th clip: {full_path}")
+
+            base64_video, base64_frames, base64_audio = process_video_clip(
+                full_path, 0, None, fps, audio_format="wav"
+            )
+
+            if base64_frames:
+                process_segment(
+                    video_graph,
+                    base64_video,
+                    base64_frames,
+                    base64_audio,
+                    clip_id,
+                    video_path,
+                    preprocessing,
+                )
+    
+if __name__ == "__main__":
+    # video paths can be paths to directories or paths to mp4 files
+    video_paths = processing_config["video_paths"]
+    save_dir = processing_config["save_dir"]
+    max_workers = processing_config.get("max_parallel_videos", 16)  # Default to 4 parallel videos
+
+    def process_single_video(video_path):
+        video_graph = VideoGraph(**memory_config)
+        streaming_process_video(video_graph, video_path)
+        video_graph.refresh_equivalences()
+        
+        save_video_graph(
+            video_graph,
+            video_path, 
+            save_dir,
+            (processing_config, memory_config),
+        )
+
+    # Process videos in parallel using ThreadPoolExecutor with max_workers limit
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        # Submit all video processing tasks
+        futures = [executor.submit(process_single_video, path) for path in video_paths]
+        
+        # Wait for all tasks to complete
+        for future in futures:
+            future.result()

@@ -3,7 +3,13 @@ import openai
 from concurrent.futures import ThreadPoolExecutor
 from time import sleep
 import logging
-import httpx
+
+# Disable httpx logging
+logging.getLogger("httpx").setLevel(logging.CRITICAL)
+# Disable urllib3 logging (which httpx uses)
+logging.getLogger("urllib3").setLevel(logging.CRITICAL)
+# Disable httpcore logging (which httpx uses)
+logging.getLogger("httpcore").setLevel(logging.CRITICAL)
 
 # api utils
 
@@ -125,16 +131,9 @@ def parallel_get_embedding(model, texts):
         tuple: (list of embeddings, total tokens used)
     """
     max_workers = min(len(texts), config[model]["qpm"])
-    
-    httpx_logger = logging.getLogger("httpx")
-    original_log_level = httpx_logger.level
-    httpx_logger.setLevel(logging.CRITICAL)
-
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         results = list(executor.map(lambda x: get_embedding_with_retry(model, x), texts))
-
-    httpx_logger.setLevel(original_log_level)
     
     # Split results into embeddings and tokens
     embeddings = [result[0] for result in results]

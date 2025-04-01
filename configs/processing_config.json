@@ -6,7 +6,7 @@
         "data/videos/clipped/n-B_kmAebbQ",
         "data/videos/clipped/UPk8fzT4t8o"
     ],
-    "interval_seconds": 60,
+    "interval_seconds": 30,
     "fps": 5,
     "segment_limit": -1,
     "cluster_size": 100,
@@ -20,5 +20,7 @@
     "topk": 5,
     "max_retrieval_steps": 3,
     "logging": "INFO",
-    "save_dir": "data/video_graphs"
+    "save_dir": "data/mems",
+    "intermediate_save_dir": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/intermediate_outputs",
+    "input_dir": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/video_clips"
 }
