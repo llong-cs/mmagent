@@ -621,7 +621,7 @@ class VideoGraph:
     
     # Visualization functions
     
-    def print_faces(self, img_nodes):
+    def print_faces(self, img_nodes, print_num=5):
         """Print faces for given image nodes in a grid layout with 9 faces per row.
         
         Args:
@@ -637,7 +637,7 @@ class VideoGraph:
         for node_id in img_nodes:
             if node_id not in self.nodes or self.nodes[node_id].type != 'img':
                 continue
-            face_base64_list = self.nodes[node_id].metadata['contents']
+            face_base64_list = self.nodes[node_id].metadata['contents'][:print_num]
             for face_base64 in face_base64_list:
                 # Convert base64 to PIL Image
                 face_bytes = base64.b64decode(face_base64)
@@ -688,10 +688,11 @@ class VideoGraph:
             connected_texts = [self.nodes[text_id].metadata['contents'] for text_id in connected_text_nodes]
             print(f"Connected Nodes Contents: {connected_texts}")
     
-    def print_img_nodes(self):
-        for node_id, node in self.nodes.items():
-            if node.type != 'img':
-                continue
+    def print_img_nodes(self, node_id=None):
+        if node_id is not None:
+            if self.nodes[node_id].type!= 'img':
+                return
+
             print("-"*50, f"Image Node {node_id}", "-"*50)
 
             connected_text_nodes = self.get_connected_nodes(node_id, type=['episodic', 'semantic'])
@@ -700,6 +701,18 @@ class VideoGraph:
             print(f"Connected Nodes Contents: {connected_texts}")
 
             self.print_faces([node_id])
+        else:
+            for node_id, node in self.nodes.items():
+                if node.type != 'img':
+                    continue
+                print("-"*50, f"Image Node {node_id}", "-"*50)
+
+                connected_text_nodes = self.get_connected_nodes(node_id, type=['episodic', 'semantic'])
+                print(f"Connected Nodes: {connected_text_nodes}")
+                connected_texts = [self.nodes[text_id].metadata['contents'] for text_id in connected_text_nodes]
+                print(f"Connected Nodes Contents: {connected_texts}")
+
+                self.print_faces([node_id])
             
     def visualize(self):
         """Visualize the video graph."""

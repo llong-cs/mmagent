@@ -143,6 +143,13 @@ def retrieve_from_videograph(video_graph, question, related_memories, query_num=
 
     clip_scores = {}
 
+    if mode == 'argmax':
+        threshold = 0
+    elif mode == 'accumulate':
+        threshold = 0.2
+    else:
+        raise ValueError(f"Unknown mode: {mode}")
+
     for query_embedding in query_embeddings:
         nodes = video_graph.search_text_nodes([query_embedding], threshold=0)
         for node in nodes:
@@ -160,6 +167,7 @@ def retrieve_from_videograph(video_graph, question, related_memories, query_num=
                     clip_scores[clip_id] = node_score
             else:
                 raise ValueError(f"Unknown mode: {mode}")
+
             
     # Sort clips by score and get top k clips
     sorted_clips = sorted(clip_scores.items(), key=lambda x: x[1], reverse=True)[:topk]
@@ -167,7 +175,7 @@ def retrieve_from_videograph(video_graph, question, related_memories, query_num=
 
     return top_clips
 
-def answer_with_retrieval(video_graph, question, query_num=5, topk=5, auto_refresh=False):
+def answer_with_retrieval(video_graph, question, query_num=5, topk=5, auto_refresh=False, mode='argmax'):
     if auto_refresh:
         video_graph.refresh_equivalences()
         
@@ -175,7 +183,7 @@ def answer_with_retrieval(video_graph, question, query_num=5, topk=5, auto_refre
     related_memories = {}
     
     for i in range(max_retrieval_steps):
-        new_clips = retrieve_from_videograph(video_graph, question, related_memories, query_num, topk)
+        new_clips = retrieve_from_videograph(video_graph, question, related_memories, query_num, topk, mode)
         new_clips = [new_clip for new_clip in new_clips if new_clip not in related_clips]
         related_clips.extend(new_clips)
         
