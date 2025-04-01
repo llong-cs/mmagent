@@ -10,6 +10,7 @@ from moviepy import VideoFileClip
 from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor
 import multiprocessing
+import shutil
 
 # Disable moviepy logging
 logging.getLogger('moviepy').setLevel(logging.ERROR)
@@ -158,7 +159,6 @@ def split_video_into_clips(video_path, interval, output_dir, output_format='mp4'
         # Get video info
         video_info = get_video_info(video_path)
         duration = video_info["duration"]
-        # format = video_info["format"]
 
         # Determine codecs based on format
         if output_format in ['mp4', 'mov']:
@@ -182,7 +182,22 @@ def split_video_into_clips(video_path, interval, output_dir, output_format='mp4'
             with VideoFileClip(video_path, logger=None) as video:
                 with video.subclipped(start_time, end_time) as clip:
                     output_path = os.path.join(output_dir, f"{i+1}.{output_format}")
-                    clip.write_videofile(output_path, codec=video_codec, audio_codec=audio_codec, logger=None, threads=4)
+                    # Use unique tempfile for each clip processing
+                    with tempfile.NamedTemporaryFile(suffix=f".{output_format}", delete=False) as temp_file:
+                        temp_path = temp_file.name
+                    
+                    try:
+                        # Write to temporary file first
+                        clip.write_videofile(temp_path, codec=video_codec, audio_codec=audio_codec, logger=None, threads=4)
+                        # Move to final location using shutil.move
+                        shutil.move(temp_path, output_path)
+                    except Exception as e:
+                        # Clean up temp file if something goes wrong
+                        try:
+                            os.unlink(temp_path)
+                        except:
+                            pass
+                        raise e
 
         return output_dir
 
