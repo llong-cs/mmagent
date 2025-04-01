@@ -268,9 +268,9 @@ if __name__ == "__main__":
     
     print(f"Using {max_workers} workers (CPU cores: {cpu_count})")
     
-    # with ThreadPoolExecutor(max_workers=max_workers) as executor:
-    #     args = [(video_path, interval, output_dir) for video_path in video_paths]
-    #     list(tqdm(executor.map(process_video_parallel, args), total=len(args), desc="Processing videos"))
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        args = [(video_path, interval, output_dir) for video_path in video_paths]
+        list(tqdm(executor.map(process_video_parallel, args), total=len(args), desc="Processing videos"))
     
     # verify video processing
     for video_path in video_paths:
