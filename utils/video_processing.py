@@ -229,9 +229,7 @@ def verify_video_processing(video_path, output_dir, interval):
             print(f"Output directory {clip_dir} does not exist")
             return False
             
-        actual_clips = len([f for f in os.listdir(clip_dir) 
-                          if os.path.isfile(os.path.join(clip_dir, f)) and 
-                          f.split('.')[-1] in ['mp4', 'mov', 'webm']])
+        actual_clips = len([f for f in os.listdir(clip_dir) if os.path.isfile(os.path.join(clip_dir, f)) and f.split('.')[-1] in ['mp4', 'mov', 'webm']])
         
         if actual_clips != expected_clips:
             print(f"Mismatch for {video_path}:")
