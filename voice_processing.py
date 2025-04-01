@@ -246,6 +246,8 @@ def process_voices(video_graph, base64_audio, base64_video, save_path, preproces
     
         with open(save_path, "w") as f:
             json.dump(audios_json, f)
+        
+        print(f"Write voice detection results to {save_path}")
     
     if preprocessing:
         return {}

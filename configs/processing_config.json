@@ -22,5 +22,6 @@
     "logging": "INFO",
     "save_dir": "data/mems",
     "intermediate_save_dir": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/intermediate_outputs",
-    "input_dir": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/video_clips"
+    "input_dir": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/video_clips",
+    "max_parallel_videos": 4
 }

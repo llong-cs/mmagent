@@ -154,7 +154,7 @@ if __name__ == "__main__":
     video_paths = os.listdir(processing_config["input_dir"])
     video_paths = [os.path.join(processing_config["input_dir"], video_path) for video_path in video_paths]
     save_dir = processing_config["save_dir"]
-    max_workers = processing_config.get("max_parallel_videos", 4)  # Default to 4 parallel videos
+    max_workers = processing_config.get("max_parallel_videos")  # Default to 4 parallel videos
 
     def process_single_video(video_path):
         video_graph = VideoGraph(**memory_config)

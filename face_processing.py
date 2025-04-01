@@ -185,6 +185,8 @@ def process_faces(video_graph, base64_frames, save_path, preprocessing=False):
         
         with open(save_path, "w") as f:
             json.dump(faces_json, f)
+        
+        print(f"Write face detection results to {save_path}")
             
     if preprocessing:
         return {}
