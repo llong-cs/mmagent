@@ -133,7 +133,7 @@ def generate_queries(question, related_memories, query_num=5):
 #     return answer
 
 # retrieve by clip
-def retrieve_from_videograph(video_graph, question, related_memories, query_num=5, topk=5):
+def retrieve_from_videograph(video_graph, question, related_memories, query_num=5, topk=5, mode='argmax'):
     queries = generate_queries(question, related_memories, query_num)
     queries = back_translate(video_graph, queries)
     print(f"Queries: {queries}")
@@ -144,14 +144,22 @@ def retrieve_from_videograph(video_graph, question, related_memories, query_num=
     clip_scores = {}
 
     for query_embedding in query_embeddings:
-        nodes = video_graph.search_text_nodes([query_embedding], threshold=0.1)
+        nodes = video_graph.search_text_nodes([query_embedding], threshold=0)
         for node in nodes:
             node_id = node[0]
             node_score = node[1]
             clip_id = video_graph.nodes[node_id].metadata['timestamp']
-            if clip_id not in clip_scores:
-                clip_scores[clip_id] = 0
-            clip_scores[clip_id] += node_score
+            if mode == 'accumulate':
+                if clip_id not in clip_scores:
+                    clip_scores[clip_id] = 0
+                clip_scores[clip_id] += node_score
+            elif mode == 'argmax':
+                if clip_id not in clip_scores:
+                    clip_scores[clip_id] = node_score
+                elif node_score > clip_scores[clip_id]:
+                    clip_scores[clip_id] = node_score
+            else:
+                raise ValueError(f"Unknown mode: {mode}")
             
     # Sort clips by score and get top k clips
     sorted_clips = sorted(clip_scores.items(), key=lambda x: x[1], reverse=True)[:topk]
