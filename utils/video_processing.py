@@ -35,7 +35,7 @@ def get_video_info(file_path):
     file_info["format"] = os.path.splitext(file_path)[1][1:].lower()
         
     # Handle video files using moviepy
-    video = VideoFileClip(file_path, logger=None)  # Disable logging for this instance
+    video = VideoFileClip(file_path)  # Disable logging for this instance
     
     # Get basic properties from moviepy
     file_info["fps"] = video.fps
@@ -48,7 +48,7 @@ def get_video_info(file_path):
     return file_info
 
 def extract_frames(video_path, start_time=None, interval=None, sample_fps=10):
-    video = VideoFileClip(video_path, logger=None)
+    video = VideoFileClip(video_path)
 
     # if start_time and interval are not provided, sample the whole video at sample_fps
     if start_time is None and interval is None:
@@ -74,7 +74,7 @@ def extract_frames(video_path, start_time=None, interval=None, sample_fps=10):
 def process_video_clip(video_path, start_time, interval=None, fps=10, video_format="mp4", audio_format="wav", audio_fps=16000): 
     try                                                                                                                       : 
         base64_data = {}
-        video = VideoFileClip(video_path, logger=None)
+        video = VideoFileClip(video_path)
 
         if interval is None:
             # Process entire video
@@ -179,7 +179,7 @@ def split_video_into_clips(video_path, interval, output_dir, output_format='mp4'
             start_time = i * interval
             end_time = min((i + 1) * interval, duration)
             # Create and process clip in its own context
-            with VideoFileClip(video_path, logger=None) as video:
+            with VideoFileClip(video_path) as video:
                 with video.subclipped(start_time, end_time) as clip:
                     output_path = os.path.join(output_dir, f"{i+1}.{output_format}")
                     # Use unique tempfile for each clip processing
