@@ -205,6 +205,46 @@ def split_video_into_clips(video_path, interval, output_dir, output_format='mp4'
         print(f"Error splitting video into clips: {str(e)}")
         raise
 
+def verify_video_processing(video_path, output_dir, interval):
+    """Verify that a video was properly split into clips by checking the number of clips.
+    
+    Args:
+        video_path (str): Path to original video file
+        output_dir (str): Directory containing the split clips
+        interval (float): Interval length in seconds used for splitting
+        
+    Returns:
+        bool: True if verification passes, False otherwise
+    """
+    try:
+        # Get expected number of clips based on video duration
+        video_info = get_video_info(video_path)
+        expected_clips = math.ceil(video_info["duration"] / interval)
+        
+        # Get actual number of clips in output directory
+        video_name = os.path.splitext(os.path.basename(video_path))[0]
+        clip_dir = os.path.join(output_dir, video_name)
+        
+        if not os.path.exists(clip_dir):
+            print(f"Output directory {clip_dir} does not exist")
+            return False
+            
+        actual_clips = len([f for f in os.listdir(clip_dir) 
+                          if os.path.isfile(os.path.join(clip_dir, f)) and 
+                          f.split('.')[-1] in ['mp4', 'mov', 'webm']])
+        
+        if actual_clips != expected_clips:
+            print(f"Mismatch for {video_path}:")
+            print(f"Expected {expected_clips} clips but found {actual_clips}")
+            return False
+            
+        return True
+        
+    except Exception as e:
+        print(f"Error verifying {video_path}: {str(e)}")
+        return False
+
+
 if __name__ == "__main__":
     annotations = json.load(open("data/annotations/video_list_CZ_answer_clipwise_0320.json"))
     video_paths = [video["path"] for video in annotations]
@@ -228,6 +268,12 @@ if __name__ == "__main__":
     
     print(f"Using {max_workers} workers (CPU cores: {cpu_count})")
     
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        args = [(video_path, interval, output_dir) for video_path in video_paths]
-        list(tqdm(executor.map(process_video_parallel, args), total=len(args), desc="Processing videos"))
+    # with ThreadPoolExecutor(max_workers=max_workers) as executor:
+    #     args = [(video_path, interval, output_dir) for video_path in video_paths]
+    #     list(tqdm(executor.map(process_video_parallel, args), total=len(args), desc="Processing videos"))
+    
+    # verify video processing
+    for video_path in video_paths:
+        if not verify_video_processing(video_path, output_dir, interval):
+            print(f"Verification failed for {video_path}")
+            break
