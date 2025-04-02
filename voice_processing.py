@@ -18,7 +18,7 @@ processing_config = json.load(open("configs/processing_config.json"))
 MAX_RETRIES = processing_config["max_retries"]
 
 
-def process_voices(video_graph, base64_audio, base64_video, save_path, preprocessing=False):
+def process_voices(video_graph, base64_audio, base64_video, save_path, preprocessing=None):
     def get_audio_segment(base64_audio, start_time, end_time):
         """
         Get audio segment from base64 audio string
@@ -234,20 +234,31 @@ def process_voices(video_graph, base64_audio, base64_video, save_path, preproces
         return audios_list
 
     # Check if intermediate results exist
-    if os.path.exists(save_path):
-        with open(save_path, "r") as f:
-            audios_json = json.load(f)
-    else:
-        asrs = diarize_audio(base64_video)
-        audios = create_audio_segments(base64_audio, asrs)
-        audios = [audio for audio in audios if audio["audio_segment"] is not None]
-        
-        audios = get_normed_audio_embeddings(audios)
-    
-        with open(save_path, "w") as f:
-            json.dump(audios_json, f)
-        
-        print(f"Write voice detection results to {save_path}")
+    try:
+        if os.path.exists(save_path):
+            with open(save_path, "r") as f:
+                audios = json.load(f)
+            for audio in audios:
+                audio["audio_segment"] = audio["audio_segment"].encode("utf-8")
+        else:
+            asrs = diarize_audio(base64_video)
+            audios = create_audio_segments(base64_audio, asrs)
+            audios = [audio for audio in audios if audio["audio_segment"] is not None]
+            
+            audios = get_normed_audio_embeddings(audios)
+
+            os.makedirs(os.path.dirname(save_path), exist_ok=True)
+
+            with open(save_path, "w") as f:
+                for audio in audios:
+                    audio["audio_segment"] = audio["audio_segment"].decode("utf-8")
+                json.dump(audios, f)
+                for audio in audios:
+                    audio["audio_segment"] = audio["audio_segment"].encode("utf-8")
+            
+            print(f"Write voice detection results to {save_path}")
+    except Exception as e:
+        raise RuntimeError(f"Failed to diarize audio at {save_path}: {e}")
     
     if preprocessing:
         return {}

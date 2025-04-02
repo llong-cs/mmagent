@@ -11,6 +11,8 @@ from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor
 import multiprocessing
 import shutil
+import contextlib
+import io
 
 # Disable moviepy logging
 logging.getLogger('moviepy').setLevel(logging.ERROR)
@@ -35,6 +37,7 @@ def get_video_info(file_path):
     file_info["format"] = os.path.splitext(file_path)[1][1:].lower()
         
     # Handle video files using moviepy
+    
     video = VideoFileClip(file_path)  # Disable logging for this instance
     
     # Get basic properties from moviepy

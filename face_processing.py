@@ -22,7 +22,7 @@ processing_config = json.load(open("configs/processing_config.json"))
 
 cluster_size = processing_config["cluster_size"]
 
-def process_faces(video_graph, base64_frames, save_path, preprocessing=False):
+def process_faces(video_graph, base64_frames, save_path, preprocessing=None):
     """
     Process video frames to detect, cluster and track faces.
 
@@ -163,32 +163,37 @@ def process_faces(video_graph, base64_frames, save_path, preprocessing=False):
         return faces_list
     
     # Check if intermediate results exist
-    if os.path.exists(save_path):
-        with open(save_path, "r") as f:
-            faces_json = json.load(f)
-    else:
-        faces = get_embeddings(base64_frames, batch_size)
+    try:
+        if os.path.exists(save_path):
+            with open(save_path, "r") as f:
+                faces_json = json.load(f)
+        else:
+            faces = get_embeddings(base64_frames, batch_size)
 
-        if len(faces) == 0:
-            return {}
+            faces_json = [
+                {
+                    "frame_id": face.frame_id,
+                    "bounding_box": face.bounding_box,
+                    "face_emb": face.face_emb,
+                    "cluster_id": face.cluster_id,
+                    "extra_data": face.extra_data,
+                }
+                for face in faces
+            ]
 
-        faces_json = [
-            {
-                "frame_id": face.frame_id,
-                "bounding_box": face.bounding_box,
-                "face_emb": face.face_emb,
-                "cluster_id": face.cluster_id,
-                "extra_data": face.extra_data,
-            }
-            for face in faces
-        ]
+            os.makedirs(os.path.dirname(save_path), exist_ok=True)
         
-        with open(save_path, "w") as f:
-            json.dump(faces_json, f)
-        
-        print(f"Write face detection results to {save_path}")
+            with open(save_path, "w") as f:
+                json.dump(faces_json, f)
+            
+            print(f"Write face detection results to {save_path}")
+    except Exception as e:
+        raise RuntimeError(f"Failed to detect faces at {save_path}: {e}")
             
     if preprocessing:
+        return {}
+
+    if len(faces_json) == 0:
         return {}
 
     tempid2faces = establish_mapping(faces_json, key="cluster_id")

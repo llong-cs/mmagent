@@ -26,28 +26,30 @@ def process_segment(
     base64_audio,
     clip_id,
     video_path,
-    preprocessing=False,
+    preprocessing=None,
 ):
     save_path = os.path.join(
         processing_config["intermediate_save_dir"], generate_file_name(video_path)
     )
 
-    id2voices = process_voices(
-        video_graph,
-        base64_audio,
-        base64_video,
-        save_path=os.path.join(save_path, f"clip_{clip_id}_voices.json"),
-        preprocessing=preprocessing,
-    )
-    print("Finish processing voices")
+    if not preprocessing or preprocessing == "voice":
+        id2voices = process_voices(
+            video_graph,
+            base64_audio,
+            base64_video,
+            save_path=os.path.join(save_path, f"clip_{clip_id}_voices.json"),
+            preprocessing=preprocessing,
+        )
+        print("Finish processing voices")
 
-    id2faces = process_faces(
-        video_graph,
-        base64_frames,
-        save_path=os.path.join(save_path, f"clip_{clip_id}_faces.json"),
-        preprocessing=preprocessing,
-    )
-    print("Finish processing faces")
+    if not preprocessing or preprocessing == "face":
+        id2faces = process_faces(
+            video_graph,
+            base64_frames,
+            save_path=os.path.join(save_path, f"clip_{clip_id}_faces.json"),
+            preprocessing=preprocessing,
+        )
+        print("Finish processing faces")
 
     if preprocessing:
         print("Finish preprocessing segment")
@@ -68,7 +70,7 @@ def process_segment(
     print("Finish processing segment")
 
 
-def streaming_process_video(video_graph, video_path, preprocessing=False):
+def streaming_process_video(video_graph, video_path, preprocessing=None):
     """Process video segments at specified intervals with given fps.
 
     Args:
@@ -158,7 +160,7 @@ if __name__ == "__main__":
 
     def process_single_video(video_path):
         video_graph = VideoGraph(**memory_config)
-        streaming_process_video(video_graph, video_path, preprocessing=True)
+        streaming_process_video(video_graph, video_path, preprocessing='voice')
         video_graph.refresh_equivalences()
         
         save_video_graph(
