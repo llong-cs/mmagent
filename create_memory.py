@@ -151,24 +151,27 @@ def streaming_process_video(video_graph, video_path, preprocessing=None):
                     preprocessing,
                 )
     
+    if preprocessing:
+        return
+    
+    video_graph.refresh_equivalences()
+        
+    save_video_graph(
+        video_graph,
+        video_path, 
+    )
+    
 if __name__ == "__main__":
     # video paths can be paths to directories or paths to mp4 files
     video_paths = os.listdir(processing_config["input_dir"])
     video_paths = [os.path.join(processing_config["input_dir"], video_path) for video_path in video_paths]
     save_dir = processing_config["save_dir"]
     max_workers = processing_config.get("max_parallel_videos")  # Default to 4 parallel videos
+    preprocessing = 'voice'
 
     def process_single_video(video_path):
         video_graph = VideoGraph(**memory_config)
         streaming_process_video(video_graph, video_path, preprocessing='voice')
-        video_graph.refresh_equivalences()
-        
-        save_video_graph(
-            video_graph,
-            video_path, 
-            save_dir,
-            (processing_config, memory_config),
-        )
 
     # Process videos in parallel using ThreadPoolExecutor with max_workers limit
     with ThreadPoolExecutor(max_workers=max_workers) as executor:

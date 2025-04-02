@@ -244,8 +244,9 @@ def process_voices(video_graph, base64_audio, base64_video, save_path, preproces
             asrs = diarize_audio(base64_video)
             audios = create_audio_segments(base64_audio, asrs)
             audios = [audio for audio in audios if audio["audio_segment"] is not None]
-            
-            audios = get_normed_audio_embeddings(audios)
+
+            if len(audios) != 0:
+                audios = get_normed_audio_embeddings(audios)
 
             os.makedirs(os.path.dirname(save_path), exist_ok=True)
 
@@ -268,6 +269,9 @@ def process_voices(video_graph, base64_audio, base64_video, save_path, preproces
         raise RuntimeError(f"Failed to diarize audio at {save_path}: {e}")
     
     if preprocessing:
+        return {}
+    
+    if len(audios) == 0:
         return {}
 
     audios_list = update_videograph(video_graph, audios, filter=filter_duration_based)
