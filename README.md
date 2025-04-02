@@ -16,7 +16,7 @@ Set `video_paths` in `configs/processing_config.json`.
 
 Video path can be
 
-1. **path to .mp4 files**, or
+1. **path to a .mp4 file**, or
 2. **path to a directory** that contains preprocessed video clips.
 
 For video preprocessing, you can follow `utils/video_processing.py` for end-to-end video segmentation.
@@ -81,4 +81,3 @@ For video preprocessing, you can follow `utils/video_processing.py` for end-to-e
 
 1. Load a memory graph from `data/mems`.
 2. Follow `demo.ipynb` to visualize the loaded video graph.
-3. 
