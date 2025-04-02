@@ -188,6 +188,13 @@ def process_faces(video_graph, base64_frames, save_path, preprocessing=None):
             
             print(f"Write face detection results to {save_path}")
     except Exception as e:
+        if preprocessing:
+            # Save error to log file
+            log_dir = processing_config["log_dir"]
+            os.makedirs(log_dir, exist_ok=True)
+            error_log_path = os.path.join(log_dir, "error_face_preprocessing.log")
+            with open(error_log_path, "a") as f:
+                f.write(f"Error processing {save_path}: {str(e)}\n")
         raise RuntimeError(f"Failed to detect faces at {save_path}: {e}")
             
     if preprocessing:

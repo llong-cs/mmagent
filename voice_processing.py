@@ -258,6 +258,13 @@ def process_voices(video_graph, base64_audio, base64_video, save_path, preproces
             
             print(f"Write voice detection results to {save_path}")
     except Exception as e:
+        if preprocessing:
+            # Save error to log file
+            log_dir = processing_config["log_dir"]
+            os.makedirs(log_dir, exist_ok=True)
+            error_log_path = os.path.join(log_dir, "error_voice_preprocessing.log")
+            with open(error_log_path, "a") as f:
+                f.write(f"Error processing {save_path}: {str(e)}\n")
         raise RuntimeError(f"Failed to diarize audio at {save_path}: {e}")
     
     if preprocessing:
