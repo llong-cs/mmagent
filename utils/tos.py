@@ -62,7 +62,14 @@ def upload_one_sample(file, do_upload=True):
     except Exception as e:
         print(f"Other error: {e}")
         return -1, ""
-    return obj_url
+    return obj_url, obj_key
+    
+def download_one_sample(file, obj_key):
+    resp = tos_client.get_object(obj_key)
+    data = resp.data
+    with open(file, "wb") as f:
+        f.write(data)
+    return file
 
 if __name__ == "__main__":
     upload_one_sample("/Users/bytedance/Downloads/tmp6nvagz76.wav")
