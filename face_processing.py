@@ -203,6 +203,7 @@ def process_faces(video_graph, base64_frames, save_path, preprocessing=None):
     if len(faces_json) == 0:
         return {}
 
+    # TODO: filtering goes first
     tempid2faces = establish_mapping(faces_json, key="cluster_id")
 
     tagged_faces_json = update_videograph(
@@ -212,6 +213,7 @@ def process_faces(video_graph, base64_frames, save_path, preprocessing=None):
     if len(tagged_faces_json) == 0:
         return {}
 
+    # TODO: ordering can happen in previous step
     id2faces = establish_mapping(tagged_faces_json, key="matched_node")
 
     return id2faces

@@ -197,39 +197,39 @@ def refine_json_str(invalid_json):
         str: Cleaned JSON string
     """
     # Remove ```json or ``` from start/end
-    invalid_json = invalid_json.strip()
-    if invalid_json.startswith("```json"):
-        invalid_json = invalid_json[7:].strip()
-    if invalid_json.endswith("```"):
-        invalid_json = invalid_json[:-3].strip()
+    # invalid_json = invalid_json.strip()
+    # if invalid_json.startswith("```json"):
+    #     invalid_json = invalid_json[7:].strip()
+    # if invalid_json.endswith("```"):
+    #     invalid_json = invalid_json[:-3].strip()
 
     # Replace single quotes with double quotes (if needed)
     # fixed_json = re.sub(r"'", '"', invalid_json)
-    fixed_json = invalid_json
+    fixed_json = invalid_json.strip("```json").strip("```python").strip("```").strip()
     
-    # Fix keys without double quotes
-    fixed_json = re.sub(r'(?<=\{|,)\s*([a-zA-Z0-9_]+)\s*:', r'"\1":', fixed_json)
+    # # Fix keys without double quotes
+    # fixed_json = re.sub(r'(?<=\{|,)\s*([a-zA-Z0-9_]+)\s*:', r'"\1":', fixed_json)
     
-    # Auto-complete missing braces and brackets
-    stack = []
-    for char in fixed_json:
-        if char in '{[':
-            stack.append(char)
-        elif char in '}]':
-            if stack and ((char == '}' and stack[-1] == '{') or (char == ']' and stack[-1] == '[')):
-                stack.pop()
+    # # Auto-complete missing braces and brackets
+    # stack = []
+    # for char in fixed_json:
+    #     if char in '{[':
+    #         stack.append(char)
+    #     elif char in '}]':
+    #         if stack and ((char == '}' and stack[-1] == '{') or (char == ']' and stack[-1] == '[')):
+    #             stack.pop()
     
-    # Complete missing brackets
-    while stack:
-        last = stack.pop()
-        if last == '{':
-            fixed_json += '}'
-        elif last == '[':
-            fixed_json += ']'
+    # # Complete missing brackets
+    # while stack:
+    #     last = stack.pop()
+    #     if last == '{':
+    #         fixed_json += '}'
+    #     elif last == '[':
+    #         fixed_json += ']'
 
-    # Check if quotes are balanced
-    if fixed_json.count('"') % 2 != 0:
-        fixed_json += '"'
+    # # Check if quotes are balanced
+    # if fixed_json.count('"') % 2 != 0:
+    #     fixed_json += '"'
 
     return fixed_json
 

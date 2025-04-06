@@ -15,7 +15,7 @@
     "max_faces_per_character": 3,
     "min_duration_for_audio": 2,
     "history_length": 1,
-    "max_retries": 3,
+    "max_retries": 5,
     "query_num": 10,
     "topk": 5,
     "max_retrieval_steps": 3,
@@ -23,6 +23,7 @@
     "save_dir": "data/mems",
     "intermediate_save_dir": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/intermediate_outputs",
     "input_dir": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/video_clips",
-    "max_parallel_videos": 16,
-    "log_dir": "logs"
+    "max_parallel_videos": 4,
+    "log_dir": "logs",
+    "temperature": 0.1
 }

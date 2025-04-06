@@ -5,6 +5,7 @@ This file contains functions for processing video descriptions and generating ca
 import base64
 import json
 from io import BytesIO
+import re
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -22,28 +23,43 @@ logging = processing_config["logging"]
 def parse_video_caption(video_caption):
         # video_caption is a string like this: <char_1> xxx <char_2> xxx
         # extract all the elements wrapped by < and >
-        entities = []
-        current_entity = ""
-        in_entity = False
+    pattern = r'<([^<>]*_[^<>]*)>'
+    entity_strs = re.findall(pattern, video_caption)
+    entities = []
+    for entity_str in entity_strs:
+        try:
+            node_type, node_id = entity_str.split("_")
+            node_type = node_type.strip().lower()
+            assert node_type in ["face", "voice"]
+            node_id = int(node_id)
+            entities.append((node_type, node_id))
+        except Exception as e:
+            print(f"Entities parsing error: {e}")
+            continue
+    return entities
 
-        for char in video_caption:
-            if char == "<": 
-                in_entity = True
-                current_entity = ""
-            elif char == ">":
-                if in_entity:
-                    in_entity = False
-                    try:
-                        node_type, node_id = current_entity.split("_")
-                        node_id = int(node_id)
-                        entities.append((node_type, node_id))
-                    except Exception as e:
-                        print(f"Entities parsing error: {e}")
-                        continue
-            else:
-                if in_entity:
-                    current_entity += char
-        return entities
+    # entities = []
+    # current_entity = ""
+    # in_entity = False
+
+    # for char in video_caption:
+    #     if char == "<": 
+    #         in_entity = True
+    #         current_entity = ""
+    #     elif char == ">":
+    #         if in_entity:
+    #             in_entity = False
+    #             try:
+    #                 node_type, node_id = current_entity.split("_")
+    #                 node_id = int(node_id)
+    #                 entities.append((node_type, node_id))
+    #             except Exception as e:
+    #                 print(f"Entities parsing error: {e}")
+    #                 continue
+    #     else:
+    #         if in_entity:
+    #             current_entity += char
+    # return entities
 
 def generate_video_context(
     base64_video, base64_frames, faces_list, voices_list
@@ -51,65 +67,72 @@ def generate_video_context(
     face_frames = []
 
     # Iterate through faces directly
-    if len(faces_list) > 0:
-        for char_id, faces in faces_list.items():
-            face = faces[0]
-            frame_id = face["frame_id"]
-            frame_base64 = base64_frames[frame_id]
+    for char_id, faces in faces_list.items():
+        if len(faces) == 0:
+            continue
+        face = faces[0]
+        frame_id = face["frame_id"]
+        frame_base64 = base64_frames[frame_id]
 
-            # Convert base64 to PIL Image
-            frame_bytes = base64.b64decode(frame_base64)
-            frame_img = Image.open(BytesIO(frame_bytes))
-            draw = ImageDraw.Draw(frame_img)
+        # Convert base64 to PIL Image
+        frame_bytes = base64.b64decode(frame_base64)
+        frame_img = Image.open(BytesIO(frame_bytes))
+        draw = ImageDraw.Draw(frame_img)
 
-            # Draw current face
-            bbox = face["bounding_box"]
-            draw.rectangle(
-                [(bbox[0], bbox[1]), (bbox[2], bbox[3])], outline=(0, 255, 0), width=4
-            )
+        # Draw current face
+        bbox = face["bounding_box"]
+        draw.rectangle(
+            [(bbox[0], bbox[1]), (bbox[2], bbox[3])], outline=(0, 255, 0), width=4
+        )
 
-            # Convert back to base64
-            buffered = BytesIO()
-            frame_img.save(buffered, format="JPEG")
-            frame_base64 = base64.b64encode(buffered.getvalue()).decode()
-            face_frames.append((f"<face_{char_id}>:", frame_base64))
-        
-        # Visualize face frames with IDs
-        if logging == "DETAIL":
-            num_faces = len(face_frames)
-            num_rows = (num_faces + 2) // 3  # Round up division to get number of rows needed
-
-            _, axes = plt.subplots(num_rows, 3, figsize=(15, 5 * num_rows))
-            axes = axes.ravel()  # Flatten axes array for easier indexing
-
-            for i, face_frame in enumerate(face_frames):
-                # Convert base64 to image array
-                img_bytes = base64.b64decode(face_frame[1])
-                img_array = np.array(Image.open(BytesIO(img_bytes)))
-
-                axes[i].imshow(img_array)
-                axes[i].set_title(face_frame[0])
-                axes[i].axis("off")
-
-            # Hide empty subplots
-            for j in range(i + 1, len(axes)):
-                axes[j].axis("off")
-
-            plt.tight_layout()
-            plt.show()
-    else:
-        face_frames = []
+        # Convert back to base64
+        buffered = BytesIO()
+        frame_img.save(buffered, format="JPEG")
+        frame_base64 = base64.b64encode(buffered.getvalue()).decode()
+        face_frames.append((f"<face_{char_id}>:", frame_base64))
+    
+    num_faces = len(face_frames)
+    if num_faces > 0:
         print("No qualified faces detected")
+    
+    # Visualize face frames with IDs
+    if logging == "DETAIL" and num_faces > 0:
+        num_rows = (num_faces + 2) // 3  # Round up division to get number of rows needed
+
+        _, axes = plt.subplots(num_rows, 3, figsize=(15, 5 * num_rows))
+        axes = axes.ravel()  # Flatten axes array for easier indexing
+
+        for i, face_frame in enumerate(face_frames):
+            # Convert base64 to image array
+            img_bytes = base64.b64decode(face_frame[1])
+            img_array = np.array(Image.open(BytesIO(img_bytes)))
+
+            axes[i].imshow(img_array)
+            axes[i].set_title(face_frame[0])
+            axes[i].axis("off")
+
+        # Hide empty subplots
+        for j in range(i + 1, len(axes)):
+            axes[j].axis("off")
+
+        plt.tight_layout()
+        plt.show()
 
     voices_input = {}
     for id, voices in voices_list.items():
+        if len(voices) == 0:
+            continue
         voices_input[f"<voice_{id}>"] = [{
             "start_time": voice["start_time"],
             "end_time": voice["end_time"],
             "content": voice["asr"]
         } for voice in voices]
+    
+    num_voices = len(voices_input)
+    if num_voices == 0:
+        print("No qualified voices detected")
 
-    if logging == "DETAIL":
+    if logging == "DETAIL" and num_voices > 0:
         print(f"Diarized dialogues: {voices_input}")
 
     video_context = [

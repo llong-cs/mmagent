@@ -115,6 +115,7 @@ def process_voices(video_graph, base64_audio, base64_video, save_path, preproces
             audio["embedding"] = embedding
         return audios
 
+    # TODO: segment all at once, and filtering can go first
     def create_audio_segments(base64_audio, asrs):
         for asr in asrs:
             if "audio_segment" not in asr:
@@ -125,6 +126,7 @@ def process_voices(video_graph, base64_audio, base64_video, save_path, preproces
 
         return asrs
     
+    # TODO: ordering while mapping
     def establish_mapping(asrs, key="speaker"):
         """
         Establish mapping between audio segments and characters based on ASR results

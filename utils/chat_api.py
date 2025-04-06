@@ -13,6 +13,8 @@ logging.getLogger("httpcore").setLevel(logging.CRITICAL)
 
 # api utils
 
+processing_config = json.load(open("configs/processing_config.json"))
+temp = processing_config["temperature"]
 config = json.load(open("api_config.json"))
 client = {}
 for model_name in config.keys():
@@ -35,7 +37,7 @@ def get_response(model, messages):
         tuple: (response content, total tokens used)
     """
     response = client[model].chat.completions.create(
-        model=model, messages=messages, temperature=0
+        model=model, messages=messages, temperature=temp
     )
     # return answer and number of tokens
     return response.choices[0].message.content, response.usage.total_tokens

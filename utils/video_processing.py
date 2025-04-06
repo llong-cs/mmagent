@@ -73,7 +73,7 @@ def extract_frames(video_path, start_time=None, interval=None, sample_fps=10):
     video.close()
     return frames
 
-
+# TODO: check if there is a better way to do this without repeatedly opening and closing the video file
 def process_video_clip(video_path, start_time, interval=None, fps=10, video_format="mp4", audio_format="wav", audio_fps=16000): 
     try                                                                                                                       : 
         base64_data = {}

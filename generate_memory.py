@@ -171,7 +171,7 @@ if __name__ == "__main__":
 
     def process_single_video(video_path):
         video_graph = VideoGraph(**memory_config)
-        streaming_process_video(video_graph, video_path, preprocessing='voice')
+        streaming_process_video(video_graph, video_path, preprocessing='face')
 
     # Process videos in parallel using ThreadPoolExecutor with max_workers limit
     with ThreadPoolExecutor(max_workers=max_workers) as executor:

@@ -111,7 +111,10 @@ Strict Requirements:
 	•	Ensure precise speech segmentation with accurate timestamps.
 	•	Segment based on speaker turns (i.e., different speakers' utterances should be separated).
 	•	Preserve punctuation and capitalization in the ASR output.
-	•	Return only the valid JSON list without additional text, explanations, or formatting."""
+	•	Return only the valid JSON list (which starts with "[" and ends with "]") without additional explanations.
+    •	If the video contains no speech, return an empty list ("[]").
+	
+Now generate the JSON list based on the given video:"""
 
 prompt_generate_captions_with_ids_ = """You are given a video, a set of character features. Each feature (some of them may belong to the same character) can be a face image represented by a video frame with a bounding box, or can be a voice feature represented by several speech segments, each with a start time, an end time (both in MM:SS format), and the corresponding content. Each face and voice feature is identified by a unique ID enclosed in angle brackets (< >).
 
