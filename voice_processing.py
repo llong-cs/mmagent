@@ -61,14 +61,55 @@ def process_voices(video_graph, base64_audio, base64_video, save_path, preproces
         segment = audio[start_time_msec:end_time_msec]
         
         # Export segment to bytes buffer
-        segment_buffer = io.BytesIO()
-        segment.export(segment_buffer, format='wav')
-        segment_buffer.seek(0)
+        with io.BytesIO() as segment_buffer:
+            segment.export(segment_buffer, format='wav')
+            segment_buffer.seek(0)
+            return base64.b64encode(segment_buffer.getvalue())
+    
+    def get_audio_segments(base64_audio, dialogs, filter=None):
+        # Decode base64 audio into bytes
+        audio_data = base64.b64decode(base64_audio)
         
-        # Convert to base64
-        return base64.b64encode(segment_buffer.getvalue())
+        # Create BytesIO object to hold audio data
+        audio_io = io.BytesIO(audio_data)
+        audio = AudioSegment.from_wav(audio_io)
+        
+        audio_segments = []
+        for start_time, end_time in dialogs: 
+            try:
+                start_min, start_sec = map(int, start_time.split(':'))
+                end_min, end_sec = map(int, end_time.split(':'))
+            except ValueError:
+                audio_segments.append(None)
+                continue
 
-    def diarize_audio(base64_video):
+            if (start_min < 0 or start_sec < 0 or start_sec >= 60) or (end_min < 0 or end_sec < 0 or end_sec >= 60):
+                audio_segments.append(None)
+                continue
+
+            start_time_msec = (start_min * 60 + start_sec) * 1000
+            end_time_msec = (end_min * 60 + end_sec) * 1000
+
+            if start_time_msec >= end_time_msec:
+                audio_segments.append(None)
+                continue
+
+            # Extract segment
+            if end_time_msec > len(audio):  # AudioSegment uses milliseconds
+                audio_segments.append(None)
+                continue
+            
+            segment = audio[start_time_msec:end_time_msec]
+        
+            # Export segment to bytes buffer
+            with io.BytesIO() as segment_buffer:
+                segment.export(segment_buffer, format='wav')
+                segment_buffer.seek(0)
+                audio_segments.append(base64.b64encode(segment_buffer.getvalue()))
+        
+        return audio_segments
+
+    def diarize_audio(base64_video, filter=None):
         input = [
             {
                 "type": "video_base64/mp4",
@@ -94,6 +135,8 @@ def process_voices(video_graph, base64_audio, base64_video, save_path, preproces
             start_min, start_sec = map(int, asr["start_time"].split(':'))
             end_min, end_sec = map(int, asr["end_time"].split(':'))
             asr["duration"] = (end_min * 60 + end_sec) - (start_min * 60 + start_sec)
+            
+        asrs = [asr for asr in asrs if filter(asr)]
 
         return asrs
 
@@ -117,12 +160,10 @@ def process_voices(video_graph, base64_audio, base64_video, save_path, preproces
 
     # TODO: segment all at once, and filtering can go first
     def create_audio_segments(base64_audio, asrs):
-        for asr in asrs:
-            if "audio_segment" not in asr:
-                start_time = asr["start_time"]
-                end_time = asr["end_time"]
-                audio_segment = get_audio_segment(base64_audio, start_time, end_time)
-                asr["audio_segment"] = audio_segment
+        dialogs = [(asr["start_time"], asr["end_time"]) for asr in asrs]
+        audio_segments = get_audio_segments(base64_audio, dialogs)
+        for asr, audio_segment in zip(asrs, audio_segments):
+            asr["audio_segment"] = audio_segment
 
         return asrs
     
@@ -160,14 +201,9 @@ def process_voices(video_graph, base64_audio, base64_video, save_path, preproces
 
         return mapping
 
-    def filter_duration_based(audios):
+    def filter_duration_based(audio):
         min_duration = processing_config["min_duration_for_audio"]
-        filtered_audios = [
-            audio
-            for audio in audios
-            if audio["duration"] >= min_duration
-        ]
-        return filtered_audios
+        return audio["duration"] >= min_duration
     
     # def update_videograph(video_graph, tempid2audios, filter=None):
     #     audios_list = []
@@ -213,11 +249,11 @@ def process_voices(video_graph, base64_audio, base64_video, save_path, preproces
     
     def update_videograph(video_graph, audios, filter=None):
         audios_list = []
-        if filter:
-            filtered_audios = filter(audios)
-        else:
-            filtered_audios = audios
-        for audio in filtered_audios:
+        
+        # TODO: to be removed
+        audios = [audio for audio in audios if filter(audio)]
+        
+        for audio in audios:
             audio_info = {
                 "embeddings": [audio["embedding"]],
                 "contents": [audio["asr"]]
@@ -243,11 +279,11 @@ def process_voices(video_graph, base64_audio, base64_video, save_path, preproces
             for audio in audios:
                 audio["audio_segment"] = audio["audio_segment"].encode("utf-8")
         else:
-            asrs = diarize_audio(base64_video)
+            asrs = diarize_audio(base64_video, filter=filter_duration_based)
             audios = create_audio_segments(base64_audio, asrs)
             audios = [audio for audio in audios if audio["audio_segment"] is not None]
 
-            if len(audios) != 0:
+            if len(audios) > 0:
                 audios = get_normed_audio_embeddings(audios)
 
             os.makedirs(os.path.dirname(save_path), exist_ok=True)
@@ -276,8 +312,7 @@ def process_voices(video_graph, base64_audio, base64_video, save_path, preproces
     if len(audios) == 0:
         return {}
 
-    audios_list = update_videograph(video_graph, audios, filter=filter_duration_based)
-    id2audios = establish_mapping(audios_list, key="matched_node")
+    id2audios = update_videograph(video_graph, audios, filter=filter_duration_based)
 
     return id2audios
 

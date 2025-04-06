@@ -99,17 +99,19 @@ def process_faces(video_graph, base64_frames, save_path, preprocessing=None):
 
         return faces
 
-    def establish_mapping(faces, key="cluster_id"):
+    def establish_mapping(faces, key="cluster_id", filter=None):
         mapping = {}
-        if key in faces[0].keys():
-            for face in faces:
-                id = face[key]
-                if id not in mapping:
-                    mapping[id] = []
-                mapping[id].append(face)
-        else:
-            raise ValueError(f"key {key} not found in faces")
+        for face in faces:
+            if key not in face.keys():
+                raise ValueError(f"key {key} not found in faces")
+            if filter and not filter(face):
+                continue
+            id = face[key]
+            if id not in mapping:
+                mapping[id] = []
+            mapping[id].append(face)
         # sort the faces in each cluster by detection score and quality score
+        max_faces = processing_config["max_faces_per_character"]
         for id in mapping:
             mapping[id] = sorted(
                 mapping[id],
@@ -118,49 +120,51 @@ def process_faces(video_graph, base64_frames, save_path, preprocessing=None):
                     float(x["extra_data"]["face_quality_score"]),
                 ),
                 reverse=True,
-            )
+            )[:max_faces]
         return mapping
 
-    def filter_score_based(faces):
+    def filter_score_based(face):
         dthresh = processing_config["face_detection_score_threshold"]
         qthresh = processing_config["face_quality_score_threshold"]
-        max_faces = processing_config["max_faces_per_character"]
-        filtered_faces = [
-            face
-            for face in faces
-            if float(face["extra_data"]["face_detection_score"]) > dthresh
-            and float(face["extra_data"]["face_quality_score"]) > qthresh
-        ]
-        return filtered_faces[:max_faces]
+        return float(face["extra_data"]["face_detection_score"]) > dthresh and float(face["extra_data"]["face_quality_score"]) > qthresh
 
-    def update_videograph(video_graph, tempid2faces, filter=None):
-        faces_list = []
+    def update_videograph(video_graph, tempid2faces):
+        id2faces = {}
         for tempid, faces in tempid2faces.items():
             if tempid == -1:
                 continue
-            if filter:
-                filtered_faces = filter(faces)
-            else:
-                filtered_faces = faces
-            if len(filtered_faces) == 0:
+            if len(faces) == 0:
                 continue
             face_info = {
-                "embeddings": [face["face_emb"] for face in filtered_faces],
-                "contents": [face["extra_data"]["face_base64"] for face in filtered_faces],
+                "embeddings": [face["face_emb"] for face in faces],
+                "contents": [face["extra_data"]["face_base64"] for face in faces],
             }
             matched_nodes = video_graph.search_img_nodes(face_info)
             if len(matched_nodes) > 0:
                 matched_node = matched_nodes[0][0]
                 video_graph.update_node(matched_node, face_info)
-                for face in filtered_faces:
+                for face in faces:
                     face["matched_node"] = matched_node
             else:
                 matched_node = video_graph.add_img_node(face_info)
-                for face in filtered_faces:
+                for face in faces:
                     face["matched_node"] = matched_node
-            faces_list.extend(filtered_faces)
+            if matched_node not in id2faces:
+                id2faces[matched_node] = []
+            id2faces[matched_node].extend(faces)
+        
+        max_faces = processing_config["max_faces_per_character"]
+        for id, faces in id2faces.items():
+            id2faces[id] = sorted(
+                faces,
+                key=lambda x: (
+                    float(x["extra_data"]["face_detection_score"]),
+                    float(x["extra_data"]["face_quality_score"]),
+                ),
+                reverse=True
+            )[:max_faces]
 
-        return faces_list
+        return id2faces
     
     # Check if intermediate results exist
     try:
@@ -203,17 +207,10 @@ def process_faces(video_graph, base64_frames, save_path, preprocessing=None):
     if len(faces_json) == 0:
         return {}
 
-    # TODO: filtering goes first
-    tempid2faces = establish_mapping(faces_json, key="cluster_id")
-
-    tagged_faces_json = update_videograph(
-        video_graph, tempid2faces, filter=filter_score_based
-    )
-
-    if len(tagged_faces_json) == 0:
+    tempid2faces = establish_mapping(faces_json, key="cluster_id", filter=filter_score_based)
+    if len(tempid2faces) == 0:
         return {}
 
-    # TODO: ordering can happen in previous step
-    id2faces = establish_mapping(tagged_faces_json, key="matched_node")
+    id2faces = update_videograph(video_graph, tempid2faces)
 
     return id2faces
