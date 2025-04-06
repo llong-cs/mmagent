@@ -248,7 +248,7 @@ def process_voices(video_graph, base64_audio, base64_video, save_path, preproces
     # return id2audios
     
     def update_videograph(video_graph, audios, filter=None):
-        audios_list = []
+        id2audios = {}
         
         # TODO: to be removed
         audios = [audio for audio in audios if filter(audio)]
@@ -266,10 +266,12 @@ def process_voices(video_graph, base64_audio, base64_video, save_path, preproces
             else:
                 matched_node = video_graph.add_voice_node(audio_info)
                 audio["matched_node"] = matched_node
+                
+            if matched_node not in id2audios:
+                id2audios[matched_node] = []
+            id2audios[matched_node].append(audio)
 
-            audios_list.append(audio)
-
-        return audios_list
+        return id2audios
 
     # Check if intermediate results exist
     try:
