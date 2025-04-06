@@ -268,6 +268,9 @@ if __name__ == "__main__":
     max_workers = int(max_workers)  # Convert to integer
     
     print(f"Using {max_workers} workers (CPU cores: {cpu_count})")
+
+    video_paths = ["data/videos/raw/test/test2.mp4"]
+    output_dir = "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/test_video_clips"
     
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         args = [(video_path, interval, output_dir) for video_path in video_paths]

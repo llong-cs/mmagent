@@ -2,12 +2,13 @@ import bytedtos
 import hashlib
 import random
 import string
+import os
 
 # os.environ['CONSUL_HTTP_HOST'] = "10.54.129.29"
 # os.environ['CONSUL_HTTP_PORT'] = 2280
 # PSM、Cluster、Idc、Accesskey 和 Bucket 可在 TOS 用户平台 > Bucket 详情 > 概览页中查找。具体查询方式详见方式二：通过 “psm+idc” 访问 TOS 桶 。
 
-server = "cn"
+server = "va"
 if server == "cn":
     ak = "YFPD6L54IEAAU421YMSG"
     bucket_name = "vlm-agent"
@@ -51,25 +52,40 @@ def upload_one_sample(file, do_upload=True):
             resp_code = int(resp.status_code)
             if resp_code != 200:
                 print(f"Upoload error code: {resp_code}")
-                return -1, ""
+                return "", ""
     except bytedtos.TosException as e:
         print(
             "Upload failed. code: {}, request_id: {}, message: {}".format(
                 e.code, e.request_id, e.msg
             )
         )
-        return -1, ""
+        return "", ""
     except Exception as e:
         print(f"Other error: {e}")
-        return -1, ""
+        return "", ""
     return obj_url, obj_key
     
 def download_one_sample(file, obj_key):
-    resp = tos_client.get_object(obj_key)
-    data = resp.data
-    with open(file, "wb") as f:
-        f.write(data)
-    return file
+    try:
+        resp = tos_client.get_object(obj_key)
+        content = resp.data
+        with open(file, "wb") as f:
+            f.write(content)
+            # Flush to ensure all data is written to disk
+            f.flush()
+            # Force the operating system to write the data to disk
+            os.fsync(f.fileno())
+        return file
+    except bytedtos.TosException as e:
+        print(
+            "Download failed. code: {}, request_id: {}, message: {}".format(
+                e.code, e.request_id, e.msg
+            )
+        )
+        return None
+    except Exception as e:
+        print(f"Other error: {e}")
+        return None
 
 if __name__ == "__main__":
     upload_one_sample("/Users/bytedance/Downloads/tmp6nvagz76.wav")

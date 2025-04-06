@@ -92,7 +92,7 @@ def generate_video_context(
         face_frames.append((f"<face_{char_id}>:", frame_base64))
     
     num_faces = len(face_frames)
-    if num_faces > 0:
+    if num_faces == 0:
         print("No qualified faces detected")
     
     # Visualize face frames with IDs
