@@ -86,6 +86,21 @@ def download_one_sample(file, obj_key):
     except Exception as e:
         print(f"Other error: {e}")
         return None
+    
+def list_all_objects(target_delimiter, prefix_of_obj="", target_start_after="", target_max_keys=1000):
+    try:
+        resp = tos_client.list_prefix(prefix_of_obj, target_delimiter, target_start_after, target_max_keys)
+        data = resp.json["payload"]
+        commonPrefix = data["commonPrefix"]
+        objects = data["objects"]
+        file_list = [item.get("key") for item in objects]
+        return file_list
+    except bytedtos.TosException as e:
+        print(f"List objects failed. code: {e.code}, request_id: {e.request_id}, message: {e.msg}")
+        return []
+    except Exception as e:
+        print(f"Other error: {e}")
+        return []
 
 if __name__ == "__main__":
     upload_one_sample("/Users/bytedance/Downloads/tmp6nvagz76.wav")

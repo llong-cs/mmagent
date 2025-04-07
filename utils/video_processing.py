@@ -149,6 +149,8 @@ def split_video_into_clips(video_path, interval, output_dir, output_format='mp4'
     Args:
         video_path (str): Path to the video file
         interval (int): Length of each clip in seconds
+        output_dir (str): Directory to save the clips
+        output_format (str): Format of the output clips (default: 'mp4')
         
     Returns:
         str: Path to the output folder containing the clips
@@ -176,31 +178,62 @@ def split_video_into_clips(video_path, interval, output_dir, output_format='mp4'
 
         # Calculate number of clips
         num_clips = math.ceil(duration / interval)
-
-        # Open video using context manager
-        for i in tqdm(range(num_clips)):
-            start_time = i * interval
-            end_time = min((i + 1) * interval, duration)
-            # Create and process clip in its own context
-            with VideoFileClip(video_path) as video:
-                with video.subclipped(start_time, end_time) as clip:
-                    output_path = os.path.join(output_dir, f"{i+1}.{output_format}")
-                    # Use unique tempfile for each clip processing
-                    with tempfile.NamedTemporaryFile(suffix=f".{output_format}", delete=False) as temp_file:
-                        temp_path = temp_file.name
+        
+        # # Open video using context manager
+        # for i in tqdm(range(num_clips)):
+        #     start_time = i * interval
+        #     end_time = min((i + 1) * interval, duration)
+        #     # Create and process clip in its own context
+        #     with VideoFileClip(video_path) as video:
+        #         with video.subclipped(start_time, end_time) as clip:
+        #             output_path = os.path.join(output_dir, f"{i+1}.{output_format}")
+        #             # Use unique tempfile for each clip processing
+        #             with tempfile.NamedTemporaryFile(suffix=f".{output_format}", delete=False) as temp_file:
+        #                 temp_path = temp_file.name
                     
+        #             try:
+        #                 # Write to temporary file first
+        #                 clip.write_videofile(temp_path, codec=video_codec, audio_codec=audio_codec, logger=None, threads=4)
+        #                 # Move to final location using shutil.move
+        #                 shutil.move(temp_path, output_path)
+        #             except Exception as e:
+        #                 # Clean up temp file if something goes wrong
+        #                 try:
+        #                     os.unlink(temp_path)
+        #                 except:
+        #                     pass
+        #                 raise e
+        
+        # Open video file only once
+        with VideoFileClip(video_path) as video:
+            # Process all clips in a single video file open
+            for i in tqdm(range(num_clips)):
+                start_time = i * interval
+                end_time = min((i + 1) * interval, duration)
+                
+                # Create subclip
+                clip = video.subclipped(start_time, end_time)
+                
+                output_path = os.path.join(output_dir, f"{i+1}.{output_format}")
+                # Use unique tempfile for each clip processing
+                with tempfile.NamedTemporaryFile(suffix=f".{output_format}", delete=False) as temp_file:
+                    temp_path = temp_file.name
+                
+                try:
+                    # Write to temporary file first
+                    clip.write_videofile(temp_path, codec=video_codec, audio_codec=audio_codec, logger=None, threads=4)
+                    # Move to final location using shutil.move
+                    shutil.move(temp_path, output_path)
+                except Exception as e:
+                    # Clean up temp file if something goes wrong
                     try:
-                        # Write to temporary file first
-                        clip.write_videofile(temp_path, codec=video_codec, audio_codec=audio_codec, logger=None, threads=4)
-                        # Move to final location using shutil.move
-                        shutil.move(temp_path, output_path)
-                    except Exception as e:
-                        # Clean up temp file if something goes wrong
-                        try:
-                            os.unlink(temp_path)
-                        except:
-                            pass
-                        raise e
+                        os.unlink(temp_path)
+                    except:
+                        pass
+                    raise e
+                finally:
+                    # Close the subclip to free resources
+                    clip.close()
 
         return output_dir
 

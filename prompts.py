@@ -643,3 +643,26 @@ Question: {question}
 Related Memories: {related_memories}
 
 Answer:"""
+
+prompt_refine_qa_list = """You are given a list of question-answer (QA) pairs derived from a video. Please revise each question and answer to ensure grammatical correctness, clarity, and formal expression. Keep the revisions as concise as possible without changing the original meaning. Return only the revised list in the same format.
+
+Example input:
+
+[
+	{{"question": "what's the man doing?", "answer": "he fixing the car."}},
+	{{"question": "why she looks angry?", "answer": "because someone take her bag."}}
+]
+
+Expected output:
+
+[
+	{{"question": "What is the man doing?", "answer": "He is repairing the car."}},
+	{{"question": "Why does she appear upset?", "answer": "Because someone took her bag."}}
+]
+
+Please only return the valid json list, without any additional explanation or formatting. Now, use the same logic and structure to analyze the new input.
+
+Input:
+{qa_list}
+
+Output:"""
