@@ -166,19 +166,28 @@ if __name__ == "__main__":
     video_paths = os.listdir(processing_config["input_dir"])
     video_paths = [os.path.join(processing_config["input_dir"], video_path) for video_path in video_paths]
 
-    # video_paths = ['/mnt/hdfs/foundation/longlin.kylin/mmagent/data/video_clips/EodRBU-HVEI']
-
     save_dir = processing_config["save_dir"]
+    generated_memories = os.listdir(save_dir)
+    generated_memories = [generated_memory for generated_memory in generated_memories if generated_memory.endswith(".pkl")]
+    video_paths = [video_path for video_path in video_paths if generate_file_name(video_path)+".pkl" not in generated_memories]
+    
+    # save_dir = processing_config["save_dir"]
+    # video_paths = ['/mnt/hdfs/foundation/longlin.kylin/mmagent/data/video_clips/EodRBU-HVEI']
+    
     max_workers = processing_config["max_parallel_videos"]  # Default to 4 parallel videos
     preprocessing = None
 
     def process_single_video(video_path):
         video_graph = VideoGraph(**memory_config)
-        streaming_process_video(video_graph, video_path, preprocessing=preprocessing)
+        try:
+            streaming_process_video(video_graph, video_path, preprocessing=preprocessing)
+        except Exception as e:
+            log_dir = processing_config["log_dir"]
+            os.makedirs(log_dir, exist_ok=True)
+            with open(os.path.join(log_dir, f"generate_memory_error.log"), "a") as f:
+                f.write(f"Error processing video {video_path}: {e}\n")
 
     # Process videos in parallel using ThreadPoolExecutor with max_workers limit
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         # Process videos in parallel using map
-        list(tqdm(executor.map(process_single_video, video_paths), 
-                 total=len(video_paths), 
-                 desc="Processing videos"))
+        list(tqdm(executor.map(process_single_video, video_paths), total=len(video_paths), desc="Processing videos"))

@@ -425,34 +425,37 @@ class VideoGraph:
             filtered_semantics = [self.nodes[filtered_semantic_node].metadata['contents'][0] 
                                 for filtered_semantic_node in filtered_semantic_nodes]
             
-            # Generate equivalences using LLM
-            input = [
-                {
-                    "type": "text", 
-                    "content": prompt_extract_entities.format(semantic_memory=filtered_semantics),
-                }
-            ]
-            messages = generate_messages(input)
-            model = "gpt-4o-2024-11-20"
-            equivalences = None
+            equivalences = [filtered_semantic for filtered_semantic in filtered_semantics if filtered_semantic.lower().startswith("equivalence")]
             
-            for i in range(MAX_RETRIES):
-                equivalences_string = get_response_with_retry(model, messages)[0]
-                equivalences = validate_and_fix_python_list(equivalences_string)
-                if equivalences is not None:
-                    break
+            # # Generate equivalences using LLM
+            # input = [
+            #     {
+            #         "type": "text", 
+            #         "content": prompt_extract_entities.format(semantic_memory=filtered_semantics),
+            #     }
+            # ]
+            # messages = generate_messages(input)
+            # model = "gpt-4o-2024-11-20"
+            # equivalences = None
+            
+            # for i in range(MAX_RETRIES):
+            #     equivalences_string = get_response_with_retry(model, messages)[0]
+            #     equivalences = validate_and_fix_python_list(equivalences_string)
+            #     if equivalences is not None:
+            #         break
                     
-            if equivalences is None:
-                raise Exception("Failed to generate equivalences")
+            # if equivalences is None:
+            #     raise Exception("Failed to generate equivalences")
             
             # Add equivalent nodes to disjoint sets
             for equivalence in equivalences:
                 entities = parse_video_caption(equivalence)
+                entities = [entity for entity in entities if entity[1] in self.nodes]
                 if len(entities) >= 2:
                     # Union all entities in this equivalence group
-                    first_entity = entities[0][1]  # Get ID of first entity
+                    anchor_node = entities[0][1]  # Get ID of first entity
                     for entity in entities[1:]:
-                        union(first_entity, entity[1])
+                        union(anchor_node, entity[1])
 
         # Group nodes by their representative (character)
         character_mappings = {}
@@ -461,6 +464,19 @@ class VideoGraph:
         
         # Find all nodes that are in the disjoint sets
         for x in parent:
+            root = find(x)
+            tag = 'face_'+str(x) if self.nodes[x].type == 'img' else 'voice_'+str(x)
+            if root not in root_to_character:
+                root_to_character[root] = f"character_{character_count}"
+                character_count += 1
+            character = root_to_character[root]
+            if character not in character_mappings:
+                character_mappings[character] = []
+            character_mappings[character].append(tag)
+        
+        for x in self.nodes:
+            if x in parent or self.nodes[x].type not in ['img', 'voice']:
+                continue
             root = find(x)
             tag = 'face_'+str(x) if self.nodes[x].type == 'img' else 'voice_'+str(x)
             if root not in root_to_character:

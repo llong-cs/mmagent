@@ -284,6 +284,7 @@ def process_captions(video_graph, caption_contents, clip_id, type='episodic'):
         # create a new text node for each caption
         new_node_id = video_graph.add_text_node(caption, clip_id, type)
         entities = parse_video_caption(caption['contents'][0])
+        entities = [entity for entity in entities if entity[1] in video_graph.nodes]
         for entity in entities:
             video_graph.add_edge(new_node_id, entity[1])
 
