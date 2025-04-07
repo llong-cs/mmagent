@@ -165,13 +165,16 @@ if __name__ == "__main__":
     # video paths can be paths to directories or paths to mp4 files
     video_paths = os.listdir(processing_config["input_dir"])
     video_paths = [os.path.join(processing_config["input_dir"], video_path) for video_path in video_paths]
+
+    # video_paths = ['/mnt/hdfs/foundation/longlin.kylin/mmagent/data/video_clips/EodRBU-HVEI']
+
     save_dir = processing_config["save_dir"]
-    max_workers = processing_config.get("max_parallel_videos")  # Default to 4 parallel videos
-    preprocessing = 'voice'
+    max_workers = processing_config["max_parallel_videos"]  # Default to 4 parallel videos
+    preprocessing = None
 
     def process_single_video(video_path):
         video_graph = VideoGraph(**memory_config)
-        streaming_process_video(video_graph, video_path, preprocessing='face')
+        streaming_process_video(video_graph, video_path, preprocessing=preprocessing)
 
     # Process videos in parallel using ThreadPoolExecutor with max_workers limit
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
