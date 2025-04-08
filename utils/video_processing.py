@@ -11,9 +11,7 @@ from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 import multiprocessing
 import shutil
-import contextlib
-import io
-
+import subprocess
 # Disable moviepy logging
 logging.getLogger('moviepy').setLevel(logging.ERROR)
 # Disable moviepy's tqdm progress bar
@@ -267,7 +265,12 @@ if __name__ == "__main__":
     def process_video_parallel(args):
         video_path, interval, output_dir = args
         try:
-            split_video_into_clips(video_path, interval, output_dir)
+            # split_video_into_clips(video_path, interval, output_dir)
+            video_name = os.path.splitext(os.path.basename(video_path))[0]
+            clip_dir = os.path.join(output_dir, video_name)
+            os.makedirs(clip_dir, exist_ok=True)
+            
+            subprocess.run(["ffmpeg", "-i", video_path, "-c:v", "libx264", "-c:a", "aac", "-f", "segment", "-segment_time", str(interval), "-reset_timestamps", "1", os.path.join(clip_dir, "%d.mp4")], stdout=subprocess.DEVNULL)
         except Exception as e:
             print(f"Error processing {video_path}: {str(e)}")
 
