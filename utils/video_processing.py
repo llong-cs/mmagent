@@ -161,7 +161,7 @@ def split_video_into_clips(video_path, interval, output_dir, output_format='mp4'
 
         # Get video info
         video_info = get_video_info(video_path)
-        duration = video_info["duration"]
+        duration = int(video_info["duration"])
 
         # Determine codecs based on format
         if output_format in ['mp4', 'mov']:
@@ -176,10 +176,6 @@ def split_video_into_clips(video_path, interval, output_dir, output_format='mp4'
 
         # Calculate number of clips
         num_clips = math.ceil(duration / interval)
-        
-        # 使用内部线程池处理视频片段
-        # 注意：这里使用线程池是因为MoviePy内部已经使用了多线程
-        # 我们只需要处理多个片段的并行，而不是每个片段的处理
         
         def process_clip(clip_info):
             i, start_time, end_time = clip_info
@@ -249,28 +245,32 @@ def verify_video_processing(video_path, output_dir, interval, strict=False):
 
     try:
         if not os.path.exists(video_path):
+            print(f"Error processing {video_path}: Video file not found.")
             return False
         # Get expected number of clips based on video duration
         video_info = get_video_info(video_path)
-        expected_clips_num = math.ceil(video_info["duration"] / interval)
+        expected_clips_num = math.ceil(int(video_info["duration"]) / interval)
         
         # Get actual number of clips in output directory
         video_name = os.path.splitext(os.path.basename(video_path))[0]
         clip_dir = os.path.join(output_dir, video_name)
         
         if not os.path.exists(clip_dir):
+            print(f"Error processing {video_path}: Clip directory {clip_dir} not found.")
             return False
             
         actual_clips = [f for f in os.listdir(clip_dir) if os.path.isfile(os.path.join(clip_dir, f)) and f.split('.')[-1] in ['mp4', 'mov', 'webm']]
         actual_clips_num = len(actual_clips)
         
         if actual_clips_num != expected_clips_num:
+            print(f"Error processing {video_path}: Expected {video_info['duration']}/{interval}={expected_clips_num} clips, but found {actual_clips_num} clips.")
             return False
 
         if strict:
             for clip in actual_clips:
                 clip_file = os.path.join(clip_dir, clip)
                 if not has_video_and_audio(clip_file):
+                    print(f"Error processing {clip_file}: No video or audio streams found.")
                     return False
             
         return True
@@ -334,3 +334,5 @@ if __name__ == "__main__":
         with ProcessPoolExecutor(max_workers=max_workers) as executor:
             args = [(video["path"], output_dir, interval) for video in videos if os.path.exists(video["path"])]
             list(tqdm(executor.map(verify_video_parallel, args), total=len(args), desc="Verifying videos"))
+
+        # verify_video_processing("/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_3/vdkQWgZLrYA.mp4", output_dir, interval)
