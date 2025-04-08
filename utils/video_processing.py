@@ -195,7 +195,7 @@ def split_video_into_clips(video_path, interval, output_dir, output_format='mp4'
                         # 写入临时文件
                         clip.write_videofile(temp_path, codec=video_codec, audio_codec=audio_codec, logger=None, threads=4)
                         # 移动到最终位置
-                        output_path = os.path.join(output_dir, f"{i+1}.{output_format}")
+                        output_path = os.path.join(output_dir, f"{i}.{output_format}")
                         shutil.move(temp_path, output_path)
                     finally:
                         clip.close()
@@ -224,7 +224,7 @@ def split_video_into_clips(video_path, interval, output_dir, output_format='mp4'
         print(f"Error splitting video into clips: {str(e)}")
         raise
 
-def verify_video_processing(video_path, output_dir, interval):
+def verify_video_processing(video_path, output_dir, interval, strict=False):
     """Verify that a video was properly split into clips by checking the number of clips.
     
     Args:
@@ -235,12 +235,24 @@ def verify_video_processing(video_path, output_dir, interval):
     Returns:
         bool: True if verification passes, False otherwise
     """
+
+    def has_video_and_audio(file_path):
+        def has_stream(stream_type):
+            result = subprocess.run(
+                ["ffprobe", "-v", "error", "-select_streams", stream_type,
+                "-show_entries", "stream=codec_name", "-of", "default=noprint_wrappers=1:nokey=1", file_path],
+                capture_output=True, text=True
+            )
+            return bool(result.stdout.strip())
+
+        return has_stream("v:0") and has_stream("a:0")
+
     try:
         if not os.path.exists(video_path):
             return False
         # Get expected number of clips based on video duration
         video_info = get_video_info(video_path)
-        expected_clips = math.ceil(video_info["duration"] / interval)
+        expected_clips_num = math.ceil(video_info["duration"] / interval)
         
         # Get actual number of clips in output directory
         video_name = os.path.splitext(os.path.basename(video_path))[0]
@@ -249,15 +261,21 @@ def verify_video_processing(video_path, output_dir, interval):
         if not os.path.exists(clip_dir):
             return False
             
-        actual_clips = len([f for f in os.listdir(clip_dir) if os.path.isfile(os.path.join(clip_dir, f)) and f.split('.')[-1] in ['mp4', 'mov', 'webm']])
+        actual_clips = [f for f in os.listdir(clip_dir) if os.path.isfile(os.path.join(clip_dir, f)) and f.split('.')[-1] in ['mp4', 'mov', 'webm']]
+        actual_clips_num = len(actual_clips)
         
-        if actual_clips != expected_clips:
+        if actual_clips_num != expected_clips_num:
             return False
+
+        if strict:
+            for clip in actual_clips:
+                clip_file = os.path.join(clip_dir, clip)
+                if not has_video_and_audio(clip_file):
+                    return False
             
         return True
         
     except Exception as e:
-        print(f"Error verifying {video_path}: {str(e)}")
         return False
 
 
@@ -265,12 +283,7 @@ if __name__ == "__main__":
     def process_video_parallel(args):
         video_path, interval, output_dir = args
         try:
-            # split_video_into_clips(video_path, interval, output_dir)
-            video_name = os.path.splitext(os.path.basename(video_path))[0]
-            clip_dir = os.path.join(output_dir, video_name)
-            os.makedirs(clip_dir, exist_ok=True)
-            
-            subprocess.run(["ffmpeg", "-i", video_path, "-c:v", "libx264", "-c:a", "aac", "-f", "segment", "-segment_time", str(interval), "-reset_timestamps", "1", os.path.join(clip_dir, "%d.mp4")], stdout=subprocess.DEVNULL)
+            split_video_into_clips(video_path, interval, output_dir)
         except Exception as e:
             print(f"Error processing {video_path}: {str(e)}")
 
@@ -290,16 +303,15 @@ if __name__ == "__main__":
             videos = json.load(f)
         output_dir = os.path.join("/mnt/hdfs/foundation/longlin.kylin/mmagent/data/video_clips", marker)
         os.makedirs(output_dir, exist_ok=True)
-        # video_paths = [video["path"] for video in videos if video["path"]]
-        video_paths = [video["path"] for video in videos if os.path.exists(video["path"]) and not verify_video_processing(video["path"], output_dir, interval)]
-        # video_paths = [video["path"] for video in videos if os.path.exists(video["path"])]
-        
+
+        video_paths = [video["path"] for video in videos if os.path.exists(video["path"]) and not verify_video_processing(video["path"], output_dir, interval, strict=True)]
         with ProcessPoolExecutor(max_workers=max_workers) as executor:
             args = [(video_path, interval, output_dir) for video_path in video_paths]
             list(tqdm(executor.map(process_video_parallel, args), total=len(args), desc="Processing videos"))
         
         # verify video processing
+        video_paths = [video["path"] for video in videos if os.path.exists(video["path"])]
         for video_path in video_paths:
-            if not verify_video_processing(video_path, output_dir, interval):
+            if not verify_video_processing(video_path, output_dir, interval, strict=True):
                 with open(os.path.join(log_dir, f"video_processing_error.log"), "a") as f:
                     f.write(f"Clipping failed for {video_path}" + "\n")
