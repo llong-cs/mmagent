@@ -192,7 +192,7 @@ def split_video_into_clips(video_path, interval, output_dir, output_format='mp4'
                 
                 # 创建子片段
                 with VideoFileClip(video_path) as video:
-                    clip = video.subclip(start_time, end_time)
+                    clip = video.subclipped(start_time, end_time)
                     try:
                         # 写入临时文件
                         clip.write_videofile(temp_path, codec=video_codec, audio_codec=audio_codec, logger=None, threads=4)
@@ -274,13 +274,8 @@ if __name__ == "__main__":
     interval = processing_config["interval_seconds"]
     log_dir = processing_config["log_dir"]
     base_save_dir = "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos"
-    
-    # 使用进程池而不是线程池，因为视频处理是CPU密集型任务
-    from concurrent.futures import ProcessPoolExecutor
-    
-    # 计算最优进程数
+        
     cpu_count = multiprocessing.cpu_count()
-    # 对于CPU密集型任务，使用进程数等于CPU核心数
     max_workers = cpu_count
     
     print(f"Using {max_workers} processes (CPU cores: {cpu_count})")
