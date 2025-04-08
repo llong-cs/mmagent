@@ -179,61 +179,61 @@ def split_video_into_clips(video_path, interval, output_dir, output_format='mp4'
         # Calculate number of clips
         num_clips = math.ceil(duration / interval)
         
-        # # Open video using context manager
-        # for i in tqdm(range(num_clips)):
-        #     start_time = i * interval
-        #     end_time = min((i + 1) * interval, duration)
-        #     # Create and process clip in its own context
-        #     with VideoFileClip(video_path) as video:
-        #         with video.subclipped(start_time, end_time) as clip:
-        #             output_path = os.path.join(output_dir, f"{i+1}.{output_format}")
-        #             # Use unique tempfile for each clip processing
-        #             with tempfile.NamedTemporaryFile(suffix=f".{output_format}", delete=False) as temp_file:
-        #                 temp_path = temp_file.name
+        # Open video using context manager
+        for i in tqdm(range(num_clips)):
+            start_time = i * interval
+            end_time = min((i + 1) * interval, duration)
+            # Create and process clip in its own context
+            with VideoFileClip(video_path) as video:
+                with video.subclipped(start_time, end_time) as clip:
+                    output_path = os.path.join(output_dir, f"{i+1}.{output_format}")
+                    # Use unique tempfile for each clip processing
+                    with tempfile.NamedTemporaryFile(suffix=f".{output_format}", delete=False) as temp_file:
+                        temp_path = temp_file.name
                     
-        #             try:
-        #                 # Write to temporary file first
-        #                 clip.write_videofile(temp_path, codec=video_codec, audio_codec=audio_codec, logger=None, threads=4)
-        #                 # Move to final location using shutil.move
-        #                 shutil.move(temp_path, output_path)
-        #             except Exception as e:
-        #                 # Clean up temp file if something goes wrong
-        #                 try:
-        #                     os.unlink(temp_path)
-        #                 except:
-        #                     pass
-        #                 raise e
-        
-        # Open video file only once
-        with VideoFileClip(video_path) as video:
-            # Process all clips in a single video file open
-            for i in tqdm(range(num_clips)):
-                start_time = i * interval
-                end_time = min((i + 1) * interval, duration)
-                
-                # Create subclip
-                clip = video.subclipped(start_time, end_time)
-                
-                output_path = os.path.join(output_dir, f"{i+1}.{output_format}")
-                # Use unique tempfile for each clip processing
-                with tempfile.NamedTemporaryFile(suffix=f".{output_format}", delete=False) as temp_file:
-                    temp_path = temp_file.name
-                
-                try:
-                    # Write to temporary file first
-                    clip.write_videofile(temp_path, codec=video_codec, audio_codec=audio_codec, logger=None, threads=4)
-                    # Move to final location using shutil.move
-                    shutil.move(temp_path, output_path)
-                except Exception as e:
-                    # Clean up temp file if something goes wrong
                     try:
-                        os.unlink(temp_path)
-                    except:
-                        pass
-                    raise e
-                finally:
-                    # Close the subclip to free resources
-                    clip.close()
+                        # Write to temporary file first
+                        clip.write_videofile(temp_path, codec=video_codec, audio_codec=audio_codec, logger=None, threads=4)
+                        # Move to final location using shutil.move
+                        shutil.move(temp_path, output_path)
+                    except Exception as e:
+                        # Clean up temp file if something goes wrong
+                        try:
+                            os.unlink(temp_path)
+                        except:
+                            pass
+                        raise e
+        
+        # # Open video file only once
+        # with VideoFileClip(video_path) as video:
+        #     # Process all clips in a single video file open
+        #     for i in tqdm(range(num_clips)):
+        #         start_time = i * interval
+        #         end_time = min((i + 1) * interval, duration)
+                
+        #         # Create subclip
+        #         clip = video.subclipped(start_time, end_time)
+                
+        #         output_path = os.path.join(output_dir, f"{i+1}.{output_format}")
+        #         # Use unique tempfile for each clip processing
+        #         with tempfile.NamedTemporaryFile(suffix=f".{output_format}", delete=False) as temp_file:
+        #             temp_path = temp_file.name
+                
+        #         try:
+        #             # Write to temporary file first
+        #             clip.write_videofile(temp_path, codec=video_codec, audio_codec=audio_codec, logger=None, threads=4)
+        #             # Move to final location using shutil.move
+        #             shutil.move(temp_path, output_path)
+        #         except Exception as e:
+        #             # Clean up temp file if something goes wrong
+        #             try:
+        #                 os.unlink(temp_path)
+        #             except:
+        #                 pass
+        #             raise e
+        #         finally:
+        #             # Close the subclip to free resources
+        #             clip.close()
 
         return output_dir
 
@@ -253,6 +253,8 @@ def verify_video_processing(video_path, output_dir, interval):
         bool: True if verification passes, False otherwise
     """
     try:
+        if not os.path.exists(video_path):
+            return False
         # Get expected number of clips based on video duration
         video_info = get_video_info(video_path)
         expected_clips = math.ceil(video_info["duration"] / interval)
@@ -262,14 +264,11 @@ def verify_video_processing(video_path, output_dir, interval):
         clip_dir = os.path.join(output_dir, video_name)
         
         if not os.path.exists(clip_dir):
-            print(f"Output directory {clip_dir} does not exist")
             return False
             
         actual_clips = len([f for f in os.listdir(clip_dir) if os.path.isfile(os.path.join(clip_dir, f)) and f.split('.')[-1] in ['mp4', 'mov', 'webm']])
         
         if actual_clips != expected_clips:
-            print(f"Mismatch for {video_path}:")
-            print(f"Expected {expected_clips} clips but found {actual_clips}")
             return False
             
         return True
@@ -280,37 +279,42 @@ def verify_video_processing(video_path, output_dir, interval):
 
 
 if __name__ == "__main__":
-    annotations = json.load(open("data/annotations/video_list_CZ_answer_clipwise_0320.json"))
-    video_paths = [video["path"] for video in annotations]
-    video_paths = [os.path.join("/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos", video_path.split("/")[-1]) for video_path in video_paths]
-    interval = processing_config["interval_seconds"]
-    output_dir = processing_config["input_dir"]
-    
     def process_video_parallel(args):
         video_path, interval, output_dir = args
         try:
             split_video_into_clips(video_path, interval, output_dir)
         except Exception as e:
             print(f"Error processing {video_path}: {str(e)}")
+
+    interval = processing_config["interval_seconds"]
+    log_dir = processing_config["log_dir"]
+    base_save_dir = "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos"
     
     # Calculate optimal number of workers
     cpu_count = multiprocessing.cpu_count()
     # For I/O bound tasks like video processing, we can use slightly more workers than CPU cores
     # but we'll cap it to avoid system overload
-    max_workers = min(cpu_count * 1.5, 32)  # Cap at 32 workers maximum
+    max_workers = min(cpu_count, 32)  # Cap at 32 workers maximum
     max_workers = int(max_workers)  # Convert to integer
-    
     print(f"Using {max_workers} workers (CPU cores: {cpu_count})")
 
-    video_paths = ["data/videos/raw/test/test2.mp4"]
-    output_dir = "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/test_video_clips"
-    
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        args = [(video_path, interval, output_dir) for video_path in video_paths]
-        list(tqdm(executor.map(process_video_parallel, args), total=len(args), desc="Processing videos"))
-    
-    # verify video processing
-    for video_path in video_paths:
-        if not verify_video_processing(video_path, output_dir, interval):
-            print(f"Verification failed for {video_path}")
-            break
+    annotations_paths = ["data/annotations/CZ_1_refined.json", "data/annotations/ZZ_1_refined.json", "data/annotations/ZZ_2_refined.json", "data/annotations/ZZ_3_refined.json"]
+    for annotations_path in annotations_paths:
+        marker = annotations_path.split("/")[-1].split(".")[0].strip("_refined")
+        with open(annotations_path, "r") as f:
+            videos = json.load(f)
+        output_dir = os.path.join("/mnt/hdfs/foundation/longlin.kylin/mmagent/data/video_clips", marker)
+        os.makedirs(output_dir, exist_ok=True)
+        # video_paths = [video["path"] for video in videos if video["path"]]
+        video_paths = [video["path"] for video in videos if os.path.exists(video["path"]) and not verify_video_processing(video["path"], output_dir, interval)]
+        # video_paths = [video["path"] for video in videos if os.path.exists(video["path"])]
+        
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            args = [(video_path, interval, output_dir) for video_path in video_paths]
+            list(tqdm(executor.map(process_video_parallel, args), total=len(args), desc="Processing videos"))
+        
+        # verify video processing
+        for video_path in video_paths:
+            if not verify_video_processing(video_path, output_dir, interval):
+                with open(os.path.join(log_dir, f"video_processing_error.log"), "a") as f:
+                    f.write(f"Clipping failed for {video_path}" + "\n")
