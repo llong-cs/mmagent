@@ -8,7 +8,7 @@ import cv2
 import numpy as np
 from moviepy import VideoFileClip
 from tqdm import tqdm
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 import multiprocessing
 import shutil
 import contextlib
@@ -179,61 +179,46 @@ def split_video_into_clips(video_path, interval, output_dir, output_format='mp4'
         # Calculate number of clips
         num_clips = math.ceil(duration / interval)
         
-        # Open video using context manager
-        for i in tqdm(range(num_clips)):
-            start_time = i * interval
-            end_time = min((i + 1) * interval, duration)
-            # Create and process clip in its own context
-            with VideoFileClip(video_path) as video:
-                with video.subclipped(start_time, end_time) as clip:
-                    output_path = os.path.join(output_dir, f"{i+1}.{output_format}")
-                    # Use unique tempfile for each clip processing
-                    with tempfile.NamedTemporaryFile(suffix=f".{output_format}", delete=False) as temp_file:
-                        temp_path = temp_file.name
-                    
-                    try:
-                        # Write to temporary file first
-                        clip.write_videofile(temp_path, codec=video_codec, audio_codec=audio_codec, logger=None, threads=4)
-                        # Move to final location using shutil.move
-                        shutil.move(temp_path, output_path)
-                    except Exception as e:
-                        # Clean up temp file if something goes wrong
-                        try:
-                            os.unlink(temp_path)
-                        except:
-                            pass
-                        raise e
+        # 使用内部线程池处理视频片段
+        # 注意：这里使用线程池是因为MoviePy内部已经使用了多线程
+        # 我们只需要处理多个片段的并行，而不是每个片段的处理
         
-        # # Open video file only once
-        # with VideoFileClip(video_path) as video:
-        #     # Process all clips in a single video file open
-        #     for i in tqdm(range(num_clips)):
-        #         start_time = i * interval
-        #         end_time = min((i + 1) * interval, duration)
+        def process_clip(clip_info):
+            i, start_time, end_time = clip_info
+            try:
+                # 创建临时文件
+                with tempfile.NamedTemporaryFile(suffix=f".{output_format}", delete=False) as temp_file:
+                    temp_path = temp_file.name
                 
-        #         # Create subclip
-        #         clip = video.subclipped(start_time, end_time)
-                
-        #         output_path = os.path.join(output_dir, f"{i+1}.{output_format}")
-        #         # Use unique tempfile for each clip processing
-        #         with tempfile.NamedTemporaryFile(suffix=f".{output_format}", delete=False) as temp_file:
-        #             temp_path = temp_file.name
-                
-        #         try:
-        #             # Write to temporary file first
-        #             clip.write_videofile(temp_path, codec=video_codec, audio_codec=audio_codec, logger=None, threads=4)
-        #             # Move to final location using shutil.move
-        #             shutil.move(temp_path, output_path)
-        #         except Exception as e:
-        #             # Clean up temp file if something goes wrong
-        #             try:
-        #                 os.unlink(temp_path)
-        #             except:
-        #                 pass
-        #             raise e
-        #         finally:
-        #             # Close the subclip to free resources
-        #             clip.close()
+                # 创建子片段
+                with VideoFileClip(video_path) as video:
+                    clip = video.subclip(start_time, end_time)
+                    try:
+                        # 写入临时文件
+                        clip.write_videofile(temp_path, codec=video_codec, audio_codec=audio_codec, logger=None, threads=4)
+                        # 移动到最终位置
+                        output_path = os.path.join(output_dir, f"{i+1}.{output_format}")
+                        shutil.move(temp_path, output_path)
+                    finally:
+                        clip.close()
+            except Exception as e:
+                # 清理临时文件
+                try:
+                    if os.path.exists(temp_path):
+                        os.unlink(temp_path)
+                except:
+                    pass
+                raise e
+        
+        # 准备所有片段的信息
+        clip_infos = [(i, i * interval, min((i + 1) * interval, duration)) 
+                      for i in range(num_clips)]
+        
+        # 使用线程池处理片段
+        # 使用较少的线程，因为MoviePy内部已经使用了多线程
+        internal_threads = min(4, num_clips)
+        with ThreadPoolExecutor(max_workers=internal_threads) as executor:
+            list(tqdm(executor.map(process_clip, clip_infos), total=num_clips, desc="Processing clips"))
 
         return output_dir
 
@@ -290,13 +275,15 @@ if __name__ == "__main__":
     log_dir = processing_config["log_dir"]
     base_save_dir = "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos"
     
-    # Calculate optimal number of workers
+    # 使用进程池而不是线程池，因为视频处理是CPU密集型任务
+    from concurrent.futures import ProcessPoolExecutor
+    
+    # 计算最优进程数
     cpu_count = multiprocessing.cpu_count()
-    # For I/O bound tasks like video processing, we can use slightly more workers than CPU cores
-    # but we'll cap it to avoid system overload
-    max_workers = min(cpu_count, 32)  # Cap at 32 workers maximum
-    max_workers = int(max_workers)  # Convert to integer
-    print(f"Using {max_workers} workers (CPU cores: {cpu_count})")
+    # 对于CPU密集型任务，使用进程数等于CPU核心数
+    max_workers = cpu_count
+    
+    print(f"Using {max_workers} processes (CPU cores: {cpu_count})")
 
     annotations_paths = ["data/annotations/CZ_1_refined.json", "data/annotations/ZZ_1_refined.json", "data/annotations/ZZ_2_refined.json", "data/annotations/ZZ_3_refined.json"]
     for annotations_path in annotations_paths:
@@ -309,7 +296,7 @@ if __name__ == "__main__":
         video_paths = [video["path"] for video in videos if os.path.exists(video["path"]) and not verify_video_processing(video["path"], output_dir, interval)]
         # video_paths = [video["path"] for video in videos if os.path.exists(video["path"])]
         
-        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        with ProcessPoolExecutor(max_workers=max_workers) as executor:
             args = [(video_path, interval, output_dir) for video_path in video_paths]
             list(tqdm(executor.map(process_video_parallel, args), total=len(args), desc="Processing videos"))
         
