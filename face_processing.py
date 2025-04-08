@@ -22,7 +22,7 @@ processing_config = json.load(open("configs/processing_config.json"))
 
 cluster_size = processing_config["cluster_size"]
 
-def process_faces(video_graph, base64_frames, save_path, preprocessing=None):
+def process_faces(video_graph, base64_frames, save_path, preprocessing=[]):
     """
     Process video frames to detect, cluster and track faces.
 
@@ -192,7 +192,7 @@ def process_faces(video_graph, base64_frames, save_path, preprocessing=None):
             
             print(f"Write face detection results to {save_path}")
     except Exception as e:
-        if preprocessing:
+        if "face" in preprocessing:
             # Save error to log file
             log_dir = processing_config["log_dir"]
             os.makedirs(log_dir, exist_ok=True)
@@ -201,7 +201,7 @@ def process_faces(video_graph, base64_frames, save_path, preprocessing=None):
                 f.write(f"Error processing {save_path}: {str(e)}\n")
         raise RuntimeError(f"Failed to detect faces at {save_path}: {e}")
             
-    if preprocessing:
+    if "face" in preprocessing:
         return {}
 
     if len(faces_json) == 0:

@@ -18,7 +18,7 @@ processing_config = json.load(open("configs/processing_config.json"))
 MAX_RETRIES = processing_config["max_retries"]
 
 
-def process_voices(video_graph, base64_audio, base64_video, save_path, preprocessing=None):
+def process_voices(video_graph, base64_audio, base64_video, save_path, preprocessing=[]):
     def get_audio_segment(base64_audio, start_time, end_time):
         """
         Get audio segment from base64 audio string
@@ -299,7 +299,7 @@ def process_voices(video_graph, base64_audio, base64_video, save_path, preproces
             
             print(f"Write voice detection results to {save_path}")
     except Exception as e:
-        if preprocessing:
+        if "voice" in preprocessing:
             # Save error to log file
             log_dir = processing_config["log_dir"]
             os.makedirs(log_dir, exist_ok=True)
@@ -308,7 +308,7 @@ def process_voices(video_graph, base64_audio, base64_video, save_path, preproces
                 f.write(f"Error processing {save_path}: {str(e)}\n")
         raise RuntimeError(f"Failed to diarize audio at {save_path}: {e}")
     
-    if preprocessing:
+    if "voice" in preprocessing:
         return {}
     
     if len(audios) == 0:

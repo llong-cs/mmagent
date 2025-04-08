@@ -2,6 +2,8 @@ import numpy as np
 from tqdm import tqdm
 import os
 import json
+from concurrent.futures import ProcessPoolExecutor
+import multiprocessing
 
 from videograph import VideoGraph
 from utils.general import *
@@ -26,13 +28,13 @@ def process_segment(
     base64_audio,
     clip_id,
     video_path,
-    preprocessing=None,
+    preprocessing=[],
 ):
     save_path = os.path.join(
         processing_config["intermediate_save_dir"], generate_file_name(video_path)
     )
 
-    if not preprocessing or preprocessing == "voice":
+    if not preprocessing or "voice" in preprocessing:
         id2voices = process_voices(
             video_graph,
             base64_audio,
@@ -42,7 +44,7 @@ def process_segment(
         )
         print("Finish processing voices")
 
-    if not preprocessing or preprocessing == "face":
+    if not preprocessing or "face" in preprocessing:
         id2faces = process_faces(
             video_graph,
             base64_frames,
@@ -70,7 +72,7 @@ def process_segment(
     print("Finish processing segment")
 
 
-def streaming_process_video(video_graph, video_path, preprocessing=None):
+def streaming_process_video(video_graph, video_path, preprocessing=[]):
     """Process video segments at specified intervals with given fps.
 
     Args:
@@ -174,8 +176,12 @@ if __name__ == "__main__":
     # save_dir = processing_config["save_dir"]
     # video_paths = ['/mnt/hdfs/foundation/longlin.kylin/mmagent/data/video_clips/EodRBU-HVEI']
     
-    max_workers = processing_config["max_parallel_videos"]  # Default to 4 parallel videos
-    preprocessing = None
+    cpu_count = multiprocessing.cpu_count()
+    max_workers = min(cpu_count, processing_config.get("max_parallel_videos", 4))
+    
+    print(f"Using {max_workers} processes (CPU cores: {cpu_count})")
+    
+    preprocessing = []
 
     def process_single_video(video_path):
         video_graph = VideoGraph(**memory_config)
@@ -187,7 +193,5 @@ if __name__ == "__main__":
             with open(os.path.join(log_dir, f"generate_memory_error.log"), "a") as f:
                 f.write(f"Error processing video {video_path}: {e}\n")
 
-    # Process videos in parallel using ThreadPoolExecutor with max_workers limit
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        # Process videos in parallel using map
+    with ProcessPoolExecutor(max_workers=max_workers) as executor:
         list(tqdm(executor.map(process_single_video, video_paths), total=len(video_paths), desc="Processing videos"))
