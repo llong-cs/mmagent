@@ -287,6 +287,21 @@ if __name__ == "__main__":
         except Exception as e:
             print(f"Error processing {video_path}: {str(e)}")
 
+    def verify_video_parallel(args):
+        video_path, output_dir, interval = args
+        if not verify_video_processing(video_path, output_dir, interval, strict=True):
+            with open(os.path.join(log_dir, f"video_processing_error.log"), "a") as f:
+                f.write(f"Clipping failed for {video_path}" + "\n")
+            return False
+        return True
+
+    def check_video_path(args):
+        video, output_dir, interval = args
+        path = video["path"]
+        if os.path.exists(path) and not verify_video_processing(path, output_dir, interval, strict=True):
+            return path
+        return None
+
     interval = processing_config["interval_seconds"]
     log_dir = processing_config["log_dir"]
     base_save_dir = "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos"
@@ -304,14 +319,18 @@ if __name__ == "__main__":
         output_dir = os.path.join("/mnt/hdfs/foundation/longlin.kylin/mmagent/data/video_clips", marker)
         os.makedirs(output_dir, exist_ok=True)
 
-        video_paths = [video["path"] for video in videos if os.path.exists(video["path"]) and not verify_video_processing(video["path"], output_dir, interval, strict=True)]
+        # Check video paths in parallel
+        with ProcessPoolExecutor(max_workers=max_workers) as executor:
+            args = [(video, output_dir, interval) for video in videos]
+            paths = list(tqdm(executor.map(check_video_path, args), total=len(args), desc="Checking video paths"))
+            video_paths = [path for path in paths if path is not None]
+
+        # Process videos in parallel
         with ProcessPoolExecutor(max_workers=max_workers) as executor:
             args = [(video_path, interval, output_dir) for video_path in video_paths]
             list(tqdm(executor.map(process_video_parallel, args), total=len(args), desc="Processing videos"))
         
-        # verify video processing
-        video_paths = [video["path"] for video in videos if os.path.exists(video["path"])]
-        for video_path in video_paths:
-            if not verify_video_processing(video_path, output_dir, interval, strict=True):
-                with open(os.path.join(log_dir, f"video_processing_error.log"), "a") as f:
-                    f.write(f"Clipping failed for {video_path}" + "\n")
+        # Verify all videos in parallel
+        with ProcessPoolExecutor(max_workers=max_workers) as executor:
+            args = [(video["path"], output_dir, interval) for video in videos if os.path.exists(video["path"])]
+            list(tqdm(executor.map(verify_video_parallel, args), total=len(args), desc="Verifying videos"))
