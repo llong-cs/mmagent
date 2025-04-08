@@ -42,9 +42,10 @@ def generate_random_clip_name(length=10):
     return "".join(random.choices(string.ascii_letters + string.digits, k=length))
 
 
-def upload_one_sample(file, do_upload=True):
+def upload_one_sample(file, obj_key=None, do_upload=True):
     try:
-        obj_key = generate_random_clip_name()
+        if not obj_key:
+            obj_key = generate_random_clip_name()
         obj_url = base_url + obj_key
         if do_upload:
             content = open(file, "rb")
