@@ -1,10 +1,6 @@
 {
     "video_paths": [
-        "data/videos/clipped/5 Poor People vs 1 Secret Millionaire",
-        "data/videos/clipped/GTIjylkB-TI",
-        "data/videos/clipped/jvUX3ocBSCk",
-        "data/videos/clipped/n-B_kmAebbQ",
-        "data/videos/clipped/UPk8fzT4t8o"
+        "data/videos/clipped/5 Poor People vs 1 Secret Millionaire"
     ],
     "interval_seconds": 30,
     "fps": 5,
@@ -20,7 +16,7 @@
     "topk": 5,
     "max_retrieval_steps": 3,
     "logging": "INFO",
-    "save_dir": "data/mems",
+    "save_dir": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems",
     "intermediate_save_dir": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/intermediate_outputs",
     "input_dir": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/video_clips",
     "max_parallel_videos": 32,

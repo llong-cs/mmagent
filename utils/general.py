@@ -298,14 +298,13 @@ def generate_file_name(video_path):
 def get_video_prefix(clip_id, video_path):
     pass
 
-def save_video_graph(video_graph, video_path, file_name=None):
+def save_video_graph(video_graph, video_path, save_dir, file_name=None):
     """Save video graph to pickle file.
 
     Args:
         video_graph (VideoGraph): Video graph to save
         config (dict): Configuration settings
     """
-    save_dir = processing_config["save_dir"]
     if not file_name:
         file_name = generate_file_name(video_path) + ".pkl"
     os.makedirs(save_dir, exist_ok=True)
