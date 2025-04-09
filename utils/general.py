@@ -308,12 +308,16 @@ def save_video_graph(video_graph, video_path, save_dir, file_name=None):
     """
     if not file_name:
         file_name = generate_file_name(video_path) + ".pkl"
+    temp_save_dir = "data/mems"
+    os.makedirs(temp_save_dir, exist_ok=True)
     os.makedirs(save_dir, exist_ok=True)
     save_path = os.path.join(save_dir, file_name)
-    with open(save_path, "wb") as f:
-        print(f"Saving video graph to {save_path}")
+    temp_save_path = os.path.join(temp_save_dir, file_name)
+    with open(temp_save_path, "wb") as f:
+        print(f"Saving video graph to {temp_save_path}")
         pickle.dump(video_graph, f)
-    shutil.move(save_path, output_path)
+    print(f"Moving video graph to {save_path}")
+    shutil.move(temp_save_path, save_path)
 
 def load_video_graph(video_graph_path):
     """Load video graph from pickle file.
