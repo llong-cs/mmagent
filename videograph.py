@@ -449,8 +449,7 @@ class VideoGraph:
             
             # Add equivalent nodes to disjoint sets
             for equivalence in equivalences:
-                entities = parse_video_caption(equivalence)
-                entities = [entity for entity in entities if entity[1] in self.nodes]
+                entities = parse_video_caption(self, equivalence)
                 if len(entities) >= 2:
                     # Union all entities in this equivalence group
                     anchor_node = entities[0][1]  # Get ID of first entity

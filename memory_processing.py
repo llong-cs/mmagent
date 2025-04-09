@@ -11,7 +11,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from PIL import Image, ImageDraw
 
-from utils.chat_api import generate_messages, get_response_with_retry, parallel_get_embedding
+from utils.chat_api import generate_messages, get_response_with_retry, parallel_get_embedding, print_messages
 from utils.general import validate_and_fix_python_list
 from prompts import prompt_generate_captions_with_ids, prompt_generate_thinkings_with_ids, prompt_generate_captions_with_ids_
 
@@ -20,7 +20,7 @@ processing_config = json.load(open("configs/processing_config.json"))
 MAX_RETRIES = processing_config["max_retries"]
 logging = processing_config["logging"]
 
-def parse_video_caption(video_caption):
+def parse_video_caption(video_graph, video_caption):
         # video_caption is a string like this: <char_1> xxx <char_2> xxx
         # extract all the elements wrapped by < and >
     pattern = r'<([^<>]*_[^<>]*)>'
@@ -36,6 +36,7 @@ def parse_video_caption(video_caption):
         except Exception as e:
             print(f"Entities parsing error: {e}")
             continue
+    entities = [entity for entity in entities if entity[1] in video_graph.nodes and ((video_graph.nodes[entity[1]].type == 'img' and entity[0] == 'face') or (video_graph.nodes[entity[1]].type == 'voice' and entity[0] == 'voice') or (video_graph.nodes[entity[1]].type in ['episodic', 'semantic'] and entity[0] == 'text'))]
     return entities
 
     # entities = []
@@ -181,6 +182,7 @@ def generate_thinkings_with_ids(video_context, video_description):
         },
     ]
     messages = generate_messages(input)
+    # print_messages(messages)
     model = "gemini-1.5-pro-002"
     thinkings = None
     for i in range(MAX_RETRIES):
@@ -244,6 +246,7 @@ def generate_captions_and_thinkings_with_ids(
     ]
 
     messages = generate_messages(input)
+    # print_messages(messages)
     model = "gemini-1.5-pro-002"
     captions = None
     for i in range(MAX_RETRIES):
@@ -283,8 +286,7 @@ def process_captions(video_graph, caption_contents, clip_id, type='episodic'):
     def insert_caption(video_graph, caption, type='episodic'):
         # create a new text node for each caption
         new_node_id = video_graph.add_text_node(caption, clip_id, type)
-        entities = parse_video_caption(caption['contents'][0])
-        entities = [entity for entity in entities if entity[1] in video_graph.nodes]
+        entities = parse_video_caption(video_graph, caption['contents'][0])
         for entity in entities:
             video_graph.add_edge(new_node_id, entity[1])
 
@@ -297,7 +299,7 @@ def process_captions(video_graph, caption_contents, clip_id, type='episodic'):
         # semantic captions can be used to update the existing text nodes, or create new text nodes
         elif type == 'semantic':
             for caption in captions:
-                entities = parse_video_caption(caption['contents'][0])
+                entities = parse_video_caption(video_graph, caption['contents'][0])
 
                 if len(entities) == 0:
                     insert_caption(video_graph, caption, type)
@@ -322,7 +324,7 @@ def process_captions(video_graph, caption_contents, clip_id, type='episodic'):
                     # 2. the semantic similarity between the caption and the existing node shows a positive correlation or a negative correlation
                     
                     # see if the caption entities are a subset of the existing node entities
-                    related_node_entities = parse_video_caption(video_graph.nodes[node_id].metadata['contents'][0])
+                    related_node_entities = parse_video_caption(video_graph, video_graph.nodes[node_id].metadata['contents'][0])
                     embedding = video_graph.nodes[node_id].embeddings[0]
                     if all(entity in related_node_entities for entity in entities):
                         similarity = np.dot(caption['embeddings'][0], embedding) / (np.linalg.norm(caption['embeddings'][0]) * np.linalg.norm(embedding))

@@ -122,7 +122,7 @@ Additionally, you are provided with previous clip descriptions, representing eve
 
 Your Task:
 
-Based on the video content and previous clip descriptions, generate a detailed and cohesive description of the video clip. The description should focus on the entire event, incorporating all relevant aspects of the characters, their actions, spoken dialogue, and interactions in a narrative format. The description should include (but is not limited to) the following categories:
+Using the provided feature IDs and video descriptions, generate a detailed and cohesive description of the current video clip. The description should capture the complete set of observable and inferable events in the clip. Your output should incorporate the following categories (but is not limited to them):
 
 	1.	Characters' Appearance: Describe the characters' appearance, such as their clothing, facial features, or any distinguishing characteristics.
 	2.	Characters' Actions & Movements: Describe specific gesture, movement, or interaction performed by the characters.
@@ -130,22 +130,23 @@ Based on the video content and previous clip descriptions, generate a detailed a
 	4.	Characters' Contextual Behavior: Describe the characters' roles in the scene or their interaction with other characters, focusing on their behavior, emotional state, or relationships.
 
 Strict Requirements:
-	•	Every reference to a character must use their corresponding feature ID enclosed in angle brackets (e.g., <face_1>, <voice_2>).
-	•	Do not use generic descriptions, inferred names, or pronouns to refer to characters (e.g., "he," "they," "the man").
-    •	The generated descriptions of the vdieo clip should include every details in the video.
-    •	Pay close attention to the characters' introduction of their names or their other identifications.
-	•	Seperate the complete description into multiple parts, each part focusing on a specific aspect of the video clip.
-	•	Whenever possible, include natural time expressions and physical location cues in the descriptions to improve contextual understanding. These should be based on inferred situational context (e.g., "in the evening at the dinner table," "early morning outside the building"), not on video clip timestamps.
-	•	Ensure all descriptions remain consistent with the provided IDs and do not introduce assumptions beyond what can be inferred from the video and audio content.
+	• If a character has an associated feature ID in the input context (either face or voice), refer to them **only** using that feature ID (e.g., <face_1>, <voice_2>).
+	• If a character **does not** have an associated feature ID in the input context, use a short descriptive phrase (e.g., "a man in a blue shirt," "a young woman standing near the door") to refer to them.
+	• Ensure accurate and consistent mapping between characters and their corresponding feature IDs when provided.
+	• Each description must represent a **single atomic event or detail**. Avoid combining multiple unrelated aspects (e.g., appearance and dialogue) into one line. If a sentence can be split without losing clarity, it must be split.
+	• Do not use pronouns (e.g., "he," "she," "they") or inferred names to refer to any character.
+	• Include natural time expressions and physical location cues wherever inferable from the context (e.g., "in the evening at the dinner table," "early morning outside the building").
+	• The generated descriptions must not invent events or characteristics not grounded in the video, audio, or previous descriptions.
+	• The final output must be a list of strings enclosed in square brackets ([]), with each string representing exactly one atomic event or description.
 
 Example Input:
 
 {
 	"video": <input_video>,
 	"characters": {
-		"<face_1>": <img_1>,
-		"<face_2>": <img_2>,
-		"<face_3>": <img_3>
+		"<face_1>": <img>,
+		"<face_2>": <img>,
+		"<face_3>": <img>
 	},
 	"speakers": {
 		"<voice_1>": [
@@ -171,8 +172,10 @@ Example Input:
 Example Output:
 
 [
-	"In the bright conference room, <face_1> enters confidently, adjusting his black suit with a white shirt and tie. He has short black hair and wears glasses, giving a professional appearance as he approaches <face_2> to shake hands.",
-	"<face_2>, dressed in a striking red dress with long brown hair, smiles warmly and greets <face_1>. She then sits down at the table beside him, glancing at her phone briefly while occasionally looking up.",
+	"In the bright conference room, <face_1> enters confidently, giving a professional appearance as he approaches <face_2> to shake hands.",
+	"<face_1> wears a black suit with a white shirt and tie. He has short black hair and wears glasses.",
+	"<face_2>, dressed in a striking red dress with long brown hair.",
+	"<face_2> smiles warmly and greets <face_1>. She then sits down at the table beside him, glancing at her phone briefly while occasionally looking up.",
 	"<voice_1> speaks to the group, 'Good afternoon, everyone. Let's begin the meeting.' His voice commands attention as the room quiets, and all eyes turn to him.",
 	"<face_2> listens attentively to <voice_1>'s words, nodding in agreement while still occasionally checking her phone. The atmosphere is professional, with the participants settling into their roles for the meeting.",
 	"<face_1> adjusts his tie and begins discussing the agenda, engaging the participants in a productive conversation."
@@ -186,7 +189,7 @@ You are also provided with detailed descriptions of previous and current video c
 
 Your Task:
 
-Generate a list of high-level reasoning-based conclusions across the following five categories, going beyond surface-level observations:
+Using the provided feature IDs and video descriptions, generate a list of high-level reasoning-based conclusions across the following five categories, going beyond surface-level observations:
 
 1. Equivalence Identification
 
@@ -231,25 +234,25 @@ Include general knowledge that can be learned from the video, such as:
 Output Format:
 
 • A Python list of concise English sentences, each expressing one high-level conclusion.
-• Use exact feature IDs (e.g., <face_1>, <voice_2>); do not use pronouns or vague terms.
-• Do not include reasoning steps or restate input observations.
-• Only output the final conclusions.
+• Do not include reasoning steps or restate input observations. Only output the final conclusions.
 
 Strict Requirements:
 
-	•	Every reference to a character must use their corresponding feature ID enclosed in angle brackets (e.g., <face_1>, <voice_2>), instead of generic descriptions or pronouns.
-	•	Focus solely on high-level conclusions derived from the video content and avoid simply repeating information already present in the descriptions or providing basic visual details.
-	•	Provide only the final high-level thinking conclusions, without detailing the reasoning process or restating simple observations from the video.
-	•	Pay more attention to features that are most likely to be the same person, using the format: "Equivalence: <feature_1>, <feature_2>".
-	•	Your output should be a Python list of well-formed, concise English sentences (one per item).
+	• If a character has an associated feature ID in the input context (either face or voice), refer to them **only** using that feature ID (e.g., <face_1>, <voice_2>).
+	• If a character **does not** have an associated feature ID in the input context, use a short descriptive phrase (e.g., "a man in a blue shirt," "a young woman standing near the door") to refer to them.
+	• Ensure accurate and consistent mapping between characters and their corresponding feature IDs when provided.	•	Focus solely on high-level conclusions derived from the video content and avoid simply repeating information already present in the descriptions or providing basic visual details.
+	• Do not use pronouns (e.g., "he," "she," "they") or inferred names to refer to any character.
+	• Provide only the final high-level thinking conclusions, without detailing the reasoning process or restating simple observations from the video.
+	• Pay more attention to features that are most likely to be the same person, using the format: "Equivalence: <face_x>, <voice_y>".
+	• Your output should be a Python list of well-formed, concise English sentences (one per item).
 
 Example Input:
 
 {
 	"video": <input_video>,
 	"characters": {
-		"<face_1>": <img_1>,
-		"<face_2>": <img_2>,
+		"<face_1>": <img>,
+		"<face_2>": <img>,
 	},
 	"speakers": {
 		"<voice_1>": [
@@ -310,7 +313,7 @@ Please only return "Yes" or "No", without any additional explanation or formatti
 
 prompt_benchmark_verify_answer_strict = """You are provided with a question, the ground truth answer, and a baseline answer. Your task is to strictly assess whether the baseline answer conveys exactly the same meaning as the ground truth answer, without introducing any additional information.
 
-If the baseline answer is semantically identical to the ground truth answer, return “Yes”. If the baseline answer deviates in meaning, includes incorrect details, or adds information beyond the ground truth answer, return “No”.
+If the baseline answer is semantically identical to the ground truth answer, return "Yes". If the baseline answer deviates in meaning, includes incorrect details, or adds information beyond the ground truth answer, return "No".
 
 Input Example:
 
@@ -634,7 +637,7 @@ Your task is to answer the question based on all the provided memories.
 
 Important Instructions:
 	•	When referring to a character, always use their specific name if it appears in the memories.
-	•	Do not use placeholder IDs like <character_1>, or vague descriptions such as “the man in the suit” or “the person speaking”.
+	•	Do not use placeholder IDs like <character_1>, or vague descriptions such as "the man in the suit" or "the person speaking".
 	•	Your answer should be short, clear, and directly address the question.
 	•	Avoid repeating or summarizing the memories—focus only on delivering the final answer.
 

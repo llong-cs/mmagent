@@ -278,3 +278,10 @@ def generate_messages(inputs):
             raise ValueError(f"Invalid input type: {input['type']}")
     messages.append({"role": "user", "content": content})
     return messages
+
+def print_messages(messages):
+    for message in messages:
+        if message["role"] == "user":
+            for item in message["content"]:
+                if item["type"] == "text":
+                    print(item['text'])
