@@ -72,7 +72,7 @@ def process_segment(
     print("Finish processing segment")
 
 
-def streaming_process_video(video_graph, video_path, save_dir,preprocessing=[]):
+def streaming_process_video(video_graph, video_path, save_dir, preprocessing=[]):
     """Process video segments at specified intervals with given fps.
 
     Args:
@@ -141,8 +141,10 @@ def streaming_process_video(video_graph, video_path, save_dir,preprocessing=[]):
             print(f"Starting processing {clip_id}-th (out of {len(video_files)}) clip: {full_path}")
 
             base64_video, base64_frames, base64_audio = process_video_clip(
-                full_path, 0, None, fps, audio_format="wav"
+                video_path=full_path, start_time=0, interval=None, fps=fps, audio_format="wav"
             )
+
+            # print("Start processing segment")
 
             if base64_frames:
                 process_segment(
@@ -176,20 +178,22 @@ if __name__ == "__main__":
         video_paths = [os.path.join(input_dir, video_file) for video_file in video_files]
 
         save_dir = os.path.join(processing_config["save_dir"], data)
+        os.makedirs(save_dir, exist_ok=True)
         generated_memories = os.listdir(save_dir)
         generated_memories = [generated_memory for generated_memory in generated_memories if generated_memory.endswith(".pkl")]
-        video_paths = [video_path for video_path in video_paths if generate_file_name(video_path)+".pkl" not in generated_memories]
+        video_paths = [video_path for video_path in video_paths if generate_file_name(video_path)+".pkl" not in generated_memories][:1]
         
         # save_dir = processing_config["save_dir"]
         # video_paths = ['/mnt/hdfs/foundation/longlin.kylin/mmagent/data/video_clips/EodRBU-HVEI']
         
-        # cpu_count = multiprocessing.cpu_count()
+        cpu_count = multiprocessing.cpu_count()
         # max_workers = min(cpu_count, processing_config.get("max_parallel_videos", 4))
         max_workers = processing_config.get("max_parallel_videos", 4)
         
         print(f"Using {max_workers} processes (CPU cores: {cpu_count})")
 
-        def process_single_video(video_path, save_dir):
+        def process_single_video(args):
+            video_path, save_dir = args
             video_graph = VideoGraph(**memory_config)
             try:
                 streaming_process_video(video_graph, video_path, save_dir, preprocessing=preprocessing)
@@ -199,6 +203,6 @@ if __name__ == "__main__":
                 with open(os.path.join(log_dir, f"generate_memory_error.log"), "a") as f:
                     f.write(f"Error processing video {video_path}: {e}\n")
 
+        args = [(video_path, save_dir) for video_path in video_paths]
         with ProcessPoolExecutor(max_workers=max_workers) as executor:
-            args = zip(video_paths, [save_dir]*len(video_paths))
             list(tqdm(executor.map(process_single_video, args), total=len(video_paths), desc="Processing videos"))

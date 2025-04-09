@@ -11,6 +11,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from itertools import combinations
 import struct
 import pickle
+import shutil
 from utils.chat_api import parallel_get_whisper
 
 processing_config = json.load(open("configs/processing_config.json"))
@@ -312,6 +313,7 @@ def save_video_graph(video_graph, video_path, save_dir, file_name=None):
     with open(save_path, "wb") as f:
         print(f"Saving video graph to {save_path}")
         pickle.dump(video_graph, f)
+    shutil.move(save_path, output_path)
 
 def load_video_graph(video_graph_path):
     """Load video graph from pickle file.

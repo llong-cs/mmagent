@@ -73,7 +73,7 @@ def extract_frames(video_path, start_time=None, interval=None, sample_fps=10):
 
 # TODO: check if there is a better way to do this without repeatedly opening and closing the video file
 def process_video_clip(video_path, start_time, interval=None, fps=10, video_format="mp4", audio_format="wav", audio_fps=16000): 
-    try                                                                                                                       : 
+    try: 
         base64_data = {}
         video = VideoFileClip(video_path)
 
@@ -89,7 +89,8 @@ def process_video_clip(video_path, start_time, interval=None, fps=10, video_form
             clip = video.subclipped(start_time, end_time)
             
             # Create temporary video file using context manager
-            with tempfile.NamedTemporaryFile(dir="/mnt/hdfs/foundation/longlin.kylin/mmagent/data/temp/videos", suffix=f".{video_format}") as temp_video:
+            with tempfile.NamedTemporaryFile(dir="data/temp", suffix=f".{video_format}") as temp_video:
+            # with tempfile.NamedTemporaryFile(dir="data/videos", suffix=f".{video_format}") as temp_video:
                 # Determine codecs based on format
                 if video_format in ['mp4', 'mov']:
                     video_codec = 'libx264'
@@ -108,7 +109,8 @@ def process_video_clip(video_path, start_time, interval=None, fps=10, video_form
                 base64_data["video"] = base64.b64encode(temp_video.read())
 
         # Create temporary audio file using context manager
-        with tempfile.NamedTemporaryFile(dir="/mnt/hdfs/foundation/longlin.kylin/mmagent/data/temp/audios", suffix=f".{audio_format}") as temp_audio:
+        with tempfile.NamedTemporaryFile(dir="data/temp", suffix=f".{audio_format}") as temp_audio:
+        # with tempfile.NamedTemporaryFile(dir="data/audios", suffix=f".{audio_format}") as temp_audio:
             # Write audio without logging, using specified fps for audio sampling
             if audio_format == "mp3":
                 audio_codec = "libmp3lame"
@@ -181,7 +183,7 @@ def split_video_into_clips(video_path, interval, output_dir, output_format='mp4'
             i, start_time, end_time = clip_info
             try:
                 # 创建临时文件
-                with tempfile.NamedTemporaryFile(dir="/mnt/hdfs/foundation/longlin.kylin/mmagent/data/temp/videos", suffix=f".{output_format}", delete=False) as temp_file:
+                with tempfile.NamedTemporaryFile(dir="data/temp", suffix=f".{output_format}", delete=False) as temp_file:
                     temp_path = temp_file.name
                 
                 # 创建子片段
