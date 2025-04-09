@@ -111,6 +111,7 @@ Strict Requirements:
 	•	Ensure precise speech segmentation with accurate timestamps.
 	•	Segment based on speaker turns (i.e., different speakers' utterances should be separated).
 	•	Preserve punctuation and capitalization in the ASR output.
+	•	Skip the speeches that can hardly be clearly recognized.
 	•	Return only the valid JSON list (which starts with "[" and ends with "]") without additional explanations.
     •	If the video contains no speech, return an empty list ("[]").
 	

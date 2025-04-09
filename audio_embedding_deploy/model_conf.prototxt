@@ -1,9 +1,0 @@
-model_meta {
-    framework_type: PYTHON3
-}
-runtime_conf {
-    enable_batching: true
-    batching_type: "matx_inference"
-    max_batching_time_ms: 100
-    allowed_batch_sizes: [1, 2, 4, 8, 16, 32, 64, 128, 256]
-}

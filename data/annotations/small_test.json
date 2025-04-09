@@ -1,5 +1,56 @@
 [
     {
+        "video_id": "CZ_1_1",
+        "video_url": "https://www.youtube.com/watch?v=Efk3K4epEzg",
+        "video_duration": "20:13",
+        "video_type": "综艺 - 纪实（真人秀）",
+        "qa_list": [
+            {
+                "question": "Which collection has the highest starting price?",
+                "answer": "Pirate Ship Float.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "一共五件藏品线性出现，模型需要在多个时间片段获得藏品的要价信息进行比对。"
+            },
+            {
+                "question": "What did the authentication expert do after examining the ink marks on the Led Zeppelin album?",
+                "answer": "Compared the handwriting.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "模型要先定位到鉴定专辑墨迹的环节，在分析鉴定专家的行为，从而知道他再比对笔迹"
+            },
+            {
+                "question": "Which collection is Boss's favorite?",
+                "answer": "The album of Led Zeppelin.",
+                "question_type": "多跳推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "模型应首先从第五位卖家片段得知Rick是老板，再搜索Rick对不同藏品的评价和反应，从Rick要将专辑收藏而非出售知道他最喜欢齐柏林飞艇的专辑"
+            },
+            {
+                "question": "Does Rick trust Trump's abilities?",
+                "answer": "No.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "从Rick给Trump发短信指挥他工作，并在和他人对话中说trump是傻瓜，说明Rick不信任trump的能力"
+            },
+            {
+                "question": "Is the collection of Pez Dispensers a popular collecting culture in the United States?",
+                "answer": "Yes.",
+                "question_type": "通用知识推理",
+                "knowledge": "Pez Dispensers是美国流行的收藏文化",
+                "reasoning": "根据视频内容Pez Dispensers形成了独特收藏社区，并且通过收藏者，店员的话知道有许多人参与Pez Dispensers买卖收集"
+            },
+            {
+                "question": "Is writing habit an important means of identification?",
+                "answer": "Yes.",
+                "question_type": "通用知识推理",
+                "knowledge": "书写习惯是重要的收藏鉴定手段",
+                "reasoning": "在提供的关于麦当娜 1988 年个人日程本和电话簿的对话中，提到鉴定者在判断日程本真实性时，通过检查字迹是否符合麦当娜一些特殊的书写习惯来鉴定。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/Efk3K4epEzg.mp4"
+    },
+    {
         "video_id": "CZ_1_2",
         "video_url": "https://www.youtube.com/watch?v=7F5RQqUJfns",
         "video_duration": "22:39",
@@ -660,6 +711,50 @@
         "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/oRapwDWgElQ.mp4"
     },
     {
+        "video_id": "CZ_1_17",
+        "video_url": "https://www.youtube.com/watch?v=8gmxrVMQUb0",
+        "video_duration": "24:30",
+        "video_type": "纪录片 - 人文",
+        "qa_list": [
+            {
+                "question": "Is Vickie Smith skilled at handicrafts?",
+                "answer": "Yes.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "结合Vickie用路毙动物制作物品、自制礼物等可以看出。"
+            },
+            {
+                "question": "Does Alex approve of his mother Kia's habit of saving money?",
+                "answer": "No.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "从Alex两次提到他对于母亲一些极端的行为的吐槽和不理解可以得出。"
+            },
+            {
+                "question": "How can a broken small refrigerator be recycled to keep food cool?",
+                "answer": "Bury it underground in a shady place to store food cool.",
+                "question_type": "通用知识推理",
+                "knowledge": "Melody buried the broken small refrigerator underground, which can be used to store some food. ",
+                "reasoning": "Melody的小型冷冻箱坏了，她将其埋在地下，可以存放一些食物，如果外面气温高达100华氏度需要它放在阴凉处，地下能让它内部保持在大约 55 华氏度，没洗过的鸡蛋大概能在里面保存一个月甚至更久。"
+            },
+            {
+                "question": "What are the useful values of fresh roadkill?",
+                "answer": "Its fur for ornaments, meat for food.",
+                "question_type": "通用知识推理",
+                "knowledge": "Vickie made barbecued meat with roadkill rabbits, and used their fur for ornaments. ",
+                "reasoning": "Vickie用路毙兔子的毛皮为小孩和邻居制作装饰品，在和邻居吃饭时的兔子肉也是来自于路毙兔子。"
+            },
+            {
+                "question": "What attitude did most people show towards the many restrictions set by Kia for renting out the room?",
+                "answer": "Most people thought that it was hard to accept.",
+                "question_type": "多线索推理,多跳推理",
+                "knowledge": "",
+                "reasoning": "首先定位到Kia想要出租儿子房间的片段，结合前后三个租客不同的态度可以得出其中两位是不能接受的，仅第三位能够接受这种行为。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/8gmxrVMQUb0.mp4"
+    },
+    {
         "video_id": "CZ_1_18",
         "video_url": "https://www.youtube.com/watch?v=6amK2BgjXk8",
         "video_duration": "27:43",
@@ -1107,6 +1202,1025 @@
         "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/LzAJ2Xdg8qI.mp4"
     },
     {
+        "video_id": "CZ_1_28",
+        "video_url": "https://www.youtube.com/watch?v=lX6U4nOhm5w",
+        "video_duration": "26:16",
+        "video_type": "探索 - 体验新事物",
+        "qa_list": [
+            {
+                "question": "Can someone join the cheerleading team at the University of Kentucky if they cannot do a backflip with twists?",
+                "answer": "No.",
+                "question_type": "通用知识推理",
+                "knowledge": "Michelle couldn't get into the cheerleading team of the University of Kentucky because she couldn't do a backflip with twists. ",
+                "reasoning": "结合听觉Michelle在最后一轮中表现出乎所有评委意料，进步飞速，表情状态也都很好，但教练表示由于她不会翻滚的动作，所以无法进入啦啦队，啦啦队表演中有个部分需要该动作，结合视觉Michelle与其他人的动作相比仅有后空翻转体动作它没做，由此得出。"
+            },
+            {
+                "question": "What action did Michelle perform alone in the third round of tryouts that surprised everyone?",
+                "answer": "She performed four backward handsprings consecutively.",
+                "question_type": "多跳推理,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "首先定位到第三轮Michelle单人动作片段，结合视觉Michelle做的动作，以及大家的反应，听觉搭档的评价综合得知。"
+            },
+            {
+                "question": "What is the relationship between Maddie and Daniel?",
+                "answer": "They were teammates on the same cheerleading team.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "结合Michelle和Maddie的聊天内容可知他们有一起在 Navarro 啦啦队的经历，所以他们是曾经在同一啦啦队的队友关系。"
+            },
+            {
+                "question": "Does Michelle have strong learning abilities?",
+                "answer": "Yes.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "结合Michelle在训练和选拔中的表现以及教练的评价可知，她表演时状态饱满，能在短时间内学习新的技能和动作。"
+            },
+            {
+                "question": "What kind of reforms have the cheerleaders' costumes in the Cheerleading Team at the University of Kentucky undergone?",
+                "answer": "They shifted from fancy designs to prioritizing functionality.",
+                "question_type": "通用知识推理",
+                "knowledge": "Simple design can reduce distractions and improve the accuracy of movements. ",
+                "reasoning": "视频中在提及鞋类设计的的改进以及动作流畅性的要求时都反映了啦啦队服装从传统花哨设计转向功能性优先，简洁设计能够减少干扰，提升动作精准性，与啦啦队从表演附属到独立运动的转型一致。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/lX6U4nOhm5w.mp4"
+    },
+    {
+        "video_id": "CZ_1_29",
+        "video_url": "https://www.youtube.com/watch?v=uow257PdFCE",
+        "video_duration": "27:57",
+        "video_type": "探索 - 体验新事物",
+        "qa_list": [
+            {
+                "question": "Is Bob a person who likes to meddle in other people's affairs?",
+                "answer": "Yes.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "根据背对背谈话可以得知Bob在偷听到别人争吵后就报了警,证明他是一个爱管闲事的人"
+            },
+            {
+                "question": "Did Michelle succeed in her first negotiation?",
+                "answer": "No.",
+                "question_type": "多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "汽车绑架案的犯人并没有走出汽车，被警察逮捕，再结合Michelle结束电话后的沮丧语气，说明她的第一次谈判没有成功"
+            },
+            {
+                "question": "What is the relationship between Bob and Greg?",
+                "answer": "Greg is Bob's boss.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "通过背对背谈话中可以得知Bob是女人的同事，Greg是女人的老板，所以Greg是Bob的老板"
+            },
+            {
+                "question": "Who can create websites on Odoo?",
+                "answer": "Everyone.",
+                "question_type": "通用知识推理",
+                "knowledge": "Creating a website on Odoo only requires some simple operations and there is no need to know how to code. Moreover, Michelle personally created a website of her own. From this, it can be inferred that anyone can create a website on Odoo.",
+                "reasoning": "在odoo上创建网站只需要一些简单的操作，不需要会编码，且Michelle个人就创建了一个自己的网站，可以推断出任何人都可以在odoo上创建网站"
+            },
+            {
+                "question": "What is the vital trick to success in a negotiation?",
+                "answer": "Active listening.",
+                "question_type": "通用知识推理",
+                "knowledge": "Active listening can contribute to the success of negotiations.",
+                "reasoning": "Michelle在第一次失败后训练了背对背谈话和学习了积极倾听表上的技巧,说明积极倾听可以帮助谈判成功"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/uow257PdFCE.mp4"
+    },
+    {
+        "video_id": "CZ_1_30",
+        "video_url": "https://www.youtube.com/watch?v=JIp3Ce9WtGQ",
+        "video_duration": "34:57",
+        "video_type": "测评 - 食品",
+        "qa_list": [
+            {
+                "question": "Is Joe very familiar with the food in Queens?",
+                "answer": "Yes",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "Joe 是皇后区的资深导游（“OG 皇后区导游”），负责规划行程并带领博主探索多元美食。他熟悉当地文化。视频中他多次提供背景知识（如解释圭亚那菜的西印度风味），表现他对皇后区美食的了解。"
+            },
+            {
+                "question": "After having Chinese cuisine, which country's cuisine did the author try next?",
+                "answer": "Guyana",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "模型要在定位吃中国菜的时间片段，在分析之后画面知道去吃了圭亚那菜"
+            },
+            {
+                "question": "Did The Arepa Lady once have a legal background?",
+                "answer": "Yes",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "她曾经是一名哥伦比亚的律师和法官24。这表明她在过去接受过系统的法律教育和专业训练，具备一定的法律知识基础。"
+            },
+            {
+                "question": "Is Kata-Kat halal?",
+                "answer": "Yes",
+                "question_type": "通用知识推理",
+                "knowledge": "Kata - Kat是在巴基斯坦传统食物，是清真菜",
+                "reasoning": "Kata - Kat是在巴基斯坦餐厅，巴基斯坦是伊斯兰文化，kata-kat推测为清真菜，同时店铺对于肉类的来源和处理方式有严格要求。而在这个情境下，肉的来源似乎是在符合宗教要求的情况下提供的，没有与非清真食物混合加工的表述"
+            },
+            {
+                "question": "What are the characteristics of Asian cuisine compared to European cuisine?",
+                "answer": "The seasoning is more complex.",
+                "question_type": "通用知识推理",
+                "knowledge": "亚洲菜系调味层次丰富，而欧洲菜系调味相对单一",
+                "reasoning": "这题需要模型对菜品的评价进行抽象归纳，总结特点后，分析亚洲菜系的特别之处。文中对亚洲菜系使用香料多次称赞，而在对欧洲菜系是指出调味过于单一。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/JIp3Ce9WtGQ.mp4"
+    },
+    {
+        "video_id": "CZ_1_31",
+        "video_url": "https://www.youtube.com/watch?v=nTG1gfvClYs",
+        "video_duration": "27:29",
+        "video_type": "街头互动 - 采访",
+        "qa_list": [
+            {
+                "question": "What is the primary function of the app \"Grindr\"?",
+                "answer": "It is a gay dating app.",
+                "question_type": "通用知识推理",
+                "knowledge": "Jaylen and Done met and fell in love on this dating app. ",
+                "reasoning": "Jaylen和Done说他们相识源于Grindr这个App，以及主持人调侃说非异性恋应用，说明这个App是以男同性恋交友功能为主的。"
+            },
+            {
+                "question": "Among the couples interviewed by the host, how many passed the trust test?",
+                "answer": "Four.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "结合每对情侣测试最终结果可以得知。"
+            },
+            {
+                "question": "What aspects of an intimate relationship can be enhanced by maintaining communication and trust?",
+                "answer": "Loyalty.",
+                "question_type": "通用知识推理",
+                "knowledge": "Loyalty is an important factor in a relationship.",
+                "reasoning": "视频主题是忠诚测试，第四对情侣强调沟通是关键，第九对情侣强调信任，他们都通过了测试，关系稳固，说明沟通和信任对亲密关系中的忠诚度有促进作用。"
+            },
+            {
+                "question": "Is T completely loyal to Bone?",
+                "answer": "No.",
+                "question_type": "人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "结合T的行为举止以及主持人和Bone的状态可以得知T的手机中存在不利于两人关系的内容，甚至与要抢手机删除证据。"
+            },
+            {
+                "question": "Does Bri support or oppose the TikTok ban?",
+                "answer": "She does not support the ban.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "Bri认为TikTok 禁令是不合理的，因为很多人成为了创作者，甚至依靠 TikTok 创造了全新的生活，而禁令却剥夺了他们的机会，让他们失去了赚钱的途径，因此可以判断Bri不支持TikTok禁令。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/nTG1gfvClYs.mp4"
+    },
+    {
+        "video_id": "CZ_1_32",
+        "video_url": "https://www.youtube.com/watch?v=7KDRMzpvUqw",
+        "video_duration": "22:47",
+        "video_type": "vlog - 旅行",
+        "qa_list": [
+            {
+                "question": "Who is more outgoing, Veronica or Vanessa?",
+                "answer": "Veronica.",
+                "question_type": "多线索推理,人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "Vanessa在公开场合不太喜欢拍vlog，而Veronica更积极主动地记录旅行中的各种事情，以及结合视觉听觉二人的状态可以判断Veronica更活泼开朗一些。"
+            },
+            {
+                "question": "What is the relationship between Veronica and Aaron?",
+                "answer": "They are in a romantic relationship.",
+                "question_type": "多线索推理,人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "结合二人生活状态，视觉听觉，交流内容，相互kiss等综合得知。"
+            },
+            {
+                "question": "What are the differences between the toilets on the Royal Caribbean cruise ship and household toilets?",
+                "answer": "The toilets on the cruise ship are much smaller in size.",
+                "question_type": "多模态/多语言推理,通用知识推理",
+                "knowledge": "Veronica said that the toilet on the cruise ship was the smallest one she had ever seen. ",
+                "reasoning": "听觉Veronica表示游轮上的马桶是她见过最小的马桶，视觉Veronica用手对比了马桶尺寸，以及视觉上只有尺寸的区别。"
+            },
+            {
+                "question": "After the trip to Crete, where did Veronica, Vanessa, and their party go?",
+                "answer": "Lima and Seoul.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "在克里特岛，他们参观了纪念二战中保卫该岛牺牲者的纪念碑，品尝了希腊食物。但晚上得知由于天气原因，米科诺斯岛和圣托里尼岛的行程被取消，改为去Lima Seoul。"
+            },
+            {
+                "question": "What are the characteristics of Greek weddings in terms of scale?",
+                "answer": "They usually have a large scale and involve many people.",
+                "question_type": "通用知识推理",
+                "knowledge": "A small Greek wedding has about a thousand people in attendance, while a large one has three thousand people. ",
+                "reasoning": "希腊婚礼习俗，提到小型婚礼有一千人参加，大型的有三千人，且会制作大量果酱作为礼物，"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/7KDRMzpvUqw.mp4"
+    },
+    {
+        "video_id": "CZ_1_33",
+        "video_url": "https://www.youtube.com/watch?v=pNvfLNztmAo",
+        "video_duration": "25:17",
+        "video_type": "纪录片 - 人文",
+        "qa_list": [
+            {
+                "question": "What are the weight requirements for weight loss surgery?",
+                "answer": "Weight must be under 600 pounds.",
+                "question_type": "通用知识推理",
+                "knowledge": "Weight must be under 600 pounds to qualify for weight loss surgery.",
+                "reasoning": "视频中多次提到医生对患者的体重要求，尤其是600磅，对于James始终没有达到600磅医生甚至拒绝继续为他治疗，由此推断出600磅才能进行减重手术。"
+            },
+            {
+                "question": "Is there a possibility that Geno's obesity is genetically inherited within his family?",
+                "answer": "Yes.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "Geno的母亲和叔叔都做过减重手术，表兄弟Nico也很胖。"
+            },
+            {
+                "question": "What are the effects of long-term bed rest on the muscular system of obese patients?",
+                "answer": "Muscle atrophy and loss of strength.",
+                "question_type": "通用知识推理",
+                "knowledge": "Long-term bed rest leads to muscle atrophy and loss of strength, further exacerbating the decline in mobility. ",
+                "reasoning": "Teretha和James均需他人协助移动，Teretha术后需通过脚踝重量训练恢复腿部力量，James因腿部溃烂无法自主活动，依赖他人搬运。"
+            },
+            {
+                "question": "What is Teretha's motivation for weight loss?",
+                "answer": "To return to her family and witness the growth of her grandchildren.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "Teretha提到无法忍受自己的身体，认为自己是家庭负担，她希望为家人改变，不想错过孙子的成长。"
+            },
+            {
+                "question": "Which of the four protagonists in the video has lost the most weight?",
+                "answer": "Teretha.",
+                "question_type": "多线索推理,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "结合听觉定位到最终医生为他们称重的片段，结合视觉比较他们的减重统计。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/pNvfLNztmAo.mp4"
+    },
+    {
+        "video_id": "CZ_1_34",
+        "video_url": "https://www.youtube.com/watch?v=zF5PO0mHD80",
+        "video_duration": "31:23",
+        "video_type": "访谈 - 静态（对话密集型，少量视觉信息）",
+        "qa_list": [
+            {
+                "question": "How many years has the Dude Perfect channel been established by 2025?",
+                "answer": "16 years.",
+                "question_type": "通用知识推理",
+                "knowledge": "Dude Perfect made a popular video in 2009.",
+                "reasoning": "对话中成员提到2009年制作了一个热门视频后，他们有了Dude Perfect这个团体，至今一直再做。"
+            },
+            {
+                "question": "Is Tyler the best at playing tic-tac-toe in the Dude Perfect team?",
+                "answer": "No.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "对话中左二成员表示没有人比他更擅长井字游戏，仅后来输给了Cody，Tyler是左一成员。"
+            },
+            {
+                "question": "What are Tyler's main responsibilities in the team besides creative development?",
+                "answer": "Shooting work.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "视频中提到Tyler负责创意开发以及Tyler做战斗视频相关工作，拍摄时他决定拍摄方案，与其他成员有意见分歧。"
+            },
+            {
+                "question": "What religion does Cory follow?",
+                "answer": "Christianity.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "视频中提到他们都是基督徒，信仰帮助他们化解矛盾，大家能更好地原谅彼此，他们都热爱创作，为了团队发展努力。"
+            },
+            {
+                "question": "What are the two most important aspects that the Dude Perfect channel values when creating its content?",
+                "answer": "Content authenticity and family-friendliness.",
+                "question_type": "通用知识推理",
+                "knowledge": "Dude Perfect insists on creating content suitable for audiences of all ages. Besides, they will reshoot the shots where the ball seemingly goes into the goal but actually doesn't. ",
+                "reasoning": "Dude Perfect早期拒绝啤酒品牌合作，坚持创作适合全年龄段观看的内容，逐渐积累信任，吸引家庭观众和品牌合作；他们会重新拍摄看似进球实际未进的镜头，因为他们希望能坦诚面对观众，他们的投篮和特技都是真实的。"
+            },
+            {
+                "question": "In the street interview conducted by the host, who is more popular, Dude Perfect or The Beatles?",
+                "answer": "The Beatles.",
+                "question_type": "多线索推理,多跳推理,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "首先定位到主持人准备的街头采访片段，结合听觉可知被采访人的回答内容，视觉上有谁更受欢迎的计数，综合得知了解The Beatles的人略多一点。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/zF5PO0mHD80.mp4"
+    },
+    {
+        "video_id": "CZ_1_35",
+        "video_url": "https://www.youtube.com/watch?v=Wduah0a5HR8",
+        "video_duration": "30:43",
+        "video_type": "vlog - 工作",
+        "qa_list": [
+            {
+                "question": "Which industry does Kate work in?",
+                "answer": "Veterinary.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "Kate会看X光片，在Jimmy手术时辅助Alan。"
+            },
+            {
+                "question": "How can one firmly restrain a cat without getting injured when it is agitated?",
+                "answer": "Grasp the back of the cat's neck tightly.",
+                "question_type": "通用知识推理",
+                "knowledge": "Rachel managed to hold Jimmy firmly by tightly gripping the scruff of his neck. As a result, Jimmy couldn't wriggle free, and Rachel avoided getting hurt.",
+                "reasoning": "Kate和Rachel为Jimmy剃毛时，Jimmy情绪激动，非常具有攻击性，疯狂想要挣脱，但是Rachel通过紧紧抓住Jimmy的后脖颈使得Jimmy无法挣脱，自己也没有受伤。"
+            },
+            {
+                "question": "How did Dugall's personality change after receiving treatment?",
+                "answer": "It changed from being aggressive to being gentle.",
+                "question_type": "多跳推理,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "首先定位到Dugall治疗后的片段，结合视觉Dugall的状态以及听觉医生的评价，Dugall刚来时攻击性很强到治疗后变得很温顺可知。"
+            },
+            {
+                "question": "How do pets perceive pain and what are their manifestations of it?",
+                "answer": "They show it through aggressive, resistant, and irritable behaviors.",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "During the treatment process, when operations that may cause pain are involved, pets will exhibit behaviors such as aggression, resistance, and emotional changes. ",
+                "reasoning": "Bella在治疗时具有攻击性，可能是因为对治疗过程中的疼痛感到不适；Lty在处理胶水时反应激烈，Jimmy因膝盖疼痛而脾气暴躁，这些都表明宠物会通过不同行为表现出对疼痛的感知。"
+            },
+            {
+                "question": "Is Peter a patient person?",
+                "answer": "Yes.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "Peter面对凶猛的Lty，他没有轻易放弃，尝试多种方法解决问题，如先使用溶剂、剪刀，失败后采用麻醉方式，在手术过程中谨慎操作，尽力避免给莉蒂造成更多伤害。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/Wduah0a5HR8.mp4"
+    },
+    {
+        "video_id": "CZ_1_36",
+        "video_url": "https://www.youtube.com/watch?v=Ipe9xJCfuTM",
+        "video_duration": "29:09",
+        "video_type": "vlog - 工作",
+        "qa_list": [
+            {
+                "question": "What are the ways to slow down the melting speed of cheese when cooking a hamburger?",
+                "answer": "Layer the bacon on top of the burger.",
+                "question_type": "通用知识推理",
+                "knowledge": "",
+                "reasoning": "对话中提到减缓奶酪融化速度的方法是将培根放在汉堡的顶部，这样可以让培根得到更多的烤制，同时也能防止奶酪太快融化。因为如果不这样做，有时候奶酪可能会出现类似 “煮过” 的状态。"
+            },
+            {
+                "question": "Is AJ's cooking ability sufficient for him to handle tasks independently?",
+                "answer": "No",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "AJ被多次提醒操作规范（如 “collar saggy” 可能涉及设备操作或摆盘要求），主厨提醒要注意菜品质量（如汉堡的湿润度控制，综合总结推理AJ的烹饪能力还需要主厨指导，不能独当一面"
+            },
+            {
+                "question": "Does the cheese melting too quickly during hamburger cooking affect the taste?",
+                "answer": "Yes",
+                "question_type": "通用知识推理",
+                "knowledge": "",
+                "reasoning": "如果汉堡中的奶酪融化太快，口感可能会有点像煮过的。"
+            },
+            {
+                "question": "What did the head chef do after asking someone to get double cream from the bar?",
+                "answer": "Tidied up the tabletop.",
+                "question_type": "多跳推理,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "模型首先定位主厨吩咐人去拿双层奶油的对话在那一时间片段，接着分析之后的画面，通过视觉看到主厨在整理桌面"
+            },
+            {
+                "question": "What is the marital status of the head chef?",
+                "answer": "Married",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "根据视频中主厨手上无名指带着戒指，推测他现在已婚"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/Ipe9xJCfuTM.mp4"
+    },
+    {
+        "video_id": "CZ_1_37",
+        "video_url": "https://www.youtube.com/watch?v=CQl9Qp4zA9o",
+        "video_duration": "20:04",
+        "video_type": "访谈 - 动态（含充分视觉信息）",
+        "qa_list": [
+            {
+                "question": "When interviewing Amy's colleagues about their feelings of working with her, who expressed negative feelings?",
+                "answer": "Nobody.",
+                "question_type": "多线索推理,多跳推理",
+                "knowledge": "",
+                "reasoning": "首先定位到采访Amy同事与她一起工作的感受时，结合每个人的评价可知。"
+            },
+            {
+                "question": "Is Amy a person with a strong sense of responsibility?",
+                "answer": "Yes.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "Amy无论何时都面带微笑，热情地招呼顾客，询问顾客需求，认真对待工作中的每一个环节，从检查鱼的品质到处理订单，都严格把关，疫情期间依然坚守岗位，认真完成工作。"
+            },
+            {
+                "question": "Is Jimmy working part-time or full-time at Stew Leonard's supermarket?",
+                "answer": "Part-time.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "Jimmy说自己已经退休，只是每周会来超市几天工作。"
+            },
+            {
+                "question": "How can one determine if clams are fresh and alive?",
+                "answer": "The shells are closed and there is no unpleasant smell.",
+                "question_type": "通用知识推理",
+                "knowledge": "The shells of live clams are closed and there is no unpleasant smell. ",
+                "reasoning": "Amy在检查海鲜时提到蛤蜊贝类时要检查是不是封闭的，没有异味。"
+            },
+            {
+                "question": "Is Stew Leonard's supermarket a chain?",
+                "answer": "Yes.",
+                "question_type": "通用知识推理",
+                "knowledge": "The lobster roll business is being carried out in multiple stores, and there is a huge employee scale as well as a large customer flow. ",
+                "reasoning": "在谈到龙虾卷业务时，提到其他门店已经在做龙虾卷业务，表明Stew Leonard's不止一家门店，存在多个店面，是连锁超市，而且还提到单店有 500 人左右的员工规模以及每周约 3.5 万顾客量等信息可以推测，这样的规模和顾客流量可能不是仅靠一家店就能达到的。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/CQl9Qp4zA9o.mp4"
+    },
+    {
+        "video_id": "CZ_1_38",
+        "video_url": "https://www.youtube.com/watch?v=Y1AEYUtZo9s",
+        "video_duration": "32:27",
+        "video_type": "访谈 - 静态（对话密集型，少量视觉信息）",
+        "qa_list": [
+            {
+                "question": "Can 'Owning Manhattan' help with understanding the real estate industry?",
+                "answer": "Yes.",
+                "question_type": "通用知识推理",
+                "knowledge": "《Owning Manhattan》主要围绕着房地产大亨莱恩·斯汉特所经营的纽约大型地产公司之一展开，展现了旗下一群房产经纪人在曼哈顿豪宅房地产市场中拼搏奋斗的过程。",
+                "reasoning": "通过观察访谈内容，如Ryan分享了自己在房地产行业的的一些心得，以及Tricia一些对房地产行业的评价等，由此可以推出，能通过这节目了解到房地产行业。"
+            },
+            {
+                "question": "How many people spoke in the video?",
+                "answer": "Four.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "通过定位视频，观察视频里的发言人数，可以推断出共有四个人发言"
+            },
+            {
+                "question": "Which word better describes Ryan, brave or timid?",
+                "answer": "Brave.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "通过对Ryan的发言中，如当面对销售需要扩大业务打破常规时，Ryan不惧怕他人的言辞，可以推断出其实一个勇敢的人。"
+            },
+            {
+                "question": "Which word better describes Tricia in the real estate industry, professional or amateur?",
+                "answer": "Professional.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "在视频里，可以捕捉到如Tricia对经济衰退等对房地产行业的影响等，可以推断出具备了出色的房地产专业能力,而非业余者。"
+            },
+            {
+                "question": "Does 'Owning Manhattan' provide work experience for real estate agents?",
+                "answer": "Yes.",
+                "question_type": "通用知识推理",
+                "knowledge": "《Owning Manhattan》能为房地产业经纪人提供工作经验，节目展示了寻找房源、客户谈判、制定营销策略等房产交易全流程及职场关系处理等内容，可让从业者从中学习借鉴。",
+                "reasoning": "该节目主要讲述了三位房地产行业经纪人的个人故事等，其中如怎样平衡工作和家庭等，能为更多从事该行业的人提供一些工作经验。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/Y1AEYUtZo9s.mp4"
+    },
+    {
+        "video_id": "CZ_1_39",
+        "video_url": "https://www.youtube.com/watch?v=eeumL7Fz-8M",
+        "video_duration": "28:40",
+        "video_type": "访谈 - 静态（对话密集型，少量视觉信息）",
+        "qa_list": [
+            {
+                "question": "Who will be the next interviewer after the interview with Dr. Dre?",
+                "answer": "Snoop Dogg.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "定位到视频里在Dr.Dre上场采访后，吉米说道先休息一下，下面有请下一位采访者Snoop Dogg。"
+            },
+            {
+                "question": "Can 'Jimmy Kimmel Live!' enable people to understand the creative inspiration of musicians?",
+                "answer": "Yes.",
+                "question_type": "通用知识推理",
+                "knowledge": "《Jimmy Kimmel Live!》是美国ABC电视台的深夜脱口秀节目.在嘉宾访谈环节，邀请过众多好莱坞明星、政治人物、运动员、音乐家等，通过轻松的对话展现嘉宾的个性与幕后故事。",
+                "reasoning": "根据视频定位到吉米采访了关于Dr.Dre和Snoop Dogg一起联手制作的专辑The Chronic的创作动机细节等，所以可以推断出问题答案。"
+            },
+            {
+                "question": "Is 'Jimmy Kimmel Live!' a humorous and harmonious show?",
+                "answer": "Yes.",
+                "question_type": "通用知识推理",
+                "knowledge": "节目中，主持人吉米·坎摩尔会用诙谐的语言和独特的视角对各种新闻事件、社会现象以及娱乐圈的八卦进行调侃，制造出很多笑料。",
+                "reasoning": "通过定位到视频里，吉米在访谈中采取了灰谐的风格对嘉宾进行提问，整体是一个灰谐、轻松的氛围。由此可以推断出可以用灰谐、幽默的词语来描述访谈。"
+            },
+            {
+                "question": "What is Dr. Dre's occupation?",
+                "answer": "A famous hip-hop artist.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "根据线索Dr.Dre获得了格莱美，且与嘻哈歌手Snoop Dogg一起联手制作热门嘻哈歌曲the chronic、以及自己创作是的灵感等由此可以推断出是一名有名的嘻哈歌手。"
+            },
+            {
+                "question": "Which word better describes Jimmy's hosting style, dull or witty?",
+                "answer": "Witty.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "通过定位到视频里，吉米在访谈中采取了灰谐的风格对嘉宾进行提问，整体是一个灰谐、轻松的氛围。由此可以推断出吉米的主持风格是灰谐的。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/eeumL7Fz-8M.mp4"
+    },
+    {
+        "video_id": "CZ_1_40",
+        "video_url": "https://www.youtube.com/watch?v=qLc0-tUDdMU",
+        "video_duration": "20:02",
+        "video_type": "教学 - 艺术",
+        "qa_list": [
+            {
+                "question": "Is Gibi interested in manga?",
+                "answer": "Yes, she is.",
+                "question_type": "人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "视频内容:两人身后的墙上贴满了日本动漫的海报——>推理:Gibi、喜欢日本漫画(manga)。"
+            },
+            {
+                "question": "What does the singer need to do before a voice warm-up?",
+                "answer": "The breathing exercise.",
+                "question_type": "多跳推理,通用知识推理",
+                "knowledge": "Breathing exercises can help regulate your breath, allowing you to sing better.",
+                "reasoning": "视频内容：在练声开始之前，Gibi先引导Nips进行呼吸训练，以帮助她更好地练习发声。"
+            },
+            {
+                "question": "What are some good exercises to do before singing?",
+                "answer": "Humming and the lip trill.",
+                "question_type": "通用知识推理",
+                "knowledge": "Humming and lip trill are both good vocals exercises, they can help improve the breath support and breath control.",
+                "reasoning": "视频内容：Gibi让Nips分别用三种方式联练习同一首歌：正常地唱、用哼鸣唱以及用唇颤音唱，提到这是对气息和发声很好的练习——>推理：哼鸣练习和唇颤练习都可以帮助唱歌进步。"
+            },
+            {
+                "question": "Is Gibi good at teaching?",
+                "answer": "Yes, she is.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "视频内容：Gibi根据Nips的歌唱水平量身打造训练方案，解释各种细节且很有耐心，发现优点及时表扬 ——>推理：Gibi善于教学"
+            },
+            {
+                "question": "How many songs have they sung in total?",
+                "answer": "Only one.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "模型需要定位到所有唱歌的片段，然后分析一共唱了几首歌。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/qLc0-tUDdMU.mp4"
+    },
+    {
+        "video_id": "CZ_1_41",
+        "video_url": "https://www.youtube.com/watch?v=sV__p7P4V6Y",
+        "video_duration": "29:03",
+        "video_type": "综艺 - 纪实（真人秀）",
+        "qa_list": [
+            {
+                "question": "Is Khloe a cautious person?",
+                "answer": "Yes, she is.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "视频内容:Khloe对旅行做了充分的风险评估，并对潜在风险进行避让，且考虑到孩子的安全而拒绝旅行——>推理:她是一个谨慎的人"
+            },
+            {
+                "question": "Is Kimberly a person who pursues art?",
+                "answer": "Yes, she is.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "视频内容：Kimberly对自己参加巴黎时装周所要穿的衣服要求很高，在时间紧迫的情况下仍然为自己争取了著名艺术家所创作的服装作品来参加时装周。——>Kimberly是一个有艺术追求的人。"
+            },
+            {
+                "question": "What is the atmosphere of the Kardashian family?",
+                "answer": "The atmosphere is pleasant.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "视频内容：Khole、Kimberly和Kris（妈妈）之间可以互相恶作剧，Khole会因为拒绝去Kanye的时装秀而感到过意不去——>家庭氛围很愉快。"
+            },
+            {
+                "question": "Is Kanye’s show innovative in terms of stage design?",
+                "answer": "Yes, it is.",
+                "question_type": "通用知识推理",
+                "knowledge": "The car horn sounds are unconventional,instantly capturing the audience's attention and offering a fresh experience.",
+                "reasoning": "视频内容：Kimberly及其他观众都被Kanye时装秀的开场音乐（汽车喇叭声）引起了好奇心，因为在时装秀的历史上第一次出现以非常规音效的开场——>推理：Kanye的时装秀具有创新性。"
+            },
+            {
+                "question": "Why should long-distance travel be approached with caution during the pandemic?",
+                "answer": "The airport may shut down and travelers might not be able to return.",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "Polices can change rapidly due to evolving pandemic conditions, making it hard to predict the rules at the time of travel.",
+                "reasoning": "视频内容：Khloe在讨论要不要带着孩子去巴黎参加Kanye的时装秀时提到，因为疫情的传播，时装秀活动可能会被停止，机场可能会被关闭，有可能导致航班被取消无法回到美国。——>推理：疫情期间长途旅行需要谨慎考虑。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/sV__p7P4V6Y.mp4"
+    },
+    {
+        "video_id": "CZ_1_42",
+        "video_url": "https://www.youtube.com/watch?v=EMpaw46kr2w",
+        "video_duration": "21:08",
+        "video_type": "访谈 - 静态（对话密集型，少量视觉信息）",
+        "qa_list": [
+            {
+                "question": "What is the relationship between Cassandra and Cory?",
+                "answer": "Cassandra and Cory are schoolmates at Yale University.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "Cassandra and Cory在视频中介绍了他们是耶鲁的学生，并在之后的对话中表现他们没有其他私人关系"
+            },
+            {
+                "question": "What are the characteristics of the student enrollment at Santa Monica College?",
+                "answer": "It is diverse.",
+                "question_type": "通用知识推理",
+                "knowledge": "Santa Monica College招收不同的种族和年龄的人",
+                "reasoning": "saul在招生时看到了不同的种族和年龄的人"
+            },
+            {
+                "question": "Is Saul optimistic and humorous?",
+                "answer": "Yes.",
+                "question_type": "多线索推理,人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "结合Saul的仪态和对话，他以诙谐的方式谈论自己的工作状态，展现出了他幽默的一面，通过自我调侃营造出一种轻松的氛围，saul 虽然年事已高，但他并不因年龄而消极对待生活，而是保持着积极的心态，在谈话中保持微笑和积极的态度"
+            },
+            {
+                "question": "What did Cory do after Saul told the joke?",
+                "answer": "He said that he had changed his mind and went back to the rear.",
+                "question_type": "多跳推理,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "要求模型定位Saul说笑话的时间片段，并结合视听观察Cory的行为"
+            },
+            {
+                "question": "What are the characteristics of the tuition fees at Ivy League universities?",
+                "answer": "The tuition fees are high, but some students can receive financial aid.",
+                "question_type": "通用知识推理",
+                "knowledge": "常青藤学校学费很高且持续上涨，但有些学生可以获得经济援助。",
+                "reasoning": "根据文中Cory就支付了36000美元，Cassandra 说没有经济援助话无法负担，同时Cassandra 和Emily都受到了如奖学金等经济援助"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/EMpaw46kr2w.mp4"
+    },
+    {
+        "video_id": "CZ_1_43",
+        "video_url": "https://www.youtube.com/watch?v=hDBQTFg1YWI",
+        "video_duration": "28:49",
+        "video_type": "访谈 - 静态（对话密集型，少量视觉信息）",
+        "qa_list": [
+            {
+                "question": "Can the atmosphere of 'The Ellen DeGeneres Show' be described as relaxed or tense?",
+                "answer": "Relaxed.",
+                "question_type": "通用知识推理",
+                "knowledge": "《艾伦秀》的主持人艾伦·德杰尼勒斯幽默风趣、亲和力强，开场常以幽默段子和欢快舞蹈营造轻松氛围，与观众和嘉宾互动时，言语诙谐，善于用幽默化解尴尬，让大家开怀大笑。同时节目有许多轻松有趣的环节，如“舞林争霸”，嘉宾和观众可与艾伦一起跳舞，充满欢乐与活力；“快速问答”节奏明快，问题轻松有趣，能引发不少笑点。",
+                "reasoning": "可以观察视频里，艾伦在和cardi b交谈时，聊天的氛围十分的自在轻松，以及在游戏环节等，整体节目看来是一个轻松的氛围。"
+            },
+            {
+                "question": "Is Cardi B a frank and genuine person?",
+                "answer": "Yes.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "通过定位到艾伦和cardi b聊天的过程中，观察到一些细节，如坦率真实的说道自己的一些看法，以及在和艾伦聊天的过程中，表现得很亲切等细节，由此可知，她是一位坦率真实的人。"
+            },
+            {
+                "question": "Which word suits Ellen better, humorous or dull?",
+                "answer": "Humorous.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "通过观察视频中艾伦与嘉宾的片段时，不时讲笑话、调侃自己和嘉宾，还会做出一些搞笑的动作和表情等，可以推理出用幽默更能适合艾伦。"
+            },
+            {
+                "question": "Which segment can quickly train reaction ability?",
+                "answer": "'5 Second Rule.'",
+                "question_type": "通用知识推理",
+                "knowledge": "5 Second Rule的规则：主持人艾伦会给出一个类别，嘉宾需要在5秒内说出属于这个类别的3个事物。比如让嘉宾说出三种水果，嘉宾就要在5秒内快速回答像“苹果、香蕉、橘子”等答案。",
+                "reasoning": "在5 Second Rule环节，由一位小哥说出问题，让艾伦和cardi b同时5秒内快速回答，由此可以判断这个游戏能锻炼玩家的快速反应能力。"
+            },
+            {
+                "question": "How many guests did Ellen interview after the '5 Second Rule' segment ended?",
+                "answer": "Three.",
+                "question_type": "多线索推理,多跳推理",
+                "knowledge": "",
+                "reasoning": "通过定位视频中，当 \"5 Second Rule\" 结束后，可以看到艾伦又与三位嘉宾进行访谈，由此可知，问题答案。 "
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/hDBQTFg1YWI.mp4"
+    },
+    {
+        "video_id": "CZ_1_44",
+        "video_url": "https://www.youtube.com/watch?v=FWGeUSoywDk",
+        "video_duration": "24:03",
+        "video_type": "探索 - 体验新事物",
+        "qa_list": [
+            {
+                "question": "How do the Marines prevent sand from entering their mouths during beach training?",
+                "answer": "They wear braces.",
+                "question_type": "通用知识推理",
+                "knowledge": "The braces can fill the space in the mouth and prevent sand from entering.",
+                "reasoning": "海军陆战队的每个人在沙滩上训练时都戴了牙套,可以推断出牙套可以防止沙子吸入嘴部,进入人体"
+            },
+            {
+                "question": "What is Hobley's profession?",
+                "answer": "He is a sergeant and a coach in the Marine Corps.",
+                "question_type": "人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "通过视觉可以得知Hobley是一个中士,通过听觉可以得知他也是海军陆战队的教练"
+            },
+            {
+                "question": "What is the relationship between Torres and Hobley?",
+                "answer": "Hobley is a subordinate of Torres.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "Hobley是军衔是中士,Torres的军衔是军士长,所以Hobley是Torres的下属"
+            },
+            {
+                "question": "After the entire seaside training process, how many seconds faster was Magnus than his partner?",
+                "answer": "Fourteen seconds.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "一整个海边训练的流程结束下来,Magnus的搭档用了六分十一秒,Magnus用了五分五十七秒,可以得知Magnus比他的搭档快十四秒"
+            },
+            {
+                "question": "How was the name of the 'chicken wing' movement in Marine Corps training derived?",
+                "answer": "It was named according to the posture of the action.",
+                "question_type": "多模态/多语言推理,通用知识推理",
+                "knowledge": "The posture of the action can be used to name the action",
+                "reasoning": "根据视觉可以看出这个动作的姿势与鸡翅相似，说明它的名字是根据姿势得来的，从而得出可以用动作的姿势给动作命名"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/FWGeUSoywDk.mp4"
+    },
+    {
+        "video_id": "CZ_1_45",
+        "video_url": "https://www.youtube.com/watch?v=rVq8mzgzfNo",
+        "video_duration": "20:55",
+        "video_type": "测评 - 食品",
+        "qa_list": [
+            {
+                "question": "Which bubble tea shop did they visit after Ding Cha?",
+                "answer": "Omomo.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "模型需要定位到Ding Cha相关的片段，然后结合前后内容分析她们在此之后去了哪家奶茶店。"
+            },
+            {
+                "question": "What is the vloggers' favorite type of tea?",
+                "answer": "Mocha tea.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "模型需要综合分析视频中所出现的奶茶种类，然后结合volgger们的口味偏好（Mocha出现的频率最高，获得的分数也往往很高。）进行分析。"
+            },
+            {
+                "question": "Is Amber wealthy?",
+                "answer": "Yes, she is.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "视频内容：Amber佩戴的项链是Prada，她驾驶着汽车（所以她是汽车拥有者）——>推理：Amber的消费水平很高，她很有钱。"
+            },
+            {
+                "question": "Why does Hoji Cha taste earthy?",
+                "answer": "Because it was roasted.",
+                "question_type": "通用知识推理",
+                "knowledge": "The key step in making Hoji tea is high-temperature roasting.That create an \"earthy\" flavor.",
+                "reasoning": "视频内容：Amber提到Hoji cha是被烘烤过的茶，后来提到这种茶有一股泥土味——>推理：Hoji cha因为被高温烘烤过所以产生了泥土味。"
+            },
+            {
+                "question": "Is Omomo a popular bubble tea shop?",
+                "answer": "Yes, it is.",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "Popular bubble tea shops are usually crowed with customers and have consistently high ratings.",
+                "reasoning": "视频内容：Ashley提到自己只去过两次Omomo因为每次排队的人都很多/视频中展示了Omomo的店里全都是人/Ashley说她们可能要等几个小时/Omomo的每一杯奶茶都得到了很高的评分——>推理：Omomo是一家非常受欢迎的奶茶店。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/rVq8mzgzfNo.mp4"
+    },
+    {
+        "video_id": "CZ_1_46",
+        "video_url": "https://www.youtube.com/watch?v=nfrgOeb1AHY",
+        "video_duration": "21:57",
+        "video_type": "街头互动 - 采访",
+        "qa_list": [
+            {
+                "question": "Is South Korea a country with a rich variety of food?",
+                "answer": "No, it isn't.",
+                "question_type": "通用知识推理",
+                "knowledge": "The South Korea has a small  agricultural sector, the high cost of imported ingredients limits their widespread use in daily diets.",
+                "reasoning": "视频内容:来自意大利的男子提到超市的水果和蔬菜很贵，选择也很有限——>推理:韩国的食物种类（尤其是水果和蔬菜）并不是很丰富。"
+            },
+            {
+                "question": "Is the woman in yellow a frugal person?",
+                "answer": "Yes, she is.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "视频内容：穿黄色衣服的女人提到自己舍不得在衣服上花钱，她穿得都是她奶奶的衣服——>推理：她是一个节俭的人。"
+            },
+            {
+                "question": "Is the woman from America a person with long-term planning?",
+                "answer": "Yes, she is.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "视频内容：当谈及理想收入时，这位来自美国的女士优先考虑的是自己的退休后资金和目标收入——>推理：她是一个有长远规划的人。"
+            },
+            {
+                "question": "Is South Korea a country with high housing costs?",
+                "answer": "Yes, it is.",
+                "question_type": "通用知识推理",
+                "knowledge": "Housing costs in South Korea are high, the price-to-income ratio is imbalamced.",
+                "reasoning": "视频内容：来自英国的女士提到，在韩国租房所需要的租房押金为5000到10000英镑，这笔钱在英国已经足以支付房租的首付；住房成本也是最被其他受访者频繁提及的生活问题。——>推理：韩国是一个住房成本很高的国家。"
+            },
+            {
+                "question": "What is the question after the question about the ideal salary?",
+                "answer": "The highest-paying jobs for foreigners in South Korea?",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "模型需要先定位到与Ideal salary相关的片段，然后找到它后面的问题。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/nfrgOeb1AHY.mp4"
+    },
+    {
+        "video_id": "CZ_1_47",
+        "video_url": "https://www.youtube.com/watch?v=SCwD715_c24",
+        "video_duration": "32:42",
+        "video_type": "综艺 - 表演/选秀",
+        "qa_list": [
+            {
+                "question": "How many performances are there in total in the video?",
+                "answer": "Eight.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "通过观察视频，很明显视频共有八个表演节目如唱歌、脱口秀等。"
+            },
+            {
+                "question": "Which word better describes the relationship between Flewnt and Inkabee, intimate or unfamiliar?",
+                "answer": "Intimate.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "通过定位到该视频片段，观察俩人之间的关系，总结归纳分析两人互相的评价，可以知道他俩的关系是很亲密的。"
+            },
+            {
+                "question": "Which field is Nini better at, music or sports?",
+                "answer": "Music.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "通过定位视频到nini的表演片段，可以发现她表演了不同的好几种乐器等，由此可以推断出其她擅长在音乐领域，而不是体育。"
+            },
+            {
+                "question": "Does America's Got Talent support various forms of performances?",
+                "answer": "Yes.",
+                "question_type": "通用知识推理",
+                "knowledge": "《美国达人秀》是一档极具影响力的才艺竞赛类节目，来自各行各业、不同年龄段的选手们在评委和现场观众面前展示自己的才艺，才艺形式丰富多样，涵盖唱歌、舞蹈、魔术、杂技、喜剧表演等各种领域。",
+                "reasoning": "通过观察节目内容，很明显看到该节目支持唱歌类、情景剧类、脱口秀类等多样的表演节目，由此可以推断出这是一个多样的表演节目"
+            },
+            {
+                "question": "Is there an age limit for participating in America's Got Talent?",
+                "answer": "No.",
+                "question_type": "通用知识推理",
+                "knowledge": "《美国达人秀》没有严格的参赛年龄限制，但对未成年人有相关规定，需家长陪伴参加比赛。总体情况：任何年龄的人都可以参加美国达人秀，无论是小孩还是老人，都有机会登上舞台展示才艺。",
+                "reasoning": "通过观察视频中参赛人员，通过听觉和视觉的结合，如journey只有9岁、而也有成年人、中年人等不同年龄的参赛人员，由此可知，美国达人秀的参赛人员是没有年龄限制的。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/SCwD715_c24.mp4"
+    },
+    {
+        "video_id": "CZ_1_48",
+        "video_url": "https://www.youtube.com/watch?v=aO-wNDaRBkk",
+        "video_duration": "20:01",
+        "video_type": "综艺 - 表演/选秀",
+        "qa_list": [
+            {
+                "question": "Which description suits Kaylee better, a singer-songwriter or a non-songwriting singer?",
+                "answer": "A singer-songwriter.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "定位到kaylee盲选时，唱了一首有关Keith的原创歌曲，受到了导师们的一致好评，由此可以推理出kaylee是一位唱作型歌手。"
+            },
+            {
+                "question": "How many songs did Kaylee sing in total in the video?",
+                "answer": "Three.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "通过定位到视频kaylee唱歌阶段，涉及到盲选、两次PK，由此可以推理出kaylee共唱了三首歌。"
+            },
+            {
+                "question": "Does this blind audition mechanism increase the fairness of the competition?",
+                "answer": "Yes.",
+                "question_type": "通用知识推理",
+                "knowledge": "盲选机制一定程度上能增加比赛公平性，体现在可减少主观偏见、突出实力导向、营造平等环境",
+                "reasoning": "定位到视频，在盲选阶段，导师背对选手，看不到选手的长相等，因此盲选机制增加了比赛的公平性。"
+            },
+            {
+                "question": "Which word can better describe the tutor Jess, 'enthusiastic' or 'indifferent'?",
+                "answer": "Enthusiastic.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "通过观察视频里Jess在“抢夺”kaylee时，如我为你而战等言辞和表情，由此可以推理出是一位充满热情的导师。"
+            },
+            {
+                "question": "Is 'The Voice' a large-scale stage?",
+                "answer": "Yes.",
+                "question_type": "通用知识推理",
+                "knowledge": "（The Voice）常打造大规模舞台。舞台空间大且分区多，灯光、音响、舞美精良，有多样灯光、高品质音效和先进创意的舞美，如《美国好声音》的舞台氛围绚丽。观众席容纳人数多，增强现场感染力和节目气势。",
+                "reasoning": "通过观察舞台的灯光、导师咖位、观众人数，由此可以推出这一个大规模舞台。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/aO-wNDaRBkk.mp4"
+    },
+    {
+        "video_id": "CZ_1_49",
+        "video_url": "https://www.youtube.com/watch?v=p78K12jx_o4",
+        "video_duration": "25:19",
+        "video_type": "探索 - 体验新事物",
+        "qa_list": [
+            {
+                "question": "Is the Jules Verne Eiffel Tower Restaurant pleasant?",
+                "answer": "No.",
+                "question_type": "多线索推理,多模态/多语言推理,通用知识推理",
+                "knowledge": "To determine the scale of the restaurant, we can evaluate factors such as the number of seats,physical space and menu variety.",
+                "reasoning": "视频内容:Tony提到Jules Verne餐厅的桌子之间距离很近，导致他们会被其他桌子客人的谈话影响到/这家餐厅位于埃菲尔铁塔上方，占地面积并不大/菜单所展示的菜品种类并不算丰富——>推理:Jules Verne Eiffler Tower Restaurant的用餐体验并不那么愉快。"
+            },
+            {
+                "question": "Is drinking wine during a meal important in a French restaurant?",
+                "answer": "Yes, it is.",
+                "question_type": "通用知识推理",
+                "knowledge": "In France,the combination of wine and food is seen as an important element to enhance the dining experience. Alcohol sales may account for a significant portion of revenue in high-end restaurants.",
+                "reasoning": "视频内容：点酒被安排成为吃饭点餐前的第一步/餐厅的服务员在听说两人用餐不需要酒的时候很不高兴，最后生气地离开了/服务员认为两人不点酒是因为经济上有困难——>推理：法国餐厅认为在正餐时选择不搭配酒是无法理解的，酒类的销售可能与餐厅营业额相关，所以正餐时点酒作为饮品很重要。"
+            },
+            {
+                "question": "Does Tony have a big appetite?",
+                "answer": "Yes, he does.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "视频内容：Tony提到，如果大家看到他吃饭的样子会知道没有什么菜对他来说是菜量大的——>推理：Tony是一个胃口很大的人。"
+            },
+            {
+                "question": "Does KJ pay attention to details?",
+                "answer": "Yes, she does.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "视频内容：KJ为了预约餐厅前期做了很多准备，包括反复查看预约信息/KJ在餐厅时可以敏锐地发现自己关注的Youtuber——>推理：她是一个能注意到细节的人。"
+            },
+            {
+                "question": "How many dishes have they ordered in the video?",
+                "answer": "12.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "模型需要在视频中找到所有与所点菜品相关的片段，然后综合计算菜品的数量。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/p78K12jx_o4.mp4"
+    },
+    {
+        "video_id": "CZ_1_50",
+        "video_url": "https://www.youtube.com/watch?v=0CSaXIue9aI",
+        "video_duration": "27:25",
+        "video_type": "vlog - 工作",
+        "qa_list": [
+            {
+                "question": "What role does Brett play in the technical rescue team?",
+                "answer": "He is the coordinator.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "Brett负责协调技术救援队工作，管理约50名队员，并为团队分配任务，与团队其他负责人协作，如安排教育、培训等工作。"
+            },
+            {
+                "question": "Is Brett committed to work-life balance?",
+                "answer": "Yes.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "Brett提到消防员工作会导致与家人相处时间少，尤其是疫情期间压力更大。强调消防部门提供假期和福利来帮助大家平衡，鼓励队员将家庭放在重要位置，努力实现工作生活平衡。"
+            },
+            {
+                "question": "Under normal circumstances, how many meals are arranged in a day at South Metro Fire Rescue in Centennial, Colorado?",
+                "answer": "Two meals.",
+                "question_type": "通用知识推理",
+                "knowledge": "South Metro Fire Rescue Centennial, Colorado arranges breakfast and dinner.",
+                "reasoning": "在Brett描述一天的生活状态时，仅提到了早餐，以及12点钟开始准备晚餐和第二天的早餐，17点吃晚餐。"
+            },
+            {
+                "question": "Does South Metro Fire Rescue in Centennial, Colorado attach importance to team culture construction?",
+                "answer": "Yes.",
+                "question_type": "通用知识推理",
+                "knowledge": "The dining table in the fire station carries the team culture. During work, everyone obeys the command and actively cooperates to complete various tasks. ",
+                "reasoning": "消防站的餐桌承载着团队文化，是过去队员用旧的沟渠面板制作而成；在工作中，大家听从指挥，积极配合完成各项任务；Brett也非常强调团队文化建设。"
+            },
+            {
+                "question": "When dealing with the car lockout incident, why couldn't the car door be opened?",
+                "answer": "The car battery was dead and the key was damaged.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "首先定位到处理非紧急的汽车锁闭事件片段，有人将钥匙锁在车内，到达现场后发现是汽车电池没电且钥匙因之前被撬而损坏，最终使用开锁工具成功打开车门。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/0CSaXIue9aI.mp4"
+    },
+    {
         "video_id": "ZZ_1_1",
         "video_url": "https://www.youtube.com/watch?v=KuRs5aoKT4g",
         "video_duration": "33:55",
@@ -1415,6 +2529,50 @@
         "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/lCzrUIGVYUo.mp4"
     },
     {
+        "video_id": "ZZ_1_8",
+        "video_url": "https://www.youtube.com/watch?v=FniKIzN-Q7I&list=LL&index=8&t=5s",
+        "video_duration": "29:40",
+        "video_type": "综艺 - 游戏",
+        "qa_list": [
+            {
+                "question": "What is the target audience for the 'Wait For It' show?",
+                "answer": "Teenagers.",
+                "question_type": "多模态/多语言推理,通用知识推理",
+                "knowledge": "Video Information: The contestants are children, and the questions are geared toward teenage knowledge quizzes.\nInference → The target audience of this show is teenagers.",
+                "reasoning": "模型需结合多个视频画面，以及视觉听觉结合，从画面中的观众形象以及参加比赛的选手形象对游戏受众群体进行推测，"
+            },
+            {
+                "question": "After defeating Adam, what challenge must Jack complete to achieve final victory?",
+                "answer": "Answer six questions correctly and pass through the goo pool.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "模型需要定位到Jack打败Adam的片段，接着才能找到Jack取得最后胜利的条件是什么。"
+            },
+            {
+                "question": "Is Jack a highly competitive person?",
+                "answer": "Jack is a highly competitive person.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "模型需要对四位选手中的Jack进行持续追踪，并分析人物特点。"
+            },
+            {
+                "question": "What types of books should we study to perform well in the 'Wait For It' competition?",
+                "answer": "General knowledge.",
+                "question_type": "通用知识推理",
+                "knowledge": "Video Information: The questions asked by the host on the competition field are all general knowledge.\nInference → Reading books related to general knowledge will make it easier to achieve a high score.\n\n\n",
+                "reasoning": "视频需要结合主持人对四位参赛选手提问的问题的多个片段进行整理，从问答的问题中获取信息，推理出应该准备何种类型的书提前学习，才能在节目上取得好成绩。"
+            },
+            {
+                "question": "From Erin's conversation with the host, what personality traits can be observed?",
+                "answer": "Erin is very shy.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "模型需要找到所有Erin和主持人谈话的片段，通过多片段，以及和主持人谈话时喜欢捂嘴笑等画面找到任务的性格属性。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/FniKIzN-Q7I.mp4"
+    },
+    {
         "video_id": "ZZ_1_9",
         "video_url": "https://www.youtube.com/watch?v=TfSOZqq9XgE",
         "video_duration": "25:36",
@@ -1721,6 +2879,50 @@
             }
         ],
         "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/NTe5grrbGMM.mp4"
+    },
+    {
+        "video_id": "ZZ_1_16",
+        "video_url": "https://www.youtube.com/watch?v=OKDAooxAtfg&ab_channel=NickRewind",
+        "video_duration": "24:30",
+        "video_type": "综艺 - 游戏",
+        "qa_list": [
+            {
+                "question": "What is Tori's ideal career?",
+                "answer": "The performing industry.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "在有关Tori的片段中，她首先从事过替身演员的职业；在视频后半段，她在朋友面前表演话剧，由此可推断Tori的理想行业是演艺业。"
+            },
+            {
+                "question": "Are the cat and Andre a couple?",
+                "answer": "No.",
+                "question_type": "人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "虽然在视频中cat和Andre共同参加了一场情侣问答节目，但其中参加的另一对情侣说他们并不是真正的情侣，说明这个节目并不是百分百真实的，会为了节目效果而将不是情侣的人当作情侣，并且后面视频中另一个女孩对Andre说”你想甩了我吗“证明cat并不是Andre的女朋友，二人不是couple"
+            },
+            {
+                "question": "Where are the police and their colleagues going?",
+                "answer": "They are going to a restaurant called BF Wangs.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "在视频中，警察在和他的同事打电话时问道“你想去BF.Wangs吗”，同事回答“我想吃点王氏鸡翅”，警察答复“四十五秒后见”，由此可推断他们将要去BF.Wangs"
+            },
+            {
+                "question": "What does the job of a stunt double involve?",
+                "answer": "Sitting on a chair and falling onto an airbag.",
+                "question_type": "多跳推理,通用知识推理",
+                "knowledge": "视频中并未直接指出Tori是名替身演员，但在她与导演的对话中频繁提到替身演员，再加上Tori穿的衣服和演员一样，因此可推断出Tori是一名替身演员，后面导演交代的工作都是身为替身演员的她需要做的,由此得出替身演员的工作包括什么。",
+                "reasoning": "模型需要根据人物间的对话和服装等人物建模分析出谁是替身演员，再根据二人间的对话得出替身演员的工作包括什么"
+            },
+            {
+                "question": "What kind of program is 'Brain Squeezer'?",
+                "answer": "It is a Q&A program.",
+                "question_type": "通用知识推理",
+                "knowledge": "视频中没有音频提到Brain Squzzers这档节目的名字，需要结合视觉信息找出哪个片段是关于Brain Squzzers的，再根据主持人在每一轮都会提出不同类型的问题，嘉宾又要对这些问题做出回答，可推断出是问答节目。",
+                "reasoning": "模型需根据视觉信息定位到相关视频片段，再根据主持人提出的问题进行分析，从而判断出是什么类型的节目"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/OKDAooxAtfg.mp4"
     },
     {
         "video_id": "ZZ_1_17",
@@ -2205,5 +3407,1024 @@
             }
         ],
         "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/qk5X295E7cY.mp4"
+    },
+    {
+        "video_id": "ZZ_1_28",
+        "video_url": "https://www.youtube.com/watch?v=Z7wRaqbriVE&ab_channel=KatelynDeWitt",
+        "video_duration": "24:59",
+        "video_type": "vlog - 学习",
+        "qa_list": [
+            {
+                "question": "Is Laura an extrovert or an introvert?",
+                "answer": "An extrovert.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "在视频中，Laura出现了三次，模型需要找到所有片段。并且，Laura每次出现都有比较夸张的动作，比如在大街上跳舞，照相，与朋友们大声交谈，可以推测出她的性格是比较外向的。"
+            },
+            {
+                "question": "Which season does Katelyn prefer: summer or fall?",
+                "answer": "Fall.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "视频中是夏天，Katelyn提到最近的天气像秋天一样凉爽，不像以往的夏天那样热，言下之意自己比较喜欢秋天，并且，在后面她提到自己很喜欢新买的香水，因为闻起来像秋天，因此Katelyn比较喜欢秋天。"
+            },
+            {
+                "question": "What is Katelyn's most common mode of transportation?",
+                "answer": "The subway.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "在视频中，Katelyn无论是外出上课还是出去和朋友玩，她全部选择搭乘地铁出行，模型需要定位到Katelyn外出搭乘交通工具的全部片段，并由此判断出Katelyn最常用的用来外出的交通工具就是地铁。"
+            },
+            {
+                "question": "Does Fordham University have a large or small campus?",
+                "answer": "It has a large campus.",
+                "question_type": "多模态/多语言推理,通用知识推理",
+                "knowledge": "模型需要通过Katelyn的语言和视频画面来判断校区的面积；并且在校园舞会的视频片段中，可以看到校园里有很大面积让学生们举办各种活动。",
+                "reasoning": "模型需要通过Katelyn的语言和视频画面来判断校区的面积；并且在校园舞会的视频片段中，可以看到校园里有很大面积让学生们举办各种活动。"
+            },
+            {
+                "question": "Is Fordham University rich in extracurricular activities?",
+                "answer": "Yes, it is.",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "在视频中有两个片段可以展现出Fordham University的课外活动很丰富：第一处是Katelyn参加的tea party；第二处是school dance。",
+                "reasoning": "在视频中有两个片段可以展现出Fordham University的课外活动很丰富，模型需要召回所有的关于学校组织互动的片段，并推理出答案。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/Z7wRaqbriVE.mp4"
+    },
+    {
+        "video_id": "ZZ_1_29",
+        "video_url": "https://www.youtube.com/watch?v=p4--c3Eh6WA&ab_channel=ChelseaOhenewaa",
+        "video_duration": "24:20",
+        "video_type": "vlog - 学习",
+        "qa_list": [
+            {
+                "question": "Is Chelsea an extrovert or an introvert?",
+                "answer": "She is an extrovert.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "模型需要结合Chelsea当志愿者的画面，并且她在学校里人很多的地方跳舞。以此可以推断出她比较外向的性格。"
+            },
+            {
+                "question": "Do Chelsea and Mary have an estranged relationship?",
+                "answer": "No.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "Chelsea and Mary are photographed intimately in the video several times. And they do a lot of activities together, such as visiting the campus, going to the hospital and so on, which can infer that they have a close relationship."
+            },
+            {
+                "question": "What sport did Chelsea watch on the school field after having her meal?",
+                "answer": "American football.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "模型需要先定位到Chelsea吃饭的视频片段，再定位的学校运动场，再结合后面的片段观察比赛项目是什么。"
+            },
+            {
+                "question": "Does the University of Saskatchewan have good medical care?",
+                "answer": "Yes.",
+                "question_type": "通用知识推理",
+                "knowledge": "Chelsea shows how she got an injection at school. And she introduced and showed that the school has a large hospital and a specialized dental clinic.",
+                "reasoning": "模型需要结合学校里很大的医院和各种独立的诊所来推理。"
+            },
+            {
+                "question": "What is the common mode of transportation at the University of Saskatchewan?",
+                "answer": "By bike.",
+                "question_type": "通用知识推理",
+                "knowledge": "In the video, there are multiple images that can see that there are lots of bicycle parking places, and there are many bicycles parked.",
+                "reasoning": "模型需要召回所有有关自行车的画面，结合画面中有很多自行车停放点并且停着非常多的自行车，路上也有很多人骑着自行车出行，可推理出答案。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/p4--c3Eh6WA.mp4"
+    },
+    {
+        "video_id": "ZZ_1_30",
+        "video_url": "https://www.youtube.com/watch?v=uNwciVZuVk0",
+        "video_duration": "23:51",
+        "video_type": "访谈 - 动态（含充分视觉信息）",
+        "qa_list": [
+            {
+                "question": "What is the most attractive feature of Jayson's face?",
+                "answer": "His blue eyes.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "Aaron和他的闺蜜Leona都提到第一眼就注意到他的蓝眼睛"
+            },
+            {
+                "question": "What is the relationship between Jason, Aaron, and Roman?",
+                "answer": "Jason and Aaron are Roman's two fathers.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "模型需要先后定位到三人出现的场景，并根据视频给出的信息推断三者间的关系。视频中说到时尚达人Jason和Aaron遇到的新挑战就是如何养育孩子，并且Jason说我是孩子的daddy, Aaron说我是孩子的papa，因此他们是一对同性恋，孩子有两个爸爸，并结合后面的画面Jason抱着孩子，并说Roman就是我的奇迹，可知孩子叫Roman，由此得知三人关系。"
+            },
+            {
+                "question": "What did Jayson decide after watching the old movie 'Funny Face'?",
+                "answer": "He decided what he wanted to do in the future.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "第一步先定位到Jayson看这部老电影的下午，然后13岁的Jayson说这是他人生的转折点，让他确定了职业方向，因此他从此知道了自己未来要做什么。"
+            },
+            {
+                "question": "What are the channels for gay couples to acquire eggs?",
+                "answer": "Purchase and donation.",
+                "question_type": "通用知识推理",
+                "knowledge": "Jayson和Aaron 本来想去买卵子，但Aaron的表妹提出自愿捐卵，由此可推理出获得卵子的两个途径",
+                "reasoning": "模型可以从主人公寻求卵子的过程推断出2个主要获卵途径。"
+            },
+            {
+                "question": "If an Australian gay couple wants a legal marriage, which continent are they most likely to go to?",
+                "answer": "Europe.",
+                "question_type": "通用知识推理",
+                "knowledge": "首先澳大利亚没有合法化同性婚姻，但Jayson提到大多数西方国家都允许同性婚姻，由此可推理同性恋想要结婚就要去其他大部分已开放同性婚姻的西方国家(欧洲)注册。",
+                "reasoning": "模型先判断在同性恋在澳大利亚结婚的可行性，然后根据主人公的描述推断需要去其他同行婚姻合法化的欧洲结婚。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/uNwciVZuVk0.mp4"
+    },
+    {
+        "video_id": "ZZ_1_31",
+        "video_url": "https://www.youtube.com/watch?v=bNEvJYzoa8A",
+        "video_duration": "32:45",
+        "video_type": "访谈 - 静态（对话密集型，少量视觉信息）",
+        "qa_list": [
+            {
+                "question": "What is the relationship between Isa and Josh?",
+                "answer": "They are colleagues.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "模型通过Isa和Josh的对话，可以知道他们同处一个项目组，因此他们是同事。"
+            },
+            {
+                "question": "Is Isa responsible for the technical section in the team?",
+                "answer": "Yes.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "Isa提及她负责主导RL训练框架，科学领域推理模型的突破,因此推断Isa在团队中主要负责技术板块。"
+            },
+            {
+                "question": "Which technique is better in the AI industry: end-to-end optimization or module splicing?",
+                "answer": "End-to-end optimization.",
+                "question_type": "多跳推理,通用知识推理",
+                "knowledge": "以Deep Research的成功来对比传统Agent人工流程的失败可得出答案：Deep Research采用端对端优化，而传统AI采用模块拼接优化，从而可推理得出端对端优化技术比模块拼接优化技术要好。",
+                "reasoning": "模型根据视频中使用deep research和传统的人工智能来说更优秀，可以总结出端对端优化比模块拼接优化更好"
+            },
+            {
+                "question": "Which is more important for deep research: the quality or quantity of data?",
+                "answer": "The quality of data.",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "视频中提到了错误数据使Chat Gpt误判，并描述了Edward优化数据的案例，并表现出模型的性能是建立在优质的数据之上的，可以看出优质数据对模型来说是非常重要的，对于这个模型来说，数据的质量是比数量更为重要。",
+                "reasoning": "模型需要通过了多个提及数据对模型的片段，总结出数据的质量对模型来说更为重要。"
+            },
+            {
+                "question": "Is the host interested in AI?",
+                "answer": "Yes.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "模型需要定位到主持人，并从她的表情和语言中分析她对AI的态度，因为她提及AI，表情激动并且说话语气兴奋，因此可以推断出她对AI是感兴趣的。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/bNEvJYzoa8A.mp4"
+    },
+    {
+        "video_id": "ZZ_1_32",
+        "video_url": "https://www.youtube.com/watch?v=aRcUVhVlSHg",
+        "video_duration": "31:47",
+        "video_type": "综艺 - 纪实（真人秀）",
+        "qa_list": [
+            {
+                "question": "Is Fedra married?",
+                "answer": "Yes.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "模型需要定位到Fedra的相关片段，在桥上做出选择阶段她说想见到儿子，由此判断出她已婚。"
+            },
+            {
+                "question": "How many sons does Pat have?",
+                "answer": "Two.",
+                "question_type": "多跳推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "模型需要根据视频中的文本信息确定谁是Pat，再根据队友说话得知他在和家人拥抱，画面是两个小男孩，所以得出结论他有两个儿子。"
+            },
+            {
+                "question": "How long does TJ continue after Patrick leaves?",
+                "answer": "Over thirty days.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "模型需要定位 Patrick退出挑战的片段，得知是第30天退出，然后再定位到TJ退出挑战的片段得知他是第60天后退出，综合分析得出结论是超过三十天。"
+            },
+            {
+                "question": "Which type of roof is better for a tent in the wild, pointed or flat?",
+                "answer": "A pointed roof.",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "视频中女生队伍的帐篷一直都是尖顶的，哪怕遇到暴风雨都安然无事，而男生队伍的帐篷改善加固之后，变成了平顶，面对暴风雨时却在漏雨，所以推理的出答案，在野外尖顶型的帐篷更适合。",
+                "reasoning": "模型需要定位到女生队伍的帐篷和男生队伍的帐篷，根据各自面对暴风雨的情况，可以得出结论，尖顶型的帐篷更好。"
+            },
+            {
+                "question": "Does having more people improve survival in the wild?",
+                "answer": "No.",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "女生组从第3天起主动淘汰成员（Hannah, Talia等），使人均资源持续增加；而男生组被动因压力减员（Cameron, Josh），导致后期TJ独留时资源已耗尽，推理出在野外生存并不是人越多越好。",
+                "reasoning": "模型需要分析整个视频男女两个队伍在该挑战中成员淘汰情况并得出结论。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/aRcUVhVlSHg.mp4"
+    },
+    {
+        "video_id": "ZZ_1_33",
+        "video_url": "https://www.youtube.com/watch?v=VWJBAGrG0ms",
+        "video_duration": "29:23",
+        "video_type": "探索 - 参观",
+        "qa_list": [
+            {
+                "question": "If a person is highly sensitive to electromagnetic signals, which place is suitable for them?",
+                "answer": "Green Bank.",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "通过视频了解到这个地方是与世隔绝的，这里是没有任何信号的，手机也无法使用。除此之外，也有一些人是类似的状况，他们也选择来这里去躲避电磁信号。因此结合这几个方面可以得出Green Bank对电磁信号很敏感的人来说是一个合适的地方。",
+                "reasoning": "模型需要分析整个视频，比如他们在进去quiet zone前对这个地方的介绍，以及进入后，遇到的人的采访等等，可以推出答案。"
+            },
+            {
+                "question": "How many things does the team want to understand by the end of this adventure?",
+                "answer": "Six.",
+                "question_type": "多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "模型需要通过定位到他们即将进去安全区域前，博主提到了他们决定在离开安全区之前史实现的目标，并通过视觉分析，可以是一共有六条。"
+            },
+            {
+                "question": "Is it easy to find a shop in the Quiet Zone?",
+                "answer": "No, it isn't.",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "博主先介绍在这个地方很难发现市中心，没有聚集出现的房屋，随后他们找到了该地区唯一一家的礼品店，由此可以推出，在这片区域找到一家商店不是一个简单的事情。",
+                "reasoning": "模型需要定位到他们进去Quiet Zone的片段，通过分析博主对当地房屋的描述以及唯一一家礼品店的介绍，可以得出答案。"
+            },
+            {
+                "question": "Is Jay Lockman a researcher?",
+                "answer": "Yes.",
+                "question_type": "多线索推理,人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "根据视频，Jay Lochman已经退休了，但他现在仍会坚持来办公室，进行全职研究，说明他有研究精神的人；随后，博主又去对他的办公室进行拜访参观，通过对他的办公室进行展示，由这些可以推断出答案。"
+            },
+            {
+                "question": "Is Kate still pursuing her musical dream?",
+                "answer": "Yes.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "模型需要定位到博主对Kate的采访，以及他们的交流，可以知道Kate一直在坚持用语音备忘录录制她的音乐，并且已经有大约5000条了"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/VWJBAGrG0ms.mp4"
+    },
+    {
+        "video_id": "ZZ_1_34",
+        "video_url": "https://www.youtube.com/watch?v=nfrgOeb1AHY",
+        "video_duration": "21:52",
+        "video_type": "街头互动 - 采访",
+        "qa_list": [
+            {
+                "question": "Who has worked in Korea the longest?",
+                "answer": "Jeffry.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "通过视频采访可以知道Jeffry在韩国待了16年，比起其他人的4年、2年等要久。"
+            },
+            {
+                "question": "Is Jeffry's income stable?",
+                "answer": "No.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "Jeffrey说每个季度的收入是不一样的，因此推测出他的收入不是很稳定。"
+            },
+            {
+                "question": "What are the fruit prices in Italy for Italians?",
+                "answer": "They are inexpensive.",
+                "question_type": "多跳推理,通用知识推理",
+                "knowledge": "受采访的意大利人说他们喜欢吃水果，但是韩国的水果太贵了，他们只能偶尔吃几次，但在意大利时不是的，可推断出对意大利人来说，意大利的水果比较便宜。",
+                "reasoning": "视频中采访的意大利人提及韩国的水果很贵，但是意大利人非常爱吃水果，所以导致生活成本很高，因此对意大利人来说，意大利的水果价格是可以接受的、便宜的。"
+            },
+            {
+                "question": "Do individuals' consumption preferences vary in their price sensitivity to different commodities within the same country?",
+                "answer": "Yes.",
+                "question_type": "通用知识推理",
+                "knowledge": "意大利人因为喜欢吃水果所以他们认为韩国的物价很高，而美国人因为他们愿意减少自己在餐饮上的开支，所以觉得韩国物价偏低。因此不同的人群偏好会导致他们对同一国家物价的敏感性不同。",
+                "reasoning": "视频中根据意大利人和美国人之间的差异可以推导出这个是正确的。"
+            },
+            {
+                "question": "Is it easy for migrant workers to advance in Korean companies?",
+                "answer": "No.",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "视频中多位采访的人都提及，韩国老板更倾向于提拔韩国人，而且在你提出升职加薪要求的时候，他们会搪塞你或者拿你的签证要挟你。因此外来工作者在韩国公司的晋升并不容易。",
+                "reasoning": "根据受采访者的描述，韩国老板更倾向于提拔韩国人，对外来工作者的晋升相对困难。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/nfrgOeb1AHY.mp4"
+    },
+    {
+        "video_id": "ZZ_1_35",
+        "video_url": "https://www.youtube.com/watch?v=erLbbextvlY&list=LL&index=15",
+        "video_duration": "22:25",
+        "video_type": "综艺 - 纪实（真人秀）",
+        "qa_list": [
+            {
+                "question": "Is Jimmy the type to care for others or to be cared for?",
+                "answer": "He is the type to care for others.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "模型需要通过Jimmy和众人多天在岛上的相处，对Jimmy的性格得出结论，Jimmy是在几人中像大家长一样的存在，所以Jimmy的性格是照顾人的"
+            },
+            {
+                "question": "When people arrive on a deserted island at dusk, what is the first thing they should do?",
+                "answer": "Build a shelter.",
+                "question_type": "通用知识推理",
+                "knowledge": " Video Information ：The survival conditions on the island are extremely bad at dusk. If you don’t ensure rest and energy storage first, survival will be impossible. Inference: The first thing to do on the island is to build a shelter.\n",
+                "reasoning": "因为需要在岛上生存多日，在黄昏时上岛最危险的就是要找到一个可以休息的地方保存体力，且要避免野兽攻击，模型可以通过多模态以及尝试推理，可以得出上岛第一件事情是要搭建可以容身的庇护所"
+            },
+            {
+                "question": "Does Mark have strong hands-on skills or no hands-on skills at all?",
+                "answer": "He has strong hands-on skills.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "模型需要对Mark进行追踪，分析人物的行为，通过Mark爬树为大家摘椰子以及自己动手制作捕捉野鸡的工具，可以看出他是一个动手能力很强的人"
+            },
+            {
+                "question": "How can people obtain the necessary water for their bodies from nature on the island?",
+                "answer": "They can obtain water from plants and fruits.",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "Video Information: During the seven days on the island, everyone complained every morning. The most frequent complaint was how poorly they slept and how uncomfortable it was to lie on the ground. The hardest condition to maintain on the island is proper sleep.",
+                "reasoning": "模型需要定位到众人喝椰子水的片段，从众人从树上摘椰子来吃，节省自己携带的饮用水消耗量。可以推断出，叶子以及其他水果中所含的水分可以保证人体摄入的水分"
+            },
+            {
+                "question": "Is Nolan a brave person or a coward?",
+                "answer": "He is a coward.",
+                "question_type": "人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "模型需要追踪nolan相关画面，通过nolan被虫子吓得四处逃窜可以看出Nolan是一个胆小的人"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/erLbbextvlY.mp4"
+    },
+    {
+        "video_id": "ZZ_1_36",
+        "video_url": "https://www.youtube.com/watch?v=-bMyTZYVzgw",
+        "video_duration": "20:24",
+        "video_type": "街头互动 - 游戏",
+        "qa_list": [
+            {
+                "question": "What is Billy's occupation?",
+                "answer": "He is a truck driver.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "模型需要定位到Billy是谁，再根据Jarren的语言信息分析得出结论。"
+            },
+            {
+                "question": "What is Alex's role in the group?",
+                "answer": "He is a filmmaker.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "模型需要定位到提到Alex的相关片段，结合相关语言信息推断Alex负责拍摄或制作视频，角色为导演或制片人。"
+            },
+            {
+                "question": "What happens to Jarren before the ambulance arrives?",
+                "answer": "His left leg is injured.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "模型需要定位到救护车出现的片段，再定位到Jarren，根据视频片段分析他怎么了。"
+            },
+            {
+                "question": "Is the BMX challenge location flat or obstructed?",
+                "answer": "Obstructed.",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "根据视频中Billy和Jarren的所有比赛区域，大多是有台阶或者有栏杆的区域，可以推理得出BMX的场地选择是有障碍的区域。",
+                "reasoning": "模型需要根据所有比赛区域进行分析，得知比赛区域大多是有台阶或者有栏杆的区域，由此得出答案。"
+            },
+            {
+                "question": "Is the BMX challenge worth participating in?",
+                "answer": "Yes, it is.",
+                "question_type": "通用知识推理",
+                "knowledge": "根据视频中Billy的介绍得知Jarren是第二次参与这个挑战视频的拍摄得知这是一项值得挑战的项目。",
+                "reasoning": "模型需要根据Billy的描述得知Jarren是第二次参加挑战，由词可以分析这是一个值得挑战的挑战项目。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/-bMyTZYVzgw.mp4"
+    },
+    {
+        "video_id": "ZZ_1_37",
+        "video_url": "https://www.youtube.com/watch?v=7FTOIAehiWo",
+        "video_duration": "22:02",
+        "video_type": "探索 - 体验新事物",
+        "qa_list": [
+            {
+                "question": "Does Jack enjoy eating at Lunchly?",
+                "answer": "No.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "在和一家低分自助餐比较时，博主提到自己宁愿吃Lunchly也不愿在这家餐厅吃饭，可以推断出"
+            },
+            {
+                "question": "What is Owen's profession?",
+                "answer": "He is a cameraman.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "Owen全程帮助博主录像，可以推测出他应该是一名专职摄影师。"
+            },
+            {
+                "question": "Is Ali Eik a discreet restaurant?",
+                "answer": "Yes.",
+                "question_type": "多模态/多语言推理,通用知识推理",
+                "knowledge": "Ali Eik拥有顶级的菜品，但装修却十分低调，可以判断它是一家有内涵、但低调的餐厅",
+                "reasoning": "通过视频画面可以看出Ali Eik被夹在中间，面积不大，且没有显眼的装饰，博主都差点走过，可以判断出它是一家低调的餐厅"
+            },
+            {
+                "question": "Is International Buffet a hygienic restaurant?",
+                "answer": "No.",
+                "question_type": "通用知识推理",
+                "knowledge": "餐品中有毛发、店内有蟑螂等均不符合卫生的标准。",
+                "reasoning": "博主在谷歌评价中看到有人抱怨老鼠、蟑螂，博主在用餐时看到果冻里有头发。"
+            },
+            {
+                "question": "Which restaurant did Jack visit after Barton G's?",
+                "answer": "Miku.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "根据博主探店顺序可知Barton Gs是第四家店，Miku是第五家"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/7FTOIAehiWo.mp4"
+    },
+    {
+        "video_id": "ZZ_1_38",
+        "video_url": "https://www.youtube.com/watch?v=bn0Kh9c4Zv4",
+        "video_duration": "20:34",
+        "video_type": "综艺 - 游戏",
+        "qa_list": [
+            {
+                "question": "What is the color of the supply bag carried by each guest?",
+                "answer": "Orange.",
+                "question_type": "多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "模型需要找到七天中每位嘉宾到来的画面，从多个画面中通过多模态识别出supply bag的颜色。"
+            },
+            {
+                "question": "What is Jidion's occupation?",
+                "answer": "He is a blogger.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "在地下城生存7天这档综艺节目里，主持人说到我们每周都会邀请一位Youtube的博主来和我们一起挑战，而邀请的第一位嘉宾是Jidion，因此可推断出JiDion职业是一名博主。"
+            },
+            {
+                "question": "What equipment ensures the participants' temperature is maintained during nights in the underground city?",
+                "answer": "Warming tents.",
+                "question_type": "多线索推理,多模态/多语言推理,通用知识推理",
+                "knowledge": "视频信息:地下城夜晚十分寒冷，没有保暖措施人体温度会快速下降--推理-->夜晚在地下城生活最重要的是保证温度，推理出能让人保持温度的装备",
+                "reasoning": "模型需要搜集几人地下城生存七天中的每个晚上的视频片段，通过对晚上信息进行多片段搜集，开始推理什么设备可以在地下城夜晚保持温度，接着结合多模态进行推断。"
+            },
+            {
+                "question": "What kind of relationship exists between the host Jimmy and Lannan?",
+                "answer": "They are good friends.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": ".",
+                "reasoning": "模型需要在众多人物中追踪到谁是 Jimmy and Lannan，并从多个片段之间的相处确定两人之间的关系。"
+            },
+            {
+                "question": "What equipment ensures participants can shoot in dark environments and at night?",
+                "answer": "Infrared cameras.",
+                "question_type": "多模态/多语言推理,通用知识推理",
+                "knowledge": "视频信息:黑暗环境下以及夜晚摄影机也能保证拍摄任务顺利进行--推理-->一些能在黑暗环境下保证拍摄的装备，如红外摄影机等，根据多模态进一步确定拍摄装备",
+                "reasoning": "模型需要根据七天中众人在黑暗环境下以及夜晚中的表现推断出是什么设备保证摆设顺利，因为视频并未直接提及，需要模型结合视觉与听觉进行推断。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/bn0Kh9c4Zv4.mp4"
+    },
+    {
+        "video_id": "ZZ_1_39",
+        "video_url": "https://www.youtube.com/watch?v=1RnnzZhs_sQ",
+        "video_duration": "23:24",
+        "video_type": "街头互动 - 采访",
+        "qa_list": [
+            {
+                "question": "Is Victoria married to a Chinese person?",
+                "answer": "Yes.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "视频中伊莎贝拉提到她是一位中国家庭主妇，并且她给要嫁给中国人的外国人提出了一些建议，因此她的丈夫是一个中国人。"
+            },
+            {
+                "question": "What is the relationship between Ruby and Isa?",
+                "answer": "They are partners.",
+                "question_type": "多跳推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "视频首先需要定位到Ruby和Isa受采访的部分，主持人问他们两个是否在约会，他们说是的，因此可以推测出他们两个是情侣。"
+            },
+            {
+                "question": "Does family intervention affect marriage in Ukraine?",
+                "answer": "No.",
+                "question_type": "通用知识推理",
+                "knowledge": "根据一位乌克兰女生的回答，他说中国人的婚姻可能会受家庭压力的影响，但是在乌克兰却截然相反。因此可以推测在乌克兰婚姻不太会受到家庭压力的影响。",
+                "reasoning": "根据视频中一位乌克兰女生的回答，就算父母不同意，只要她们想，即使父母不同意，他们也会和那个人结婚。因此在乌克兰婚姻不太会受到家庭压力的影响。"
+            },
+            {
+                "question": "Do Chinese men place great importance on material security?",
+                "answer": "Yes.",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "一位德国女性和一位巴西女性提到中国男性经常直接说明收入，房产的信息，甚至有人提出每月支付20万元人民币的交往条件，所以可以得知中国男人是非常看重物质保障的。",
+                "reasoning": "根据多名女性的经历，中国男性经常直接的说明收入和房产等信息，并且以金钱作为他的前提因此可以看出中国男性是比较注重物质保障的。"
+            },
+            {
+                "question": "How many people were interviewed?",
+                "answer": "Six.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "模型需要根据所有受采访的片段来判断视频中一共采访了几个人。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/1RnnzZhs_sQ.mp4"
+    },
+    {
+        "video_id": "ZZ_1_40",
+        "video_url": "https://www.youtube.com/watch?v=bl-KZV_DL0Q&ab_channel=Footasylum",
+        "video_duration": "24:28",
+        "video_type": "综艺 - 纪实（真人秀）",
+        "qa_list": [
+            {
+                "question": "What is Kanan's profession?",
+                "answer": "He is a musician (rapper).",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "模型需要定位到介绍Kanan的片段，Yung Filly说Kanan在最近的两张专辑中完成了两段精彩的词，由此可以推断Kanan是一位音乐人，并且很有可能是rapper."
+            },
+            {
+                "question": "Where is Kanan from?",
+                "answer": "Jamaica.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "模型需要定位到Kanan提到“eye”的片段，视频中其他人都不理解这个词的意思，Kanan解释说这是牙买加的说法，由此可推断Kanan是牙买加人。"
+            },
+            {
+                "question": "What steps should be taken to prevent powder from spilling during the mixing process?",
+                "answer": "Add milk and control the stirring speed to low.",
+                "question_type": "通用知识推理",
+                "knowledge": "Kanan第一次使用搅拌机时有大量粉末洒出，后来他加了牛奶，并使用更低速搅拌，可知这样做能防止粉末洒出。",
+                "reasoning": "模型要定位到Kanan使用搅拌机的片段，并根据他的行为作出推理分析。"
+            },
+            {
+                "question": "What is the purpose of baking paper?",
+                "answer": "It facilitates the easy removal of the cake from the mold.",
+                "question_type": "通用知识推理",
+                "knowledge": "Kanan忘记在模具中放烘焙纸导致很难脱模，因此可以推断烘焙纸是方便脱模的。",
+                "reasoning": "模型需要定位到Kanan用刀脱模的片段，别人提醒他忘记放烘焙纸了，由此可以推断出烘焙纸的作用。"
+            },
+            {
+                "question": "What are the steps to follow after making the cake?",
+                "answer": "Apply cream and add decorations.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "模型需要根据多个片段，首先识别到Kanan做好了蛋糕体，再根据后面的片段分析他做的事，视频中Kanan先抹上奶油，再摆上了装饰品。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/bl-KZV_DL0Q.mp4"
+    },
+    {
+        "video_id": "ZZ_1_41",
+        "video_url": "https://www.youtube.com/watch?v=sOFMthj_inw",
+        "video_duration": "24:02",
+        "video_type": "街头互动 - 采访",
+        "qa_list": [
+            {
+                "question": "What is the color of Janelle's hair?",
+                "answer": "Black.",
+                "question_type": "多跳推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "模型需首先定位到谁是Janelle，再根据视频内容可知Janelle穿着红色连衣裙、有着黑色长发。"
+            },
+            {
+                "question": "Can Janelle be just friends with males?",
+                "answer": "Yes.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "虽然Janelle在站队时表明男女不可能只做朋友，但她后面又详细阐述到如果是一个非常女性化的男生交朋友，情况是不同的。"
+            },
+            {
+                "question": "Is a polygamous person a suitable partner in today's society?",
+                "answer": "No.",
+                "question_type": "通用知识推理",
+                "knowledge": "现代社会崇尚一夫一妻制，爱的三要素是激情、亲密、承诺。多偶制的关系不符合标准，在当代社会不是理想的关系。",
+                "reasoning": "通过对单偶制的辩论可以得知，选择多偶制/开放式关系的夫妻通常不再觉得对方有性吸引力、疲于沟通，缺少了亲密、激情等元素。"
+            },
+            {
+                "question": "What is the key ingredient in Neuro's mints that aids sleep?",
+                "answer": "Melatonin.",
+                "question_type": "通用知识推理",
+                "knowledge": "褪黑素是一种调节生物钟的激素，可以用来助眠。",
+                "reasoning": "广告中反复介绍了这款助眠口香糖添加了褪黑素，可以推测褪黑素是主要的功能成分。"
+            },
+            {
+                "question": "Can children help stabilize a marriage?",
+                "answer": "Yes.",
+                "question_type": "通用知识推理",
+                "knowledge": "研究显示，有孩子的夫妻离婚率比没有孩子的夫妻低。",
+                "reasoning": "Janelle阐述了一个观点，尽管她曾被伴侣背叛过，但为了给孩子更好的教育，她不会离婚。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/sOFMthj_inw.mp4"
+    },
+    {
+        "video_id": "ZZ_1_42",
+        "video_url": "https://www.youtube.com/watch?v=AY-IDgLtYTw&list=LL&index=14",
+        "video_duration": "24:08",
+        "video_type": "访谈 - 动态（含充分视觉信息）",
+        "qa_list": [
+            {
+                "question": "What type of food should obese individuals reduce their consumption of?",
+                "answer": "Fast and convenient food.",
+                "question_type": "通用知识推理",
+                "knowledge": "Video Information: The abundance and availability of fast foof and easy food  that may have once a dream turned into the American nightmare \nInference →Obese people should reduce their intake of fast and easy food.",
+                "reasoning": "视频中提到fast foof and easy food  that may have once a dream turned into the American nightmare ，由此可以得出Fast and easy food.让很多人患上美国人有肥胖症，从而使美国梦变成恶梦，Fast and easy food.是肥胖症的罪魁祸首，因为肥胖症人群应少摄入Fast and easy food."
+            },
+            {
+                "question": "Which demographic group is more likely to experience obesity in certain countries?",
+                "answer": "Low-income groups.",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "Video Information: Low-income groups spend most of their time making a living, while high-income groups use their time and money to eat healthy food. Low-income individuals lack the financial resources and time to buy expensive food and exercise.fast food is cheaper, making low-income groups more prone to obesity.",
+                "reasoning": "模型需看完整个视频，对每个人的采访进行分析，从人物的采访中可以得知，低收入群体大部分时间用来谋生，高收入群体用自己的时间和金钱去吃健康的食物，而低收入群体没有金钱和时间用来买贵的食物和锻炼，且快餐更加便宜，因此推理出低收入群体更易肥胖。"
+            },
+            {
+                "question": "What is Surya's occupation?",
+                "answer": "She is a student.",
+                "question_type": "人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "模型需从多个人物中持续追踪对Surya，并结合视觉听觉对她的职业进行判断"
+            },
+            {
+                "question": "Does Max prioritize healthy eating or tend to overeat?",
+                "answer": "He prioritizes healthy eating.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "模型需从多个人物中持续追踪对Max，通过对Max多模态处理以及Max的职业并结合视觉听觉对他的职业—是食物健康方面的专家，得知他是一个十分注重饮食健康的人"
+            },
+            {
+                "question": "Which city had the second-highest obesity rate in the United States in 2011?",
+                "answer": "Binghamton, N.Y.",
+                "question_type": "多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "视频中介绍到，McAllen是美国肥胖率第一的城市，而肥胖率第二的城市需要模型利用视听觉在视频中找出答案"
+            },
+            {
+                "question": "Is Alehandra a dog lover?",
+                "answer": "Her dog appeared frequently during significant moments.",
+                "question_type": "人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "小狗多次出现在以及重要场合，在采访时仍然带着它，可以看出她是个爱狗人士"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/AY-IDgLtYTw.mp4"
+    },
+    {
+        "video_id": "ZZ_1_43",
+        "video_url": "https://www.youtube.com/watch?v=mDnQnoNhez0&ab_channel=RyanTrahan",
+        "video_duration": "22:36",
+        "video_type": "探索 - 体验新事物",
+        "qa_list": [
+            {
+                "question": "Is Ryan the one who prefers to remain quiet while sleeping?",
+                "answer": "Yes.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "模型需要定位到Ryan展示耳塞的片段，该片段中Ryan提到他喜欢耳塞，这是他主要的特征之一。由此可以推断出Ryan在睡觉时需要一个安静的环境。"
+            },
+            {
+                "question": "Does Haley enjoy reading?",
+                "answer": "Yes.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "模型需要根据听觉定位到有关Haley书架的片段，再根据视觉看到书架上有很多书。由此推测Haley喜欢读书。"
+            },
+            {
+                "question": "How many first-class flights has Ryan experienced?",
+                "answer": "Four.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "模型需要定位每个航空出现的片段，总结归纳出Ryan总共体验了几个头等舱。"
+            },
+            {
+                "question": "Does the comfort of the airplane toilet influence how passengers rate an airline?",
+                "answer": "Yes.",
+                "question_type": "通用知识推理",
+                "knowledge": "Ryan对每个航空的头等舱厕所都进行了拍摄和评价，并且在评价法国航空头等舱厕所时提到他认为法航比美国航空好，再者Ryan对阿联酋航空厕所中的大理石表示了惊叹，可以推测飞机上的厕所会影响人们对航空公司的评价。",
+                "reasoning": "模型需要定位多个相关画面及博主的评价来分析。"
+            },
+            {
+                "question": "As a first-class passenger, what happens if you cannot reach the airport on your own?",
+                "answer": "The airline will send a special car to pick you up.",
+                "question_type": "通用知识推理",
+                "knowledge": "Ryan在巴黎作为旅客，自行去机场是可能会有困难的，视频中Ryan是被专车接到机场并通过特殊通道登机。",
+                "reasoning": "模型需要定位到豪华轿车的片段进行推理。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/mDnQnoNhez0.mp4"
+    },
+    {
+        "video_id": "ZZ_1_44",
+        "video_url": "https://www.youtube.com/watch?v=Y7PoEXxectE",
+        "video_duration": "24:04",
+        "video_type": "街头互动 - 游戏",
+        "qa_list": [
+            {
+                "question": "What is the relationship between Jay and Oreo?",
+                "answer": "They are friends who face challenges together.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "模型需要根据视频中的语言信息和视觉信息定位到Jay和Oreo两个人，然后分析总结得出结论。"
+            },
+            {
+                "question": "What is Jay's professional role in relation to the charity donation?",
+                "answer": "He is an MTV representative.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "模型需要定位到视频中Jay的相关片段，他联系Sean时提到代表MTV支持并捐赠，由此可以推测得出他是MTV representative。"
+            },
+            {
+                "question": "Who does Jay meet before arriving at the fair?",
+                "answer": "A man named Kyle.",
+                "question_type": "多跳推理,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "模型需要定位到Jay遇见集市之前遇见的人，根据视觉信息可以看见是个黑人，再根据Jay的话得知他是Kyle。"
+            },
+            {
+                "question": "Is it better to choose solar panels or rechargeable panels for cross-country skating trips?",
+                "answer": "Solar panels.",
+                "question_type": "通用知识推理",
+                "knowledge": "视频中Jay表示长途滑板需持续使用电子设备，说明在路途没有充电设备，他的选择是可充电板，由此可以推理得出结论。",
+                "reasoning": "模型需要根据Jay对于电子设备的选择进行分析，长途滑板旅行中路途没有充电设备，他的选择是可充电板，由此得出结论。"
+            },
+            {
+                "question": "Are Adidas Superstars suitable for long-distance wear?",
+                "answer": "No.",
+                "question_type": "通用知识推理",
+                "knowledge": "视频中Oreo穿Superstars提出要换鞋子，因为这个挑战需要很长时间，所以说明这个鞋子不适用于长途穿。",
+                "reasoning": "模型需要定位到谈论Adidas Superstars的相关片段，综合分析得出结论。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/Y7PoEXxectE.mp4"
+    },
+    {
+        "video_id": "ZZ_1_45",
+        "video_url": "https://www.youtube.com/watch?v=LoldJNDLZHc",
+        "video_duration": "23:44",
+        "video_type": "访谈 - 静态（对话密集型，少量视觉信息）",
+        "qa_list": [
+            {
+                "question": "Are drones permitted to fly over the city of Budapest?",
+                "answer": "Yes.",
+                "question_type": "通用知识推理",
+                "knowledge": "Will Smith介绍到，他在做Kiki挑战时，他爬上了一座桥，这个视频是他朋友用无人机来拍摄的，由此推出是可以的。",
+                "reasoning": "模型通过定位到Will Smith讲述Kiki挑战的视频片段，观察Will对这个视频的介绍，以及这个视频是怎样拍摄的，可以得出答案。"
+            },
+            {
+                "question": "For 50-year-old Will Smith, if he encounters something that scares him, will he choose to face it or avoid it?",
+                "answer": "He will choose to face it.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "首先，通过主持人的介绍，Will Smith是一个充满冒险精神的人。其次，他讲到恐惧在人生经历中会造成很多严重的伤害，人一旦害怕，就不可能快乐。以及后续他挑战自己去蹦极这些活动，可以推出答案。"
+            },
+            {
+                "question": "Does Will Smith frequently use body language, sounds, and facial expressions to make scenes or stories more vivid?",
+                "answer": "Yes, he does.",
+                "question_type": "人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "模型通过分析片段，来判断他在讲述过程中是否运用到了肢体语言，面部表情，声音描述等等，即可判断。"
+            },
+            {
+                "question": "What is the shape of the costume prepared for Will Smith before starting 'Rub My Lamp'?",
+                "answer": "A lamp.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "模型首先在整个采访片段中定位到 'Rub My Lamp'游戏部分，接着主持人一边介绍也有为Will Smith准备了游戏道具，一边工作人员将服装拿了上来，通过视频片段分析，是一个灯的造型。"
+            },
+            {
+                "question": "Is the second prize, '6 days and 5 nights stay in Cancun,' in the game very appealing?",
+                "answer": "Yes, it is.",
+                "question_type": "通用知识推理",
+                "knowledge": "当观众选中第五个奖项，发现是6 days 5 nights stay Cancun，她们拥抱在一起尖叫跳舞，大家也为她们鼓掌，可以推理这个奖项很attractive",
+                "reasoning": "模型需要定位到游戏以及开第二个奖的片段，并结合在场观众的反应，即可得出答案。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/LoldJNDLZHc.mp4"
+    },
+    {
+        "video_id": "ZZ_1_46",
+        "video_url": "https://www.youtube.com/watch?v=-Lt0idIsJWo",
+        "video_duration": "21:57",
+        "video_type": "测评 - 食品",
+        "qa_list": [
+            {
+                "question": "Does Angel like vegetables?",
+                "answer": "No.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "在视频中，根据主持人的描述Angel对于蔬菜的看法，综合分析得出结论。"
+            },
+            {
+                "question": "Which country is Sebastian from?",
+                "answer": "He is from Brazil.",
+                "question_type": "人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "在视频中，主持人介绍制作Brazilian X-Tudo sandwich，在品尝过程中，Sebastian说他有种家乡的亲切感，由此推测他是一名Brazilian。"
+            },
+            {
+                "question": "How many types of sandwiches are shown in total?",
+                "answer": "Eleven.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "模型需收集所有三明治片段，并综合得出11种。"
+            },
+            {
+                "question": "Why is a vertical rotisserie used for Turkish döner?",
+                "answer": "To ensure even cooking.",
+                "question_type": "通用知识推理",
+                "knowledge": "土耳其烤肉“juicy and seasoned”的特性与vertical rotisserie垂直烤架均匀加热的原理一致。",
+                "reasoning": "模型需要定位到制作Turkish döner时的片段，根据其食物的特性以及vertical rotisserie的原理进行分析。"
+            },
+            {
+                "question": "What role does Swiss cheese play in the Philly cheesesteak?",
+                "answer": "It melts to bind the ingredients.",
+                "question_type": "通用知识推理",
+                "knowledge": "视频中主持人说Philly cheesesteak需要shaved rebbi和caramelized onions，为了把它们放在一起，需要用Swiss cheese在上面融化，由此可以推理得出结论。",
+                "reasoning": "模型需要定位到制作Philly cheesesteak时的相关片段进行分析。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/-Lt0idIsJWo.mp4"
+    },
+    {
+        "video_id": "ZZ_1_47",
+        "video_url": "https://www.youtube.com/watch?v=obKb4if8RMk",
+        "video_duration": "24:39",
+        "video_type": "访谈 - 静态（对话密集型，少量视觉信息）",
+        "qa_list": [
+            {
+                "question": "Does Máxima enjoy bead accessories?",
+                "answer": "Yes, she does.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "根据姓名标识锁定Máxima，从她的珠子项链、耳饰、手环和戒指可以判断。"
+            },
+            {
+                "question": "Is Máxima compassionate and kind?",
+                "answer": "Yes, she is.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "根据Máxima讲述自己15岁立志改变经济危机时人们的境遇、后来去往非洲工作等经历可以看出她是善良、有同情心的人。"
+            },
+            {
+                "question": "What did Máxima do before meeting her husband?",
+                "answer": "She worked as a banker in New York.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "先锁定Máxima遇见丈夫去往荷兰的片段，再找到她之前的叙述，作为银行家在纽约工作。"
+            },
+            {
+                "question": "What is the first step for entering the field of financial inclusion?",
+                "answer": "Understanding the concept of financial inclusion and its importance.",
+                "question_type": "通用知识推理",
+                "knowledge": "由关键词第一步锁定发言片段“I think that was a very first step”，得出信息点在前面的发言中，“expalin the notion of financial inclusion...and why it is of interest to public sector...”进行总结得出答案。",
+                "reasoning": "根据关键词第一步锁定发言片段，再确定信息点进行总结得出答案。"
+            },
+            {
+                "question": "What is the next focus of the financial industry?",
+                "answer": "Financial health.",
+                "question_type": "多跳推理,通用知识推理",
+                "knowledge": "视频中，主持人和Máxima都提到将金融包容性推向金融健康，因而金融健康是金融业的下一个关注点。",
+                "reasoning": "根据关键词锁定发言片段，推理得出答案。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/obKb4if8RMk.mp4"
+    },
+    {
+        "video_id": "ZZ_1_48",
+        "video_url": "https://www.youtube.com/watch?v=g8Lu-I6h4-g",
+        "video_duration": "21:57",
+        "video_type": "探索 - 参观",
+        "qa_list": [
+            {
+                "question": "Is Shearer married or single?",
+                "answer": "Single.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "模型需要根据视频开始的介绍定位到Shearer，再根据他和女朋友的通话得知他没有结婚。"
+            },
+            {
+                "question": "Is Corey a superstitious person?",
+                "answer": "Yes.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "m模型需要定位到Corey的相关片段，根据Corey对黑猫（“worst of luck”）和通灵板（“I’m not doing it”）表现出强烈恐惧，甚至拒绝参与相关活动，显示他是迷信的。"
+            },
+            {
+                "question": "What does Elton do after the police enter the mall?",
+                "answer": "He goes back to retrieve the GoPro.",
+                "question_type": "多跳推理,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "模型需要定位到警察进入商场的片段，再定位到Elton的片段进行分析。"
+            },
+            {
+                "question": "What are the increased risks of burning an object in an abandoned building?",
+                "answer": "Explosion and structural collapse.",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "根据语言信息得知商场自1999年废弃且可能被爆破，焚烧五角星需用明火，可能引燃脆弱结构或残留炸药，加剧建筑坍塌风险，由此可以推理得出结论。",
+                "reasoning": "模型需要根据团队对该商场的介绍，得知商场自1999年废弃且可能被爆破，结构脆弱，分析得出点燃物体让建筑爆炸和坍塌。"
+            },
+            {
+                "question": "What is the legal risk of trespassing in an abandoned mall?",
+                "answer": "Arrest.",
+                "question_type": "通用知识推理",
+                "knowledge": "警察携带武器出现，以及Elton提到他可能会因此入狱，由此可以推理得出非法侵入废弃商场可能会被捕。",
+                "reasoning": "模型需要定位到这个废弃商场周围的情况并提取探险人员的对话信息，由此进行推理分析。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/g8Lu-I6h4-g.mp4"
+    },
+    {
+        "video_id": "ZZ_1_49",
+        "video_url": "https://www.youtube.com/watch?v=Xz0dgbdlsz8",
+        "video_duration": "22:21",
+        "video_type": "vlog - 派对",
+        "qa_list": [
+            {
+                "question": "Which store sells balloons: Party City or Weis?",
+                "answer": "Party City.",
+                "question_type": "多模态/多语言推理,通用知识推理",
+                "knowledge": "Erika's family went to two grocery stores, Party City and Weis, to buy the materials on the list. They bought the balloons at Party City and the drinks at Weis.",
+                "reasoning": "模型需定位到Erika和家人要去杂货店购买生日派对需要的物品，通过观察发现他们先后去了party city和Weis两家杂货店，在party city买了气球。"
+            },
+            {
+                "question": "Is red light exposure beneficial or harmful to the human body?",
+                "answer": "Beneficial.",
+                "question_type": "通用知识推理",
+                "knowledge": "The device can relieve joint pain and inflammation, prevent muscle soreness and fatigue, and improve skin.",
+                "reasoning": "模型需定位到Erika在镜头前讲述红线治疗仪的片段，这里她强调仪器对人体的好处，因此我们可以推测红光照射对人体是有益的。"
+            },
+            {
+                "question": "Is the relationship within Erika's family strained?",
+                "answer": "No, they are a loving family.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "模型需要定位到Erika和一家人围坐在客厅沙发的场面以及从商场回到家拆礼物的片段，一家人在沙发上的互动很温馨，并且Erika一家人在商场为她挑选了许多礼物，Erika很喜欢，三姐妹还一起拍照，因此，他们一家人的感情很好。"
+            },
+            {
+                "question": "Is Erika sad or happy about becoming an adult?",
+                "answer": "Happy.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "模型需定位到多个Erika自述面对自己十八岁的感受，一开始Erika觉得自己不再年轻，更加成熟，但是一想到派对就会很兴奋。到后来Erika又说自己对于成年这件事非常平静和放松，也更加兴奋了。所以整体来看她是高兴的。"
+            },
+            {
+                "question": "What color were Erika's nails before she went to the nail salon?",
+                "answer": "Pink.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "模型需要先定位到Erika在车上讲述自己美甲一直在脱落所以要去美甲店的片段，通过观察可以发现，Erika的美甲是粉色的。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/Xz0dgbdlsz8.mp4"
+    },
+    {
+        "video_id": "ZZ_1_50",
+        "video_url": "https://www.youtube.com/watch?v=CeZe4Ua1JLM&ab_channel=NathalieFengler",
+        "video_duration": "26:53",
+        "video_type": "vlog - 日常（综合）",
+        "qa_list": [
+            {
+                "question": "What country is Marcus from?",
+                "answer": "Denmark.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "Nathalie说自己正在学习丹麦语，因为她希望以后能跟Marcus的家人交流，可以推测出Marcus的国籍。"
+            },
+            {
+                "question": "What is the relationship between Marcus and Nathalie?",
+                "answer": "They are a couple.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "模型需要根据两人住在一起，一块度过情人节，约会推理出两人的关系。"
+            },
+            {
+                "question": "Are the traffic penalties for cycling strict in Amsterdam?",
+                "answer": "Yes.",
+                "question_type": "通用知识推理",
+                "knowledge": "Nathalie出门前说一定要拿上自行车灯，要不然会被罚款100多欧。",
+                "reasoning": "模型需要根据Nathalie说的不拿自行车灯被罚很多钱来推理出答案。"
+            },
+            {
+                "question": "Where is a good place to study at the University of Amsterdam?",
+                "answer": "The library.",
+                "question_type": "通用知识推理",
+                "knowledge": "在Nathalie每天的课程结束后，她都会去学校的图书馆学习，根据视频中的画面可以看到图书馆的面积很大，且有很多学生在安静的学习。",
+                "reasoning": "模型需要根据Nathalie在图书馆学习的画面来推理出答案。"
+            },
+            {
+                "question": "How many oysters did Marcus and Nathalie eat at home on Valentine's Day?",
+                "answer": "Six.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "模型需要先定位到情人节的晚餐，再结合画面判断桌子上有几只生蚝。"
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/CeZe4Ua1JLM.mp4"
     }
 ]
