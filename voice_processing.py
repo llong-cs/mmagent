@@ -275,12 +275,12 @@ def process_voices(video_graph, base64_audio, base64_video, save_path, preproces
 
     # Check if intermediate results exist
     try:
-        if os.path.exists(save_path):
-            with open(save_path, "r") as f:
-                audios = json.load(f)
-            for audio in audios:
-                audio["audio_segment"] = audio["audio_segment"].encode("utf-8")
-        else:
+        with open(save_path, "r") as f:
+            audios = json.load(f)
+        for audio in audios:
+            audio["audio_segment"] = audio["audio_segment"].encode("utf-8")
+    except Exception as e:
+        try:
             asrs = diarize_audio(base64_video, filter=filter_duration_based)
             audios = create_audio_segments(base64_audio, asrs)
             audios = [audio for audio in audios if audio["audio_segment"] is not None]
@@ -298,18 +298,17 @@ def process_voices(video_graph, base64_audio, base64_video, save_path, preproces
                     audio["audio_segment"] = audio["audio_segment"].encode("utf-8")
             
             print(f"Write voice detection results to {save_path}")
-    except Exception as e:
-        if "voice" in preprocessing:
+        except Exception as e:
             # Save error to log file
             log_dir = processing_config["log_dir"]
             os.makedirs(log_dir, exist_ok=True)
             error_log_path = os.path.join(log_dir, "error_voice_preprocessing.log")
             with open(error_log_path, "a") as f:
                 f.write(f"Error processing {save_path}: {str(e)}\n")
-        raise RuntimeError(f"Failed to diarize audio at {save_path}: {e}")
+            raise RuntimeError(f"Failed to diarize audio at {save_path}: {e}")
     
     if "voice" in preprocessing:
-        return {}
+        return
     
     if len(audios) == 0:
         return {}

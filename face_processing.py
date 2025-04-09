@@ -168,10 +168,10 @@ def process_faces(video_graph, base64_frames, save_path, preprocessing=[]):
     
     # Check if intermediate results exist
     try:
-        if os.path.exists(save_path):
-            with open(save_path, "r") as f:
-                faces_json = json.load(f)
-        else:
+        with open(save_path, "r") as f:
+            faces_json = json.load(f)
+    except Exception as e:
+        try:
             faces = get_embeddings(base64_frames, batch_size)
 
             faces_json = [
@@ -191,18 +191,17 @@ def process_faces(video_graph, base64_frames, save_path, preprocessing=[]):
                 json.dump(faces_json, f)
             
             print(f"Write face detection results to {save_path}")
-    except Exception as e:
-        if "face" in preprocessing:
+        except Exception as e:
             # Save error to log file
             log_dir = processing_config["log_dir"]
             os.makedirs(log_dir, exist_ok=True)
             error_log_path = os.path.join(log_dir, "error_face_preprocessing.log")
             with open(error_log_path, "a") as f:
                 f.write(f"Error processing {save_path}: {str(e)}\n")
-        raise RuntimeError(f"Failed to detect faces at {save_path}: {e}")
+            raise RuntimeError(f"Failed to detect faces at {save_path}: {e}")
             
     if "face" in preprocessing:
-        return {}
+        return
 
     if len(faces_json) == 0:
         return {}
