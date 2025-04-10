@@ -262,6 +262,7 @@ def retrieve_from_videograph(video_graph, query, topk=5, mode='argmax'):
 #     return final_answer
 
 def generate_action(question, knowledge):
+    print(knowledge)
     input = [
         {
             "type": "text",
@@ -300,6 +301,8 @@ def answer_with_retrieval(video_graph, question, topk=5, auto_refresh=False, mod
         
     related_clips = []
     context = []
+
+    final_answer = None
     
     for i in range(max_retrieval_steps):
         action_type, action_content = generate_action(question, context)
@@ -316,9 +319,7 @@ def answer_with_retrieval(video_graph, question, topk=5, auto_refresh=False, mod
             for new_clip in new_clips:
                 related_nodes = video_graph.text_nodes_by_clip[new_clip]
                 new_memories[new_clip] = translate(video_graph, [video_graph.nodes[node_id].metadata['contents'][0] for node_id in related_nodes])
-                
-                print(f"New memories from clip {new_clip}: {new_memories[new_clip]}")        
-                
+                                
             # sort related_memories by timestamp
             new_memories = dict(sorted(new_memories.items(), key=lambda x: x[0]))
             new_memories = {f"clip_{k}": v for k, v in new_memories.items()}
@@ -328,7 +329,7 @@ def answer_with_retrieval(video_graph, question, topk=5, auto_refresh=False, mod
                 "retrieved memories": new_memories
             })
     
-    if i == max_retrieval_steps:
+    if not final_answer:
         input = [
             {
                 "type": "text",

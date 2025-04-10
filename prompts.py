@@ -317,73 +317,65 @@ Specifically, your response should contain the following two parts:
 		•	Make the query concise and focused on a specific piece of information that could help answer the question. 
 		•	The query should target information outside of the existing knowledge that might help answer the question.
 		•	For time-sensitive or chronological information (e.g., events occurring in sequence, changes over time, or specific moments in a timeline), you can generate clip-based queries that reference specific clips or moments in time. These queries should include a reference to the clip number, indicating the index of the clip in the video (a number from 1 to N, where a smaller number indicates an earlier clip). Format these queries as "CLIP_x", where x is the clip number. Note only generate clip-based queries if the question is about a specific moment in time or a sequence of events.
+		•	You can also generate queries that focus on specific characters or characters' attributes using the id shown in the knowledge.
+		•	Make sure your generated query focus on some aspects that are not retrieved or asked yet. Do not repeatedly generate queries that have high semantic similarity with those generated before.
 
 Example 1:
 
 Input:
 
-Question: How did Sarah's relationship with her father, David, influence her decision to leave home in the story?
-
-Knowledge: []
-
-Output:
-
-The provided knowledge does not contain any specific information about Sarah's relationship with her father, David, or the events leading up to her decision to leave home. To answer this question, more information is needed about their dynamic, David's behavior, and Sarah's motivations. Therefore, I will generate queries to retrieve this missing information.
-[SEARCH]
-"Sarah and David's father-daughter relationship dynamics."
-
-Example 2:
-
-Input:
-
-Question: Who is the host of the meeting?
-
+Question: How did the argument between Alice and Bob influence their relationship in the story?
 Knowledge:
 [
-    {{
-		"query": "What is the name of <character_1>?",
-		"retrieved new memories": {{
-			"CLIP_1": [
-			"<voice_1> introduces the meeting and assigns tasks to the participants.",
-			"<face_2> listens attentively to <face_1> and takes notes.",
-			"Equivalence: <face_1>, <voice_1>.",
-			"<character_1> is the host of the meeting."
-			]
-		}}
-    }}
-]
-
-Output:
-
-The retrieved information clearly identifies <character_1> as the host of the meeting, as mentioned in 'clip_1'.[ANSWER] <character_1> is the host of the meeting. Next I need to find the name of <character_1>.
-[SEARCH]
-"What is the name of <character_1>?"
-
-Example 3:
-
-Input:
-
-Question: What happened in the scene when John and Mary had their argument?
-
-Knowledge: 
-[
 	{{
-		"query": "What happens during the argument between John and Mary?",
-		"retrieved new memories": {{
-			"CLIP_1": [
-			"John and Mary are seen arguing in the living room.",
-			"John raises his voice, and Mary looks upset.",
-			"John accuses Mary of not understanding him."
-			]
+		"query": "What happened during the argument between Alice and Bob?",
+		"related memories": {{
+			"CLIP_2": [
+				"<face_1> and <face_2> are seen arguing in the living room."
+				"<face_1> raises her voice, and <face_2> looks upset."
+				"<face_1> accuses <face_2> of not listening to her."
+			],
 		}}
 	}}
 ]
 
 Output:
 
-The existing knowledge provides a general overview of the argument between John and Mary, but it does not give the full context or the resolution of the argument. To gain further insight into the emotional dynamics or possible conclusions of the scene, I will generate a query related to the next part of their interaction.
-[SEARCH]
-"CLIP_2"
+It seems that <face_1> and <face_2> are arguing about their relationship. I need to figure out the names of <face_1> and <face_2>.
+[SEARCH] What are the names of <face_1> and <face_2>?
+
+Example 2:
+
+Input:
+
+Question: How did the argument between Alice and Bob influence their relationship in the story?
+Knowledge:
+[
+	{{
+		"query": "What happened during the argument between Alice and Bob?",
+		"related memories": {{
+			"CLIP_2": [
+				"<face_1> and <face_2> are seen arguing in the living room."
+				"<face_1> raises her voice, and <face_2> looks upset."
+				"<face_1> accuses <face_2> of not listening to her."
+			],
+		}}
+	}},
+	{{
+		"query": "What are the names of <face_1> and <face_2>?",
+		"related memories": {{
+			"CLIP_1": [
+				"<face_1> says to <face_2>: 'I am done with you Bob!'",
+				"<face_2> says to <face_1>: 'What about now, Alice?'"
+			],
+		}}
+	}}	
+]
+
+Output:
+
+It seems that content in CLIP_2 shows exactly the argument between Alice and Bob. To figure out how did the argument between Alice and Bob influence their relationship, I need to see what happened next in CLIP_3.
+[SEARCH] CLIP_3
 
 Now, generate your response for the following input:
 

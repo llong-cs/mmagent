@@ -14,7 +14,7 @@
     "max_retries": 5,
     "query_num": 10,
     "topk": 5,
-    "max_retrieval_steps": 3,
+    "max_retrieval_steps": 10,
     "logging": "INFO",
     "save_dir": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems",
     "intermediate_save_dir": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/intermediate_outputs",
