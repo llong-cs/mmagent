@@ -15,7 +15,7 @@ max_retrieval_steps = processing_config["max_retrieval_steps"]
 
 def translate(video_graph, memories):
     for i, memory in enumerate(memories):
-        entities = parse_video_caption(memory)
+        entities = parse_video_caption(video_graph, memory)
         for entity in entities:
             entity_str = f"{entity[0]}_{entity[1]}"
             if entity_str in video_graph.reverse_character_mappings.keys():
@@ -25,7 +25,7 @@ def translate(video_graph, memories):
 def back_translate(video_graph, queries):
     translated_queries = []
     for i, query in enumerate(queries):
-        entities = parse_video_caption(query)
+        entities = parse_video_caption(video_graph, query)
         to_be_translated = [query]
         for entity in entities:
             entity_str = f"{entity[0]}_{entity[1]}"
@@ -173,7 +173,7 @@ def retrieve_from_videograph(video_graph, queries_original, topk=5, mode='argmax
     # Sort clips by score and get top k clips
     sorted_clips = sorted(clip_scores.items(), key=lambda x: x[1], reverse=True)[:topk]
     top_clips = [clip_id for clip_id, _ in sorted_clips]
-    top_clips.extend([query.split("_")[1] for query in clip_based_queries])
+    top_clips.extend([int(query.split("_")[1]) for query in clip_based_queries if int(query.split("_")[1]) in video_graph.text_nodes_by_clip])
 
     return top_clips
 
