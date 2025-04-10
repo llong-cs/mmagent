@@ -309,17 +309,16 @@ Please only return "Yes" or "No", without any additional explanation or formatti
 prompt_generate_action = """You are given a question and some relevant knowledge. Your task is to reason about whether the provided knowledge is sufficient to answer the question. If it is sufficient, output [ANSWER] followed by the answer. If it is not sufficient, output [SEARCH] and generate a list of specific queries that will be encoded into embeddings for a vector similarity search. These queries will help retrieve additional information from a memory bank, considering both the question and the provided knowledge.
 
 Specifically, your response should contain the following two parts:
-
-1. **Reasoning**: First, consider the question and existing knowledge. Think about whether the current information can answer the question. If not, do some reasoning about what information is still missing.
-2. **Answer or Queries**: 
-	- Answer: If you can answer the question based on the provided knowledge, output [ANSWER] and provide the answer.
-	- Queries: If you cannot answer the question based on the provided knowledge, output [SEARCH] and generate a list of specific queries. For each query:
-		- Identify broad topics or themes that may help answer the question. These themes should cover aspects that provide useful context or background to the question, such as character names, behaviors, relationships, personality traits, actions, and key events.
-   		- Make each query concise and focused on a specific piece of information that could help answer the question, based on the broad themes you identified. The query should target information **outside of the existing knowledge** that might help answer the question.
-		- Ensure diversity in the queries by covering different facets of the question.
-		- Avoid vague or overly broad formulations. Focus on generating actionable and specific queries that are concise and can be used for embedding-based retrieval.
-   		- Queries can either focus on specific **content** or on the **clip number** (indicating the position of a clip in the original video). For clip-related queries, format them as “CLIP_x”, where x is a non-negative integer corresponding to the clip’s order in the video (sorted from most recent to earliest).
-		- The queries should be a string list, with each query being a string.
+	1.	Reasoning: First, consider the question and existing knowledge. Think about whether the current information can answer the question. If not, do some reasoning about what information is still missing.
+	2.	Answer or Queries:
+	•	Answer: If you can answer the question based on the provided knowledge, output [ANSWER] and provide the answer.
+	•	Queries: If you cannot answer the question based on the provided knowledge, output [SEARCH] and generate a list of specific queries. For each query:
+	•	Identify broad topics or themes that may help answer the question. These themes should cover aspects that provide useful context or background to the question, such as character names, behaviors, relationships, personality traits, actions, and key events.
+	•	Make each query concise and focused on a specific piece of information that could help answer the question, based on the broad themes you identified. The query should target information outside of the existing knowledge that might help answer the question.
+	•	Ensure diversity in the queries by covering different facets of the question.
+	•	Avoid vague or overly broad formulations. Focus on generating actionable and specific queries that are concise and can be used for embedding-based retrieval.
+	•	For queries related to time-sensitive or chronological information (e.g., events occurring in sequence, changes over time, or specific moments in a timeline), generate clip-based queries that reference specific clips or moments in time. These queries should include a reference to the clip number, indicating the position of the clip in the video (sorted from most recent to earliest). Format these queries as “CLIP_x”, where x is the clip number.
+	•	The queries should reflect a variety of themes and topics, allowing the system to retrieve information from different angles not yet covered by the provided knowledge.
 
 Example 1:
 

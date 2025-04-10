@@ -134,7 +134,9 @@ def back_translate(video_graph, queries):
 
 # retrieve by clip
 def retrieve_from_videograph(video_graph, queries_original, topk=5, mode='argmax'):
-    queries = back_translate(video_graph, queries_original)
+    content_based_queires = [query for query in queries_original if not query.startswith("CLIP_")]
+    clip_based_queries = [query for query in queries_original if query.startswith("CLIP_")]
+    queries = back_translate(video_graph, content_based_queires)
     print(f"Queries: {queries}")
 
     model = "text-embedding-3-large"
@@ -171,6 +173,7 @@ def retrieve_from_videograph(video_graph, queries_original, topk=5, mode='argmax
     # Sort clips by score and get top k clips
     sorted_clips = sorted(clip_scores.items(), key=lambda x: x[1], reverse=True)[:topk]
     top_clips = [clip_id for clip_id, _ in sorted_clips]
+    top_clips.extend([query.split("_")[1] for query in clip_based_queries])
 
     return top_clips
 
