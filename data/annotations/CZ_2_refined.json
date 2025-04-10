@@ -40,7 +40,8 @@
                 "knowledge": "在RIDEMAKERZ可以实现独自组装遥控车",
                 "reasoning": "通过视频可以看出在RIDEMAKERZ组装遥控车的操作并不繁琐，只需要简单的组装，且在组装台上还有相应的步骤提供参考，可以推断出在RIDEMAKERZ独自组装一辆遥控车并不困难"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/mDPMBWJf7Zs.mp4"
     },
     {
         "video_id": "CZ_2_2",
@@ -83,7 +84,8 @@
                 "knowledge": "Jaeger-LeCoultre（积家）的制造以精细严谨著称，采用高精度加工、严格质量控制、复杂功能工艺和手工打磨装饰，结合创新技术与传统工艺，确保每枚腕表达到微米级精度和卓越性能，体现其在高级制表领域的顶尖水准。",
                 "reasoning": "通过观看视频，如精准测量、精细化打磨等细节，由此可知Jaeger - LeCoultr这个品牌是十分严谨精确的。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/4hZGCguYUj8.mp4"
     },
     {
         "video_id": "CZ_2_3",
@@ -126,7 +128,8 @@
                 "knowledge": "Koenigsegg Jesko为减轻重量、提升性能而广泛使用碳纤维，涵盖底盘的碳纤维单体壳，车身的车顶、车门、保险杠等部件，轮毂，内饰的仪表板和座椅框架，以及空气动力学的尾翼和前唇等。这些碳纤维的应用造就了Jesko极致轻量化和高性能的特点，展现出Koenigsegg的技术实力。 ",
                 "reasoning": "通过定位到到视频里在制造车间时，Kirsi向斯蒂文介绍采用了碳纤维应用于Jesko上，来减轻重量，并且实现加固。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/g3gKA0CNhHY.mp4"
     },
     {
         "video_id": "CZ_2_4",
@@ -169,7 +172,8 @@
                 "knowledge": "",
                 "reasoning": "通过先定位到视频里介绍完滑动盒子的片段，由此可知，在介绍完后是介绍了房车的屋顶。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/FaPoB9W2Mc8.mp4"
     },
     {
         "video_id": "CZ_2_5",
@@ -212,7 +216,8 @@
                 "knowledge": "赛车转弯速度与下压力紧密相关，下压力可增强抓地力和稳定性，助其在弯道高速行驶。但下压力设置需依赛道特性和比赛策略调整，以平衡弯道与直线速度，故空气动力学设计和下压力管理是优化赛车性能的关键。 ",
                 "reasoning": "通过定位到赛车设计讲解环节，下压力越大意味抓地力越强，从而转弯速度越快。着由此可知，赛车转弯速度与下压力紧密相关"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/VJgdOMXhEj0.mp4"
     },
     {
         "video_id": "CZ_2_6",
@@ -255,7 +260,8 @@
                 "knowledge": "",
                 "reasoning": "整体观测，通过Aragon提到的他所做过的一系列措施，以及具有的知识、介绍的信息，可以得出结论"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/YgYxG4_cbXM.mp4"
     },
     {
         "video_id": "CZ_2_7",
@@ -298,7 +304,8 @@
                 "knowledge": "",
                 "reasoning": "视频中的夫妻多次寻求意见，并且对提出的意见表示感谢，而且运用正确的建议，可以得出结论。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/trGuSeFUfxA.mp4"
     },
     {
         "video_id": "CZ_2_8",
@@ -341,7 +348,8 @@
                 "knowledge": "",
                 "reasoning": "综合观察视频，可以得出结论，两人谈到自己的产品时说非常健康，并且排除掉对身体有害的物质，又谈到城市中的不健康的食物他们无法忍受。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/4-H5-RpQdHA.mp4"
     },
     {
         "video_id": "CZ_2_9",
@@ -384,7 +392,8 @@
                 "knowledge": "Slap Chop（拍切器）不需要插电使用，它是一款完全手动操作的机械式食物切碎工具。其设计初衷就是免电力依赖，适合追求简单、便携的用户，但对频繁或大批量处理需求，电动工具仍是更高效的选择。",
                 "reasoning": "通过观察视频，Slap Shop是通过手拍打的方式来工作的，不需要插电使用，是一种低成本便携的厨房小工具。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/Ho1AIq4T5Gw.mp4"
     },
     {
         "video_id": "CZ_2_10",
@@ -427,7 +436,8 @@
                 "knowledge": "基于Mark的描述，他的朋友最终选择到加利福尼亚州的格里德利小镇进行农业种植工作，由此额推断。",
                 "reasoning": "基于Mark的描述，他的朋友最终选择到加利福尼亚州的格里德利小镇进行农业种植工作，且通过视频画面也出现农业种植物的画面，由此可得推论。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/BYVZh5kqaFg.mp4"
     },
     {
         "video_id": "CZ_2_11",
@@ -470,7 +480,8 @@
                 "knowledge": "ABANDONED PLANE CRASH的位置",
                 "reasoning": "模型需要根据画面上ABANDONED PLANE CRASH的名字以及博主说他们现在在俄勒冈州可以推出"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/bMnLf5KFSos.mp4"
     },
     {
         "video_id": "CZ_2_12",
@@ -513,7 +524,8 @@
                 "knowledge": "石灰和堆肥鸡粪酸碱性不一样",
                 "reasoning": "根据博主说由于用了堆肥鸡粪所以要要添加花园石灰来保持土壤酸碱平衡可以推测出"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/EVUtIuU01fM.mp4"
     },
     {
         "video_id": "CZ_2_13",
@@ -556,7 +568,8 @@
                 "knowledge": "公园区域生活成本很高",
                 "reasoning": "从被采访者口中可知食物和市场的东西很贵由此可以推出拉马特公园区域的物价很高"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/WZHaaRV87YM.mp4"
     },
     {
         "video_id": "CZ_2_14",
@@ -599,7 +612,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要找到不同宠物出场相关的片段，然后结合前后内容进行分析。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/PAg3-aosdak.mp4"
     },
     {
         "video_id": "CZ_2_15",
@@ -642,7 +656,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要定位到与sumsung相关的片段，然后结合前后内容进行分析。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/ZuBTsyyd0_A.mp4"
     },
     {
         "video_id": "CZ_2_16",
@@ -685,7 +700,8 @@
                 "knowledge": "",
                 "reasoning": "模型根据Jonathan Walton说这里是他父亲建的英国小屋子，这里当时住了很多和他父亲一样喜欢探索南极洲的人，他们一起在这里吃饭，生活，所以当他再次来到这里时，他肯定有一种复杂的情绪。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/camtTZFu5e8.mp4"
     },
     {
         "video_id": "CZ_2_17",
@@ -728,7 +744,8 @@
                 "knowledge": "Amish家中的非食用水是从水泵中取而水泵中是雨水",
                 "reasoning": "根据在Lizzy家中水泵中水的来源及用途的介绍片段推断"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/3FtOsDzTlNU.mp4"
     },
     {
         "video_id": "CZ_2_18",
@@ -771,7 +788,8 @@
                 "knowledge": "",
                 "reasoning": "先定位到作者参观刺客信条展区的画面，在分析之后的视频内容知道作者在之后去了FIFA展区"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/Dq9CRO0TMvQ.mp4"
     },
     {
         "video_id": "CZ_2_19",
@@ -814,7 +832,8 @@
                 "knowledge": "",
                 "reasoning": "通过听觉可以得知哪一个是B-2轰炸机,通过视觉可以看到B-2的外形整体呈飞翼式布局"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/TCAsk66xiSs.mp4"
     },
     {
         "video_id": "CZ_2_20",
@@ -857,7 +876,8 @@
                 "knowledge": "",
                 "reasoning": "通过David已经从事种植六年，并且说明自己在种植事业中遇到的问题以及解决措施，可以得出结论。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/IkSq3Slntls.mp4"
     },
     {
         "video_id": "CZ_2_21",
@@ -900,7 +920,8 @@
                 "knowledge": "The beaches in Maui have shallow water and small waves, with small tide pools suitable for children to play in and water pipes for rinsing. ",
                 "reasoning": "视频中描述了Dallin一家所在的Maui海滩是适合初学者的冲浪海滩，水浅、浪小，有适合Story玩耍的小潮池，还提到这里有一些设施，如可以冲洗的水管等。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/itWZeyqTjsM.mp4"
     },
     {
         "video_id": "CZ_2_22",
@@ -943,7 +964,8 @@
                 "knowledge": "The flavors of the beignettes at Fortitude Bakehouse are different every day. ",
                 "reasoning": "Fortitude Bakehouse该店以对新奥尔良甜甜圈的改良版闻名，当天的是蜂蜜奶油和杏子果酱口味，每天的口味是不同的。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/Sc1MUWhMG18.mp4"
     },
     {
         "video_id": "CZ_2_23",
@@ -986,7 +1008,8 @@
                 "knowledge": "",
                 "reasoning": "在消费者篮子这个片段，Tejas让来自美国不同地区的五位朋友购买相同的商品，比较纽约市与其他地区的食品价格差异，结果显示，除全脂牛奶外，纽约市的食品价格普遍比其他地区高出 15% 到 40%。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/_5-SqVej8Zs.mp4"
     },
     {
         "video_id": "CZ_2_24",
@@ -1029,7 +1052,8 @@
                 "knowledge": "",
                 "reasoning": "Jeel多次提到博茨瓦纳的优点，如基础设施完善、人民友好、美食可口、旅游资源丰富等，最后还说这是他新发现的热爱之地。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/GDaZKjlJ8_Q.mp4"
     },
     {
         "video_id": "CZ_2_25",
@@ -1072,7 +1096,8 @@
                 "knowledge": "",
                 "reasoning": "通过听觉可以得知谁是Austen和Galdones,通过视觉可以看到Galdones所选的床铺位置更靠近门"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/005tuSLod2g.mp4"
     },
     {
         "video_id": "CZ_2_26",
@@ -1115,7 +1140,8 @@
                 "knowledge": "",
                 "reasoning": "模型先定位到11：00的视频片段，然后分析之后画面得知Ann Cromley开始准备柑橘风味的法式黄油酱（citrus beurre blanc）。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/67M1c8cpbvg.mp4"
     },
     {
         "video_id": "CZ_2_27",
@@ -1158,7 +1184,8 @@
                 "knowledge": "",
                 "reasoning": "KELVIN OMBATI创造发明了一款无需太阳能或电力的冷却器，利用蒸腾原理制冷"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/CS4dkikJ-DY.mp4"
     },
     {
         "video_id": "CZ_2_28",
@@ -1201,7 +1228,8 @@
                 "knowledge": "Mr.Beast推出了Feastables Bar巧克力",
                 "reasoning": "Nick说自己非常喜欢Feastables Bar的设计，又说自己并没有得到Mr.Beast的赞助或报酬，意指自己不是在给Mr.Beast打广告，可推断出"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/5ImBINEecdE.mp4"
     },
     {
         "video_id": "CZ_2_29",
@@ -1244,7 +1272,8 @@
                 "knowledge": "",
                 "reasoning": "在视频中Cameron提到他的家人会帮他一块工作，并且在画面中多次展现一家人一起工作，可以得出结论."
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/VvdwGnB0ivU.mp4"
     },
     {
         "video_id": "CZ_2_30",
@@ -1287,7 +1316,8 @@
                 "knowledge": "",
                 "reasoning": "在视频中，作者在进入JAMA mosqe时，对于女生，在门口穿上了一件衣服，把露在外面的四肢全部遮挡了起来，可以得出结果。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/8XErs61ZrZ4.mp4"
     },
     {
         "video_id": "CZ_2_31",
@@ -1330,7 +1360,8 @@
                 "knowledge": "",
                 "reasoning": "通过对话中我们可以知道Callie没有去玩，然后父亲要留下来照顾孩子，Manilla本来也很害怕不想去，但最后在画面中可以看到Manilla也在上面，有三个人玩了这一设施。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/Rk3oNAvvw0E.mp4"
     },
     {
         "video_id": "CZ_2_32",
@@ -1373,7 +1404,8 @@
                 "knowledge": "",
                 "reasoning": "通过观察视频中她们的互动，对雏鸡进行举措，可以得出结论。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/WS0gEbHBCRQ.mp4"
     },
     {
         "video_id": "CZ_2_33",
@@ -1416,7 +1448,8 @@
                 "knowledge": "牛鲨的习性很凶猛。",
                 "reasoning": "克里斯蒂娜说佛罗里达群岛在一个月内就发生过三次牛鲨袭击事件，可推测牛鲨的习性是很凶猛的。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/K6m1BBLX0tY.mp4"
     },
     {
         "video_id": "CZ_2_34",
@@ -1459,7 +1492,8 @@
                 "knowledge": "",
                 "reasoning": "视频内容：在介绍过程中，James对吉他制作的每一个环节都很清楚，包括机器对切割板材厚度的把控；玫瑰花结的工艺；三段琴颈的设计；吉他抛光的细节。——>推理：他是一个注重细节的人。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/rSIykbc2hVY.mp4"
     },
     {
         "video_id": "CZ_2_35",
@@ -1502,7 +1536,8 @@
                 "knowledge": "",
                 "reasoning": "视频内容：在John学习射击的过程中，Blogger总能很快发现他的问题并及时纠正。——>推理：Blogger是一个细心的老师。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/LaWs2QX8zV8.mp4"
     },
     {
         "video_id": "CZ_2_36",
@@ -1545,7 +1580,8 @@
                 "knowledge": "",
                 "reasoning": "Nicole扮成运动员的时候穿了父亲的洛杉矶快船队的Kawai Leonard球衣，父亲表示同意她穿球衣但提醒别弄脏，洛杉矶快船队为篮球职业队。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/-OCrS_r5GHc.mp4"
     },
     {
         "video_id": "CZ_2_37",
@@ -1588,7 +1624,8 @@
                 "knowledge": "UV technology can keep water algae free and bacteria free.",
                 "reasoning": "Charles提到利用紫外线技术保持水无藻类和细菌，减少植物因水质问题产生的病害，保证农产品的质量和产量。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/rHMvDy0_MhA.mp4"
     },
     {
         "video_id": "CZ_2_38",
@@ -1631,7 +1668,8 @@
                 "knowledge": "The family had a meal outdoors. ",
                 "reasoning": "听觉Rachael和家人去Joni那里吃午餐，视觉他们在户外就餐，说明该餐厅有设置室外就餐区域。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/SM9gPywDRPg.mp4"
     },
     {
         "video_id": "CZ_2_39",
@@ -1674,7 +1712,8 @@
                 "knowledge": "车身组装好后进行淋浴测试，主要是为了检测密封性，确保没有水渗入车内，同时发现并修复潜在问题，保证车辆在恶劣天气下的可靠性和耐用性，符合高质量标准。",
                 "reasoning": "通过定位到视频里Christophe的讲解，说道车身组装好后，将会被送去30分钟的淋浴测试，以检查是否有泄漏。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/aWeZGAPJt9I.mp4"
     },
     {
         "video_id": "CZ_2_40",
@@ -1717,7 +1756,8 @@
                 "knowledge": "",
                 "reasoning": "通过定位到视频了，当Tobi在尝试完corona啤酒后，Harry拿来了Guinness黑啤来尝试。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/U9B6MhxLXFA.mp4"
     },
     {
         "video_id": "CZ_2_41",
@@ -1760,7 +1800,8 @@
                 "knowledge": "",
                 "reasoning": "通过定位到视频里，当结束了浪琴博物馆的讲解后，teddy邀请了浪琴CEOMatthias来接受采访，由此可知答案。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/oFQ_mbrBKw0.mp4"
     },
     {
         "video_id": "CZ_2_42",
@@ -1803,7 +1844,8 @@
                 "knowledge": "",
                 "reasoning": "根据他们一路上即使遇到困难仍然笑容满面可以看出他们很享受这趟旅行"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/laCf7tMROrU.mp4"
     },
     {
         "video_id": "CZ_2_43",
@@ -1846,7 +1888,8 @@
                 "knowledge": "",
                 "reasoning": "从一路上Alison开心的表情以及动作，而且她说玩的很开心由此看出她很享受这次旅行"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/JFlzSo_a7Pc.mp4"
     },
     {
         "video_id": "CZ_2_44",
@@ -1889,7 +1932,8 @@
                 "knowledge": "",
                 "reasoning": "根据Joe在商场里活泼开朗的样子以及回家后用水枪和Cody玩可以看出他并不是一个严肃的人"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/rjf5JHLRjGc.mp4"
     },
     {
         "video_id": "CZ_2_45",
@@ -1932,7 +1976,8 @@
                 "knowledge": "晕船的人不建议来FLYING PAN TOWER",
                 "reasoning": "视频中可以看到FLYING PAN TOWER位于海上，且需要坐船才能到达，所以晕船的人不建议来FLYING PAN TOWER"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/9mUdNGSm7ro.mp4"
     },
     {
         "video_id": "CZ_2_46",
@@ -1975,7 +2020,8 @@
                 "knowledge": "根据美世咨询公司发布的 2024 年度城市生活成本调研结果，重庆在全球参与排名的城市中位列第 134 位，在中国所参与排名的地区中排名较为靠后，这表明重庆的物价在全球大城市中处于中等偏下水平。其被称为物价全球性价比之王——基础消费（吃住行）仅为欧美城市的1/3。",
                 "reasoning": "通过观察视频里Drew在消费小吃时，以及评价住房成本时等细节，说道这里物价相较于吉隆坡等大城市明显较低，由此可知，重庆是相较于其他大城市物价较低。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/vNR9QjmhH00.mp4"
     },
     {
         "video_id": "CZ_2_47",
@@ -2018,7 +2064,8 @@
                 "knowledge": "硅胶空气炸锅内胆衬垫（Silicone air fryer liner）能减轻清洗任务，因其不粘，食物残渣易剥离；可阻挡油脂飞溅，缩小清洁范围；本身易清洁，用布擦、水冲或加洗洁精即可洗净且不易留异味；还能保护内胆，避免其受损致清洁困难。 ",
                 "reasoning": "通过观察视频，定位到测评Silicone air fryer liner的环节看，通过观看可知，能够帮助减轻空气炸锅的清洗任务，同时简单清洗不粘连。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/cKk421VTXDU.mp4"
     },
     {
         "video_id": "CZ_2_48",
@@ -2061,7 +2108,8 @@
                 "knowledge": "",
                 "reasoning": "模型根据他们两人在视频中的表现以及他们在视频最后的总结中说，他们非常爱他们第一个孩子grace，然后又生了这个即将降临的第二个孩子，他们为这个孩子做了十分充足的准备迎接她的到来。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/QC5kvs7ur4o.mp4"
     },
     {
         "video_id": "CZ_2_49",
@@ -2104,7 +2152,8 @@
                 "knowledge": "基于Daron Shankar的表述，Beyond 2 在出厂之前它们的IPD是64毫米，90%的人群可能不需要去调节已经具备了非常好的使用体验",
                 "reasoning": "基于Daron Shankar的表述，Beyond 2 在出厂之前它们的IPD是64毫米，90%的人群可能不需要去调节已经具备了非常好的使用体验，由此推出，首次使用不是非常有必要去进行过多调节IPD。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/I0Wr4O4gkL8.mp4"
     },
     {
         "video_id": "CZ_2_50",
@@ -2147,7 +2196,8 @@
                 "knowledge": "想亲吻女性、身体中男性特质被激发是女同性恋中作为男性一方的特点。",
                 "reasoning": "铃木瞳曾在女同性恋中作为男性的一方，根据她的经历可推出想亲吻女性、身体中男性特质被激发是女同性恋中作为男性一方的特点。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/R1Y_GjBSHWM.mp4"
     },
     {
         "video_id": "CZ_2_51",
@@ -2190,7 +2240,8 @@
                 "knowledge": "",
                 "reasoning": "根据Jeff越野赛中开心的表情以及参加了多次越野赛可以看出他很享受越野赛的过程"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/KE92ODSOBYI.mp4"
     },
     {
         "video_id": "CZ_2_52",
@@ -2233,7 +2284,8 @@
                 "knowledge": "",
                 "reasoning": "根据Grace甩杆时根本没有注意到身后的Roger以及钓鱼时的动作可以看出她并不是一个细心的人"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/eemIiwLISVo.mp4"
     },
     {
         "video_id": "CZ_2_53",
@@ -2276,7 +2328,8 @@
                 "knowledge": "",
                 "reasoning": "根据Richard无私向大家分析种植经验并且赠送给Kevin市面上没有的稀有品种可以看出"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/mYdBlzJbBMg.mp4"
     },
     {
         "video_id": "CZ_2_54",
@@ -2319,7 +2372,8 @@
                 "knowledge": "",
                 "reasoning": "根据视频的内容德国存在职业缺口的社会原因是外来人口落户的复杂程序。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/_MysEMGzrzA.mp4"
     },
     {
         "video_id": "CZ_2_55",
@@ -2362,7 +2416,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要综合分析视频中所出现的人物，并进行计数。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/nE74um9A7T0.mp4"
     },
     {
         "video_id": "CZ_2_56",
@@ -2405,7 +2460,8 @@
                 "knowledge": "",
                 "reasoning": "听觉大家一起装饰派对场地，包括摆放桌子、设置甜品站、放置披萨盘、准备饮料、安装道具等，包括黑白金色的气球拱门，在派对开始后的片段，视觉大家的合照背景都是气球拱门。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/Ek9oyDPreNY.mp4"
     },
     {
         "video_id": "CZ_2_57",
@@ -2448,7 +2504,8 @@
                 "knowledge": "",
                 "reasoning": "在制作草莓大黄果酱时，Michelle不会花时间用传统的罐装方法去把果酱保存，她认为用自己的冷冻方法能让果酱味道更新鲜，只是把果酱装进罐子里，不装满，盖上盖子后直接放进冰箱冷冻即可。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/qw0neMfJGtU.mp4"
     },
     {
         "video_id": "CZ_2_58",
@@ -2491,7 +2548,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要定位到与AS motor As 510e相关的片段，然后结合前后内容进行分析。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/mC-abUn_hiI.mp4"
     },
     {
         "video_id": "CZ_2_59",
@@ -2534,7 +2592,8 @@
                 "knowledge": "",
                 "reasoning": "通过观看视频中，trip和pack的互动，如开心的表情，愉快的相处氛围等细节可知，两人的关系很融洽，而非不合有距离。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/LGIFF4tmka0.mp4"
     },
     {
         "video_id": "CZ_2_60",
@@ -2577,7 +2636,8 @@
                 "knowledge": "《The Jennifer Hudson Show》以轻松自然的聊天和即兴互动，让明星卸下光环，展现真实、松弛的一面，观众能看到他们更生活化、有人情味的状态。",
                 "reasoning": "通过观看视频，如视频中Jennie分享了自己生活中喜欢的零食，以及自己的一些经历等，让观众了解到更生活化、更人情味的艺人。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/moAubcG80Ts.mp4"
     },
     {
         "video_id": "CZ_2_61",
@@ -2620,7 +2680,8 @@
                 "knowledge": "",
                 "reasoning": "定位到视频里，当讲完感恩节的意义后，手印干了，于是开始添加活动眼珠在作品上。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/Djy1BSKdjsY.mp4"
     },
     {
         "video_id": "CZ_2_62",
@@ -2663,7 +2724,8 @@
                 "knowledge": "",
                 "reasoning": "根据视频后段Samia带领我们参观的地点以及所表达的观点推断。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/u7eLwLeNLt8.mp4"
     },
     {
         "video_id": "CZ_2_63",
@@ -2706,7 +2768,8 @@
                 "knowledge": "The final award of America's Got Talent.",
                 "reasoning": "根据每名参赛者上场时评委的问题推断。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/9tBsMSDoDqk.mp4"
     },
     {
         "video_id": "CZ_2_64",
@@ -2749,7 +2812,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要定位到Gordon给肉涂油的片段，然后根据视频画面中Gordon的动作（给肉撒调料份）进行分析。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/2Ubrg8Ri1-M.mp4"
     },
     {
         "video_id": "CZ_2_65",
@@ -2792,7 +2856,8 @@
                 "knowledge": "",
                 "reasoning": "通过定位到视频里，Ozzie说感觉救护车的前部感觉很酷，想到救护车后部再看看，由此可知，当介绍完救护车前部后，介绍了救护车的后部。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/gDcvk2TX5s4.mp4"
     },
     {
         "video_id": "CZ_2_66",
@@ -2835,7 +2900,8 @@
                 "knowledge": "",
                 "reasoning": "找到乘坐热气球片段，识别在乘热气球之后做的事。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/-teiVyyAJb8.mp4"
     },
     {
         "video_id": "CZ_2_67",
@@ -2878,7 +2944,8 @@
                 "knowledge": "",
                 "reasoning": "凯里会教Amanda关于葡萄酒的知识，是Amanda的葡萄酒老师。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/tGIN6NKiuD8.mp4"
     },
     {
         "video_id": "CZ_2_68",
@@ -2921,7 +2988,8 @@
                 "knowledge": "《Betting on you》是一本青少年浪漫喜剧小说。",
                 "reasoning": "博主讲述这本书有点俗气浪漫喜剧，看这本书就像在看韩剧，可推测这是本青少年浪漫戏剧小说。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/l45ahk3a8JM.mp4"
     },
     {
         "video_id": "CZ_2_69",
@@ -2964,7 +3032,8 @@
                 "knowledge": " 乌托邦游的Mason J收费餐厅不是所有区域都收费，酒吧区是免费开放的。",
                 "reasoning": "博主介绍Mason J收费餐厅的酒吧区可以免费坐下来听歌，可知乌托邦游的Mason J收费餐厅并不是所有区域都收费的，酒吧区是免费开放的。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/OUMvCWjp_vo.mp4"
     },
     {
         "video_id": "CZ_2_70",
@@ -3007,7 +3076,8 @@
                 "knowledge": "",
                 "reasoning": "根据科约特彼得森向Safari详细地介绍虾虎鱼的生理结构、习性等，可以看出他对虾虎鱼很了解，有关于虾虎鱼的知识很丰富。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/IADvif3wv1M.mp4"
     },
     {
         "video_id": "CZ_2_71",
@@ -3050,7 +3120,8 @@
                 "knowledge": "",
                 "reasoning": "Gemma提到马厩和马具室虽没有豪华装饰，但有一切所需，且强调这里像家，可知她更看重实用性和家的氛围。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/ot76_NQpHIY.mp4"
     },
     {
         "video_id": "CZ_2_72",
@@ -3093,7 +3164,8 @@
                 "knowledge": "Butterfly stroke and breaststroke are relatively energy-efficient.",
                 "reasoning": "进行五百码的游泳测试前，教练嘱托Michelle使用蛙泳或战斗仰泳，Michelle游泳时Austin说她在泳池划了九种到十种泳姿，这消耗了更多体力，说明这两种泳姿比较省力，适合长距离游泳"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/J9eCfO8v_VQ.mp4"
     },
     {
         "video_id": "CZ_2_73",
@@ -3136,7 +3208,8 @@
                 "knowledge": "自身免疫性肝炎会导致狗狗肝酶水平升高",
                 "reasoning": "根据自身免疫性肝炎会导致狗狗肝酶水平升高以及肝酶正常水平不超过100可推断出"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/hpq9WEx24ds.mp4"
     },
     {
         "video_id": "CZ_2_74",
@@ -3179,7 +3252,8 @@
                 "knowledge": "",
                 "reasoning": "根据他们忙碌时开心的表情以及对各种植物的种植知识都很熟悉可以看出他们很喜欢园艺"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/Yzdabta1nAA.mp4"
     },
     {
         "video_id": "CZ_2_75",
@@ -3222,7 +3296,8 @@
                 "knowledge": "",
                 "reasoning": "根据Realbotix的片段来推断。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/s4ET7Vn3nz4.mp4"
     },
     {
         "video_id": "CZ_2_76",
@@ -3265,7 +3340,8 @@
                 "knowledge": "",
                 "reasoning": "定位到博主吃午饭的片段可得出"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/_4HMz-vvP3Y.mp4"
     },
     {
         "video_id": "CZ_2_77",
@@ -3308,7 +3384,8 @@
                 "knowledge": "",
                 "reasoning": "通过观看视频，Jim说道，当完成粗加工后，将会来到一个精细打磨的部门，进行精细打磨处理。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/VbU1R4KDymw.mp4"
     },
     {
         "video_id": "CZ_2_78",
@@ -3351,7 +3428,8 @@
                 "knowledge": "基于Mark在参观游玩卢旺达，他发现卢旺达政府政策好，16岁之前的学业上学免费。",
                 "reasoning": "基于Mark在参观游玩卢旺达，他发现卢旺达政府政策好，16岁之前的学业上学免费，由此可推断。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/DOWDNBu9DkU.mp4"
     },
     {
         "video_id": "CZ_2_79",
@@ -3394,7 +3472,8 @@
                 "knowledge": "",
                 "reasoning": "根据博主做饼干时的熟练动作以及会做辣椒酱、番茄干等产品可以看出他是善于厨艺的"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/ZTrUPrXwISQ.mp4"
     },
     {
         "video_id": "CZ_2_80",
@@ -3437,7 +3516,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要定位到与Xiaomi 15 Ultra Camera相关的片段，然后结合前后内容进行分析。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/TvL5ogCpqU8.mp4"
     },
     {
         "video_id": "CZ_2_81",
@@ -3480,7 +3560,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要定位到与骑马结束相关的片段，然后结合前后内容进行分析。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/V1gQ721JezM.mp4"
     },
     {
         "video_id": "CZ_2_82",
@@ -3523,7 +3604,8 @@
                 "knowledge": "",
                 "reasoning": "兰迪奥德在WWE赛事前的18个月里进行了锻炼，喝蛋白质奶昔可得知他在习惯在比赛前控制饮食，进行运动。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/LJUm09Qa72A.mp4"
     },
     {
         "video_id": "CZ_2_83",
@@ -3566,7 +3648,8 @@
                 "knowledge": "",
                 "reasoning": "根据视频内容推断。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/q4MoERITlzU.mp4"
     },
     {
         "video_id": "CZ_2_84",
@@ -3609,7 +3692,8 @@
                 "knowledge": "",
                 "reasoning": "根据视频内容推断"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/-f3TS7pwc3A.mp4"
     },
     {
         "video_id": "CZ_2_85",
@@ -3652,7 +3736,8 @@
                 "knowledge": "True Cold War Relic Atlas F missile silo/bunker酒店的规定",
                 "reasoning": "根据Lexi尝试使用无人机拍摄导弹井内部可以推出这个酒店是允许使用无人机拍摄的"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/e3Ss5OMp1PI.mp4"
     },
     {
         "video_id": "CZ_2_86",
@@ -3695,7 +3780,8 @@
                 "knowledge": "",
                 "reasoning": "定位到评价金卡戴珊衣服的片段，结合之前的片段可得出答案"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/GxBH93e-FwM.mp4"
     },
     {
         "video_id": "CZ_2_87",
@@ -3738,7 +3824,8 @@
                 "knowledge": "",
                 "reasoning": "定位到周五，博主做完瑜伽后化了妆"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/XImT3yaZjIc.mp4"
     },
     {
         "video_id": "CZ_2_88",
@@ -3781,7 +3868,8 @@
                 "knowledge": "基于Palmer对于自家Anvil系统设计原理的描述，主要通过传统方法物理撞击进行。",
                 "reasoning": "基于Palmer对于自家Anvil系统设计原理的选取，可知所有无人机拦截方法中物理撞击拦截是传统方法但最万无一失的有效，基于此我们可知Anvil的核心防御原理是物理撞击。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/SrGENEXocJU.mp4"
     },
     {
         "video_id": "CZ_2_89",
@@ -3824,7 +3912,8 @@
                 "knowledge": "基于Ryan的描述通过长达3个月的考察期，通过大型百货商店对产品的严格把关，Joyride全面进军塔吉特百货商店，在这些商店时都能够购买到的，由此可以得出结论Joyride产品质量可靠。",
                 "reasoning": "Ryan在介绍这个Joyride品牌糖果时，他有说明在最近的3个月他证明了自家品牌糖果，目前几乎进军了所有的塔吉特百货商店，能够在这种大型百货公司上架，由此可以得出结论Joyride产品质量可靠。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/Ye-VZFF0qLE.mp4"
     },
     {
         "video_id": "CZ_2_90",
@@ -3867,7 +3956,8 @@
                 "knowledge": "",
                 "reasoning": "根据介绍Ken是Slab City中处理过量吸毒这方面的专家。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/YnQJes9lZes.mp4"
     },
     {
         "video_id": "CZ_2_91",
@@ -3910,7 +4000,8 @@
                 "knowledge": "",
                 "reasoning": "根据视频中Sophie Von Loeben前往乌干达的片段推断。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/dqnZkvKIo0g.mp4"
     },
     {
         "video_id": "CZ_2_92",
@@ -3953,7 +4044,8 @@
                 "knowledge": "",
                 "reasoning": "根据视频内容，德国政府目前没有办法完全战胜毒品帮派"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/qyMLKiQBzYo.mp4"
     },
     {
         "video_id": "CZ_2_93",
@@ -3996,7 +4088,8 @@
                 "knowledge": "",
                 "reasoning": "视频内容：Blogger在谈话过程中总能根据卡丁车的关键信息进行提问，方便观众从中获取到所需要的信息。——>推理：Blogger是一个擅长提问的人。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/1bzcOr0VZUI.mp4"
     },
     {
         "video_id": "CZ_2_94",
@@ -4046,7 +4139,8 @@
                 "knowledge": "",
                 "reasoning": "Maya在与当地人交流时，当地人介绍维多利亚瀑布城是个小城市，约有 4 万人，人们彼此熟悉，关系紧密，是个适合放松和思考生活的好地方。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/u-Rgt2Nk1S0.mp4"
     },
     {
         "video_id": "CZ_2_95",
@@ -4089,7 +4183,8 @@
                 "knowledge": "",
                 "reasoning": "根据Trek Trendy的表现，他带着他的爸爸常识从来没有尝试过的邮轮旅行以及他们一路上探索的美食，可以看出Trek Trendy很喜欢尝试新鲜事物。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/XGhiJvw_AeI.mp4"
     },
     {
         "video_id": "CZ_2_96",
@@ -4132,7 +4227,8 @@
                 "knowledge": "Popcorn's new head collar and bridle haven't been officially launched yet. ",
                 "reasoning": "在为Popcorn装扮时，介绍了Popcorn的新马笼头和缰绳，由Ice Equestrian赠送，上面有彩虹珠子，很漂亮，且还未正式推出，Popcorn先进行了试用。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/vtStWIBePUw.mp4"
     },
     {
         "video_id": "CZ_2_97",
@@ -4175,7 +4271,8 @@
                 "knowledge": "Elena thinks that jam works very well for braiding hair. ",
                 "reasoning": "听觉Elena在给Amaya整头发的时候提到了抹点jam，以及jam的效果很好，视觉产品名称是LET'S JAM，结合编头发这个场景可判断它是个美发产品。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/jbkuz2m3H70.mp4"
     },
     {
         "video_id": "CZ_2_98",
@@ -4218,7 +4315,8 @@
                 "knowledge": "",
                 "reasoning": "听觉Daniel要为Dottie安装挤奶器，挤奶前要擦拭奶牛的乳头，Hannah解释Dottie产崽后不喜欢被手挤奶，会踢人，视觉Dottie并不配合一直踢腿。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/Wtq8_iGGAXU.mp4"
     },
     {
         "video_id": "CZ_2_99",
@@ -4261,7 +4359,8 @@
                 "knowledge": "基于Ryan的描述他们有shopif平台合作，其中推出joyride多样包系列，其中一共包含该品牌销量最好的5种糖果。",
                 "reasoning": "基于Ryan的描述为了让自己品牌实现黑色星期五，他们有shopif平台合作，其中推出joyride多样包系列，其中一共包含该品牌销量最好的5种糖果，由此可推论。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/3dBEz3kwzi0.mp4"
     },
     {
         "video_id": "CZ_2_100",
@@ -4304,6 +4403,7 @@
                 "knowledge": "基于Melo和Adam Savage最后对于flipper zero这个物品存在意义时，Melo明确语言表示shiyongflipper zero更加明确黑匣子里面是什么了，明确原理，清楚网络安全的重要性。",
                 "reasoning": "基于视频最后Melo和Adam Savage的交流可知，在使用flipper zero的过程中她逐渐能够明白具体的原理，可以用于物联网设备开发等，明确网络安全重要性。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/c8q2YVRiOAE.mp4"
     }
 ]

@@ -309,7 +309,7 @@ if __name__ == "__main__":
     base_save_dir = "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos"
         
     cpu_count = multiprocessing.cpu_count()
-    max_workers = cpu_count
+    max_workers = min(cpu_count, 32)
     
     print(f"Using {max_workers} processes (CPU cores: {cpu_count})")
 

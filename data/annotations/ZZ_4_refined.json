@@ -40,7 +40,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要定位Elsa说自己从来没有体会过“runner’s high”，但是这次她体会到了“hiker’s high”，说明她平时总会跑步，但是没体会过“runner’s high”的感觉。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/w0X6D_4DUd8.mp4"
     },
     {
         "video_id": "ZZ_4_2",
@@ -83,7 +84,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要定位视频最后，片段中Mahogany说自己回到学校了，由此判断她是个学生。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/sfg-RmuMiq0.mp4"
     },
     {
         "video_id": "ZZ_4_3",
@@ -126,7 +128,8 @@
                 "knowledge": "视频中Safiya在ACME门口停下，问Tyler想不想吃芝士蛋糕，再根据画面中ACME店内摆的东西是一些甜品，可推测ACME是一家甜品店。",
                 "reasoning": "模型需要定位他们在丹佛的片段，根据听觉听到Safiya问Tyler想不想吃芝士蛋糕，再根据视觉看到画面中Safiya停在ACME门口以及ACME店内的画面可知ACME是一家甜品店。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/ajbooXnvsE8.mp4"
     },
     {
         "video_id": "ZZ_4_4",
@@ -169,7 +172,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要定位Kara and Nate吃日本菜的片段，片段中Kara and Nate吃面用的是筷子，由此可知Kara and Nate会使用筷子。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/DcQirGief28.mp4"
     },
     {
         "video_id": "ZZ_4_5",
@@ -212,7 +216,8 @@
                 "knowledge": "视频提到火箭雪橇“用于测试军事装备”（“they use it to test military equipment”），并需军方许可才能接近，结合其超高速（6,453 mph）特性，推断其设计初衷为模拟极端环境下的武器或装备测试，所以不能随意使用火箭雪橇。",
                 "reasoning": "模型需要定位到视频中关于火箭雪橇的相关片段，根据语言信息得知其用于测试军事装备，并需军方许可才能接近，结合其超高速特性，推断其设计初衷为模拟极端环境下的武器或装备测试，所以不能随意使用火箭雪橇。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/PK6G7wr-SA0.mp4"
     },
     {
         "video_id": "ZZ_4_6",
@@ -255,7 +260,8 @@
                 "knowledge": "视频中解释冰的透明性使激光穿透而非吸收，导致热量无法积累，所以可以推理得出结论，激光不能有效地溶解冰。",
                 "reasoning": "模型需要定位到关于激光融化冰的相关片段，根据语言得知冰的透明性使激光穿透而非吸收，导致热量无法积累，所以可以推理得出结论，激光不能有效地溶解冰。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/h5Zwg3Ag-bE.mp4"
     },
     {
         "video_id": "ZZ_4_7",
@@ -298,7 +304,8 @@
                 "knowledge": "视频中的测试过程中得知岩浆在高温即时破坏上更有效，酸在特定化学反应中有优势，但整体岩浆胜出，所以可推理出岩浆更具破坏性。",
                 "reasoning": "模型需要定位到视频中岩浆和酸在测试中的相关片段，在测试过程中得知岩浆在高温即时破坏上更有效，酸在特定化学反应中有优势，但整体岩浆胜出，所以可推理出岩浆更具破坏性。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/JdFRjsEZrmU.mp4"
     },
     {
         "video_id": "ZZ_4_8",
@@ -348,7 +355,8 @@
                 "knowledge": "",
                 "reasoning": "模型需定位到Dominic在茶园喝茶时，他分别品尝了三杯茶，他说他最喜欢最后一杯兰茶。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/kcB_HD_-6J8.mp4"
     },
     {
         "video_id": "ZZ_4_9",
@@ -391,7 +399,8 @@
                 "knowledge": "",
                 "reasoning": "Nour在对想要成功的人的建议里提到了很多条，但是综合起来都是需要具有执行力，想做一件事必须要行动起来。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/x6uH9nkLIPA.mp4"
     },
     {
         "video_id": "ZZ_4_10",
@@ -434,7 +443,8 @@
                 "knowledge": "博主介绍自己是一名resident doctor，每当他去工作时，镜头总会出现一家叫the Southern Hill Hospital&Medical Center的医院，可知博主就是这家医院的医生，每当他进入办公室时，都要刷卡进入，得出答案",
                 "reasoning": "博主介绍自己是一名resident doctor，每当他去工作时，镜头总会出现一家叫the Southern Hill Hospital&Medical Center的医院，可知博主就是这家医院的医生，每当他进入办公室时，都要刷卡进入，模型需掌握以上信息，整合多次博主进入办公室的画面，得出答案"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/LaHXAamLglA.mp4"
     },
     {
         "video_id": "ZZ_4_11",
@@ -498,7 +508,8 @@
                 "knowledge": "",
                 "reasoning": "定位到老师介绍活页夹的片段，这个活页夹整体是白色的，侧边有红色的色块。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/pgk-719mTxM.mp4"
     },
     {
         "video_id": "ZZ_4_12",
@@ -541,7 +552,8 @@
                 "knowledge": "",
                 "reasoning": "模型需定位到介绍中国工匠制成的陶瓷双峰骆驼展品的片段，解说中提到它还携带了中亚风格的水壶，通过拍摄的画面可以看到是绿色和橙色混杂的。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/prdfejAsrNI.mp4"
     },
     {
         "video_id": "ZZ_4_13",
@@ -584,7 +596,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要找到Willow这个关键词，可以得到Willow是她的宠物狗，通过视觉分析，可以得出Willow是棕色的。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/5YnZWiUHBnY.mp4"
     },
     {
         "video_id": "ZZ_4_14",
@@ -627,7 +640,8 @@
                 "knowledge": "",
                 "reasoning": "模型需定位到George一家参观Maasai tribe片段，George说Maasai tribe有自己古老的取火方式，这时镜头排到Maasai tribe几人围在一起钻木头取火，由此结合运用多模态模型可判断Maasai tribe靠钻木产生的摩擦取火。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/tIwlsS71NKA.mp4"
     },
     {
         "video_id": "ZZ_4_15",
@@ -670,7 +684,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要首先定位他们在威廉斯堡的片段，再根据该片段前面的片段画面进行分析，可以看到他们去威廉斯堡时骑了自行车。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/Ee9Ltzh--FM.mp4"
     },
     {
         "video_id": "ZZ_4_16",
@@ -713,7 +728,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要定位Kris说自己手机的0.5倍照相功能坏了，她很崩溃用不了0,5倍照相，由此可知Kris平时是很喜欢用0,5倍镜头拍照的。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/Xg_2eummERY.mp4"
     },
     {
         "video_id": "ZZ_4_17",
@@ -756,7 +772,8 @@
                 "knowledge": "Beth 在视频中说清理浴室需要提前喷好漂白剂，在静置的时候可以做别的事，然后一个小技巧是一边洗澡一遍清理，可以推测这样是为了更好地管理时间。",
                 "reasoning": "模型需要定位Beth 清理卫生间的片段，根据片段中Beth 说的小技巧得出结论。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/nTXgu7pncN0.mp4"
     },
     {
         "video_id": "ZZ_4_18",
@@ -799,7 +816,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要首先定位Fernanda和朋友在家中办派对的片段，再根据之后的片段看到他们去了酒吧，根据画面上的文字得知他们去的酒吧叫Red Room Night Club。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/FWDZAwfOxNg.mp4"
     },
     {
         "video_id": "ZZ_4_19",
@@ -842,7 +860,8 @@
                 "knowledge": "视频强调“handling through corners... wants to rotate”及“all-wheel drive系统主动分配扭矩”，证明弯道稳定性被认可。",
                 "reasoning": "模型需要定位到the 2025 Murano的相关片段，根据语言信息“handling through corners... wants to rotate”及“all-wheel drive系统主动分配扭矩”，证明弯道稳定性被认可。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/fGVpEGVWTpg.mp4"
     },
     {
         "video_id": "ZZ_4_20",
@@ -885,7 +904,8 @@
                 "knowledge": "视频明确提到GT使用MT-82变速箱，而Dark Horse和上一代高配车型使用Tremec（\"Dark Horse and the Mark 1... got the Tremec\"），需通过对比推理两者变速箱差异。",
                 "reasoning": "模型需要定位到视频中关于the Mustang GT和the Dark Horse的相关片段，根据语言信息提到GT使用MT-82变速箱，而Dark Horse和上一代高配车型使用Tremec（\"Dark Horse and the Mark 1... got the Tremec\"），需通过对比推理两者变速箱差异。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/pyAkHBjNLS8.mp4"
     },
     {
         "video_id": "ZZ_4_21",
@@ -928,7 +948,8 @@
                 "knowledge": "在侧坡测试（第六挑战）中The Land Rover Defender的轮胎凭借宽胎面与胎肩设计保持稳定（“maximum angle showed 22°”），胎壁未塌陷，与Jeep Wrangler的表现相比可得出结论The Land Rover Defender的轮胎稳定性更好。",
                 "reasoning": "模型需要对比就两种车的测试环节，在侧坡测试（第六挑战）中The Land Rover Defender的轮胎凭借宽胎面与胎肩设计保持稳定（“maximum angle showed 22°”），胎壁未塌陷，与Jeep Wrangler的表现相比可得出结论The Land Rover Defender的轮胎稳定性更好。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/zJIGH3e3uhg.mp4"
     },
     {
         "video_id": "ZZ_4_22",
@@ -978,7 +999,8 @@
                 "knowledge": "",
                 "reasoning": "模型需定位到视频全程，共介绍了十二种生活在河流中的动物。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/Xx5RvqhKHgQ.mp4"
     },
     {
         "video_id": "ZZ_4_23",
@@ -1021,7 +1043,8 @@
                 "knowledge": "Abby的说法是白手套代表棒球手套，MJ喜欢打棒球，但妈妈们表示没听过这种说法，而且经过google，得到的答案是戴一只白手套更酷，所以后者是正确答案。",
                 "reasoning": "模型需要分辨关于白手套的不同说法，Abby的说法无法获得验证，而google获得的答案更接近正确答案。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/4PmkQUZltpM.mp4"
     },
     {
         "video_id": "ZZ_4_24",
@@ -1064,7 +1087,8 @@
                 "knowledge": "",
                 "reasoning": "模型可以在多个片段中捕捉到Nicole 在starbucks买咖啡。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/28IV0legidU.mp4"
     },
     {
         "video_id": "ZZ_4_25",
@@ -1114,7 +1138,8 @@
                 "knowledge": "视频中所有的学生受访对象无论是有无兼职工作、是否租房都提到了自己的父母支持，故可知学生的主要财务支持来源是他/她们的父母",
                 "reasoning": "模型需要定位到各受访者的身份确认是否是学生，然后再根据他们的回答甄别她/他们的主要财务来源。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/RhmMqXjlZLg.mp4"
     },
     {
         "video_id": "ZZ_4_26",
@@ -1157,7 +1182,8 @@
                 "knowledge": "通过完整观看此次博主的徒步旅行，可以知道这里的天气是阴晴不定的，甚至会突然开始下雨刮风，由此可以知道需要带一件防水的衣服来应对阴雨天气。",
                 "reasoning": "模型需要分析整个片段，综合分析博主在此次徒步过程中遇到的天气，来分析是否需要准备防水的衣服，可以知道是有必要的。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/gXTSO7sw8dA.mp4"
     },
     {
         "video_id": "ZZ_4_27",
@@ -1200,7 +1226,8 @@
                 "knowledge": "",
                 "reasoning": "视频需要分析Luke多次捕猎的过程，有天气原因也有时间原因等等，尝试了很多次都没有顺利捕猎到，所以可以推出在捕猎过程中，他是不幸运的。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/o6zb6_TTVWo.mp4"
     },
     {
         "video_id": "ZZ_4_28",
@@ -1243,7 +1270,8 @@
                 "knowledge": "",
                 "reasoning": "模型需定位到介绍风之塔的片段，片段中介绍了风之塔墙壁的高度时拍摄到了内部的墙壁，通过观察可知有人物画像布满墙壁。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/gwrKLL4Gefg.mp4"
     },
     {
         "video_id": "ZZ_4_29",
@@ -1286,7 +1314,8 @@
                 "knowledge": "",
                 "reasoning": "博主说到她自己穿衣的话，会穿亚麻这种天然材料的衣服，也会穿聚酯纤维这种人造材质的衣服，但贴身衣物的话她会选择天然材料，得出答案\n"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/fuVU64m1sbw.mp4"
     },
     {
         "video_id": "ZZ_4_30",
@@ -1329,7 +1358,8 @@
                 "knowledge": "视频定位到本布尔曼山，作者提到徒步可能会遇上泥泞的水洼和难走的路，因此推测出徒步本布尔曼山需要带一双好穿的防水鞋的通用知识。",
                 "reasoning": "视频定位到本布尔曼山，作者提到徒步可能会遇上泥泞的水洼和难走的路，由此推测出徒步本布尔曼山需要带一双好穿的防水鞋子。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/YLKWCZDgiAQ.mp4"
     },
     {
         "video_id": "ZZ_4_31",
@@ -1372,7 +1402,8 @@
                 "knowledge": "博主介绍说它们是螺丝式的，她从来没有见过这样的耳环，由此可知，对于没有耳洞的人来说，也可以尝试。",
                 "reasoning": "模型需要定位到博主关于耳饰的测评，通过分析相对应的特点，得出哪个年代的耳饰更适合没有耳洞的人。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/8BPxgu3XGTo.mp4"
     },
     {
         "video_id": "ZZ_4_32",
@@ -1415,7 +1446,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要分析整个视频片段，比如博主使用的特效、背景音乐等等，可以知道博主并不是一个严肃的人，而是一个幽默的人。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/x2Sq6aA5AVU.mp4"
     },
     {
         "video_id": "ZZ_4_33",
@@ -1465,7 +1497,8 @@
                 "knowledge": "",
                 "reasoning": "在Rihana上场前，有关于她的短片，得知她在决赛的晋级赛中失败了，此时Rihana遗憾地说了一句“我还没有完成”并且视频上方有2018的时间显示，因此可知她不止一次参加过这个比赛，这个比赛结果并非她这次比赛的结果，而是她上次比赛的结果，从而推断出她已参加过两次比赛"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/JluvDFSB_YA.mp4"
     },
     {
         "video_id": "ZZ_4_34",
@@ -1508,7 +1541,8 @@
                 "knowledge": "",
                 "reasoning": "模型需定位到劳拉讲述自己因身体不便行动而失去住所的片段，片段中她说自己会使用拐杖和助行器，通过观察可以发现她的助行器是红色和黑色的。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/qYzx4ZGQnc8.mp4"
     },
     {
         "video_id": "ZZ_4_35",
@@ -1551,7 +1585,8 @@
                 "knowledge": "",
                 "reasoning": "视频中提到没有国际捕鱼队到这里打鱼，附近的居民人口也很少，因此竞争很小，因此作为渔民的Suleiman打鱼很容易，几乎每几分钟就能得到一条鱼，并且他一上岸鱼就会被买空，Suleiman的表情也很高兴，可推断出这种工作容易且不愁销路的工作会让他感到很满意"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/Chkro9-ITYM.mp4"
     },
     {
         "video_id": "ZZ_4_36",
@@ -1594,7 +1629,8 @@
                 "knowledge": "",
                 "reasoning": "模型需定位到第四件物品的制作上，锁定不同的画面得出共使用了几种不同的材,分别是：花环、烛台、胶水和花草装饰品“"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/gNUFv5q3GOk.mp4"
     },
     {
         "video_id": "ZZ_4_37",
@@ -1651,7 +1687,8 @@
                 "knowledge": "",
                 "reasoning": "视频开头博主介绍红色LED时手里拿了两个红色LED，之后介绍了第一个发明红色LED的人，然后才是Monsonto的绿色LED，一共三个红色LED。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/AF8d72mA41M.mp4"
     },
     {
         "video_id": "ZZ_4_38",
@@ -1694,7 +1731,8 @@
                 "knowledge": "Ryan提到稳定性控制（\"stability control mitigated oversteer\"）降低了后轮抓地力的绝对需求，但依然建议新胎装后轮。需要理解ESC如何通过制动干预弥补物理抓地力差异，所以推出结论Electronic stability control。",
                 "reasoning": "模型需要定位到Ryan的相关片段，提到稳定性控制（\"stability control mitigated oversteer\"）降低了后轮抓地力的绝对需求，但依然建议新胎装后轮。需要理解ESC如何通过制动干预弥补物理抓地力差异，所以推出结论Electronic stability control。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/nHFjFXDJgm8.mp4"
     },
     {
         "video_id": "ZZ_4_39",
@@ -1737,7 +1775,8 @@
                 "knowledge": "博主在Bal Bella网购的一件衣服没有任何评论，这时博主用Tik Tok来看看其他人对这家店铺的评论，以此来确定这家店是否可靠，因此，当没有评价时，人们可以检索Tik Tok，以寻求帮助",
                 "reasoning": "模型需整合博主的问题，解决方法以及得到的反馈这三方面信息来推断出没有评价时，人们可以检索Tik Tok，以寻求帮助"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/k7Fo6FXlejA.mp4"
     },
     {
         "video_id": "ZZ_4_40",
@@ -1780,7 +1819,8 @@
                 "knowledge": "博主准备了3个同款不同价的项链，他们的款式全部来源于Tiffany&Co，而当博主介绍到第三件物品时，说到这是一件normal thing,说明第三件物品正是Tiffany&Co的正品，售价为2000美元，得出答案",
                 "reasoning": "模型需由听觉锁定来源于Tiffany&Co的商品，再由视觉结合视频画面，得出商品价格"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/7xc_OAfs62Y.mp4"
     },
     {
         "video_id": "ZZ_4_41",
@@ -1823,7 +1863,8 @@
                 "knowledge": "",
                 "reasoning": "Pual提到在放飞痊愈的鹰时，他手里打着鹰鼓，每个来观看的人都带着羽毛，并且说道是鹰让他学到了爱和分享，给了他内心的力量，可知Pual最崇敬的动物就是鹰"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/SNklLxR3tPo.mp4"
     },
     {
         "video_id": "ZZ_4_42",
@@ -1866,7 +1907,8 @@
                 "knowledge": "",
                 "reasoning": "模型需定位到迈克尔介绍触摸屏开机以及物理设置需要的时长的片段，通过观察可以看到开机时背景是黑色的。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/udhl2mzfLbc.mp4"
     },
     {
         "video_id": "ZZ_4_43",
@@ -1909,7 +1951,8 @@
                 "knowledge": "在视频中，Lisa提到泰国的唐人街的交通非常拥挤，但她后面还提到有一次她凌晨3:30到这时，街上没有人，也就是说夜晚的唐人街交通并不拥挤，推断出在白天和晚上唐人街的交通拥挤情况是不一样的",
                 "reasoning": "模型需定位到唐人街片段，根据Lisa提到的白天泰国的唐人街的交通情况对比晚上的交通情况，得出答案"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/Vz0BD1v8N5U.mp4"
     },
     {
         "video_id": "ZZ_4_44",
@@ -1973,7 +2016,8 @@
                 "knowledge": "",
                 "reasoning": "定位到铸剑尾声的部分，如果要雕刻图案，应该在抛光之后进行。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/Tt6WQYtefXA.mp4"
     },
     {
         "video_id": "ZZ_4_45",
@@ -2023,7 +2067,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要从视频开始到结束对接受采访人数进行统计，共有四人接受了采访"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/7wTr0dPuEh0.mp4"
     },
     {
         "video_id": "ZZ_4_46",
@@ -2066,7 +2111,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要根据整个视频两人的互动以及安东尼称呼科林为“my darling”，由此可知两人关系亲密，推测是夫妻。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/qOrJkfryLFg.mp4"
     },
     {
         "video_id": "ZZ_4_47",
@@ -2109,7 +2155,8 @@
                 "knowledge": "视频主人公说展会横幅要保持清爽，通常能让大家知道你们公司是做什么的就行，因此不是内容越多越好。",
                 "reasoning": "模型需要定位第五个tips的片段，根据片段中视频主的话和他举的几个例子可知展会横幅上的内容不是越多越好。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/iUwcMIrVgjQ.mp4"
     },
     {
         "video_id": "ZZ_4_48",
@@ -2159,7 +2206,8 @@
                 "knowledge": "这个节目的受邀嘉宾有Keanu、Suga、Jenna、Millie等，根据观众的反应，尤其是Suga出场时，观众强烈的欢呼声，大声叫着他的名字，可知受邀嘉宾全部是名人，而非普通大众",
                 "reasoning": "模型需分别定位到该节目嘉宾的出场画面，根据观众的反应，以及对这些嘉宾的人物识别，推测出受邀嘉宾全部是名人，而非普通大众"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/zZF05AkxMts.mp4"
     },
     {
         "video_id": "ZZ_4_49",
@@ -2202,7 +2250,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要定位视频最后，视频主人公说如果大家想来参观这个展买普通票就可以了，且根据他们对vip专属礼品的评价看他们也是不满意的，因此总的来看视频主人公是不推荐Disney 100展的vip票。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/6DPvnOowWe0.mp4"
     },
     {
         "video_id": "ZZ_4_50",
@@ -2245,7 +2294,8 @@
                 "knowledge": "",
                 "reasoning": "博主说到在她居住的那伊利诺伊州，这周会有冰雪天气，到时候会有很多的冰，但我希望还是有更多的雪，说明在冰与雪的比较中，博主更喜欢雪，讨厌冰。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/pJbX03XmwY0.mp4"
     },
     {
         "video_id": "ZZ_4_51",
@@ -2295,7 +2345,8 @@
                 "knowledge": "",
                 "reasoning": "当Mandy让Sofia找出书里70页的最后一个词是什么时，她说慢点，我没戴眼镜，由此可推断出，Sofia近视"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/9tBsMSDoDqk.mp4"
     },
     {
         "video_id": "ZZ_4_52",
@@ -2338,7 +2389,8 @@
                 "knowledge": "",
                 "reasoning": "从整个视频来看，她去了斯里兰卡的很多地方，她的感觉都很好，除了可能会收高价的嘟嘟车，因此推测她喜欢斯里兰卡。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/A91QJlFjPtQ.mp4"
     },
     {
         "video_id": "ZZ_4_53",
@@ -2388,7 +2440,8 @@
                 "knowledge": "Praise把Jasmine介绍给了IFC批发中心的online team，她们可能会达成合作。而Jasmine作为一个vlogger，属于KOL公司，因此推断出IFCwholesale center的线上团队会和KOL达成合作。",
                 "reasoning": "模型可以捕捉到Praise联系了公司的online director与Jasmine对接，Jasmine本身就属于KOL"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/iIo-oM57y-s.mp4"
     },
     {
         "video_id": "ZZ_4_54",
@@ -2431,7 +2484,8 @@
                 "knowledge": "就在Helen失踪的当晚，Helen要求男友带她到海边走一走，男友将她送到Bernie后，就沿着海开车回家了，因此可推断出Bernie是个有海的地方",
                 "reasoning": "模型需抓住海这个关键词，就在Helen失踪的当晚，Helen要求男友带她到海边走一走，男友将她送到Bernie后，就沿着海开车回家了，因此可推断出Bernie是个有海的地方"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/6tSGlE7lwVI.mp4"
     },
     {
         "video_id": "ZZ_4_55",
@@ -2495,7 +2549,8 @@
                 "knowledge": "在教室的黑板上挂着一张白底红字、写着synthesizing的纸，纸上印有Jefferson County Public Schools的名字，可知视频地点就是Jefferson County Public Schools，再由墙上插了一面美国国旗，老师和学生也都是非常标准的美式英语发音，可知Jefferson County Public Schools是美国的一所学校",
                 "reasoning": "模型需定位到Jefferson County Public Schools片段，识别出学校的名字，再由视觉信息和听觉信息根据墙上的国旗和老师学生的发音特点可推断出Jefferson County Public Schools是美国的一所学校"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/C8zHoYW2b34.mp4"
     },
     {
         "video_id": "ZZ_4_56",
@@ -2538,7 +2593,8 @@
                 "knowledge": "",
                 "reasoning": "模型需定位到alex介绍德国最经典的链子的片段，他声称这样的链子说唱歌手带的会是2万欧元，通过观察，他手中的链子是银色的。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/GFG1INzquMU.mp4"
     },
     {
         "video_id": "ZZ_4_57",
@@ -2581,7 +2637,8 @@
                 "knowledge": "",
                 "reasoning": "模型需定位到介绍andreas出场时的片段，介绍andreas时，拍摄到他正要走上船只，通过观察可以看到他的裤子是白色的。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/dqnZkvKIo0g.mp4"
     },
     {
         "video_id": "ZZ_4_58",
@@ -2624,7 +2681,8 @@
                 "knowledge": "在视频中介绍的5位迪拜顶级富豪里，虽然他们喜爱的藏品各不相同，有豪车、香水、野生动物等，但结合视频画面分析，几乎每一位都有收藏名表的爱好，由此可推断手表是迪拜男性顶级富豪最爱的藏品。",
                 "reasoning": "模型需分别定位到每位富豪的藏品介绍片段，找出其中的共同点，得出答案"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/DWm28eqX8bY.mp4"
     },
     {
         "video_id": "ZZ_4_59",
@@ -2667,7 +2725,8 @@
                 "knowledge": "",
                 "reasoning": "模型可追踪到2次Nicole和Chris讨论让Chris回公司上班的事情，第一次并没有结果，第二次在影棚，Chris终于说出真正的原因，他需要一份合同作为保障。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/-J4ECWTpu7E.mp4"
     },
     {
         "video_id": "ZZ_4_60",
@@ -2717,7 +2776,8 @@
                 "knowledge": "博主提到很多只要换一个商标就可以成为你的商品，也和多个参展商确认是否能加上自己的Logo。",
                 "reasoning": "模型可以追踪到博主和几乎每个参展商确认加上自己Logo的事情，然后在叙述中表示只要加上自己的Logo就成了自己品牌的商品。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/Jrdwo63riJE.mp4"
     },
     {
         "video_id": "ZZ_4_61",
@@ -2760,7 +2820,8 @@
                 "knowledge": "",
                 "reasoning": "模型需定位到Mia在演播室测试食物糖分的片段，她从旁边拿出了一袋酸奶，通过观察可以看到是白色的外包装。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/cRykZDnJbW4.mp4"
     },
     {
         "video_id": "ZZ_4_62",
@@ -2803,7 +2864,8 @@
                 "knowledge": "当采访人问及访谈者在经济衰退的2023年，创办类似企业第一步需要做什么时，访谈者说他进入国际劳务行业时发现欧洲缺乏普通工人，那么就可以把亚洲的工人带到欧洲来工作，由此可知与欧洲情况相反，亚洲的工人数量是供大于求的",
                 "reasoning": "模型要先定位到采访者与受访者关于创办类似企业的谈话，然后根据受访者给出的创业建议进行推断。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/GRsbgsPF-hI.mp4"
     },
     {
         "video_id": "ZZ_4_63",
@@ -2860,7 +2922,8 @@
                 "knowledge": "虽然这张宣传单上没写这是第一个hip hop party，但博主介绍party举办地跟传单上一样，1973年8月11日正是举办时间。",
                 "reasoning": "定位到介绍breaking诞生的片段，舞者Luis提到了第一个hip hop party的举办地址，但没说时间，画面上的宣传单清楚写着1973年8月11日。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/DBGoSFIv__4.mp4"
     },
     {
         "video_id": "ZZ_4_64",
@@ -2903,7 +2966,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要定位Keltie说自己不是一个会进行固定运动的人，再根据画面中放出的Keltie打高尔夫的图片可知Keltie会打高尔夫。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/djBacLcMIic.mp4"
     },
     {
         "video_id": "ZZ_4_65",
@@ -2946,7 +3010,8 @@
                 "knowledge": "视频中Will只在save a lot这个超市看到有新鲜的肉卖，其他的角落超市都没有，因此在卡姆登只有save a lot能买到新鲜肉。",
                 "reasoning": "模型需要定位Will去多个超市的片段，根据片段可看到只有save a lot有出售新鲜肉。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/p9Bxra3-J90.mp4"
     },
     {
         "video_id": "ZZ_4_66",
@@ -2989,7 +3054,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要定位Frankin测评钱包的片段，根据片段中Frankin的介绍，他说自己的右侧臀部和右侧大腿总是会坐在钱包上睡着，通过这个拟人的描述可知Frankin通常会将钱包放在右后口袋。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/rEDJFWzRXuM.mp4"
     },
     {
         "video_id": "ZZ_4_67",
@@ -3039,7 +3105,8 @@
                 "knowledge": "",
                 "reasoning": "模型可以追踪到Magic J对这两家餐厅极为推崇，都是他从小吃到大的。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/7JWD9aFoqgU.mp4"
     },
     {
         "video_id": "ZZ_4_68",
@@ -3082,7 +3149,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要定位Mia测评第五条裙子的片段，片段中她提到这条裙子的泡泡袖让她想起了自己的婚纱，由此可知她已婚。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/m32wqj9dHQs.mp4"
     },
     {
         "video_id": "ZZ_4_69",
@@ -3125,7 +3193,8 @@
                 "knowledge": "Vanquish只在介绍卫衣、短袖类时出现，由此可猜测Vanquish没有专门健身服，如瑜伽裤、运动背心之类的。",
                 "reasoning": "模型需要定位多个片段，可以看到Vanquish只出现在视频主人公介绍“pump covers & sweats”的片段，由此可猜测Vanquish没有专门健身服。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/1PliFMCXsac.mp4"
     },
     {
         "video_id": "ZZ_4_70",
@@ -3168,6 +3237,7 @@
                 "knowledge": "",
                 "reasoning": "模型需要根据多个片段，片段中可知Keltie穿的基本上都是xxs或xs码，因此判断Keltie很苗条。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/vMntxDg8i7U.mp4"
     }
 ]

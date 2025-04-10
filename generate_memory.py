@@ -181,14 +181,14 @@ if __name__ == "__main__":
         os.makedirs(save_dir, exist_ok=True)
         generated_memories = os.listdir(save_dir)
         generated_memories = [generated_memory for generated_memory in generated_memories if generated_memory.endswith(".pkl")]
-        video_paths = [video_path for video_path in video_paths if generate_file_name(video_path)+".pkl" not in generated_memories][:1]
+        video_paths = [video_path for video_path in video_paths if generate_file_name(video_path)+".pkl" not in generated_memories]
         
         # save_dir = processing_config["save_dir"]
         # video_paths = ['/mnt/hdfs/foundation/longlin.kylin/mmagent/data/video_clips/EodRBU-HVEI']
         
         cpu_count = multiprocessing.cpu_count()
         # max_workers = min(cpu_count, processing_config.get("max_parallel_videos", 4))
-        max_workers = processing_config.get("max_parallel_videos", 4)
+        max_workers = 32
         
         print(f"Using {max_workers} processes (CPU cores: {cpu_count})")
 

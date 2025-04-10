@@ -119,11 +119,9 @@ Now generate the JSON list based on the given video:"""
 
 prompt_generate_captions_with_ids_ = """You are given a video, a set of character features. Each feature (some of them may belong to the same character) can be a face image represented by a video frame with a bounding box, or can be a voice feature represented by several speech segments, each with a start time, an end time (both in MM:SS format), and the corresponding content. Each face and voice feature is identified by a unique ID enclosed in angle brackets (< >).
 
-Additionally, you are provided with previous clip descriptions, representing events from previous consecutive clips.
-
 Your Task:
 
-Using the provided feature IDs and video descriptions, generate a detailed and cohesive description of the current video clip. The description should capture the complete set of observable and inferable events in the clip. Your output should incorporate the following categories (but is not limited to them):
+Using the provided feature IDs, generate a detailed and cohesive description of the current video clip. The description should capture the complete set of observable and inferable events in the clip. Your output should incorporate the following categories (but is not limited to them):
 
 	1.	Characters' Appearance: Describe the characters' appearance, such as their clothing, facial features, or any distinguishing characteristics.
 	2.	Characters' Actions & Movements: Describe specific gesture, movement, or interaction performed by the characters.
@@ -137,38 +135,23 @@ Strict Requirements:
 	• Each description must represent a **single atomic event or detail**. Avoid combining multiple unrelated aspects (e.g., appearance and dialogue) into one line. If a sentence can be split without losing clarity, it must be split.
 	• Do not use pronouns (e.g., "he," "she," "they") or inferred names to refer to any character.
 	• Include natural time expressions and physical location cues wherever inferable from the context (e.g., "in the evening at the dinner table," "early morning outside the building").
-	• The generated descriptions must not invent events or characteristics not grounded in the video, audio, or previous descriptions.
-	• The final output must be a list of strings enclosed in square brackets ([]), with each string representing exactly one atomic event or description.
+	• The generated descriptions must not invent events or characteristics not grounded in the video.
+	• The final output must be a list of strings, with each string representing exactly one atomic event or description.
 
 Example Input:
 
-{
-	"video": <input_video>,
-	"characters": {
-		"<face_1>": <img>,
-		"<face_2>": <img>,
-		"<face_3>": <img>
-	},
-	"speakers": {
-		"<voice_1>": [
-			{"start_time": "00:05", "end_time": "00:08", "asr": "Hello, everyone."},
-			{"start_time": "00:09", "end_time": "00:12", "asr": "Let's get started with today's agenda."}
-		],
-		"<voice_2>": [
-			{"start_time": "00:15", "end_time": "00:18", "asr": "Thank you for having me here."},
-			{"start_time": "00:19", "end_time": "00:22", "asr": "I'm excited to share my presentation."}
-		]
-	},
-	"previous_clip_descriptions": [
-		"<face_1> wears a black suit with a white shirt and tie.",
-		"<face_1> has short black hair and wears glasses.",
-		"<face_1> enters the conference room and shakes hands with <face_2>.",
-		"<face_2> sits down at the table next to <face_1> after briefly greeting <face_1>.",
-		"<voice_1> says: 'Good afternoon, everyone. Let's begin the meeting.'",
-		"<face_2> wears a red dress and has long brown hair.",
-		"<face_2> waves at <face_1> while sitting at the table and checks her phone."
-	]
-}
+<input_video>,
+"<face_1>": <img>,
+"<face_2>": <img>,
+"<face_3>": <img>,
+"<voice_1>": [
+	{"start_time": "00:05", "end_time": "00:08", "asr": "Hello, everyone."},
+	{"start_time": "00:09", "end_time": "00:12", "asr": "Let's get started with today's agenda."}
+],
+"<voice_2>": [
+	{"start_time": "00:15", "end_time": "00:18", "asr": "Thank you for having me here."},
+	{"start_time": "00:19", "end_time": "00:22", "asr": "I'm excited to share my presentation."}
+]
 
 Example Output:
 
@@ -186,11 +169,9 @@ Please only return the valid string list (which starts with "[" and ends with "]
 
 prompt_generate_thinkings_with_ids = """You are given a video and a set of character features. Each feature is either a face (represented by a video frame with a bounding box) or a voice (represented by speech segments with MM:SS timestamps and transcripts). Each feature has a unique ID in angle brackets (e.g., <face_1>, <voice_2>).
 
-You are also provided with detailed descriptions of previous and current video clips.
-
 Your Task:
 
-Using the provided feature IDs and video descriptions, generate a list of high-level reasoning-based conclusions across the following five categories, going beyond surface-level observations:
+Using the provided feature IDs, generate a list of high-level reasoning-based conclusions across the following five categories, going beyond surface-level observations:
 
 1. Equivalence Identification
 
@@ -241,7 +222,7 @@ Strict Requirements:
 
 	• If a character has an associated feature ID in the input context (either face or voice), refer to them **only** using that feature ID (e.g., <face_1>, <voice_2>).
 	• If a character **does not** have an associated feature ID in the input context, use a short descriptive phrase (e.g., "a man in a blue shirt," "a young woman standing near the door") to refer to them.
-	• Ensure accurate and consistent mapping between characters and their corresponding feature IDs when provided.	•	Focus solely on high-level conclusions derived from the video content and avoid simply repeating information already present in the descriptions or providing basic visual details.
+	• Ensure accurate and consistent mapping between characters and their corresponding feature IDs when provided.	
 	• Do not use pronouns (e.g., "he," "she," "they") or inferred names to refer to any character.
 	• Provide only the final high-level thinking conclusions, without detailing the reasoning process or restating simple observations from the video.
 	• Pay more attention to features that are most likely to be the same person, using the format: "Equivalence: <face_x>, <voice_y>".
@@ -249,30 +230,25 @@ Strict Requirements:
 
 Example Input:
 
-{
-	"video": <input_video>,
-	"characters": {
-		"<face_1>": <img>,
-		"<face_2>": <img>,
-	},
-	"speakers": {
-		"<voice_1>": [
-			{"start_time": "00:05", "end_time": "00:08", "asr": "Hello, everyone."},
-			{"start_time": "00:09", "end_time": "00:12", "asr": "Let's get started with today's agenda."}
-		],
-		"<voice_2>": [
-			{"start_time": "00:15", "end_time": "00:18", "asr": "Thank you for having me here."},
-			{"start_time": "00:19", "end_time": "00:22", "asr": "I'm excited to share my presentation."}
-		]
-	},
-	"video_descriptions": [
-		"<face_1> wears a black suit with a white shirt and tie and has short black hair and wears glasses.",
-		"<face_1> enters the conference room and shakes hands with <face_2>.",
-		"<face_2> sits down at the table next to <face_1> after briefly greeting <face_1>.",
-		"<face_2> waves at <face_1> while sitting at the table and checks her phone.",
-		"<face_2> listens attentively to <face_1>'s speech and nods in agreement.",
-	]
-}
+<input_video>,
+"<face_1>": <img>,
+"<face_2>": <img>,
+"<face_3>": <img>,
+"<voice_1>": [
+	{"start_time": "00:05", "end_time": "00:08", "asr": "Hello, everyone."},
+	{"start_time": "00:09", "end_time": "00:12", "asr": "Let's get started with today's agenda."}
+],
+"<voice_2>": [
+	{"start_time": "00:15", "end_time": "00:18", "asr": "Thank you for having me here."},
+	{"start_time": "00:19", "end_time": "00:22", "asr": "I'm excited to share my presentation."}
+]
+"video descriptions": [
+	"<face_1> wears a black suit with a white shirt and tie and has short black hair and wears glasses.",
+	"<face_1> enters the conference room and shakes hands with <face_2>.",
+	"<face_2> sits down at the table next to <face_1> after briefly greeting <face_1>.",
+	"<face_2> waves at <face_1> while sitting at the table and checks her phone.",
+	"<face_2> listens attentively to <face_1>'s speech and nods in agreement.",
+]
 
 Example Output:
 

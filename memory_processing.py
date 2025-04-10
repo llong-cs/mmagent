@@ -238,7 +238,7 @@ def generate_captions_and_thinkings_with_ids(
         }
     ]
 
-    input = video_context + previous_clip_descriptions + [
+    input = video_context + [
         {
             "type": "text",
             "content": prompt_generate_captions_with_ids_,
@@ -257,7 +257,7 @@ def generate_captions_and_thinkings_with_ids(
     if captions is None:
         raise Exception("Failed to generate captions")
 
-    thinkings = generate_thinkings_with_ids(video_context, history_texts + captions)
+    thinkings = generate_thinkings_with_ids(video_context, captions)
 
     return captions, thinkings
 

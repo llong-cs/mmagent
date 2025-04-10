@@ -40,7 +40,8 @@
                 "knowledge": "首先在此次烹饪挑战中通过视频背景整面墙非常显著的Dude perfect标识可知这是该团队的场所且具有房顶；视频中清晰出现多个足球门网，地面由清晰的跑到划线可知是一个运动场所。",
                 "reasoning": "首先在此次烹饪挑战中通过视频背景整面墙非常显著的Dude perfect标识可知这是该团队的场所且具有房顶；视频中清晰出现多个足球门网，地面由清晰的跑到划线可知是一个运动场所，综上得出结论。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/vgPJZ1ktT50.mp4"
     },
     {
         "video_id": "CZ_3_2",
@@ -83,7 +84,8 @@
                 "knowledge": "",
                 "reasoning": "在汽车出发时，作者提及车的里程表是76502kilometers，等最后汽车没油时，作者展示了里程表的数字，通过画面可以看到是77200kilometres，通过计算得出结果。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/JaONguGKK2M.mp4"
     },
     {
         "video_id": "CZ_3_3",
@@ -126,7 +128,8 @@
                 "knowledge": "",
                 "reasoning": "从整个视频中，经过观察后发现有Cucumber, apple, tomato, blood orange, baguette, onion, garlic, cilantro, parsley, carrot, potato"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/JMA2SqaDgG8.mp4"
     },
     {
         "video_id": "CZ_3_4",
@@ -169,7 +172,8 @@
                 "knowledge": "",
                 "reasoning": "最初作者提及到热带雨林的地貌，之后逐渐变为草地，再向上，通过画面可以看到全部变为石地，最后可以看到变为冰川。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/hI0zwp6otwA.mp4"
     },
     {
         "video_id": "CZ_3_5",
@@ -212,7 +216,8 @@
                 "knowledge": "",
                 "reasoning": "从Arno虽然很想参加训练但仍然听从医生嘱托只做适量的运动可以看出他是一个谨慎的人"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/8KHSAXpYRII.mp4"
     },
     {
         "video_id": "CZ_3_6",
@@ -255,7 +260,8 @@
                 "knowledge": "中国的电动汽车的发展更加领先",
                 "reasoning": "根据视频内容在新能源汽车上中国的发展已经超过了德国"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/hcXjVxaKzv4.mp4"
     },
     {
         "video_id": "CZ_3_7",
@@ -298,7 +304,8 @@
                 "knowledge": "",
                 "reasoning": "根据视频中Prateek Reen描述她刚刚开餐厅时就像小时候在厨房帮忙一样兴奋，而且经常和自己雇的厨师一起工作推断她是一个对于工作有热情的人。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/fG4z76ynr98.mp4"
     },
     {
         "video_id": "CZ_3_8",
@@ -341,7 +348,8 @@
                 "knowledge": "",
                 "reasoning": "根据视频中Liz Brewer的女儿对她的妈妈的形容推断出她她的妈妈的评价是努力且实干的。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/6PSmI0l6pPc.mp4"
     },
     {
         "video_id": "CZ_3_9",
@@ -384,7 +392,8 @@
                 "knowledge": "",
                 "reasoning": "视频内容：Jack在介绍马的相关知识时都选择了孩子更能理解的提问方式和词汇；Jack和Cullen、Case交流时会降低高度并主动引起话题。——>推理：Jack擅长和孩子交流。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/zoMV9s9yvfA.mp4"
     },
     {
         "video_id": "CZ_3_10",
@@ -427,7 +436,8 @@
                 "knowledge": "",
                 "reasoning": "视频内容：Derek询问Bill医生要去南美洲的哪里潜水，提到Bill医生喜欢去世界各地潜水。——>推理：潜水是Bill医生的爱好。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/KAk83jE0-7Y.mp4"
     },
     {
         "video_id": "CZ_3_11",
@@ -470,7 +480,8 @@
                 "knowledge": " DeFalco's不是一个新开的拖车公司",
                 "reasoning": "视频中可以看到DeFalco's的平板车上面锈迹较多，且车尾部DeFalco's的印花也磨损严重，可以推断出DeFalco's不是一个新开的拖车公司"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/dbiKID1cIMg.mp4"
     },
     {
         "video_id": "CZ_3_12",
@@ -513,7 +524,8 @@
                 "knowledge": "",
                 "reasoning": "JJ是Kamilah的儿子，Kamilah因被指控在探望服刑中的儿子的父亲时企图带入违禁品而被捕。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/2udoQlxMsrE.mp4"
     },
     {
         "video_id": "CZ_3_13",
@@ -556,7 +568,8 @@
                 "knowledge": "The Trump administration once threatened to ban TikTok.",
                 "reasoning": "网红们通过TikTok获得了发展机会和收入，实现了自身的价值，大多数网红们依赖TikTok平台开展业务，对他们来说，TikTok是一个能够带来利益和发展的平台，而特朗普政府却曾威胁要禁止该应用。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/L_432I88eVQ.mp4"
     },
     {
         "video_id": "CZ_3_14",
@@ -599,7 +612,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要定位到与谷仓猫头鹰相关的片段，然后结合前后内容进行分析。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/GP0mHR-x1yg.mp4"
     },
     {
         "video_id": "CZ_3_15",
@@ -642,7 +656,8 @@
                 "knowledge": "",
                 "reasoning": "视频内容：在任务开始之前，Barry与每一个孩子进行眼神交流来鼓舞她们/Barry会注意关照每个人的情绪并及时鼓励。——>推理：Barry擅长和孩子们沟通。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/d7RHTTFU-xo.mp4"
     },
     {
         "video_id": "CZ_3_16",
@@ -685,7 +700,8 @@
                 "knowledge": "堆叠锂电池是持续峰值功率输出的最优解之一，尤其适合高爆发力、高可靠性需求的场景。",
                 "reasoning": "通过观看视频，视频中Zach说道堆叠锂电池的巨大价值在于，能将峰值功率维持更长时间，由此可知问题答案。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/uKb9YU7UJjw.mp4"
     },
     {
         "video_id": "CZ_3_17",
@@ -728,7 +744,8 @@
                 "knowledge": "",
                 "reasoning": "通过定位到Sabine的片段，主要讲解了南极洲冰川等知识，由此可知Sabine的研究领域是冰川。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/DoMi_reaPkg.mp4"
     },
     {
         "video_id": "CZ_3_18",
@@ -771,7 +788,8 @@
                 "knowledge": "视频中在Mrwhosetheboss测试鼻腔冲洗系统时发现需要将鼻腔冲洗混合物溶于水中进行冲洗，主要是生理盐水等，而非清水。",
                 "reasoning": "在Mrwhosetheboss测试鼻腔冲洗系统时发现不是直接装入清水进行清洗，而是要将鼻腔冲洗混合物溶于水中进行冲洗，主要是生理盐水等，由此可推断。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/h359LRmMZMU.mp4"
     },
     {
         "video_id": "CZ_3_19",
@@ -814,7 +832,8 @@
                 "knowledge": "基于Adam woodworth讲述wing的飞机模型飞行原理的表述，其最核心最基础的原理是由多个升力旋翼提供。",
                 "reasoning": "基于Adam woodworth讲述wing的飞机模型，飞机的前进后退等行动都是要依赖于多个升力旋翼的，由此可推断出结论。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/5p87vdvO2fo.mp4"
     },
     {
         "video_id": "CZ_3_20",
@@ -857,7 +876,8 @@
                 "knowledge": "在最终挑战结束之后，主持人强调“死亡之翼”挑战成功，基于画面可知是Pepper X辣酱制作的鸡翅。",
                 "reasoning": "赛琳娜等嘉宾完成最辣的鸡翅挑战之后，主持人恭喜嘉宾们成功挑战最终的“死亡之翼”，对应画面可知是辣度最高的辣酱Pepper X辣酱制作的鸡翅，由此推出结论。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/NYH3pAYRrBM.mp4"
     },
     {
         "video_id": "CZ_3_21",
@@ -900,7 +920,8 @@
                 "knowledge": "Mignon Francois创立的纸杯蛋糕公司每天的重要仪式是灵修。",
                 "reasoning": "博主说Mignon Francois每天都会进行灵修，结合视频看到Mignon Francois是在公司里和员工们一起进行灵修的，可推测出Mignon Francois创立的纸杯蛋糕公司每天的重要仪式是灵修。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/jmviDvmh5js.mp4"
     },
     {
         "video_id": "CZ_3_22",
@@ -943,7 +964,8 @@
                 "knowledge": "",
                 "reasoning": "根据Coyote介绍马克斯和弗洛里安都是来自荷兰的鳄雀鳝饲养员，可推测他们是同事。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/QuZwgnXMbsg.mp4"
     },
     {
         "video_id": "CZ_3_23",
@@ -986,7 +1008,8 @@
                 "knowledge": "",
                 "reasoning": "视频中由Komal进行回收厂的部分内容介绍，带作者参观，并且提到自己在这里工作十年了，可以推断出结果。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/1J2B34c1ocY.mp4"
     },
     {
         "video_id": "CZ_3_24",
@@ -1029,7 +1052,8 @@
                 "knowledge": "",
                 "reasoning": "视频中作者提到自己有能力可以走到接应处，但是不应该逞强让自己陷入完全虚弱的境地，可以推断出结果。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/nYGgU12LTAw.mp4"
     },
     {
         "video_id": "CZ_3_25",
@@ -1072,7 +1096,8 @@
                 "knowledge": "Seychelles海域捕鱼的法律法规",
                 "reasoning": "根据视频内容推断。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/3pT9xE9pJ1A.mp4"
     },
     {
         "video_id": "CZ_3_26",
@@ -1115,7 +1140,8 @@
                 "knowledge": "",
                 "reasoning": "根据视频内容拉脱维亚的语言争端正在慢慢不再受到关注"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/XfKcSV63uGI.mp4"
     },
     {
         "video_id": "CZ_3_27",
@@ -1158,7 +1184,8 @@
                 "knowledge": "",
                 "reasoning": "根据视频内容解决"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/FerFv7BZAwo.mp4"
     },
     {
         "video_id": "CZ_3_28",
@@ -1201,7 +1228,8 @@
                 "knowledge": "",
                 "reasoning": "由Howard多次强调Trump的政策正确以及认为美国将在其领导下更好可以看出他对美国的未来呈现积极态度"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/irDuJt9dINo.mp4"
     },
     {
         "video_id": "CZ_3_29",
@@ -1244,7 +1272,8 @@
                 "knowledge": "",
                 "reasoning": "根据Andrew不愿意贷款去扩大规模，因为会给自己带来压力，由此看出他更喜欢轻松的生活"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/26qTgXJKMAE.mp4"
     },
     {
         "video_id": "CZ_3_30",
@@ -1287,7 +1316,8 @@
                 "knowledge": "",
                 "reasoning": "根据Chris经常去葡萄园散步检查葡萄的生长情况可以看出Chris勤奋且细心"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/fwg3w_3IG1s.mp4"
     },
     {
         "video_id": "CZ_3_31",
@@ -1330,7 +1360,8 @@
                 "knowledge": "",
                 "reasoning": "由视觉可知博主做完房子的包层后安装了一个窗户"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/-a6Izm--Djw.mp4"
     },
     {
         "video_id": "CZ_3_32",
@@ -1373,7 +1404,8 @@
                 "knowledge": "",
                 "reasoning": "讲完道斯法案后老师利用盐屋引出了宅基地法案"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/qMByNUuv7zA.mp4"
     },
     {
         "video_id": "CZ_3_33",
@@ -1416,7 +1448,8 @@
                 "knowledge": "",
                 "reasoning": "定位到Noah和Sunday组队的片段，结合前面片段对材料的介绍可知，Noah加入的第一种液体是隐形眼镜护理液"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/w4R5O8i5XKg.mp4"
     },
     {
         "video_id": "CZ_3_34",
@@ -1459,7 +1492,8 @@
                 "knowledge": "DUDE WIPES可以从网上购买",
                 "reasoning": "视频中说到DUDE WIPES可以去沃尔玛和亚马逊购买，而沃尔玛和亚马逊是网上购物平台，所以DUDE WIPES可以从网上购买"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/aRcUVhVlSHg.mp4"
     },
     {
         "video_id": "CZ_3_35",
@@ -1502,7 +1536,8 @@
                 "knowledge": "锯琴以金属共鸣发声，音色空灵纯净，泛音少而通透；双簧管凭借双簧振动，音色温暖绵长，泛音丰富但稍欠清透。前者清越悠扬，后者柔润如歌。",
                 "reasoning": "定位到视频中，natalia说锯子的声音 ，具有完美的S 曲线，就像最纯净的音调，实际上它甚至比双簧管的声音更纯净，由此可知问题答案。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/L27tKwyu9_k.mp4"
     },
     {
         "video_id": "CZ_3_36",
@@ -1545,7 +1580,8 @@
                 "knowledge": "",
                 "reasoning": "通过观察视频，视频中如Diana耐心的听着Rachelle的讲解，并提出自己的疑问，由此可知，Diana对陶艺的感兴趣的而非无感。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/a9BnxFbDS5I.mp4"
     },
     {
         "video_id": "CZ_3_37",
@@ -1588,7 +1624,8 @@
                 "knowledge": "",
                 "reasoning": "通过观察视频，rob和Sarah分享完了vacs后，下一个产品是Ratary tool。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/i6mKhTJCBi8.mp4"
     },
     {
         "video_id": "CZ_3_38",
@@ -1631,7 +1668,8 @@
                 "knowledge": "法兰高度和地板高度直接影响马桶密封效果：法兰高度必须略高于地板（5-10mm）才能确保马桶密封严实，防止漏水和反味；若高度不匹配需调整法兰或使用延长器，装完地板后再安装法兰最可靠。",
                 "reasoning": "通过观看视频，视频中jeff说到法兰和成品地板的高度，是获得马桶良好密封的最重要公式，由此可知二者会对马桶的密封性产生影响。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/74ommjdyoH4.mp4"
     },
     {
         "video_id": "CZ_3_39",
@@ -1674,7 +1712,8 @@
                 "knowledge": "",
                 "reasoning": "读取视频Mrwhosetheboss在测评ROBOROCK QREVO SLIM之前的视频片段他在使用巧克力、燕麦、蛋白粉等原料定制健康冰淇凌，由此可推断。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/LWEDJ_YgEaA.mp4"
     },
     {
         "video_id": "CZ_3_40",
@@ -1717,7 +1756,8 @@
                 "knowledge": "在视频中的达人来自各个国家，ISSY SIMPSON来自英国，由此可知。",
                 "reasoning": "视频中表演的达人ISSY SIMPSON来自英国，由此可以推断该综艺是允许其他国家的达人来参加表演的。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/vQQVJvY6hb0.mp4"
     },
     {
         "video_id": "CZ_3_41",
@@ -1760,7 +1800,8 @@
                 "knowledge": "",
                 "reasoning": "听觉在观众投票环节，法官让观众举牌子表示Jake是有罪还是无罪，视觉仅有一个男性举了无罪，被赶出去了，其他人都认为Jake有罪。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/6jTKGCC_Jiw.mp4"
     },
     {
         "video_id": "CZ_3_42",
@@ -1803,7 +1844,8 @@
                 "knowledge": "The smell is unbearable.",
                 "reasoning": "味道难以忍受，让人眼睛刺痛，还提到会带着那种味道大约60天。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/4CqwkiaXEOQ.mp4"
     },
     {
         "video_id": "CZ_3_43",
@@ -1846,7 +1888,8 @@
                 "knowledge": "",
                 "reasoning": "在跳跃训练片段中，听觉Alex设置相关路线模拟比赛中连续跳跃的节奏，训练马匹的节奏感和骑手的连贯性，视觉设置了不同高度和角度的障碍组合，如绿篱到蓝箱。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/yyPlWNLzXng.mp4"
     },
     {
         "video_id": "CZ_3_44",
@@ -1889,7 +1932,8 @@
                 "knowledge": "",
                 "reasoning": "通过整个视频，可以发现学员的技术得到了很明显的提升，并且已经可以绘制出比较好的图案了。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/2P4d7Vq4GSc.mp4"
     },
     {
         "video_id": "CZ_3_45",
@@ -1932,7 +1976,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要定位到与Katra练习相关的片段，然后结合前后内容进行分析。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/rM5Pdr2XMME.mp4"
     },
     {
         "video_id": "CZ_3_46",
@@ -1975,7 +2020,8 @@
                 "knowledge": "陶瓷因其高硬度和强度，能有效分散子弹的动能，防止穿透。因此，陶瓷被广泛应用于防弹装备中，尤其是用于防止高速子弹的穿透。",
                 "reasoning": "视频内容：Clint和Alek展示了body armor内部的材料是陶瓷。——>推理：body armor实现防弹目的的关键材料是陶瓷。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/dTK9z92Sh-M.mp4"
     },
     {
         "video_id": "CZ_3_47",
@@ -2018,7 +2064,8 @@
                 "knowledge": "《小小达人秀》第一季第八期节目邀请的嘉宾都是7岁的小朋友。",
                 "reasoning": "节目中出现的小朋友嘉宾都是7岁可推测《小小达人秀》第一季第八期节目邀请的都是7岁的嘉宾。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/qm1ZZO5IxU4.mp4"
     },
     {
         "video_id": "CZ_3_48",
@@ -2061,7 +2108,8 @@
                 "knowledge": "",
                 "reasoning": "从Trev熟悉棒球测试中的各种参数以及各种投球方式可以看出"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/SiZniULz8e8.mp4"
     },
     {
         "video_id": "CZ_3_49",
@@ -2104,7 +2152,8 @@
                 "knowledge": "",
                 "reasoning": "根据对Benjamin Genocchio的采访片段推断。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/fPTntCQqXm4.mp4"
     },
     {
         "video_id": "CZ_3_50",
@@ -2147,7 +2196,8 @@
                 "knowledge": "",
                 "reasoning": "根据视频中Max的制作过程推断"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/R7yZFBWn-ec.mp4"
     },
     {
         "video_id": "CZ_3_51",
@@ -2190,7 +2240,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要定位到与出场人物相关的片段，然后综合视频内容进行分析。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/oq4CPiMHAJc.mp4"
     },
     {
         "video_id": "CZ_3_52",
@@ -2233,7 +2284,8 @@
                 "knowledge": "",
                 "reasoning": "视频内容：Shad，Nate和Tyranth在测评过程中可以开玩笑指责彼此而不用担心会冒犯到对方。——>推理：他们是好朋友。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/7wWzLi_xiDc.mp4"
     },
     {
         "video_id": "CZ_3_53",
@@ -2276,7 +2328,8 @@
                 "knowledge": "",
                 "reasoning": "视频内容：Matthew Welch采访时提到了Richard在日本的经历、学习成果、Richard的个人品质。——>推理：Matthew Welch确实很了解Richard。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/dVDEHXyVY7o.mp4"
     },
     {
         "video_id": "CZ_3_54",
@@ -2319,7 +2372,8 @@
                 "knowledge": "",
                 "reasoning": "视频内容：Kaleena Teoh和Chi Sum Ngai在演示过程中配合默契，相处融洽。——>推理：Kaleena Teoh和Chi Sum Ngai之间关系是融洽的。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/lVeNTofDB2k.mp4"
     },
     {
         "video_id": "CZ_3_55",
@@ -2362,7 +2416,8 @@
                 "knowledge": "肋条是陶艺中的“万能手术刀”，既能解决结构问题（厚度、平衡性），又能提升美学效果（光滑度、纹理），是手工成型和修坯阶段不可或缺的工具。",
                 "reasoning": "通过定位到视频中Rajiv问道Guy手中的工具时，guy解释道是肋条，肋条能够要用于修整、塑形和表面处理陶坯，其中重要程度就如同，就像小提琴弓对小提琴手来说一样。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/ZfXOa0VON98.mp4"
     },
     {
         "video_id": "CZ_3_56",
@@ -2405,7 +2460,8 @@
                 "knowledge": "",
                 "reasoning": "通过观看视频，lisa和Julia在测评完美国品牌 Pompeian（庞贝）的橄榄油后，可知测评了源自北非国家 突尼斯（Tunisia）的知名品牌Terra Delyssa的橄榄油"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/KUQMahmo3BA.mp4"
     },
     {
         "video_id": "CZ_3_57",
@@ -2448,7 +2504,8 @@
                 "knowledge": "",
                 "reasoning": "根据视频总结，Jung在学习之前都会买咖啡。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/r10NeEa6Uhw.mp4"
     },
     {
         "video_id": "CZ_3_58",
@@ -2491,7 +2548,8 @@
                 "knowledge": "意大利人在过圣诞的时候不会穿丑毛衣",
                 "reasoning": "Mauro说他在意大利的时候没听说过丑毛衣，来了美国才知道，说明意大利人在过圣诞的时候不会穿丑毛衣"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/mY-fsio5rkw.mp4"
     },
     {
         "video_id": "CZ_3_59",
@@ -2534,7 +2592,8 @@
                 "knowledge": "",
                 "reasoning": "视频中提到1798年拿破仑发动了对埃及的战争，画下了一幅拿破仑在狮身人面像前的画像，这幅画像中狮身人面像大部分都埋在沙子下面。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/PIxe19xS_18.mp4"
     },
     {
         "video_id": "CZ_3_60",
@@ -2577,6 +2636,7 @@
                 "knowledge": "",
                 "reasoning": "视觉定位到King Nibblez戴上帽子的片段，根据听觉可得到答案"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/TzOUOb-hXBw.mp4"
     }
 ]

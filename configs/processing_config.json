@@ -10,7 +10,7 @@
     "face_quality_score_threshold": 22,
     "max_faces_per_character": 3,
     "min_duration_for_audio": 2,
-    "history_length": 1,
+    "history_length": 0,
     "max_retries": 5,
     "query_num": 10,
     "topk": 5,
