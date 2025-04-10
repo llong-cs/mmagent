@@ -306,19 +306,17 @@ Yes
 
 Please only return "Yes" or "No", without any additional explanation or formatting."""
 
-prompt_generate_action = """You are given a question and some relevant knowledge. Your task is to reason about whether the provided knowledge is sufficient to answer the question. If it is sufficient, output [ANSWER] followed by the answer. If it is not sufficient, output [SEARCH] and generate a list of specific queries that will be encoded into embeddings for a vector similarity search. These queries will help retrieve additional information from a memory bank, considering both the question and the provided knowledge.
+prompt_generate_action = """You are given a question and some relevant knowledge. Your task is to reason about whether the provided knowledge is sufficient to answer the question. If it is sufficient, output [ANSWER] followed by the answer. If it is not sufficient, output [SEARCH] and generate a query that will be encoded into embeddings for a vector similarity search. The query will help retrieve additional information from a memory bank, considering both the question and the provided knowledge.
 
 Specifically, your response should contain the following two parts:
-	1.	Reasoning: First, consider the question and existing knowledge. Think about whether the current information can answer the question. If not, do some reasoning about what information is still missing.
-	2.	Answer or Queries:
+	1.	Reasoning: First, consider the question and existing knowledge. Think about whether the current information can answer the question. If not, do some reasoning about what is the exact information that is still missing and the reason why it is important to answer the question.
+	2.	Answer or Search:
 	•	Answer: If you can answer the question based on the provided knowledge, output [ANSWER] and provide the answer.
-	•	Queries: If you cannot answer the question based on the provided knowledge, output [SEARCH] and generate a list of specific queries. For each query:
-	•	Identify broad topics or themes that may help answer the question. These themes should cover aspects that provide useful context or background to the question, such as character names, behaviors, relationships, personality traits, actions, and key events.
-	•	Make each query concise and focused on a specific piece of information that could help answer the question, based on the broad themes you identified. The query should target information outside of the existing knowledge that might help answer the question.
-	•	Ensure diversity in the queries by covering different facets of the question.
-	•	Avoid vague or overly broad formulations. Focus on generating actionable and specific queries that are concise and can be used for embedding-based retrieval.
-	•	For queries related to time-sensitive or chronological information (e.g., events occurring in sequence, changes over time, or specific moments in a timeline), generate clip-based queries that reference specific clips or moments in time. These queries should include a reference to the clip number, indicating the position of the clip in the video (sorted from most recent to earliest). Format these queries as “CLIP_x”, where x is the clip number.
-	•	The queries should reflect a variety of themes and topics, allowing the system to retrieve information from different angles not yet covered by the provided knowledge.
+	•	Search: If you cannot answer the question based on the provided knowledge, output [SEARCH] and generate a query. For the query:
+		•	Identify broad topics or themes that may help answer the question. These themes should cover aspects that provide useful context or background to the question, such as character names, behaviors, relationships, personality traits, actions, and key events.
+		•	Make the query concise and focused on a specific piece of information that could help answer the question. 
+		•	The query should target information outside of the existing knowledge that might help answer the question.
+		•	For time-sensitive or chronological information (e.g., events occurring in sequence, changes over time, or specific moments in a timeline), you can generate clip-based queries that reference specific clips or moments in time. These queries should include a reference to the clip number, indicating the index of the clip in the video (a number from 1 to N, where a smaller number indicates an earlier clip). Format these queries as "CLIP_x", where x is the clip number. Note only generate clip-based queries if the question is about a specific moment in time or a sequence of events.
 
 Example 1:
 
@@ -326,24 +324,13 @@ Input:
 
 Question: How did Sarah's relationship with her father, David, influence her decision to leave home in the story?
 
-Query Number: 8
-
 Knowledge: []
 
 Output:
 
 The provided knowledge does not contain any specific information about Sarah's relationship with her father, David, or the events leading up to her decision to leave home. To answer this question, more information is needed about their dynamic, David's behavior, and Sarah's motivations. Therefore, I will generate queries to retrieve this missing information.
 [SEARCH]
-[
-	"Names of the characters.",
-	"Sarah and David's father-daughter relationship dynamics.",
-	"David's controlling behavior towards Sarah.",
-	"How Sarah's desire for independence influenced her decision.",
-	"Sarah's feelings of restriction due to David's overprotectiveness.",
-	"Character traits of Sarah and David in the story.",
-	"CLIP_1",
-	"CLIP_2"
-]
+"Sarah and David's father-daughter relationship dynamics."
 
 Example 2:
 
@@ -351,45 +338,56 @@ Input:
 
 Question: Who is the host of the meeting?
 
-Query Number: 3
-
 Knowledge:
 [
     {{
-		"queries": [
-			"What is the name of <face_1>?",
-			"What is the name of <voice_1>?",
-			"What is the name of <character_1>?"
-		],
-		"retrieved new memories": [
-			{{
-				"CLIP_1": [
-					"<voice_1> introduces the meeting and assigns tasks to the participants.",
-					"<face_2> listens attentively to <face_1> and takes notes.",
-					"Equivalence: <face_1>, <voice_1>.",
-					"<character_1> is the host of the meeting."
-				],
-				"CLIP_2": [
-					"<voice_1> introduces the meeting and assigns tasks to the participants.",
-					"<face_2> listens attentively to <face_1> and takes notes.",
-					"Equivalence: <face_1>, <voice_1>.",
-					"<character_1> is the host of the meeting."
-				]
-			}}
-		]
+		"query": "What is the name of <character_1>?",
+		"retrieved new memories": {{
+			"CLIP_1": [
+			"<voice_1> introduces the meeting and assigns tasks to the participants.",
+			"<face_2> listens attentively to <face_1> and takes notes.",
+			"Equivalence: <face_1>, <voice_1>.",
+			"<character_1> is the host of the meeting."
+			]
+		}}
+    }}
+]
+
+Output:
+
+The retrieved information clearly identifies <character_1> as the host of the meeting, as mentioned in 'clip_1'.[ANSWER] <character_1> is the host of the meeting. Next I need to find the name of <character_1>.
+[SEARCH]
+"What is the name of <character_1>?"
+
+Example 3:
+
+Input:
+
+Question: What happened in the scene when John and Mary had their argument?
+
+Knowledge: 
+[
+	{{
+		"query": "What happens during the argument between John and Mary?",
+		"retrieved new memories": {{
+			"CLIP_1": [
+			"John and Mary are seen arguing in the living room.",
+			"John raises his voice, and Mary looks upset.",
+			"John accuses Mary of not understanding him."
+			]
+		}}
 	}}
 ]
 
 Output:
 
-The retrieved information clearly identifies <character_1> as the host of the meeting, as mentioned in both 'clip_1' and 'clip_2'. Since this information is already available in the retrieved memories, no further search is needed.
-[ANSWER] <character_1> is the host of the meeting.
+The existing knowledge provides a general overview of the argument between John and Mary, but it does not give the full context or the resolution of the argument. To gain further insight into the emotional dynamics or possible conclusions of the scene, I will generate a query related to the next part of their interaction.
+[SEARCH]
+"CLIP_2"
 
 Now, generate your response for the following input:
 
 Question: {question}
-
-Query Number: {query_num}
 
 Knowledge: {knowledge}
 

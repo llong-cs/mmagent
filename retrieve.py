@@ -1,4 +1,5 @@
 import json
+import re
 from videograph import VideoGraph
 from utils.chat_api import (
     generate_messages,
@@ -133,47 +134,57 @@ def back_translate(video_graph, queries):
 #     return answer
 
 # retrieve by clip
-def retrieve_from_videograph(video_graph, queries_original, topk=5, mode='argmax'):
-    content_based_queires = [query for query in queries_original if not query.startswith("CLIP_")]
-    clip_based_queries = [query for query in queries_original if query.startswith("CLIP_")]
-    queries = back_translate(video_graph, content_based_queires)
-    print(f"Queries: {queries}")
-
-    model = "text-embedding-3-large"
-    query_embeddings = parallel_get_embedding(model, queries)[0]
-
-    clip_scores = {}
-
-    if mode == 'argmax':
-        threshold = 0
-    elif mode == 'accumulate':
-        threshold = 0.2
-    else:
-        raise ValueError(f"Unknown mode: {mode}")
-
-    for query_embedding in query_embeddings:
-        nodes = video_graph.search_text_nodes([query_embedding], threshold=threshold)
-        for node in nodes:
-            node_id = node[0]
-            node_score = node[1]
-            clip_id = video_graph.nodes[node_id].metadata['timestamp']
-            if mode == 'accumulate':
-                if clip_id not in clip_scores:
-                    clip_scores[clip_id] = 0
-                clip_scores[clip_id] += node_score
-            elif mode == 'argmax':
-                if clip_id not in clip_scores:
-                    clip_scores[clip_id] = node_score
-                elif node_score > clip_scores[clip_id]:
-                    clip_scores[clip_id] = node_score
+def retrieve_from_videograph(video_graph, query, topk=5, mode='argmax'):
+    if "CLIP_" in query:
+        # find CLIP_x in query
+        pattern = r"CLIP_(\d+)"
+        match = re.search(pattern, query)
+        if match:
+            clip_id = int(match.group(1))
+            if clip_id in video_graph.text_nodes_by_clip:
+                top_clips = [clip_id]
             else:
-                raise ValueError(f"Unknown mode: {mode}")
+                raise ValueError(f"Clip {clip_id} not found in video graph")
+        else:
+            raise ValueError(f"Invalid query: {query}")
+    else:
+        queries = back_translate(video_graph, [query])
+        print(f"Queries: {queries}")
 
-            
-    # Sort clips by score and get top k clips
-    sorted_clips = sorted(clip_scores.items(), key=lambda x: x[1], reverse=True)[:topk]
-    top_clips = [clip_id for clip_id, _ in sorted_clips]
-    top_clips.extend([int(query.split("_")[1]) for query in clip_based_queries if int(query.split("_")[1]) in video_graph.text_nodes_by_clip])
+        model = "text-embedding-3-large"
+        query_embeddings = parallel_get_embedding(model, queries)[0]
+
+        clip_scores = {}
+
+        if mode == 'argmax':
+            threshold = 0
+        elif mode == 'accumulate':
+            threshold = 0.2
+        else:
+            raise ValueError(f"Unknown mode: {mode}")
+
+        for query_embedding in query_embeddings:
+            nodes = video_graph.search_text_nodes([query_embedding], threshold=threshold)
+            for node in nodes:
+                node_id = node[0]
+                node_score = node[1]
+                clip_id = video_graph.nodes[node_id].metadata['timestamp']
+                if mode == 'accumulate':
+                    if clip_id not in clip_scores:
+                        clip_scores[clip_id] = 0
+                    clip_scores[clip_id] += node_score
+                elif mode == 'argmax':
+                    if clip_id not in clip_scores:
+                        clip_scores[clip_id] = node_score
+                    elif node_score > clip_scores[clip_id]:
+                        clip_scores[clip_id] = node_score
+                else:
+                    raise ValueError(f"Unknown mode: {mode}")
+
+                
+        # Sort clips by score and get top k clips
+        sorted_clips = sorted(clip_scores.items(), key=lambda x: x[1], reverse=True)[:topk]
+        top_clips = [clip_id for clip_id, _ in sorted_clips]
 
     return top_clips
 
@@ -250,13 +261,12 @@ def retrieve_from_videograph(video_graph, queries_original, topk=5, mode='argmax
     
 #     return final_answer
 
-def generate_action(question, knowledge, query_num=5):
+def generate_action(question, knowledge):
     input = [
         {
             "type": "text",
             "content": prompt_generate_action.format(
                 question=question,
-                query_num=query_num,
                 knowledge=knowledge,
             ),
         }
@@ -275,7 +285,6 @@ def generate_action(question, knowledge, query_num=5):
         elif "[SEARCH]" in action:
             action_type = "search"
             action_content = action.split("[SEARCH]")[1].strip()
-            action_content = validate_and_fix_python_list(action_content)
         else:
             raise ValueError(f"Unknown action type: {action}")
         if action_content is not None:
@@ -285,7 +294,7 @@ def generate_action(question, knowledge, query_num=5):
     print(action)
     return action_type, action_content
 
-def answer_with_retrieval(video_graph, question, query_num=5, topk=5, auto_refresh=False, mode='argmax'):
+def answer_with_retrieval(video_graph, question, topk=5, auto_refresh=False, mode='argmax'):
     if auto_refresh:
         video_graph.refresh_equivalences()
         
@@ -293,7 +302,7 @@ def answer_with_retrieval(video_graph, question, query_num=5, topk=5, auto_refre
     context = []
     
     for i in range(max_retrieval_steps):
-        action_type, action_content = generate_action(question, context, query_num)
+        action_type, action_content = generate_action(question, context)
         if action_type == "answer":
             final_answer = action_content
             print(f"Answer: {final_answer}")
@@ -315,7 +324,7 @@ def answer_with_retrieval(video_graph, question, query_num=5, topk=5, auto_refre
             new_memories = {f"clip_{k}": v for k, v in new_memories.items()}
             
             context.append({
-                "queries": action_content,
+                "query": action_content,
                 "retrieved memories": new_memories
             })
     
