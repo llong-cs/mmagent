@@ -306,6 +306,96 @@ Yes
 
 Please only return "Yes" or "No", without any additional explanation or formatting."""
 
+prompt_generate_action = """You are given a question and some relevant knowledge. Your task is to reason about whether the provided knowledge is sufficient to answer the question. If it is sufficient, output [ANSWER] followed by the answer. If it is not sufficient, output [SEARCH] and generate a list of specific queries that will be encoded into embeddings for a vector similarity search. These queries will help retrieve additional information from a memory bank, considering both the question and the provided knowledge.
+
+Specifically, your response should contain the following two parts:
+
+1. **Reasoning**: First, consider the question and existing knowledge. Think about whether the current information can answer the question. If not, do some reasoning about what information is still missing.
+2. **Answer or Queries**: 
+	- Answer: If you can answer the question based on the provided knowledge, output [ANSWER] and provide the answer.
+	- Queries: If you cannot answer the question based on the provided knowledge, output [SEARCH] and generate a list of specific queries. For each query:
+		- Identify broad topics or themes that may help answer the question. These themes should cover aspects that provide useful context or background to the question, such as character names, behaviors, relationships, personality traits, actions, and key events.
+   		- Make each query concise and focused on a specific piece of information that could help answer the question, based on the broad themes you identified. The query should target information **outside of the existing knowledge** that might help answer the question.
+		- Ensure diversity in the queries by covering different facets of the question.
+		- Avoid vague or overly broad formulations. Focus on generating actionable and specific queries that are concise and can be used for embedding-based retrieval.
+   		- Queries can either focus on specific **content** or on the **clip number** (indicating the position of a clip in the original video). For clip-related queries, format them as “CLIP_x”, where x is a non-negative integer corresponding to the clip’s order in the video (sorted from most recent to earliest).
+		- The queries should be a string list, with each query being a string.
+
+Example 1:
+
+Input:
+
+Question: How did Sarah's relationship with her father, David, influence her decision to leave home in the story?
+
+Query Number: 8
+
+Knowledge: []
+
+Output:
+
+The provided knowledge does not contain any specific information about Sarah's relationship with her father, David, or the events leading up to her decision to leave home. To answer this question, more information is needed about their dynamic, David's behavior, and Sarah's motivations. Therefore, I will generate queries to retrieve this missing information.
+[SEARCH]
+[
+	"Names of the characters.",
+	"Sarah and David's father-daughter relationship dynamics.",
+	"David's controlling behavior towards Sarah.",
+	"How Sarah's desire for independence influenced her decision.",
+	"Sarah's feelings of restriction due to David's overprotectiveness.",
+	"Character traits of Sarah and David in the story.",
+	"CLIP_1",
+	"CLIP_2"
+]
+
+Example 2:
+
+Input:
+
+Question: Who is the host of the meeting?
+
+Query Number: 3
+
+Knowledge:
+[
+    {{
+		"queries": [
+			"What is the name of <face_1>?",
+			"What is the name of <voice_1>?",
+			"What is the name of <character_1>?"
+		],
+		"retrieved new memories": [
+			{{
+				"CLIP_1": [
+					"<voice_1> introduces the meeting and assigns tasks to the participants.",
+					"<face_2> listens attentively to <face_1> and takes notes.",
+					"Equivalence: <face_1>, <voice_1>.",
+					"<character_1> is the host of the meeting."
+				],
+				"CLIP_2": [
+					"<voice_1> introduces the meeting and assigns tasks to the participants.",
+					"<face_2> listens attentively to <face_1> and takes notes.",
+					"Equivalence: <face_1>, <voice_1>.",
+					"<character_1> is the host of the meeting."
+				]
+			}}
+		]
+	}}
+]
+
+Output:
+
+The retrieved information clearly identifies <character_1> as the host of the meeting, as mentioned in both 'clip_1' and 'clip_2'. Since this information is already available in the retrieved memories, no further search is needed.
+[ANSWER] <character_1> is the host of the meeting.
+
+Now, generate your response for the following input:
+
+Question: {question}
+
+Query Number: {query_num}
+
+Knowledge: {knowledge}
+
+Output:"""
+
 prompt_memory_retrieval = """You are given a question and some relevant knowledge. Your task is to generate a list of distinct and well-defined queries that will be encoded into embeddings and used to retrieve relevant information from a memory bank via vector similarity search. The goal is to retrieve additional information that will help answer the question, considering both the question and the provided knowledge.
 
 For each query:
