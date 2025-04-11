@@ -48,7 +48,8 @@
                 "reasoning": "在提供的关于麦当娜 1988 年个人日程本和电话簿的对话中，提到鉴定者在判断日程本真实性时，通过检查字迹是否符合麦当娜一些特殊的书写习惯来鉴定。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/Efk3K4epEzg.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/Efk3K4epEzg.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/Efk3K4epEzg_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_2",
@@ -92,7 +93,8 @@
                 "reasoning": "从视频视觉信息得出，一个女性穿着伊斯兰面纱，而另一个印度裔女性没有判断，一个信仰伊斯兰教，另一个可能是印度教，两人不是同一个宗教信仰"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/7F5RQqUJfns.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/7F5RQqUJfns.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/7F5RQqUJfns_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_3",
@@ -136,7 +138,8 @@
                 "reasoning": "在公司成立初期，选举后和韦斯特盖特事件导致许多旅游公司倒闭，旅游区域关闭，市场环境不稳定，竞争激烈。疫情导致航班停飞，公司遭受了巨大的经济损失。员工预期与实际工作内容存在偏差，培养合格员工"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/j1XTIF3moDk.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/j1XTIF3moDk.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/j1XTIF3moDk_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_4",
@@ -180,7 +183,8 @@
                 "reasoning": "在作者展示的汽车事件时间轴里有所有权更换信息，CarVertical 提供时间轴，而时间轴有所有权信息，所以CarVertical 可以查看所有权变更"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/Rvl4FRGjMtQ.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/Rvl4FRGjMtQ.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/Rvl4FRGjMtQ_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_5",
@@ -224,7 +228,8 @@
                 "reasoning": "Obed熟悉DR Congo文化与安全事务，精通当地语言与英语，帮助Drew安排签证、应对边境混乱、雇佣武装护卫，带领 Drew绕道大猩猩保护区，并熟悉当地生态与人文冲突。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/7Dl0TQ5zDzM.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/7Dl0TQ5zDzM.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/7Dl0TQ5zDzM_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_6",
@@ -268,7 +273,8 @@
                 "reasoning": "模型需要定位所有土豆片出现的片段并综合分析土豆片的作用。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/oc-b4T7H-gM.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/oc-b4T7H-gM.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/oc-b4T7H-gM_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_7",
@@ -312,7 +318,8 @@
                 "reasoning": "结合父亲在教姐弟三人如何处理虾时的交流可以得知。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/6Unxpxy-Ct4.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/6Unxpxy-Ct4.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/6Unxpxy-Ct4_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_8",
@@ -356,7 +363,8 @@
                 "reasoning": "结合Fiona对家被搜查的描述和自己当时的感受可以得知，当时她大概15/16 岁，军队在白天闯入，她和姐姐、母亲都受到影响，她不能回学校，且这种搜查给她带来了很大的心理恐惧，认为军队的行为不合理。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/F28sbYqrqLU.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/F28sbYqrqLU.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/F28sbYqrqLU_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_9",
@@ -400,7 +408,8 @@
                 "reasoning": "首先定位到篮球场上Kai和Ray1v1对抗片段，结合视觉听觉判断他们两人都没有在对方防守下进球。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/IthMg3hNpPk.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/IthMg3hNpPk.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/IthMg3hNpPk_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_10",
@@ -444,7 +453,8 @@
                 "reasoning": "通过观察视频内容，主要围绕着厨房烹饪这一主题，介绍了各个环节的单词如鸡蛋egg、烤箱oven等简单的基本英语词汇，并且还强调在厨房里要注意生肉后要洗手等基本厨房认知。由此可以判断出，该视频主要针对的是低龄儿童。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/CUBciV4iPzs.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/CUBciV4iPzs.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/CUBciV4iPzs_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_11",
@@ -488,7 +498,8 @@
                 "reasoning": "在主持人问Tori平常多久去一次grocery花费多少钱的时候，Tori说自己喜欢去Ralph's，因为它到处都有，配送费很高，说明Ralph's是一家连锁超市。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/PnvZZwlN2yk.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/PnvZZwlN2yk.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/PnvZZwlN2yk_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_12",
@@ -532,7 +543,8 @@
                 "reasoning": "需要先定位到体育馆这个场景，再结合老师和学生的交流得知。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/n-B_kmAebbQ.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/n-B_kmAebbQ.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/n-B_kmAebbQ_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_13",
@@ -576,7 +588,8 @@
                 "reasoning": "结合Matt的自述，他说自己和其他朋友8年前创建了Yes Theory这个频道，他耗时三年完成了这本书。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/GTIjylkB-TI.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/GTIjylkB-TI.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/GTIjylkB-TI_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_14",
@@ -620,7 +633,8 @@
                 "reasoning": "That'll率先投中最近距离的把心保证成绩不为0不会被淘汰，而That's Amazing没有想到这个策略最终被淘汰。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/jvUX3ocBSCk.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/jvUX3ocBSCk.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/jvUX3ocBSCk_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_15",
@@ -664,7 +678,8 @@
                 "reasoning": "首先定位到吃早餐这个片段，结合视觉早餐的样子听觉Markian的评价综合得知。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/UPk8fzT4t8o.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/UPk8fzT4t8o.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/UPk8fzT4t8o_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_16",
@@ -708,7 +723,8 @@
                 "reasoning": "Johanes提到他住在芬兰，但这次是来访问的，并在当地攀岩馆训练以保持体能，所以他可能在芬兰以外的地方攀岩。Johanes提到在悉尼没有很多朋友。综合可以推测出攀岩馆在悉尼。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/oRapwDWgElQ.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/oRapwDWgElQ.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/oRapwDWgElQ_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_17",
@@ -752,7 +768,8 @@
                 "reasoning": "首先定位到Kia想要出租儿子房间的片段，结合前后三个租客不同的态度可以得出其中两位是不能接受的，仅第三位能够接受这种行为。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/8gmxrVMQUb0.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/8gmxrVMQUb0.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/8gmxrVMQUb0_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_18",
@@ -796,7 +813,8 @@
                 "reasoning": "首先定位到Coco所在棺材房的片段，拍摄者提到有位邻居很满意自己的状态，再结合他们之间的交流可以得出。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/6amK2BgjXk8.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/6amK2BgjXk8.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/6amK2BgjXk8_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_19",
@@ -840,7 +858,8 @@
                 "reasoning": "结合视觉Michelle的表情神态听觉Michelle的语气可以得出，她最初对太空充满恐惧，但最终不仅克服了对太空的恐惧，还对自己有了新的认识，意识到自己对事物的认知可能存在误解。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/qmQeskMASA0.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/qmQeskMASA0.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/qmQeskMASA0_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_20",
@@ -891,7 +910,8 @@
                 "reasoning": "主持人提到头球训练球很轻，在使用中说习惯这个球再用比赛用球脖子会断，综合推断"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/rUgUEDTCGSo.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/rUgUEDTCGSo.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/rUgUEDTCGSo_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_21",
@@ -935,7 +955,8 @@
                 "reasoning": "帮助学生熟悉 1 到 20 的数字发音和顺序，让他们在唱的过程中强化对每个数字的听觉和记忆认知，为进一步的数学学习打下基础。同时学生通过学唱可以练习数字的英语发音，纠正发音错误，使发音更加标准、清晰，提升英语听说能力。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/3hsECQqpTw4.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/3hsECQqpTw4.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/3hsECQqpTw4_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_22",
@@ -979,7 +1000,8 @@
                 "reasoning": " Muisbosskerm是一家露天餐厅，从视频上得知餐厅面向大海，没有避风的位置，天气寒冷时不适合来这里就餐"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/Jqi8CYJ8OEM.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/Jqi8CYJ8OEM.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/Jqi8CYJ8OEM_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_23",
@@ -1023,7 +1045,8 @@
                 "reasoning": "Jojo一家前往好莱坞购物，认为那里有不错的商店且有信心能找到合适礼物，由此说明该地区商店数量较多且涵盖各类商品，能满足不同购物需求。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/4A8orzGYQRI.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/4A8orzGYQRI.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/4A8orzGYQRI_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_24",
@@ -1067,7 +1090,8 @@
                 "reasoning": "视频中有两处互赠礼物场景，一个是与父母互赠，一个是拍摄者两个人互赠，首先定位这个，然后结合视觉听觉判断礼物的位置。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/nhtAkSW8v0M.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/nhtAkSW8v0M.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/nhtAkSW8v0M_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_25",
@@ -1111,7 +1135,8 @@
                 "reasoning": "由Simon讲述个人经历大学期间同时打工与学习，销售工作每天 18 小时，创业初期长期处于资源匮乏状态，可以得出他是一个抗压能力很强的人。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/02I8Ad7qkjQ.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/02I8Ad7qkjQ.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/02I8Ad7qkjQ_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_26",
@@ -1155,7 +1180,8 @@
                 "reasoning": "Sea Moss提及了富含矿物质和维生素，没有脂肪，不能满足人类的脂肪营养需求"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/FnU5j2sZEBE.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/FnU5j2sZEBE.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/FnU5j2sZEBE_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_27",
@@ -1199,7 +1225,8 @@
                 "reasoning": "Abner从监狱出来后，成为了一名专业牧师，说明牧师这个行业不会像某些行业一些限制有过案底的人进入该行业。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/LzAJ2Xdg8qI.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/LzAJ2Xdg8qI.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/LzAJ2Xdg8qI_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_28",
@@ -1243,7 +1270,8 @@
                 "reasoning": "视频中在提及鞋类设计的的改进以及动作流畅性的要求时都反映了啦啦队服装从传统花哨设计转向功能性优先，简洁设计能够减少干扰，提升动作精准性，与啦啦队从表演附属到独立运动的转型一致。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/lX6U4nOhm5w.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/lX6U4nOhm5w.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/lX6U4nOhm5w_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_29",
@@ -1287,7 +1315,8 @@
                 "reasoning": "Michelle在第一次失败后训练了背对背谈话和学习了积极倾听表上的技巧,说明积极倾听可以帮助谈判成功"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/uow257PdFCE.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/uow257PdFCE.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/uow257PdFCE_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_30",
@@ -1331,7 +1360,8 @@
                 "reasoning": "这题需要模型对菜品的评价进行抽象归纳，总结特点后，分析亚洲菜系的特别之处。文中对亚洲菜系使用香料多次称赞，而在对欧洲菜系是指出调味过于单一。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/JIp3Ce9WtGQ.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/JIp3Ce9WtGQ.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/JIp3Ce9WtGQ_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_31",
@@ -1375,7 +1405,8 @@
                 "reasoning": "Bri认为TikTok 禁令是不合理的，因为很多人成为了创作者，甚至依靠 TikTok 创造了全新的生活，而禁令却剥夺了他们的机会，让他们失去了赚钱的途径，因此可以判断Bri不支持TikTok禁令。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/nTG1gfvClYs.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/nTG1gfvClYs.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/nTG1gfvClYs_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_32",
@@ -1419,7 +1450,8 @@
                 "reasoning": "希腊婚礼习俗，提到小型婚礼有一千人参加，大型的有三千人，且会制作大量果酱作为礼物，"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/7KDRMzpvUqw.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/7KDRMzpvUqw.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/7KDRMzpvUqw_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_33",
@@ -1463,7 +1495,8 @@
                 "reasoning": "结合听觉定位到最终医生为他们称重的片段，结合视觉比较他们的减重统计。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/pNvfLNztmAo.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/pNvfLNztmAo.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/pNvfLNztmAo_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_34",
@@ -1514,7 +1547,8 @@
                 "reasoning": "首先定位到主持人准备的街头采访片段，结合听觉可知被采访人的回答内容，视觉上有谁更受欢迎的计数，综合得知了解The Beatles的人略多一点。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/zF5PO0mHD80.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/zF5PO0mHD80.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/zF5PO0mHD80_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_35",
@@ -1558,7 +1592,8 @@
                 "reasoning": "Peter面对凶猛的Lty，他没有轻易放弃，尝试多种方法解决问题，如先使用溶剂、剪刀，失败后采用麻醉方式，在手术过程中谨慎操作，尽力避免给莉蒂造成更多伤害。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/Wduah0a5HR8.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/Wduah0a5HR8.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/Wduah0a5HR8_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_36",
@@ -1602,7 +1637,8 @@
                 "reasoning": "根据视频中主厨手上无名指带着戒指，推测他现在已婚"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/Ipe9xJCfuTM.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/Ipe9xJCfuTM.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/Ipe9xJCfuTM_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_37",
@@ -1646,7 +1682,8 @@
                 "reasoning": "在谈到龙虾卷业务时，提到其他门店已经在做龙虾卷业务，表明Stew Leonard's不止一家门店，存在多个店面，是连锁超市，而且还提到单店有 500 人左右的员工规模以及每周约 3.5 万顾客量等信息可以推测，这样的规模和顾客流量可能不是仅靠一家店就能达到的。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/CQl9Qp4zA9o.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/CQl9Qp4zA9o.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/CQl9Qp4zA9o_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_38",
@@ -1690,7 +1727,8 @@
                 "reasoning": "该节目主要讲述了三位房地产行业经纪人的个人故事等，其中如怎样平衡工作和家庭等，能为更多从事该行业的人提供一些工作经验。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/Y1AEYUtZo9s.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/Y1AEYUtZo9s.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/Y1AEYUtZo9s_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_39",
@@ -1734,7 +1772,8 @@
                 "reasoning": "通过定位到视频里，吉米在访谈中采取了灰谐的风格对嘉宾进行提问，整体是一个灰谐、轻松的氛围。由此可以推断出吉米的主持风格是灰谐的。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/eeumL7Fz-8M.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/eeumL7Fz-8M.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/eeumL7Fz-8M_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_40",
@@ -1778,7 +1817,8 @@
                 "reasoning": "模型需要定位到所有唱歌的片段，然后分析一共唱了几首歌。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/qLc0-tUDdMU.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/qLc0-tUDdMU.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/qLc0-tUDdMU_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_41",
@@ -1822,7 +1862,8 @@
                 "reasoning": "视频内容：Khloe在讨论要不要带着孩子去巴黎参加Kanye的时装秀时提到，因为疫情的传播，时装秀活动可能会被停止，机场可能会被关闭，有可能导致航班被取消无法回到美国。——>推理：疫情期间长途旅行需要谨慎考虑。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/sV__p7P4V6Y.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/sV__p7P4V6Y.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/sV__p7P4V6Y_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_42",
@@ -1866,7 +1907,8 @@
                 "reasoning": "根据文中Cory就支付了36000美元，Cassandra 说没有经济援助话无法负担，同时Cassandra 和Emily都受到了如奖学金等经济援助"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/EMpaw46kr2w.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/EMpaw46kr2w.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/EMpaw46kr2w_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_43",
@@ -1910,7 +1952,8 @@
                 "reasoning": "通过定位视频中，当 \"5 Second Rule\" 结束后，可以看到艾伦又与三位嘉宾进行访谈，由此可知，问题答案。 "
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/hDBQTFg1YWI.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/hDBQTFg1YWI.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/hDBQTFg1YWI_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_44",
@@ -1954,7 +1997,8 @@
                 "reasoning": "根据视觉可以看出这个动作的姿势与鸡翅相似，说明它的名字是根据姿势得来的，从而得出可以用动作的姿势给动作命名"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/FWGeUSoywDk.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/FWGeUSoywDk.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/FWGeUSoywDk_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_45",
@@ -1998,7 +2042,8 @@
                 "reasoning": "视频内容：Ashley提到自己只去过两次Omomo因为每次排队的人都很多/视频中展示了Omomo的店里全都是人/Ashley说她们可能要等几个小时/Omomo的每一杯奶茶都得到了很高的评分——>推理：Omomo是一家非常受欢迎的奶茶店。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/rVq8mzgzfNo.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/rVq8mzgzfNo.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/rVq8mzgzfNo_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_46",
@@ -2042,7 +2087,8 @@
                 "reasoning": "模型需要先定位到与Ideal salary相关的片段，然后找到它后面的问题。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/nfrgOeb1AHY.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/nfrgOeb1AHY.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/nfrgOeb1AHY_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_47",
@@ -2086,7 +2132,8 @@
                 "reasoning": "通过观察视频中参赛人员，通过听觉和视觉的结合，如journey只有9岁、而也有成年人、中年人等不同年龄的参赛人员，由此可知，美国达人秀的参赛人员是没有年龄限制的。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/SCwD715_c24.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/SCwD715_c24.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/SCwD715_c24_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_48",
@@ -2130,7 +2177,8 @@
                 "reasoning": "通过观察舞台的灯光、导师咖位、观众人数，由此可以推出这一个大规模舞台。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/aO-wNDaRBkk.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/aO-wNDaRBkk.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/aO-wNDaRBkk_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_49",
@@ -2174,7 +2222,8 @@
                 "reasoning": "模型需要在视频中找到所有与所点菜品相关的片段，然后综合计算菜品的数量。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/p78K12jx_o4.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/p78K12jx_o4.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/p78K12jx_o4_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "CZ_1_50",
@@ -2218,7 +2267,8 @@
                 "reasoning": "首先定位到处理非紧急的汽车锁闭事件片段，有人将钥匙锁在车内，到达现场后发现是汽车电池没电且钥匙因之前被撬而损坏，最终使用开锁工具成功打开车门。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/0CSaXIue9aI.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_1/0CSaXIue9aI.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/0CSaXIue9aI_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_1",
@@ -2262,7 +2312,8 @@
                 "reasoning": "模型定位到酒店预定的信息，从而得知可能使用的平台名称\n"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/KuRs5aoKT4g.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/KuRs5aoKT4g.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/KuRs5aoKT4g_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_2",
@@ -2306,7 +2357,8 @@
                 "reasoning": "Thrive Market为做推广赞助了本期视频，给博主寄了免费产品。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/s69Y70TNtDc.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/s69Y70TNtDc.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/s69Y70TNtDc_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_3",
@@ -2350,7 +2402,8 @@
                 "reasoning": "模型需要通过多片段线索以及对 Emalia and Joel持续追踪，对 Emalia and Joel的关系做出判断。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/Od_iPg-K6Ow.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/Od_iPg-K6Ow.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/Od_iPg-K6Ow_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_4",
@@ -2394,7 +2447,8 @@
                 "reasoning": "视频中出现狗，她表现得很喜欢。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/bG_cu5EOAAs.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/bG_cu5EOAAs.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/bG_cu5EOAAs_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_5",
@@ -2438,7 +2492,8 @@
                 "reasoning": "模型需要定位到博主有关芬兰食物价格的描述并分析博主从哪里来芬兰旅行的片段从而得出判断。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/qt1Fey4do-A.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/qt1Fey4do-A.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/qt1Fey4do-A_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_6",
@@ -2482,7 +2537,8 @@
                 "reasoning": "模型需要结合博主的穿着，以及对他的衣服的介绍，可以得出答案。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/-9ziUBOLx7k.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/-9ziUBOLx7k.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/-9ziUBOLx7k_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_7",
@@ -2526,7 +2582,8 @@
                 "reasoning": "模型需要识别Nasser说话内容综合分析这款软件的用途，由此推测出结论。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/lCzrUIGVYUo.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/lCzrUIGVYUo.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/lCzrUIGVYUo_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_8",
@@ -2570,7 +2627,8 @@
                 "reasoning": "模型需要找到所有Erin和主持人谈话的片段，通过多片段，以及和主持人谈话时喜欢捂嘴笑等画面找到任务的性格属性。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/FniKIzN-Q7I.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/FniKIzN-Q7I.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/FniKIzN-Q7I_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_9",
@@ -2614,7 +2672,8 @@
                 "reasoning": "模型需要定位到Madi对不同品牌方寄给她的产品的介绍，比如说一些化妆品，一些包装盒，一些样式精美的笔等等，Madi对这些包装精美的产品都表示了喜欢，由此可以推出她是喜欢一些包装精美的产品。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/TfSOZqq9XgE.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/TfSOZqq9XgE.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/TfSOZqq9XgE_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_10",
@@ -2658,7 +2717,8 @@
                 "reasoning": "视频中有几处画面显示路上车辆很多。模型需要结合音频中博主描述她即将上马路，同时结合画面中路上车很多的场景来推断。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/FwqgPhtR8C0.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/FwqgPhtR8C0.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/FwqgPhtR8C0_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_11",
@@ -2702,7 +2762,8 @@
                 "reasoning": "需要定位到所有购物商店的视频片段，并统计出Birta所去商店的具体数量。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/cPf7t3qHL7A.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/cPf7t3qHL7A.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/cPf7t3qHL7A_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_12",
@@ -2746,7 +2807,8 @@
                 "reasoning": "模型需结合视觉与听觉判断登山时什么设备保证了Ben的安全，并结合画面推理出Ben一直穿着carabiner，carabine在保证游客安全。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/XNQkm5vMSX8.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/XNQkm5vMSX8.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/XNQkm5vMSX8_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_13",
@@ -2790,7 +2852,8 @@
                 "reasoning": "Harrison looked for price tags many times while shopping, noting that he didn't want to blindly buy something too expensive. And he calculated the price carefully."
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/mdJPO6rdrTo.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/mdJPO6rdrTo.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/mdJPO6rdrTo_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_14",
@@ -2834,7 +2897,8 @@
                 "reasoning": "模型需要从Amy每天的工作日常推理这个问题的答案"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/CQl9Qp4zA9o.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/CQl9Qp4zA9o.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/CQl9Qp4zA9o_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_15",
@@ -2878,7 +2942,8 @@
                 "reasoning": "模型需要首先定位到博主在上班前整理衣服的片段，通过分析她的一些行为（比如在外面加上一层袜子）等等，可以得出答案"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/NTe5grrbGMM.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/NTe5grrbGMM.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/NTe5grrbGMM_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_16",
@@ -2922,7 +2987,8 @@
                 "reasoning": "模型需根据视觉信息定位到相关视频片段，再根据主持人提出的问题进行分析，从而判断出是什么类型的节目"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/OKDAooxAtfg.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/OKDAooxAtfg.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/OKDAooxAtfg_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_17",
@@ -2966,7 +3032,8 @@
                 "reasoning": "模型需要定位所有采访片段相关片段，并对共有多少名受访者进行计数，得出答案。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/62r3UPrOS9k.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/62r3UPrOS9k.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/62r3UPrOS9k_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_18",
@@ -3010,7 +3077,8 @@
                 "reasoning": "模型需要定位到每个受访者的发言综合分析得出结论。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/kgvXL7LILTY.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/kgvXL7LILTY.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/kgvXL7LILTY_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_19",
@@ -3054,7 +3122,8 @@
                 "reasoning": "模型需要定位到Charlotte提到Boot Bar的片段，再由Charlotte的话语推断出Boot Bar是一家卖衣服和鞋子的商店。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/6i8L-TdjQPc.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/6i8L-TdjQPc.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/6i8L-TdjQPc_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_20",
@@ -3098,7 +3167,8 @@
                 "reasoning": "模型需要定位进入the tomb of Iymery时的片段以及并根据他们进入墓室前导演对他们反复叮嘱说“人类的手指对这个金字塔的墙壁会有一定损害”，在他们进入墓室时墙壁上全是壁画，并且他们在参观这些壁画时手指在画前滑动，但没有一个人的手指碰到过墙壁，非常小心翼翼，得出结论：进入这个地方最重要的是不要触摸墙壁。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/y45Yd_ePWNU.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/y45Yd_ePWNU.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/y45Yd_ePWNU_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_21",
@@ -3142,7 +3212,8 @@
                 "reasoning": "在视频中，Molly提到要一会给自己点一杯咖啡，并且还说到”看博主Sofia在社交媒体上晒她的咖啡机时，她也十分心动“，自己也买了一台咖啡机和咖啡豆，以上行为可推断Molly喜爱咖啡。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/mn75mKUExGg.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/mn75mKUExGg.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/mn75mKUExGg_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_22",
@@ -3186,7 +3257,8 @@
                 "reasoning": "视频中提及这款无人机的喷水量是6~12加仑每分钟，因此喷24加仑的话最快也要2分钟。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/ZDyPfNBnQ0o.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/ZDyPfNBnQ0o.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/ZDyPfNBnQ0o_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_23",
@@ -3230,7 +3302,8 @@
                 "reasoning": "模型通过定位到博主和Eben来到美国的最北端，Eben表示即使这里环境很恶劣，但他也会留在这里，并且反复表示到这是他的家。由此可以推出他十分热爱自己的家乡。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/iYDSlh8gkus.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/iYDSlh8gkus.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/iYDSlh8gkus_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_24",
@@ -3274,7 +3347,8 @@
                 "reasoning": "模型需要定位到Jason制作自己的Trini Doubles的片段，识别并计数出Jason前后共加了其中三种酱料。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/fcZiW9Y1B-8.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/fcZiW9Y1B-8.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/fcZiW9Y1B-8_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_25",
@@ -3318,7 +3392,8 @@
                 "reasoning": "模型需要将视频看完，在Gordon做的菜中有好几道菜都用到了辣椒，且多次提到辣椒会让菜变得更美味，由此可知Gordon 喜欢吃辣味食物。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/GqUDWHUD2WY.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/GqUDWHUD2WY.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/GqUDWHUD2WY_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_26",
@@ -3362,7 +3437,8 @@
                 "reasoning": "模型需要定位多个片段，根据Nelson邀请别人时提到的500美金，可以推测出钱能刺激陌生人接受挑战。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/KDKXMwoOtHY.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/KDKXMwoOtHY.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/KDKXMwoOtHY_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_27",
@@ -3406,7 +3482,8 @@
                 "reasoning": "Duke of Wellington在1980s由Finch持有，后在1991年被Young's 收购，因此所有人是Young's。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/qk5X295E7cY.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/qk5X295E7cY.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/qk5X295E7cY_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_28",
@@ -3450,7 +3527,8 @@
                 "reasoning": "在视频中有两个片段可以展现出Fordham University的课外活动很丰富，模型需要召回所有的关于学校组织互动的片段，并推理出答案。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/Z7wRaqbriVE.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/Z7wRaqbriVE.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/Z7wRaqbriVE_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_29",
@@ -3494,7 +3572,8 @@
                 "reasoning": "模型需要召回所有有关自行车的画面，结合画面中有很多自行车停放点并且停着非常多的自行车，路上也有很多人骑着自行车出行，可推理出答案。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/p4--c3Eh6WA.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/p4--c3Eh6WA.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/p4--c3Eh6WA_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_30",
@@ -3538,7 +3617,8 @@
                 "reasoning": "模型先判断在同性恋在澳大利亚结婚的可行性，然后根据主人公的描述推断需要去其他同行婚姻合法化的欧洲结婚。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/uNwciVZuVk0.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/uNwciVZuVk0.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/uNwciVZuVk0_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_31",
@@ -3582,7 +3662,8 @@
                 "reasoning": "模型需要定位到主持人，并从她的表情和语言中分析她对AI的态度，因为她提及AI，表情激动并且说话语气兴奋，因此可以推断出她对AI是感兴趣的。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/bNEvJYzoa8A.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/bNEvJYzoa8A.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/bNEvJYzoa8A_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_32",
@@ -3626,7 +3707,8 @@
                 "reasoning": "模型需要分析整个视频男女两个队伍在该挑战中成员淘汰情况并得出结论。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/aRcUVhVlSHg.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/aRcUVhVlSHg.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/aRcUVhVlSHg_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_33",
@@ -3670,7 +3752,8 @@
                 "reasoning": "模型需要定位到博主对Kate的采访，以及他们的交流，可以知道Kate一直在坚持用语音备忘录录制她的音乐，并且已经有大约5000条了"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/VWJBAGrG0ms.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/VWJBAGrG0ms.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/VWJBAGrG0ms_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_34",
@@ -3714,7 +3797,8 @@
                 "reasoning": "根据受采访者的描述，韩国老板更倾向于提拔韩国人，对外来工作者的晋升相对困难。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/nfrgOeb1AHY.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/nfrgOeb1AHY.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/nfrgOeb1AHY_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_35",
@@ -3758,7 +3842,8 @@
                 "reasoning": "模型需要追踪nolan相关画面，通过nolan被虫子吓得四处逃窜可以看出Nolan是一个胆小的人"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/erLbbextvlY.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/erLbbextvlY.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/erLbbextvlY_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_36",
@@ -3802,7 +3887,8 @@
                 "reasoning": "模型需要根据Billy的描述得知Jarren是第二次参加挑战，由词可以分析这是一个值得挑战的挑战项目。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/-bMyTZYVzgw.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/-bMyTZYVzgw.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/-bMyTZYVzgw_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_37",
@@ -3846,7 +3932,8 @@
                 "reasoning": "根据博主探店顺序可知Barton Gs是第四家店，Miku是第五家"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/7FTOIAehiWo.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/7FTOIAehiWo.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/7FTOIAehiWo_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_38",
@@ -3890,7 +3977,8 @@
                 "reasoning": "模型需要根据七天中众人在黑暗环境下以及夜晚中的表现推断出是什么设备保证摆设顺利，因为视频并未直接提及，需要模型结合视觉与听觉进行推断。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/bn0Kh9c4Zv4.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/bn0Kh9c4Zv4.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/bn0Kh9c4Zv4_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_39",
@@ -3934,7 +4022,8 @@
                 "reasoning": "模型需要根据所有受采访的片段来判断视频中一共采访了几个人。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/1RnnzZhs_sQ.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/1RnnzZhs_sQ.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/1RnnzZhs_sQ_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_40",
@@ -3978,7 +4067,8 @@
                 "reasoning": "模型需要根据多个片段，首先识别到Kanan做好了蛋糕体，再根据后面的片段分析他做的事，视频中Kanan先抹上奶油，再摆上了装饰品。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/bl-KZV_DL0Q.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/bl-KZV_DL0Q.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/bl-KZV_DL0Q_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_41",
@@ -4022,7 +4112,8 @@
                 "reasoning": "Janelle阐述了一个观点，尽管她曾被伴侣背叛过，但为了给孩子更好的教育，她不会离婚。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/sOFMthj_inw.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/sOFMthj_inw.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/sOFMthj_inw_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_42",
@@ -4073,7 +4164,8 @@
                 "reasoning": "小狗多次出现在以及重要场合，在采访时仍然带着它，可以看出她是个爱狗人士"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/AY-IDgLtYTw.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/AY-IDgLtYTw.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/AY-IDgLtYTw_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_43",
@@ -4117,7 +4209,8 @@
                 "reasoning": "模型需要定位到豪华轿车的片段进行推理。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/mDnQnoNhez0.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/mDnQnoNhez0.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/mDnQnoNhez0_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_44",
@@ -4161,7 +4254,8 @@
                 "reasoning": "模型需要定位到谈论Adidas Superstars的相关片段，综合分析得出结论。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/Y7PoEXxectE.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/Y7PoEXxectE.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/Y7PoEXxectE_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_45",
@@ -4205,7 +4299,8 @@
                 "reasoning": "模型需要定位到游戏以及开第二个奖的片段，并结合在场观众的反应，即可得出答案。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/LoldJNDLZHc.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/LoldJNDLZHc.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/LoldJNDLZHc_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_46",
@@ -4249,7 +4344,8 @@
                 "reasoning": "模型需要定位到制作Philly cheesesteak时的相关片段进行分析。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/-Lt0idIsJWo.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/-Lt0idIsJWo.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/-Lt0idIsJWo_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_47",
@@ -4293,7 +4389,8 @@
                 "reasoning": "根据关键词锁定发言片段，推理得出答案。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/obKb4if8RMk.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/obKb4if8RMk.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/obKb4if8RMk_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_48",
@@ -4337,7 +4434,8 @@
                 "reasoning": "模型需要定位到这个废弃商场周围的情况并提取探险人员的对话信息，由此进行推理分析。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/g8Lu-I6h4-g.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/g8Lu-I6h4-g.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/g8Lu-I6h4-g_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_49",
@@ -4381,7 +4479,8 @@
                 "reasoning": "模型需要先定位到Erika在车上讲述自己美甲一直在脱落所以要去美甲店的片段，通过观察可以发现，Erika的美甲是粉色的。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/Xz0dgbdlsz8.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/Xz0dgbdlsz8.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/Xz0dgbdlsz8_30_5_-1_10_20_0.3_0.6.pkl"
     },
     {
         "video_id": "ZZ_1_50",
@@ -4425,6 +4524,7 @@
                 "reasoning": "模型需要先定位到情人节的晚餐，再结合画面判断桌子上有几只生蚝。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/CeZe4Ua1JLM.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_1/CeZe4Ua1JLM.mp4",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_1/CeZe4Ua1JLM_30_5_-1_10_20_0.3_0.6.pkl"
     }
 ]

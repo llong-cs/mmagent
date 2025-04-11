@@ -69,3 +69,6 @@ audio_embedding_deploy/pretrained_eres2netv2.ckpt
 
 # Cookies
 cookies/
+
+# Temp files
+*_wvf_snd.mp4

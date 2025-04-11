@@ -300,7 +300,7 @@ if __name__ == "__main__":
     def check_video_path(args):
         video, output_dir, interval = args
         path = video["path"]
-        if os.path.exists(path) and not verify_video_processing(path, output_dir, interval, strict=True):
+        if not verify_video_processing(path, output_dir, interval, strict=True):
             return path
         return None
 
@@ -309,7 +309,7 @@ if __name__ == "__main__":
     base_save_dir = "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos"
         
     cpu_count = multiprocessing.cpu_count()
-    max_workers = min(cpu_count, 32)
+    max_workers = min(cpu_count, 64)
     
     print(f"Using {max_workers} processes (CPU cores: {cpu_count})")
 
