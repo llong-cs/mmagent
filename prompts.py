@@ -725,3 +725,19 @@ Input:
 {qa_list}
 
 Output:"""
+
+prompt_agent_verify_answer = """You are provided with a question, the ground truth answer, and the answer from an agent model. Your task is to assess whether the agent answer is semantically consistent with the ground truth answer. If the meaning of the agent answer aligns with the ground truth answer, regardless of exact wording, return "Yes". If the agent answer is semantically incorrect, return "No".
+
+Input Example:
+
+{
+	"question": "What is the capital of France?",
+	"ground_truth_answer": "Paris",
+	"agent_answer": "Paris"
+}
+
+Output Example:
+
+Yes
+
+Please only return "Yes" or "No", without any additional explanation or formatting."""

@@ -15,13 +15,18 @@ MAX_RETRIES = processing_config["max_retries"]
 max_retrieval_steps = processing_config["max_retrieval_steps"]
 
 def translate(video_graph, memories):
+    new_memories = []
     for i, memory in enumerate(memories):
+        if memory.lower().startswith("equivalence: "):
+            continue
+        new_memory = memory
         entities = parse_video_caption(video_graph, memory)
         for entity in entities:
             entity_str = f"{entity[0]}_{entity[1]}"
             if entity_str in video_graph.reverse_character_mappings.keys():
-                memories[i] = memory.replace(entity_str, video_graph.reverse_character_mappings[entity_str])
-    return memories
+                new_memory = new_memory.replace(entity_str, video_graph.reverse_character_mappings[entity_str])
+        new_memories.append(new_memory)
+    return new_memories
 
 def back_translate(video_graph, queries):
     translated_queries = []
@@ -293,7 +298,11 @@ def generate_action(question, knowledge):
     if action_content is None:
         raise Exception("Failed to generate action")
     print(action)
-    return action_type, action_content
+    session = {
+        "input": input,
+        "output": action,
+    }
+    return action_type, action_content, session
 
 def answer_with_retrieval(video_graph, question, topk=5, auto_refresh=False, mode='argmax'):
     if auto_refresh:
@@ -304,8 +313,11 @@ def answer_with_retrieval(video_graph, question, topk=5, auto_refresh=False, mod
 
     final_answer = None
     
+    sessions = []
+    
     for i in range(max_retrieval_steps):
-        action_type, action_content = generate_action(question, context)
+        action_type, action_content, session = generate_action(question, context)
+        sessions.append(session)
         if action_type == "answer":
             final_answer = action_content
             print(f"Answer: {final_answer}")
@@ -344,7 +356,7 @@ def answer_with_retrieval(video_graph, question, topk=5, auto_refresh=False, mod
         final_answer = get_response_with_retry(model, messages)[0]
         print(f"Answer: {final_answer}")
     
-    return final_answer
+    return final_answer, sessions
 
 if __name__ == "__main__":
     video_graph = VideoGraph()
