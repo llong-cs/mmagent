@@ -5,6 +5,12 @@ from concurrent.futures import ThreadPoolExecutor
 from tqdm import tqdm
 import argparse
 
+def parse_args():
+    parser = argparse.ArgumentParser(description='Video static segment detection')
+    parser.add_argument('--dir', type=str, required=True, help='Directory containing videos to process')
+    return parser.parse_args()
+
+
 def has_static_segment(
     video_path,
     min_static_duration=5.0,  # 秒，静止时间阈值
@@ -58,16 +64,24 @@ def has_static_segment(
     cap.release()
     return False
 
-video_folders = os.listdir(dir)
-videos_to_be_verified = []
-for video_folder in video_folders:
-    video_path = os.path.join(dir, video_folder)
+
+
+def main():
+    args = parse_args()
+    dir = args.dir
+    video_folders = os.listdir(dir)
+    videos_to_be_verified = []
+    for video_folder in video_folders:
+        video_path = os.path.join(dir, video_folder)
     if os.path.isdir(video_path):
         video_files = os.listdir(video_path)
         for video_file in video_files:
             video_file_path = os.path.join(video_path, video_file)
             videos_to_be_verified.append(video_file_path)
 
-max_workers = 64
-with ThreadPoolExecutor(max_workers=max_workers) as executor:
-    tqdm(executor.map(has_static_segment, videos_to_be_verified), total=len(videos_to_be_verified), desc="Verifying videos")
+    max_workers = 64
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        tqdm(executor.map(has_static_segment, videos_to_be_verified), total=len(videos_to_be_verified), desc="Verifying videos")
+
+if __name__ == "__main__":
+    main()
