@@ -9,4 +9,6 @@ openai
 moviepy 
 bytedtos 
 bytedlaplace
+httpx==0.23.0
+
 # python==3.9.2
