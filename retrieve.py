@@ -287,9 +287,11 @@ def generate_action(question, knowledge):
         action = get_response_with_retry(model, messages)[0]
         if "[ANSWER]" in action:
             action_type = "answer"
+            reasoning = action.split("[ANSWER]")[0].strip()
             action_content = action.split("[ANSWER]")[1].strip()
         elif "[SEARCH]" in action:
             action_type = "search"
+            reasoning = action.split("[SEARCH]")[0].strip()
             action_content = action.split("[SEARCH]")[1].strip()
         else:
             raise ValueError(f"Unknown action type: {action}")
@@ -298,11 +300,7 @@ def generate_action(question, knowledge):
     if action_content is None:
         raise Exception("Failed to generate action")
     print(action)
-    session = {
-        "input": input,
-        "output": action,
-    }
-    return action_type, action_content, session
+    return reasoning, action_type, action_content
 
 def answer_with_retrieval(video_graph, question, topk=5, auto_refresh=False, mode='argmax'):
     if auto_refresh:
@@ -313,13 +311,18 @@ def answer_with_retrieval(video_graph, question, topk=5, auto_refresh=False, mod
 
     final_answer = None
     
-    sessions = []
+    memories = [[]]
+    responses = []
     
     for i in range(max_retrieval_steps):
-        action_type, action_content, session = generate_action(question, context)
-        sessions.append(session)
+        reasoning, action_type, action_content = generate_action(question, context)
         if action_type == "answer":
             final_answer = action_content
+            responses.append({
+                "reasoning": reasoning,
+                "action_type": action_type,
+                "action_content": action_content
+            })
             print(f"Answer: {final_answer}")
             break
         elif action_type == "search":
@@ -340,6 +343,16 @@ def answer_with_retrieval(video_graph, question, topk=5, auto_refresh=False, mod
                 "query": action_content,
                 "retrieved memories": new_memories
             })
+            
+            memories.append([{
+                "clip_id": k,
+                "memory": v
+            } for k, v in new_memories.items()])
+            responses.append({
+                "reasoning": reasoning,
+                "action_type": action_type,
+                "action_content": action_content
+            })
     
     if not final_answer:
         input = [
@@ -356,7 +369,7 @@ def answer_with_retrieval(video_graph, question, topk=5, auto_refresh=False, mod
         final_answer = get_response_with_retry(model, messages)[0]
         print(f"Answer: {final_answer}")
     
-    return final_answer, sessions
+    return final_answer, (memories, responses)
 
 if __name__ == "__main__":
     video_graph = VideoGraph()
