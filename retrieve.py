@@ -154,7 +154,6 @@ def retrieve_from_videograph(video_graph, query, topk=5, mode='argmax'):
             raise ValueError(f"Invalid query: {query}")
     else:
         queries = back_translate(video_graph, [query])
-        print(f"Queries: {queries}")
 
         model = "text-embedding-3-large"
         query_embeddings = parallel_get_embedding(model, queries)[0]
@@ -283,7 +282,6 @@ def generate_action(question, knowledge):
     action_type = None
     action_content = None
     for i in range(MAX_RETRIES):
-        print(f"Generating action {i} times")
         action = get_response_with_retry(model, messages)[0]
         if "[ANSWER]" in action:
             action_type = "answer"
@@ -316,6 +314,7 @@ def answer_with_retrieval(video_graph, question, topk=5, auto_refresh=False, mod
     
     for i in range(max_retrieval_steps):
         reasoning, action_type, action_content = generate_action(question, context)
+        reasoning = reasoning.strip("### Reasoning:").strip("### Answer or Search:").strip("Reasoning:").strip()
         if action_type == "answer":
             final_answer = action_content
             responses.append({
