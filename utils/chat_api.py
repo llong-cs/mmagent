@@ -59,13 +59,14 @@ def get_response_with_retry(model, messages):
         try:
             return get_response(model, messages)
         except Exception as e:
-            sleep(60)
+            sleep(30)
             print(f"Retry {i} times, exception: {e}")
             continue
     raise Exception(f"Failed to get response after {MAX_RETRIES} retries")
 
 def parallel_get_response(model, messages):
     """Process multiple messages in parallel using ThreadPoolExecutor.
+    Messages are processed in batches, with each batch completing before starting the next.
 
     Args:
         model (str): Model identifier
@@ -74,16 +75,24 @@ def parallel_get_response(model, messages):
     Returns:
         tuple: (list of responses, total tokens used)
     """
-    max_workers = min(len(messages), config[model]["qpm"])
+    batch_size = config[model]["qpm"]
+    responses = []
+    total_tokens = 0
 
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        responses = list(executor.map(lambda x: get_response_with_retry(model, x), messages))
-    # answers are the first column of responses
-    answers = [response[0] for response in responses]
-    # tokens are the second column of responses 
-    tokens = [response[1] for response in responses]
-    # return answers and sum of tokens
-    return answers, sum(tokens)
+    for i in range(0, len(messages), batch_size):
+        batch = messages[i:i + batch_size]
+        with ThreadPoolExecutor(max_workers=len(batch)) as executor:
+            futures = [executor.submit(get_response_with_retry, model, msg) for msg in batch]
+            batch_responses = [future.result() for future in futures]
+            
+        # Extract answers and tokens from batch responses
+        batch_answers = [response[0] for response in batch_responses]
+        batch_tokens = [response[1] for response in batch_responses]
+        
+        responses.extend(batch_answers)
+        total_tokens += sum(batch_tokens)
+
+    return responses, total_tokens
 
 
 def get_embedding(model, text):
@@ -117,7 +126,7 @@ def get_embedding_with_retry(model, text):
         try:
             return get_embedding(model, text)
         except Exception as e:
-            sleep(60)
+            sleep(30)
             print(f"Retry {i} times, exception: {e}")
             continue
     raise Exception(f"Failed to get embedding after {MAX_RETRIES} retries")
@@ -132,16 +141,26 @@ def parallel_get_embedding(model, texts):
     Returns:
         tuple: (list of embeddings, total tokens used)
     """
-    max_workers = min(len(texts), config[model]["qpm"])
-
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        results = list(executor.map(lambda x: get_embedding_with_retry(model, x), texts))
+    batch_size = config[model]["qpm"]
+    embeddings = []
+    total_tokens = 0
     
-    # Split results into embeddings and tokens
-    embeddings = [result[0] for result in results]
-    tokens = [result[1] for result in results]
-    # return embeddings and sum of tokens
-    return embeddings, sum(tokens)
+    # Process texts in batches
+    for i in range(0, len(texts), batch_size):
+        batch = texts[i:i + batch_size]
+        max_workers = len(batch)
+        
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            results = list(executor.map(lambda x: get_embedding_with_retry(model, x), batch))
+            
+        # Split batch results into embeddings and tokens
+        batch_embeddings = [result[0] for result in results]
+        batch_tokens = [result[1] for result in results]
+        
+        embeddings.extend(batch_embeddings)
+        total_tokens += sum(batch_tokens)
+        
+    return embeddings, total_tokens
 
 def get_whisper(model, file_path):
     """Transcribe audio file using Whisper model.
@@ -173,7 +192,7 @@ def get_whisper_with_retry(model, file_path):
         try:
             return get_whisper(model, file_path)
         except Exception as e:
-            sleep(60)
+            sleep(30)
             print(f"Retry {i} times, exception: {e}")
     raise Exception(f"Failed to get response after {MAX_RETRIES} retries")
 
@@ -187,9 +206,18 @@ def parallel_get_whisper(model, file_paths):
     Returns:
         list: List of transcription results
     """
-    max_workers = min(len(file_paths), config[model]["qpm"])
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        responses = list(executor.map(lambda x: get_whisper_with_retry(model, x), file_paths))
+    batch_size = config[model]["qpm"]
+    responses = []
+    
+    for i in range(0, len(file_paths), batch_size):
+        batch = file_paths[i:i + batch_size]
+        max_workers = len(batch)
+        
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            batch_responses = list(executor.map(lambda x: get_whisper_with_retry(model, x), batch))
+            
+        responses.extend(batch_responses)
+        
     return responses
 
 def generate_messages(inputs):
