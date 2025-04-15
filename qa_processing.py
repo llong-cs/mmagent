@@ -52,22 +52,25 @@ def verify_qa(qa):
 
 def process_qa_list(qa_list, max_workers=16):
     with ProcessPoolExecutor(max_workers=max_workers) as executor:
-        new_qa_list = list(
+        qa_list = list(
             tqdm(
                 executor.map(process_qa, qa_list),
                 total=len(qa_list),
                 desc="Generating answers",
             )
         )
+    return qa_list
+
+def verify_qa_list(qa_list, max_workers=50):
     with ProcessPoolExecutor(max_workers=max_workers) as executor:
-        new_qa_list = list(
+        qa_list = list(
             tqdm(
-                executor.map(verify_qa, new_qa_list),
+                executor.map(verify_qa, qa_list),
                 total=len(qa_list),
                 desc="Verifying answers",
             )
         )
-    return new_qa_list
+    return qa_list
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -87,8 +90,14 @@ if __name__ == "__main__":
             if os.path.exists(qa["mem_path"]):
                 qa_list.append(qa)
 
-    new_qa_list = process_qa_list(qa_list, num_processes)
+    qa_list_with_agent_answer = process_qa_list(qa_list)
 
     with open(dataset_with_agent_answer, "w") as f:
-        for qa in new_qa_list:
+        for qa in qa_list_with_agent_answer:
+            f.write(json.dumps(qa) + "\n")
+
+    qa_list_with_agent_answer_verified = verify_qa_list(qa_list_with_agent_answer)
+
+    with open(dataset_with_agent_answer, "w") as f:
+        for qa in qa_list_with_agent_answer_verified:
             f.write(json.dumps(qa) + "\n")

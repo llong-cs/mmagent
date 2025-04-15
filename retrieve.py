@@ -148,7 +148,7 @@ def retrieve_from_videograph(video_graph, query, topk=5, mode='argmax'):
             clip_id = int(match.group(1))
             top_clips = [clip_id]
         else:
-            raise ValueError(f"Invalid query: {query}")
+            top_clips = []
     else:
         queries = back_translate(video_graph, [query])
 
@@ -322,6 +322,28 @@ def answer_with_retrieval(video_graph, question, topk=5, auto_refresh=False, mod
             print(f"Answer: {final_answer}")
             break
         elif action_type == "search":
+            if i == max_retrieval_steps - 1:
+                input = [
+                    {
+                        "type": "text",
+                        "content": prompt_answer_with_retrieval_clipwise_final.format(
+                            question=question,
+                            related_memories=context,
+                        ),
+                    }
+                ]
+                messages = generate_messages(input)
+                model = "gpt-4o-2024-11-20"
+                resp = get_response_with_retry(model, messages)[0]
+                reasoning = resp.split("[ANSWER]")[0]
+                final_answer = resp.split("[ANSWER]")[1]
+                responses.append({
+                    "reasoning": reasoning,
+                    "action_type": "answer",
+                    "action_content": final_answer
+                })
+                print(f"Answer: {final_answer}")
+                break
             new_clips = retrieve_from_videograph(video_graph, action_content, topk, mode)
             new_clips = [new_clip for new_clip in new_clips if new_clip not in related_clips]
             new_memories = {}
@@ -351,22 +373,7 @@ def answer_with_retrieval(video_graph, question, topk=5, auto_refresh=False, mod
                 "reasoning": reasoning,
                 "action_type": action_type,
                 "action_content": action_content
-            })
-    
-    if not final_answer:
-        input = [
-            {
-                "type": "text",
-                "content": prompt_answer_with_retrieval_clipwise_final.format(
-                    question=question,
-                    related_memories=json.dumps(context),
-                ),
-            }
-        ]
-        messages = generate_messages(input)
-        model = "gpt-4o-2024-11-20"
-        final_answer = get_response_with_retry(model, messages)[0]
-        print(f"Answer: {final_answer}")
+            })        
     
     return final_answer, (memories, responses)
 

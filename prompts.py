@@ -306,7 +306,7 @@ Yes
 
 Please only return "Yes" or "No", without any additional explanation or formatting."""
 
-prompt_generate_action = """You are given a question and some relevant knowledge. Your task is to reason about whether the provided knowledge is sufficient to answer the question. If it is sufficient, output [ANSWER] followed by the answer. If it is not sufficient, output [SEARCH] and generate a query that will be encoded into embeddings for a vector similarity search. The query will help retrieve additional information from a memory bank, considering both the question and the provided knowledge.
+prompt_generate_action = """You are given a question and some relevant knowledge about a specific video. Your task is to reason about whether the provided knowledge is sufficient to answer the question. If it is sufficient, output [ANSWER] followed by the answer. If it is not sufficient, output [SEARCH] and generate a query that will be encoded into embeddings for a vector similarity search. The query will help retrieve additional information from a memory bank that consists of detailed descriptions and high-level abstractions of the video, considering both the question and the provided knowledge.
 
 Specifically, your response should contain the following two parts:
 	1.	Reasoning: First, consider the question and existing knowledge. Think about whether the current information can answer the question. If not, do some reasoning about what is the exact information that is still missing and the reason why it is important to answer the question.
@@ -316,7 +316,7 @@ Specifically, your response should contain the following two parts:
 		•	Identify broad topics or themes that may help answer the question. These themes should cover aspects that provide useful context or background to the question, such as character names, behaviors, relationships, personality traits, actions, and key events.
 		•	Make the query concise and focused on a specific piece of information that could help answer the question. 
 		•	The query should target information outside of the existing knowledge that might help answer the question.
-		•	For time-sensitive or chronological information (e.g., events occurring in sequence, changes over time, or specific moments in a timeline), you can generate clip-based queries that reference specific clips or moments in time. These queries should include a reference to the clip number, indicating the index of the clip in the video (a number from 1 to N, where a smaller number indicates an earlier clip). Format these queries as "CLIP_x", where x is the clip number. Note only generate clip-based queries if the question is about a specific moment in time or a sequence of events.
+		•	For time-sensitive or chronological information (e.g., events occurring in sequence, changes over time, or specific moments in a timeline), you can generate clip-based queries that reference specific clips or moments in time. These queries should include a reference to the clip number, indicating the index of the clip in the video (a number from 1 to N, where a smaller number indicates an earlier clip). Format these queries as "CLIP_x", where x should be an integer that indicated the clip index. Note only generate clip-based queries if the question is about a specific moment in time or a sequence of events.
 		•	You can also generate queries that focus on specific characters or characters' attributes using the id shown in the knowledge.
 		•	Make sure your generated query focus on some aspects that are not retrieved or asked yet. Do not repeatedly generate queries that have high semantic similarity with those generated before.
 
@@ -380,6 +380,87 @@ It seems that content in CLIP_2 shows exactly the argument between Alice and Bob
 Now, generate your response for the following input:
 
 Question: {question}
+
+Knowledge: {knowledge}
+
+Output:"""
+
+prompt_generate_action_with_plan = """You are given a question and some relevant knowledge about a specific video. You are also provided with a retrieval plan, which outlines the types of information that should be retrieved from a memory bank in order to answer the question. Your task is to reason about whether the provided knowledge is sufficient to answer the question. If it is sufficient, output [ANSWER] followed by the answer. If it is not sufficient, output [SEARCH] and generate a query that will be encoded into embeddings for a vector similarity search. The query will help retrieve additional information from a memory bank that contains detailed descriptions and high-level abstractions of the video, considering the question, the provided knowledge, and the retrieval plan.
+
+Specifically, your response should contain the following two parts:
+	1.	Reasoning: First, consider the question and existing knowledge. Think about whether the current information can answer the question. If not, do some reasoning about what is the exact information that is still missing and the reason why it is important to answer the question.
+	2.	Answer or Search:
+	•	Answer: If you can answer the question based on the provided knowledge, output [ANSWER] and provide the answer.
+	•	Search: If you cannot answer the question based on the provided knowledge, output [SEARCH] and generate a query. For the query:
+		•	Use the retrieval plan to inform what type of content should be searched for next. These contents should cover aspects that provide useful context or background to the question, such as character names, behaviors, relationships, personality traits, actions, and key events.
+		•	Make the query concise and focused on a specific piece of information that could help answer the question. 
+		•	The query should target information outside of the existing knowledge that might help answer the question.
+		•	For time-sensitive or chronological information (e.g., events occurring in sequence, changes over time, or specific moments in a timeline), you can generate clip-based queries that reference specific clips or moments in time. These queries should include a reference to the clip number, indicating the index of the clip in the video (a number from 1 to N, where a smaller number indicates an earlier clip). Format these queries as "CLIP_x", where x should be an integer that indicates the clip index. Note only generate clip-based queries if the question is about a specific moment in time or a sequence of events.
+		•	You can also generate queries that focus on specific characters or characters' attributes using the id shown in the knowledge.
+		•	Make sure your generated query focus on some aspects that are not retrieved or asked yet. Do not repeatedly generate queries that have high semantic similarity with those generated before.
+
+Example 1:
+
+Input:
+
+Question: How did the argument between Alice and Bob influence their relationship in the story?
+Knowledge:
+[
+	{{
+		"query": "What happened during the argument between Alice and Bob?",
+		"related memories": {{
+			"CLIP_2": [
+				"<face_1> and <face_2> are seen arguing in the living room."
+				"<face_1> raises her voice, and <face_2> looks upset."
+				"<face_1> accuses <face_2> of not listening to her."
+			],
+		}}
+	}}
+]
+
+Output:
+
+It seems that <face_1> and <face_2> are arguing about their relationship. I need to figure out the names of <face_1> and <face_2>.
+[SEARCH] What are the names of <face_1> and <face_2>?
+
+Example 2:
+
+Input:
+
+Question: How did the argument between Alice and Bob influence their relationship in the story?
+Knowledge:
+[
+	{{
+		"query": "What happened during the argument between Alice and Bob?",
+		"related memories": {{
+			"CLIP_2": [
+				"<face_1> and <face_2> are seen arguing in the living room."
+				"<face_1> raises her voice, and <face_2> looks upset."
+				"<face_1> accuses <face_2> of not listening to her."
+			],
+		}}
+	}},
+	{{
+		"query": "What are the names of <face_1> and <face_2>?",
+		"related memories": {{
+			"CLIP_1": [
+				"<face_1> says to <face_2>: 'I am done with you Bob!'",
+				"<face_2> says to <face_1>: 'What about now, Alice?'"
+			],
+		}}
+	}}	
+]
+
+Output:
+
+It seems that content in CLIP_2 shows exactly the argument between Alice and Bob. To figure out how did the argument between Alice and Bob influence their relationship, I need to see what happened next in CLIP_3.
+[SEARCH] CLIP_3
+
+Now, generate your response for the following input:
+
+Question: {question}
+
+Retrieval plan: {retrieval_plan}
 
 Knowledge: {knowledge}
 
@@ -696,6 +777,7 @@ Important Instructions:
 	•	Do not use placeholder IDs like <character_1>, or vague descriptions such as "the man in the suit" or "the person speaking".
 	•	Your answer should be short, clear, and directly address the question.
 	•	Avoid repeating or summarizing the memories—focus only on delivering the final answer.
+	•	Reasoning over the provided information before giving the final answer. Use the format like: "<reasoning> [ANSWER] <final_answer>" for your response.
 
 Question: {question}
 
@@ -741,3 +823,37 @@ Output Example:
 Yes
 
 Please only return "Yes" or "No", without any additional explanation or formatting."""
+
+prompt_generate_plan = """You are given a clip from a specific video and a question about the video. There exists a memory bank that contains information about this video, but you will not be shown its contents.
+
+The memory bank is structured as a temporally ordered sequence of entries. Each entry contains either:
+	•	a fine-grained description of a specific moment in the video, or
+	•	a high-level summary or abstraction of events.
+
+Your task is to create a retrieval plan: a step-by-step outline describing what kinds of information should be retrieved from the memory bank to answer the question effectively.
+
+Guidelines:
+	•	Do not attempt to answer the question.
+	•	Based on your understanding of what the memory bank likely contains, generate a string list where each item is a logically ordered retrieval step.
+	•	Each step should specify a type of content or temporal segment to retrieve (e.g., "find entries describing character motivations" or "look for summaries of the climax").
+	•	Your plan should reflect a reasoning process tailored to the question type.
+
+Some examples of the entries in the memory bank:
+	•	"<face_1> and <face_2> are seen arguing in the living room."
+	•	"<face_1> raises her voice, and <face_2> looks upset."
+	•	"<face_1> accuses <face_2> of not listening to her."
+
+Output format:
+A list of strings. Example:
+
+[
+  "Step 1: Retrieve entries describing the initial context and setting of the video.",
+  "Step 2: Look for interactions between the main characters relevant to the question.",
+  "Step 3: Find summaries that explain the consequences of the key events."
+]
+
+Please response with only the string list of the plan, without any additional explanation or formatting.
+
+Now start generating the plan.
+
+Questions: {question}"""
