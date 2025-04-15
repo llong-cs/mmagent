@@ -51,8 +51,6 @@ def verify_qa(qa):
 
 
 def process_qa_list(qa_list, max_workers=16):
-    for qa in qa_list:
-        process_qa(qa)
     with ProcessPoolExecutor(max_workers=max_workers) as executor:
         new_qa_list = list(
             tqdm(
