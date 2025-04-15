@@ -79,25 +79,40 @@ if __name__ == "__main__":
     args = parser.parse_args()
     args.dataset_with_agent_answer = args.dataset.replace(".jsonl", "_with_agent_answer.jsonl")
 
-    qa_list = []
-    dataset = args.dataset
-    dataset_with_agent_answer = args.dataset_with_agent_answer
-    num_processes = args.num_processes
+    # qa_list = []
+    # dataset = args.dataset
+    # dataset_with_agent_answer = args.dataset_with_agent_answer
+    # num_processes = args.num_processes
 
-    with open(dataset, "r") as f:
+    # with open(dataset, "r") as f:
+    #     for line in f:
+    #         qa = json.loads(line)
+    #         if os.path.exists(qa["mem_path"]):
+    #             qa_list.append(qa)
+
+    # qa_list_with_agent_answer = process_qa_list(qa_list)
+
+    # with open(dataset_with_agent_answer, "w") as f:
+    #     for qa in qa_list_with_agent_answer:
+    #         f.write(json.dumps(qa) + "\n")
+
+    # qa_list_with_agent_answer_verified = verify_qa_list(qa_list_with_agent_answer)
+
+    # with open(dataset_with_agent_answer, "w") as f:
+    #     for qa in qa_list_with_agent_answer_verified:
+    #         f.write(json.dumps(qa) + "\n")
+    
+    # verify only
+    qa_list = []
+    dataset_with_agent_answer = args.dataset_with_agent_answer
+    with open(dataset_with_agent_answer, "r") as f:
         for line in f:
             qa = json.loads(line)
             if os.path.exists(qa["mem_path"]):
                 qa_list.append(qa)
-
-    qa_list_with_agent_answer = process_qa_list(qa_list)
-
-    with open(dataset_with_agent_answer, "w") as f:
-        for qa in qa_list_with_agent_answer:
-            f.write(json.dumps(qa) + "\n")
-
-    qa_list_with_agent_answer_verified = verify_qa_list(qa_list_with_agent_answer)
-
-    with open(dataset_with_agent_answer, "w") as f:
-        for qa in qa_list_with_agent_answer_verified:
+    
+    qa_list = verify_qa_list(qa_list)
+    
+    with open(args.dataset_with_agent_answer, "w") as f:
+        for qa in qa_list:
             f.write(json.dumps(qa) + "\n")
