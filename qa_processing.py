@@ -50,10 +50,9 @@ def verify_qa(qa):
     return qa
 
 
-def process_qa_list(qa_list):
+def process_qa_list(qa_list, max_workers=16):
     for qa in qa_list:
         process_qa(qa)
-    max_workers = 16
     with ProcessPoolExecutor(max_workers=max_workers) as executor:
         new_qa_list = list(
             tqdm(
@@ -90,7 +89,7 @@ if __name__ == "__main__":
             if os.path.exists(qa["mem_path"]):
                 qa_list.append(qa)
 
-    new_qa_list = process_qa_list(qa_list[:5])
+    new_qa_list = process_qa_list(qa_list[:20], num_processes)
 
     with open(dataset_with_agent_answer, "w") as f:
         for qa in new_qa_list:
