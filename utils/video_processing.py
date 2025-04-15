@@ -245,8 +245,50 @@ def verify_video_processing(video_path, output_dir, interval, strict=False):
 
         return has_stream("v:0") and has_stream("a:0")
 
+    def has_static_segment(
+        video_path,
+        min_static_duration=5.0,  # 秒，静止时间阈值
+        diff_threshold=0.001,  # 均值帧差小于该值就视为静止
+    ) -> bool:
+        cap = cv2.VideoCapture(video_path)
+        if not cap.isOpened():
+            raise IOError(f"Cannot open {video_path}")
+
+        fps = cap.get(cv2.CAP_PROP_FPS)
+        frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        min_static_frames = int(min_static_duration * fps)
+
+        prev_gray = None
+        consecutive_static_frames = 0
+
+        for _ in range(frame_count):
+            ret, frame = cap.read()
+            if not ret:
+                break
+
+            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+            if prev_gray is not None:
+                diff = cv2.absdiff(prev_gray, gray)
+                mean_diff = np.mean(diff)
+
+                if mean_diff < diff_threshold:
+                    consecutive_static_frames += 1
+                    if consecutive_static_frames >= min_static_frames:
+                        cap.release()
+                        return True
+                else:
+                    consecutive_static_frames = 0
+
+            prev_gray = gray
+
+        cap.release()
+        return False
+
     try:
         if not os.path.exists(video_path):
+            with open("logs/video_processing_failed.log", "a") as f:
+                f.write(f"Error processing {video_path}: Video file not found.\n")
             print(f"Error processing {video_path}: Video file not found.")
             return False
         # Get expected number of clips based on video duration
@@ -258,6 +300,8 @@ def verify_video_processing(video_path, output_dir, interval, strict=False):
         clip_dir = os.path.join(output_dir, video_name)
         
         if not os.path.exists(clip_dir):
+            with open("logs/video_processing_failed.log", "a") as f:
+                f.write(f"Error processing {video_path}: Clip directory {clip_dir} not found.\n")
             print(f"Error processing {video_path}: Clip directory {clip_dir} not found.")
             return False
             
@@ -265,19 +309,31 @@ def verify_video_processing(video_path, output_dir, interval, strict=False):
         actual_clips_num = len(actual_clips)
         
         if actual_clips_num != expected_clips_num:
+            with open("logs/video_processing_failed.log", "a") as f:
+                f.write(f"Error processing {video_path}: Expected {video_info['duration']}/{interval}={expected_clips_num} clips, but found {actual_clips_num} clips.\n")
             print(f"Error processing {video_path}: Expected {video_info['duration']}/{interval}={expected_clips_num} clips, but found {actual_clips_num} clips.")
             return False
 
         if strict:
-            for clip in actual_clips:
-                clip_file = os.path.join(clip_dir, clip)
+            clip_files = [os.path.join(clip_dir, clip) for clip in actual_clips]
+            for clip_file in clip_files:
+                clip_id = clip_file.split("/")[-1].split(".")[0]
                 if not has_video_and_audio(clip_file):
+                    with open("logs/video_processing_failed.log", "a") as f:
+                        f.write(f"Error processing {clip_file}: No video or audio streams found.\n")
                     print(f"Error processing {clip_file}: No video or audio streams found.")
                     return False
-            
+                if int(clip_id) < len(clip_files)-2 and has_static_segment(clip_file):
+                    with open("logs/video_processing_failed.log", "a") as f:
+                        f.write(f"Error processing {clip_file}: Has static segment.\n")
+                    print(f"Error processing {clip_file}: Has static segment.")
+                    return False
+           
         return True
         
     except Exception as e:
+        with open("logs/video_processing_failed.log", "a") as f:
+            f.write(f"Error verifying {video_path}: {e}\n")
         return False
 
 
@@ -293,14 +349,14 @@ if __name__ == "__main__":
         video_path, output_dir, interval = args
         if not verify_video_processing(video_path, output_dir, interval, strict=True):
             with open(os.path.join(log_dir, f"video_processing_error.log"), "a") as f:
-                f.write(f"Clipping failed for {video_path}" + "\n")
+                f.write(video_path + "\n")
             return False
         return True
 
     def check_video_path(args):
         video, output_dir, interval = args
         path = video["path"]
-        if not verify_video_processing(path, output_dir, interval, strict=True):
+        if not verify_video_processing(path, output_dir, interval, strict=False):
             return path
         return None
 
@@ -309,11 +365,14 @@ if __name__ == "__main__":
     base_save_dir = "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos"
         
     cpu_count = multiprocessing.cpu_count()
-    max_workers = min(cpu_count, 64)
+    max_workers = min(cpu_count, 20)
     
     print(f"Using {max_workers} processes (CPU cores: {cpu_count})")
 
-    annotations_paths = ["data/annotations/CZ_2_refined.json", "data/annotations/CZ_3_refined.json", "data/annotations/ZZ_4_refined.json"]
+    # annotations_paths = ["data/annotations/CZ_1_refined.json", "data/annotations/CZ_2_refined.json"]
+    # annotations_paths = ["data/annotations/CZ_3_refined.json", "data/annotations/ZZ_1_refined.json"]
+    # annotations_paths = ["data/annotations/ZZ_2_refined.json", "data/annotations/ZZ_3_refined.json"]
+    annotations_paths = ["data/annotations/ZZ_4_refined.json", "data/annotations/ZZ_5_refined.json"]
     for annotations_path in annotations_paths:
         marker = annotations_path.split("/")[-1].split(".")[0].strip("_refined")
         with open(annotations_path, "r") as f:
@@ -321,16 +380,16 @@ if __name__ == "__main__":
         output_dir = os.path.join("/mnt/hdfs/foundation/longlin.kylin/mmagent/data/video_clips", marker)
         os.makedirs(output_dir, exist_ok=True)
 
-        # Check video paths in parallel
-        with ProcessPoolExecutor(max_workers=max_workers) as executor:
-            args = [(video, output_dir, interval) for video in videos]
-            paths = list(tqdm(executor.map(check_video_path, args), total=len(args), desc="Checking video paths"))
-            video_paths = [path for path in paths if path is not None]
+        # # Check video paths in parallel
+        # with ProcessPoolExecutor(max_workers=max_workers) as executor:
+        #     args = [(video, output_dir, interval) for video in videos]
+        #     paths = list(tqdm(executor.map(check_video_path, args), total=len(args), desc="Checking video paths"))
+        #     video_paths = [path for path in paths if path is not None]
 
-        # Process videos in parallel
-        with ProcessPoolExecutor(max_workers=max_workers) as executor:
-            args = [(video_path, interval, output_dir) for video_path in video_paths]
-            list(tqdm(executor.map(process_video_parallel, args), total=len(args), desc="Processing videos"))
+        # # Process videos in parallel
+        # with ProcessPoolExecutor(max_workers=max_workers) as executor:
+        #     args = [(video_path, interval, output_dir) for video_path in video_paths]
+        #     list(tqdm(executor.map(process_video_parallel, args), total=len(args), desc="Processing videos"))
         
         # Verify all videos in parallel
         with ProcessPoolExecutor(max_workers=max_workers) as executor:

@@ -14,7 +14,7 @@ def parse_args():
 def has_static_segment(
     video_path,
     min_static_duration=5.0,  # 秒，静止时间阈值
-    diff_threshold=3.0,  # 均值帧差小于该值就视为静止
+    diff_threshold=0.1,  # 均值帧差小于该值就视为静止
 ) -> bool:
     """
     判断视频中是否存在长时间静止画面。
@@ -73,15 +73,15 @@ def main():
     videos_to_be_verified = []
     for video_folder in video_folders:
         video_path = os.path.join(dir, video_folder)
-    if os.path.isdir(video_path):
-        video_files = os.listdir(video_path)
-        for video_file in video_files:
-            video_file_path = os.path.join(video_path, video_file)
-            videos_to_be_verified.append(video_file_path)
+        if os.path.isdir(video_path):
+            video_files = os.listdir(video_path)
+            for video_file in video_files:
+                video_file_path = os.path.join(video_path, video_file)
+                videos_to_be_verified.append(video_file_path)
 
     max_workers = 64
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        tqdm(executor.map(has_static_segment, videos_to_be_verified), total=len(videos_to_be_verified), desc="Verifying videos")
+        results = list(tqdm(executor.map(has_static_segment, videos_to_be_verified), total=len(videos_to_be_verified), desc="Verifying videos"))
 
 if __name__ == "__main__":
     main()

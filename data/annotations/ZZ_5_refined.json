@@ -40,7 +40,8 @@
                 "knowledge": "Will在参加Boulder Colorado举办的 Cruise Ride时，介绍这是每周周四在Boulder Colorado举办 Cruise Ride是从上世纪的传统传承下来的惯例，因此如果你想要参加 Boulder Colorado举办的Cruise Ride最好周四前往。",
                 "reasoning": "模型需要定位到Will参加 Cruise Ride的片段，通过Will的介绍，模型可知 Cruise Ride的举办传统，因此可以对最适合参加 Cruise Ride的时间进行推理。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/2rb198Hgllk.mp4"
     },
     {
         "video_id": "ZZ_5_2",
@@ -83,7 +84,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要浏览整个视频，对Lexi在整个视频中展示的物品进行多片段识别，计算在视频中一共展示的物品件数，最后对展示物品总数进行总结。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/bdtDHs5_CRY.mp4"
     },
     {
         "video_id": "ZZ_5_3",
@@ -126,7 +128,8 @@
                 "knowledge": "",
                 "reasoning": "模型需定位到马尔库斯讲述利用空果串制作包装的片段，片段中他介绍日本对外包装的要求很高，通过观察他手中拿的包装，可以看到是棕色的。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/T0vuDvEASO0.mp4"
     },
     {
         "video_id": "ZZ_5_4",
@@ -169,7 +172,8 @@
                 "knowledge": "",
                 "reasoning": "模型需定位到西尔维亚在海上打捞水下植物的片段，通过观察她区分了打捞上来的糖海带和海带，通过观察可知糖海带是棕色的。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/wu7PjKawjwI.mp4"
     },
     {
         "video_id": "ZZ_5_5",
@@ -212,7 +216,8 @@
                 "knowledge": "",
                 "reasoning": "模型需定位到andy看到了hostess的萧条但给出了不一样的视角解读的片段，所有人都为产业的破产唏嘘，但他却看到了这一商业怀旧情绪的价值，他出资收购了负债的产业，由此可知他是一个敢想敢做的人。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/NYi-7iaqmHk.mp4"
     },
     {
         "video_id": "ZZ_5_6",
@@ -290,7 +295,8 @@
                 "knowledge": "我们都知道小提琴演奏姿势是怎样的，虽然小提琴有一定重量和长度，从Adams的举止可以看出来，不用手扶着一样能夹住琴。",
                 "reasoning": "Adams介绍小提琴演奏技术的时候，偶尔有把手放下来讲解，小提琴就老老实实夹在他脖子上。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/TRg-75VKOFU.mp4"
     },
     {
         "video_id": "ZZ_5_7",
@@ -333,7 +339,8 @@
                 "knowledge": "",
                 "reasoning": "模型需定位到视频记录珍妮的双头蛇的片段，通过观察可以看到不是纯色的，又有花纹的。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/vl_r2OdA2EY.mp4"
     },
     {
         "video_id": "ZZ_5_8",
@@ -376,7 +383,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要定位博主测评Transparent Labs的产品的片段，根据统计得知视频中出现了三款Transparent Labs的产品。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/m3Y6JinnzWg.mp4"
     },
     {
         "video_id": "ZZ_5_9",
@@ -419,7 +427,8 @@
                 "knowledge": "Marques将年度最佳折叠手机颁发给了Pixel 9 pro fold，因此这款手机在各方面都十分优秀，推荐购买。",
                 "reasoning": "模型需要定位到Marques颁发年度最佳折叠手机的片段，根据片段中Marques把奖颁给了Pixel 9 pro fold可知这款手机是推荐购买的。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/E76CUtSHMrU.mp4"
     },
     {
         "video_id": "ZZ_5_10",
@@ -462,7 +471,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要首先定位博主介绍手机壳的片段，再根据之后的画面识别出他介绍的是AirPods4。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/cRPBp2tRxFY.mp4"
     },
     {
         "video_id": "ZZ_5_11",
@@ -505,7 +515,8 @@
                 "knowledge": "Sanjiva提到整合时出现速度瓶颈，“数据得到的响应很慢”、“我们在这里谈论的不是一两百万，而是数百万行”。据此可以判断数据量超载技术能力。",
                 "reasoning": "模型先定位到Sanjiva的讲话内容，他说我们谈论的数据是数百万行（数据量巨大超系统负荷），尝试的很多解决方案失败了（技术无法匹配数据规模），数据技术整合后响应速度很慢，据此推断频繁出现速度问题因数据太多，技术撑不住。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/OsfK3snbC3c.mp4"
     },
     {
         "video_id": "ZZ_5_12",
@@ -548,7 +559,8 @@
                 "knowledge": "",
                 "reasoning": "模型首先需要根据音频判断雅各布是否有女朋友，然后根据视频画面判断人物是否出现。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/3sMfzICmPQg.mp4"
     },
     {
         "video_id": "ZZ_5_13",
@@ -591,7 +603,8 @@
                 "knowledge": "",
                 "reasoning": "模型需定位到介绍式美国政府营养项目负责人大卫的片段，视频中拍摄了在法国演讲的视频，通过观察屏幕上的图片可以看到是一只牛。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/F5TNiggsH1A.mp4"
     },
     {
         "video_id": "ZZ_5_14",
@@ -634,7 +647,8 @@
                 "knowledge": "",
                 "reasoning": "视频中每天Alex都需要用商店中10000元商品换取Jimmy10000元现金，所以模型需要先定位到Alex第二天与Jimmy交换的画面，接着找出第二天Alex与Jimmy交换的物品为dog food。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/tnTPaLOaHz8.mp4"
     },
     {
         "video_id": "ZZ_5_15",
@@ -677,7 +691,8 @@
                 "knowledge": "",
                 "reasoning": "Tera一家在厄尔瓜多有很多经停点，模型首先需要定位到tera一家在 Santa Cruz的片段，接着才能识别到tera一家人在 Santa Cruz见到的第一个人是谁。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/paTsVDhqX9Q.mp4"
     },
     {
         "video_id": "ZZ_5_16",
@@ -755,7 +770,8 @@
                 "knowledge": "可以确定这个档案馆是属于德州大学的，而主持人Steven可以进去参观，该档案馆应该是对公众开放的。",
                 "reasoning": "定位到主持人提及德州大学的档案馆，他想借此引导德尼罗分享关于电影Raging Bull的故事，他说他去的时候根本不知道这是个什么场所。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/ibPkLdbG4VU.mp4"
     },
     {
         "video_id": "ZZ_5_17",
@@ -812,7 +828,8 @@
                 "knowledge": "具体演示的时候，尤其后半段，快节奏且很像拍手声音的是镲发出来的。",
                 "reasoning": "定位到Sarah演示自创打法的片段，她说印度文化里歌舞比重很大，而且舞蹈中经常要拍手，灵感由此而来。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/1KKZ-SaVZhA.mp4"
     },
     {
         "video_id": "ZZ_5_18",
@@ -855,7 +872,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要首先定位Lauryn展示自己买的衣服的片段，然后根据该片段之后的画面分析她做了什么，可以看到她做了午饭。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/YB-BuGG55RI.mp4"
     },
     {
         "video_id": "ZZ_5_19",
@@ -898,7 +916,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要首先定位Olivia整理抽屉的片段，再根据这一片段之后的画面看出Olivia去整理床了。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/v2poOF-jB5E.mp4"
     },
     {
         "video_id": "ZZ_5_20",
@@ -941,7 +960,8 @@
                 "knowledge": "",
                 "reasoning": "模型需定位到以色列人带着约柜度过约旦河的片段，从视频中展示的历史记录画作可以看到，整个约柜呈现金黄色。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/aklPuiu2uAo.mp4"
     },
     {
         "video_id": "ZZ_5_21",
@@ -984,7 +1004,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要定位Reilín介绍自己拍摄香港这部影片时用的镜头的片段，经过统计，Reilín总共用了两款镜头。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/zXiTvuFqsl8.mp4"
     },
     {
         "video_id": "ZZ_5_22",
@@ -1027,7 +1048,8 @@
                 "knowledge": "",
                 "reasoning": "模型需定位到jayce和母亲在后院玩耍的片段，通过观察可知他手中的玩具宝剑是绿色的。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/9p038cehZpI.mp4"
     },
     {
         "video_id": "ZZ_5_23",
@@ -1070,7 +1092,8 @@
                 "knowledge": "视频中Billy在纽约图书馆前采访时，由视频画面可知许多人坐在门口的台阶上坐着，可知人们可以在纽约图书馆前休息",
                 "reasoning": "模型需先由听觉信息确定是在纽约图书馆前，再由视觉信息得出结论：人们可以在纽约图书馆前休息"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/f5po2l_Ri3o.mp4"
     },
     {
         "video_id": "ZZ_5_24",
@@ -1113,7 +1136,8 @@
                 "knowledge": "根据视频信息，直线加速：Mustang GT > Camaro SS > F-150（马力决定胜负）。",
                 "reasoning": "根据视频信息，直线加速：Mustang GT > Camaro SS > F-150（马力决定胜负）。得知Mustang GT更适合直线狂飙"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/hCiC1UrQHDA.mp4"
     },
     {
         "video_id": "ZZ_5_25",
@@ -1191,7 +1215,8 @@
                 "knowledge": "",
                 "reasoning": "Jacob穿的是长袖上衣，不是每个镜头都能看见他的手表，注意几个他打鼓的镜头，有露出手表。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/Rlvy6eUr7D8.mp4"
     },
     {
         "video_id": "ZZ_5_26",
@@ -1248,7 +1273,8 @@
                 "knowledge": "本节课的主题就是resilience，老师在课程的introduction环节说到“提到resilience的话，即物体受到压力形变后能快迅速恢复如初的能力，那么tennis是个很好的例子”可见tennis具有很强的resilience",
                 "reasoning": "模型可根据课堂主题resilience和全程使用的教具tennis间的关系，推理出答案"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/CoNchoFOMYA.mp4"
     },
     {
         "video_id": "ZZ_5_27",
@@ -1291,7 +1317,8 @@
                 "knowledge": "Land Cruiser速锁反应迅速，悬挂柔韧兼顾通过性与舒适性，唯一未出现底盘磕碰。在公路行驶2.8L柴油机噪音明显，但底盘震动控制优于对手，油耗最低（29mpg），所以选择Land Cruiser。",
                 "reasoning": "根据视频信息Land Cruiser速锁反应迅速，悬挂柔韧兼顾通过性与舒适性，唯一未出现底盘磕碰。在公路行驶2.8L柴油机噪音明显，但底盘震动控制优于对手，油耗最低（29mpg），所以推理得出结论是Land Cruiser更好。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/6WDk8ueDqG8.mp4"
     },
     {
         "video_id": "ZZ_5_28",
@@ -1334,7 +1361,8 @@
                 "knowledge": "",
                 "reasoning": "模型需定位到瑞安给牛的耳朵注射生长激素的片段，通过观察可以看到是紫色的注射器。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/aiySQODl36g.mp4"
     },
     {
         "video_id": "ZZ_5_29",
@@ -1384,7 +1412,8 @@
                 "knowledge": "",
                 "reasoning": "博主多次提到买衣服要注重quality，具体来说就包括这几方面。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/fuVU64m1sbw.mp4"
     },
     {
         "video_id": "ZZ_5_30",
@@ -1427,7 +1456,8 @@
                 "knowledge": "",
                 "reasoning": "Musta在向观众解释在津巴布韦使用无人机需要提前申请等相关规定时，视频画面中出现了官方网页中表明至少需要30天提前进行申请的图片，模型需要结合多模态，即Musta说需要提前申请的听觉以及结合视觉即画面中需要提前申请的天数对问题进行回答"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/YsMHZ6cl0u4.mp4"
     },
     {
         "video_id": "ZZ_5_31",
@@ -1470,7 +1500,8 @@
                 "knowledge": "",
                 "reasoning": "模型首先需要区分出人群中的志愿者，然后判断他们身上马甲的颜色。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/iUyKro5yg_c.mp4"
     },
     {
         "video_id": "ZZ_5_32",
@@ -1513,7 +1544,8 @@
                 "knowledge": "",
                 "reasoning": "在采访Harris的片段，Harris说到自己家里有把枪，并且还开过，而在采访Tim的片段，主持人表示Tim是一位坚定的禁枪者，可见二人对枪的态度是截然不同的"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/TJys7OVH24E.mp4"
     },
     {
         "video_id": "ZZ_5_33",
@@ -1556,7 +1588,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要分析多个片段中的画面，识别并统计出现了几名男性，可看到一共出现了五名男性。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/bqmuLa9WQB4.mp4"
     },
     {
         "video_id": "ZZ_5_34",
@@ -1599,7 +1632,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要定位Carla的片段，片段中她提到如果老公问她为什么回家迟了，她就说自己在街角唱了歌，由此可知Carla有老公，因此已经结婚了。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/41YaR56hwhQ.mp4"
     },
     {
         "video_id": "ZZ_5_35",
@@ -1642,7 +1676,8 @@
                 "knowledge": "",
                 "reasoning": "模型需定位到博主刚进酒店时的经理，随后追踪博主行动，得出答案"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/JT3KFzGFIzM.mp4"
     },
     {
         "video_id": "ZZ_5_36",
@@ -1685,7 +1720,8 @@
                 "knowledge": "由视觉可知意大利的废弃村落的房屋掉落墙皮处露出了砖头，也有些废弃房屋则是石头堆砌而成，可知这些房屋不是木制的，而是由砖和石头搭建而成的。",
                 "reasoning": "模型需定位到视频一开始拍摄意大利的废弃村落的房屋的视频片段以及后续罗塞拉在其他废弃村庄的片段，通过观察可知房屋的掉落的墙皮露出了砖头，有些则是石头堆砌而成，可知房屋不是木制的。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/Cpevu80LZ5o.mp4"
     },
     {
         "video_id": "ZZ_5_37",
@@ -1742,7 +1778,8 @@
                 "knowledge": "",
                 "reasoning": "视频中，Patrick不断为男孩讲解如何发力，如何接球；陪伴男孩训练以及对男孩的动作做出\"Yes\"的回应，可推出Patrick是一名网球教练"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/Jib4xaBKMCI.mp4"
     },
     {
         "video_id": "ZZ_5_38",
@@ -1785,7 +1822,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要定位到多个片段，识别每个人的职业是什么，找出其中和音乐有关的人并统计数量，最终可知总共有三人从事音乐相关工作。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/34XOpeUDDPQ.mp4"
     },
     {
         "video_id": "ZZ_5_39",
@@ -1828,7 +1866,8 @@
                 "knowledge": "视频中提到在best buy买这样一副翻新的beats fit pro是110美元，可知best buy也有出售翻新的电子产品。",
                 "reasoning": "模型需要定位Austin测评拆到的beats fit pro的片段，根据片段内容可知best buy也能买到翻新产品。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/ShTnzFYIYes.mp4"
     },
     {
         "video_id": "ZZ_5_40",
@@ -1871,7 +1910,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要识别出每个片段对两款手表进行的不同方面的测试，最后统计出Shervin一共从十一个方面对Apple Watch和Garmin进行了对比。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/dfz7znJ2z8E.mp4"
     },
     {
         "video_id": "ZZ_5_41",
@@ -1914,7 +1954,8 @@
                 "knowledge": "",
                 "reasoning": "模型首先需要根据音频判断谁是Grace，然后根据视频画面去判断她是长发还是短发。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/tbTzsc42XR8.mp4"
     },
     {
         "video_id": "ZZ_5_42",
@@ -1971,7 +2012,8 @@
                 "knowledge": "衣着不统一就是不要求校服的意思，但不能断定学校没有校服。",
                 "reasoning": "学校有没有校服无从知晓，但是这堂课里的小朋友都穿着五颜六色的衣服，是自己的衣服。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/EXdMsKJjp_c.mp4"
     },
     {
         "video_id": "ZZ_5_43",
@@ -2028,7 +2070,8 @@
                 "knowledge": "Bojana最先介绍了自己在新加坡当声乐老师，学生Rainier也提到了自己在新加坡的演唱经历。除了老师，其他人全是亚洲面孔，即使他们不全是新加坡人，肯定是住在新加坡的，那么这个机构所服务的local，就是指新加坡的local",
                 "reasoning": "没有人提起过这家机构，也就是TSL在哪个地方，但是视频开头的MG动画介绍了,thesmartlocal的宗旨是by locals, for locals，说明即将出现的人物都是本地人。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/qil2gL5zoFo.mp4"
     },
     {
         "video_id": "ZZ_5_44",
@@ -2071,7 +2114,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要首先定位马修做鸡蛋的片段，再根据片段之后的画面识别到他在给馅饼加热。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/itfNQE_qmrs.mp4"
     },
     {
         "video_id": "ZZ_5_45",
@@ -2114,7 +2158,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要首先定位Lucy拿号码牌的片段，再根据该片段之后的片段分析她去做了什么，根据画面可知她去逛街了。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/w8JEqZUrb78.mp4"
     },
     {
         "video_id": "ZZ_5_46",
@@ -2157,7 +2202,8 @@
                 "knowledge": "视频中Taz说自己来到了时代广场，根据画面内容可以看到时代广场上有人在表演，并且聚集了很多人围观，因此判断在纽约时代广场上允许艺人街头表演。",
                 "reasoning": "模型需要通过听觉听到Taz来到的是时代广场，再根据视觉看到画面中街头表演的场景，由此推测在纽约时代广场上允许艺人街头表演。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/sOFX5HpI3yI.mp4"
     },
     {
         "video_id": "ZZ_5_47",
@@ -2207,7 +2253,8 @@
                 "knowledge": "",
                 "reasoning": "在视频最后，博主介绍了她的几个来自日本和澳大利亚的爱用防晒霜，博主先介绍的日本产品再介绍的澳洲产品，模型需对此进行区分，再根据博主在评价Neutrogena Hydro Boost Water Gel Lotion时，说到它轻薄、防水等优点，且用到了perfect一词，可推断出Neutrogena Hydro Boost Water Gel Lotion是博主最爱的澳洲产品"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/JckfmlbU5C8.mp4"
     },
     {
         "video_id": "ZZ_5_48",
@@ -2264,7 +2311,8 @@
                 "knowledge": "固定在地面的塑料盒子应该尽量不动，视频里博主往里装的是水，应该也可以往里面装密度更大的沙子。",
                 "reasoning": "第一个产品，网球训练器，看视频可以知道，这个设备的原理是把比较重的一头固定在地面，然后用一条弹力绳把球拴起来，这样就可以不用捡球训练了。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/8qEdCyrpBfU.mp4"
     },
     {
         "video_id": "ZZ_5_49",
@@ -2328,7 +2376,8 @@
                 "knowledge": "",
                 "reasoning": "可以从头到尾挨个数，可以从视频开头囊括所有足球的镜头计数，也可以定位到博主介绍完最后一个足球，并给它评级的画面，都可以确定总数。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/XG94cDJX2sc.mp4"
     },
     {
         "video_id": "ZZ_5_50",
@@ -2385,7 +2434,8 @@
                 "knowledge": "",
                 "reasoning": "定位到有扎老师发言或者示范的片段，她基本一直面带微笑，及时给予鼓励，开场的时候说话稍微打结也顺利化解，因此是个平和、亲切、自信的人。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/SV0r0fWFlNs.mp4"
     },
     {
         "video_id": "ZZ_5_51",
@@ -2442,7 +2492,8 @@
                 "knowledge": "",
                 "reasoning": "玛格丽特首先表明准备注射两种药物，lidocaine和propofol，但是没说先后顺序，字幕给出了注射顺序和具体用量。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/YfcYgAMBh58.mp4"
     },
     {
         "video_id": "ZZ_5_52",
@@ -2506,7 +2557,8 @@
                 "knowledge": "Shauna家门口除了两大盆球形植物，还有两框瓜果蔬菜、地上也有，南瓜特别多。而且视频也介绍了这个大城堡是18世纪的farmhouse，应该就是本地种的南瓜，所以普罗旺斯南瓜收成不错。",
                 "reasoning": "需定位到有Shauna的片段，注意她出场时，门前的摆设。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/Fgudm4XQKDU.mp4"
     },
     {
         "video_id": "ZZ_5_53",
@@ -2549,7 +2601,8 @@
                 "knowledge": "Gabby在视频中提到有人可能认为自己来自西雅图所以已经习惯了雨天，但其实自己讨厌下雨，由此判断西雅图经常下雨。",
                 "reasoning": "模型需要定位gabby提到雨天和西雅图的片段，根据片段中的话可推测西雅图是多雨的。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/x1Wa18Lp6bg.mp4"
     },
     {
         "video_id": "ZZ_5_54",
@@ -2592,7 +2645,8 @@
                 "knowledge": "在地铁站的站台画面中有一个人在吹萨克斯，因此纽约地铁站内允许艺人表演。",
                 "reasoning": "模型需要定位一个人吃萨克斯的片段，根据画面背景可知是在地铁站台上，由此可知纽约地铁站内允许艺人表演。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/zGwNeQSI2NY.mp4"
     },
     {
         "video_id": "ZZ_5_55",
@@ -2635,7 +2689,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要首先定位jen换白色床单的片段，再根据该片段之后的画面分析得出jen去整理卫生间了。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/m98XJqqpXn0.mp4"
     },
     {
         "video_id": "ZZ_5_56",
@@ -2678,7 +2733,8 @@
                 "knowledge": "",
                 "reasoning": "模型需定位到chanda，darla以及最后蓝色衣服的老师出场的几个片段，共计3位老师。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/ld5dSCePmMg.mp4"
     },
     {
         "video_id": "ZZ_5_57",
@@ -2721,7 +2777,8 @@
                 "knowledge": "",
                 "reasoning": "模型需定位到丹尼尔机器人与samer对话的片段，片段中丹尼尔人工智能询问samer想学习什么语言，通过观察他的头部转向了samer，由此可知该人工智能的头部是可以转动的。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/-d2VRgej_cY.mp4"
     },
     {
         "video_id": "ZZ_5_58",
@@ -2764,7 +2821,8 @@
                 "knowledge": "在最后，博主以19块蛋糕的成绩获得了冠军，店员送给他一个金色叉子，一个杯子，并由视频画面可知店员也把店内黑板上的纪录保持者换成了博主的名字，综合以上信息，得出答案",
                 "reasoning": "模型需定位到博主挑战胜利的画面，并根据服务员送上来的金色叉子、水杯，以及随后在board上写下博主的名字，可综合得出答案"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/g9Ty1sokoDQ.mp4"
     },
     {
         "video_id": "ZZ_5_59",
@@ -2807,7 +2865,8 @@
                 "knowledge": "",
                 "reasoning": "模型需定位到博主用完遮瑕膏后使用了一款淡黄色的散粉来定妆。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/h7nP4p5QJYk.mp4"
     },
     {
         "video_id": "ZZ_5_60",
@@ -2850,7 +2909,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要浏览整个视频，对 James and Noah在视频中测评的影院进行多片段搜集，并对整个视频中一共测试的影院数量进行总结。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/NbJGkWNL9Ow.mp4"
     },
     {
         "video_id": "ZZ_5_61",
@@ -2893,7 +2953,8 @@
                 "knowledge": "",
                 "reasoning": "模型需分别定位到Matt和Rebecca挑战的5个画面，并对挑战结果判断出谁是winner，并对其计数"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/JkCaDeiF2N8.mp4"
     },
     {
         "video_id": "ZZ_5_62",
@@ -2943,7 +3004,8 @@
                 "knowledge": "",
                 "reasoning": "视频中提到一个新加坡人举办了一个训练公司，会在世界各地选怀有idol梦想的年轻人来到韩国训练，Kade因表现出色被选中而来到韩国训练，由此可知Kade并非来自韩国，而是其他国家的人"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/bdn62b30Nxk.mp4"
     },
     {
         "video_id": "ZZ_5_63",
@@ -2986,7 +3048,8 @@
                 "knowledge": "",
                 "reasoning": "街上有许多人留下了marko的电话，视频中也不止一位陌生人给marko回电，模型需要找到所有陌生热给marko回电话的片段，从而在多片段中找到第一个给marko回电的人。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/o8Ds3LxCE3U.mp4"
     },
     {
         "video_id": "ZZ_5_64",
@@ -3029,7 +3092,8 @@
                 "knowledge": "在节目画面中有着“people vs food”的水印标识，可知这档节目的名字就是people vs food，通过观察嘉宾品尝的食物，大多是以油炸食物、各种酱料为主，可以推断出这档节目的食物都是高热量食物",
                 "reasoning": "模型需根据画面标识判断出节目的名字，再由嘉宾吃的食物多为油炸食物和用油制成的各种酱料，可知这档节目的食物都是高热量食物"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/EGvVEHznA6I.mp4"
     },
     {
         "video_id": "ZZ_5_65",
@@ -3072,7 +3136,8 @@
                 "knowledge": "Ashley在视频的最后提到如果在营养方面能有更多的资源和专业知识，那就可以考虑病人转诊，如果营养能作为独立的一个领域就可以让病人有更多的选择来治疗和了解自己的病情，因此推理出有的病我们也可以注意饮食的营养来改善和了解更多健康信息。",
                 "reasoning": "Ashley在视频的最后提到如果在营养方面能有更多的资源和专业知识，那就可以考虑病人转诊，如果营养能作为独立的一个领域就可以让病人有更多的选择来治疗和了解自己的病情，也会得到更多的资源和信息。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/WJ02qAXUnZA.mp4"
     },
     {
         "video_id": "ZZ_5_66",
@@ -3115,7 +3180,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要定位到Hudson在商店为Salish采购的画面，通过搜集多个片段中hadson采访路人的画面，对Hudson在商店采访路人的次数进行总结。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/ZyLb4785R6w.mp4"
     },
     {
         "video_id": "ZZ_5_67",
@@ -3158,7 +3224,8 @@
                 "knowledge": "",
                 "reasoning": "模型需定位到第二个游戏1秒猜歌，并跟随视频画面定位到第三个游戏guess the movie line"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/Rm6MbecssfY.mp4"
     },
     {
         "video_id": "ZZ_5_68",
@@ -3201,7 +3268,8 @@
                 "knowledge": "",
                 "reasoning": "模型要定位到车内的多个片段，在kenny的片段中都可以看到他们用两部黑色手机与外面的人对话，后面又出现了红色的手机，由此可知他们使用多部手机与外界通话。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/dUDC0Lh8SB4.mp4"
     },
     {
         "video_id": "ZZ_5_69",
@@ -3244,7 +3312,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要定位多个片段。Rebecca提出的问题具有针对性，同时又可以很好地对Alex的回答做出精炼的总结，因此可以得出她是一个专业的采访者。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/BgKsCBBUW5w.mp4"
     },
     {
         "video_id": "ZZ_5_70",
@@ -3287,7 +3356,8 @@
                 "knowledge": "",
                 "reasoning": "因为博主视频中展示了在一周内所食用的所有餐食，所以模型首先需要定位到博主第一天吃饭的片段，且需要准确定位到第一天第一顿的画面，模型需要结合视觉与听觉，才能对博主第一天第一顿纯天然事物进行识别。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/TSXL4iPWLQA.mp4"
     },
     {
         "video_id": "ZZ_5_71",
@@ -3351,7 +3421,8 @@
                 "knowledge": "",
                 "reasoning": "因为本视频介绍动物的顺序没有什么规律，之前出现的动物之后也可能出现，需要仔细辨别这两种动物的出场顺序。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/x8KGVN3n12k.mp4"
     },
     {
         "video_id": "ZZ_5_72",
@@ -3394,7 +3465,8 @@
                 "knowledge": "Eva提到上音乐课对于阅读和唱歌都有帮助，会让阅读变得更轻松，唱歌也更简单，所以上音乐课的好处是更容易阅读和唱歌。",
                 "reasoning": "视频中Eva的描述，“and this is why I want other kids to join music because if you do readings it's gonna be less hard if you take singing lessons and you're like reading and music class at school it's just going to be easy for you to read so and also sing”，她提到上音乐课对于阅读和唱歌都有帮助，会让阅读变得更轻松，唱歌也更简单，所以可以推理得出上音乐课的好处是更容易阅读和唱歌。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/N5tAYx85e6I.mp4"
     },
     {
         "video_id": "ZZ_5_73",
@@ -3437,7 +3509,8 @@
                 "knowledge": "Carol强调用平口剪（flush cutters）的\"flush side\"贴近保留的线材，以平整剪断末端。普通剪刀会留下凸起毛刺，而平口剪的独特刃口设计可实现无残留修剪",
                 "reasoning": "视频中Carol用平口剪（flush cutters）的\"flush side\"贴近保留的线材，以平整剪断末端。普通剪刀会留下凸起毛刺，而平口剪的独特刃口设计可实现无残留修剪。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/8AXtIYyJ6jg.mp4"
     },
     {
         "video_id": "ZZ_5_74",
@@ -3487,7 +3560,8 @@
                 "knowledge": "",
                 "reasoning": "离开海滩之后博主去探店了，先来到一家cargo，并没有说话，只拍了店内物品和店铺的招牌。接着她就开始介绍Cali Press了。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/9UO-J7HGZ1E.mp4"
     },
     {
         "video_id": "ZZ_5_75",
@@ -3530,7 +3604,8 @@
                 "knowledge": "视频里两个女孩被催眠时完全按照作者的指令去做，能看出来他们很听话的同时也很高兴很放松，由此推测出催眠是一个让人放松的方式。",
                 "reasoning": "视频里两个女孩被催眠时完全按照作者的指令去做，能看出来他们很听话的同时也很高兴很放松，由此催眠会让人服从以及看到自己想要的东西，也可以放松。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/q_9PVThe1_k.mp4"
     },
     {
         "video_id": "ZZ_5_76",
@@ -3573,7 +3648,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要根据整条视频，识别出Eric评分五星的产品并做出统计，统计得出总共有三件产品得了五星。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/lAZWpu-am80.mp4"
     },
     {
         "video_id": "ZZ_5_77",
@@ -3616,7 +3692,8 @@
                 "knowledge": "",
                 "reasoning": "在视频开头，Stephen出现，此时视频画面中出现了对Stephen的介绍，视觉画面可知他是Asian Boss的创始人和CEO，是一个boss，因此是一个rich guy"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/XXWYPeEfOb8.mp4"
     },
     {
         "video_id": "ZZ_5_78",
@@ -3659,7 +3736,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要搜集多个线索， 通过Rebecca和yoss、kelsey三人为zadie房间装修进行挑战等片段，对Rebecca和yoss、kelsey分别为zadie准备的装修主题进行识别搜集，并回答所准备的主题分别是什么。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/-iu0hLc9GAY.mp4"
     },
     {
         "video_id": "ZZ_5_79",
@@ -3702,7 +3780,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要根据整个视频，识别主持人对Dr. Gregg Bennett进行提问的片段，通过统计得出主持人问了Dr. Gregg Bennett十七个问题。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/k84Y5YBnSus.mp4"
     },
     {
         "video_id": "ZZ_5_80",
@@ -3759,7 +3838,8 @@
                 "knowledge": "",
                 "reasoning": "定位到博主参观完毕在停车场总结的片段，他的手腕上已经没有那个RFID的手环了，他用手比划的时候，手腕内侧露出来一部分纹身。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/eQJthX6h8OU.mp4"
     },
     {
         "video_id": "ZZ_5_81",
@@ -3802,7 +3882,8 @@
                 "knowledge": "",
                 "reasoning": "根据Wasim的回答，他会阿拉伯语、英语、法语、德语、中文、西班牙语，故可以推出他会六种语言。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/65BsPJKIMk4.mp4"
     },
     {
         "video_id": "ZZ_5_82",
@@ -3845,7 +3926,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要定位到john2018年拍摄到的三个ufo疑似物体在天空中的影像的片段，john描述他像是三个火球，通过观察可以看出，ufo发光体是白色的。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/xOJmkmVrD_k.mp4"
     },
     {
         "video_id": "ZZ_5_83",
@@ -3888,7 +3970,8 @@
                 "knowledge": "视频中提到与意大利巴洛克风格明显不同的是，西班牙巴洛克大师的作品受到保守派的影响，因意大利与西班牙的巴洛克风格截然不同，那么可推出意大利的巴洛克风格更偏向开放的",
                 "reasoning": "模型需要定位介绍西班牙巴洛克的片段，通过两种流派截然不同，而西班牙偏向保守，得出意大利巴洛克更开放"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/ARGCnWQgISs.mp4"
     },
     {
         "video_id": "ZZ_5_84",
@@ -3931,7 +4014,8 @@
                 "knowledge": "",
                 "reasoning": "在视频中，Mr.Adler作为老师很少笑，也很少对学生的回答做出鼓励，整节课的节奏也很快，课堂氛围紧张，可见Mr.Adler是个有点严肃的人"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/ZxRLV3qUev4.mp4"
     },
     {
         "video_id": "ZZ_5_85",
@@ -3974,7 +4058,8 @@
                 "knowledge": "",
                 "reasoning": "根据视频作者的表述，“蓝骑士”这个名称是因为Marc喜欢马和Kandinsky喜欢蓝色，故可以判断，名称是源于这两个人。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/2RomOg7Dhn4.mp4"
     },
     {
         "video_id": "ZZ_5_86",
@@ -4017,7 +4102,8 @@
                 "knowledge": "在视频中，博主和妈妈一起去check-in登记，领取东西，并且在博主比完赛后，博主的妈妈穿着和博主一样的比赛服，脸上布满汗水，可见博主的妈妈也参加了比赛，可推断出Mooloolaba的铁人三项比赛并非只为年轻人准备，像博主妈妈这样年龄较大的人可也以参加",
                 "reasoning": "模型可根据在博主比完赛后，发现博主的妈妈穿着和博主一样的比赛服，脸上布满汗水，可推断出博主的妈妈也参加了比赛，Mooloolaba的铁人三项比赛并非只为年轻人准备，像博主妈妈这样年龄较大的人可也以参加"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/rYoPatir6JY.mp4"
     },
     {
         "video_id": "ZZ_5_87",
@@ -4081,7 +4167,8 @@
                 "knowledge": "",
                 "reasoning": "他答应了会在最后完整弹一首曲子，需要仔细计数提问环节一共有几个人向他提问，不要遗漏没有入镜但提问了的人。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/PzKTrgnrC3Y.mp4"
     },
     {
         "video_id": "ZZ_5_88",
@@ -4124,7 +4211,8 @@
                 "knowledge": "视频中详细计算抗VEGF注射的利润（成本1500卢比，收费9000卢比），强调其长期经济价值，说明这是视网膜专科的主要收入来源。",
                 "reasoning": "视频中详细计算抗VEGF注射的利润（成本1500卢比，收费9000卢比），强调其长期经济价值，由此可以推理得出这是视网膜专科的主要收入来源。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/bUXpQQEcl-Y.mp4"
     },
     {
         "video_id": "ZZ_5_89",
@@ -4167,7 +4255,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要对博主希望Mini Junior在训犬学校学会的事情进行多线索分析，通过视频中多个片段，博主对Mini Junior在训犬学校15天学习的期望，模型需要搜集片段，对事情的总数进行总结。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/M4CQw4GEuoo.mp4"
     },
     {
         "video_id": "ZZ_5_90",
@@ -4210,7 +4299,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要对比多个片段中Brittney对待狗的态度进行分析，如她说自己闻到狗恶心了十天，如果不把狗拿走，就打电话给自己爸爸把自己接走，结束挑战等行为，可判定Brittney并不喜欢狗。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/D6RHfIo_Hpw.mp4"
     },
     {
         "video_id": "ZZ_5_91",
@@ -4253,7 +4343,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要识别追踪Dave，在农场由Dave掌勺为大家做晚餐，以及Dave做晚餐的手法可以看出他经常做饭，通过Dave与Brad and Liam的对话，说自己喜欢大家围在一块，自己为他们做饭的感觉，模型可对Dave这一人物的爱好进行判断。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/56rTqfhlqLI.mp4"
     },
     {
         "video_id": "ZZ_5_92",
@@ -4296,7 +4387,8 @@
                 "knowledge": "",
                 "reasoning": "当教师提问学生文学作品里的“傻瓜”原型时，Shakabe提到了Unferth,又说到他和贝奥武夫一样，都是一类人，既然她能联想到贝奥武夫，那一定对这个人很熟悉，而贝奥武夫就出自作品贝奥武夫，得出答案"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/9KWX452cEvk.mp4"
     },
     {
         "video_id": "ZZ_5_93",
@@ -4339,7 +4431,8 @@
                 "knowledge": "视频定位到Robin老师讲述教学的片，老师说到可以为学生提供每天可以领导的机会，并设置轮换机制，由此推断出为了让学生有更好的学习体验和为未来做准备的技能，设置学生为领导的课堂是一个好方法。",
                 "reasoning": "视频定位到Robin老师讲述教学的片，老师说到可以为学生提供每天可以领导的机会，并设置轮换机制，由此推断出建立学生为领导的课堂可以让学生更积极和有良好的学习体验。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/882EGpoJrcY.mp4"
     },
     {
         "video_id": "ZZ_5_94",
@@ -4382,7 +4475,8 @@
                 "knowledge": "根据Nina所说，她平时会观看韩国综艺或是电视剧来学习里面的韩文，所以该节目应该是其中一种，再看到电视上的节目介绍可知，该节目是Variety Show且主题为Romance。",
                 "reasoning": "模型可定位到Nina提到Heart Signal 4的片段，再结合画面中电视上的节目介绍以及节目分类标签即可判断该节目类型为romance-themed variety show。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/Ln_O9Ez-Lfs.mp4"
     },
     {
         "video_id": "ZZ_5_95",
@@ -4425,7 +4519,8 @@
                 "knowledge": "视频中vlogger在介绍冰淇淋时，拿出来的糯米糍冰淇淋包装上印着BR的品牌标记，可知BR是一个冰淇淋品牌。",
                 "reasoning": "模型可定位到vlogger吃冰淇淋的片段，同时需要追踪包装上印有BR字样，从而判断出这是一个冰淇淋品牌。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/RS9IkVgOibU.mp4"
     },
     {
         "video_id": "ZZ_5_96",
@@ -4468,7 +4563,8 @@
                 "knowledge": "视频中给出了博主在准备冲浪板的画面，随后博主来到Muizenburg Beach，说到自己跟喜欢冲浪，尤其喜欢在这冲浪，因为这的浪不是很大，适合初学者，“这”指的就是Muizenburg Beach，因此可判断Muizenburg Beach可以冲浪",
                 "reasoning": "需定位到Muizenburg Beach，结合博主准备冲浪板的画面以及话语信息，判断出冲浪在Muizenburg Beach是否允许"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/kMdRuz9WMHI.mp4"
     },
     {
         "video_id": "ZZ_5_97",
@@ -4511,7 +4607,8 @@
                 "knowledge": "视频中作者去了几个音乐节，她和朋友的穿着非常吸引眼球，都是朋克风，因此推理出朋克风是适合音乐节的风格，去音乐节可以参考朋克风。",
                 "reasoning": "视频中作者去了几个音乐节，她和朋友的穿着非常吸引眼球，都是朋克风，因此推理出朋克风是适合音乐节的风格。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/MaStjHoN8RE.mp4"
     },
     {
         "video_id": "ZZ_5_98",
@@ -4561,7 +4658,8 @@
                 "knowledge": "在介绍蟋蟀时，老师说道能发出鸣声的是公蟋蟀，目的是证明自己是最好的singer，争夺母蟋蟀，因此推断出母蟋蟀会被公蟋蟀的叫声吸引",
                 "reasoning": "模型需根据公蟋蟀鸣叫的目的推断出母蟋蟀会被公蟋蟀的叫声吸引"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/wg83S9OoX4o.mp4"
     },
     {
         "video_id": "ZZ_5_99",
@@ -4604,7 +4702,8 @@
                 "knowledge": "",
                 "reasoning": "模型需定位到Sineb在柑橘园的片段，她向大家展示自己今天的穿着时抬起了脚，通过观察可知时绿色的雨鞋。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/anjq43EhoP8.mp4"
     },
     {
         "video_id": "ZZ_5_100",
@@ -4647,6 +4746,7 @@
                 "knowledge": "",
                 "reasoning": "模型可以判断Criminal Mind的主题以及Bobby身份之间的关联，从而进行判断。Criminal Mind是一部关于FBI的犯罪类剧集，邀请退休FBI agent Bobby担当顾问肯定是为了让他提供专业的意见，让剧情和演员的表演更贴近FBI真实探案过程。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_5/zfbU-1hpnP8.mp4"
     }
 ]

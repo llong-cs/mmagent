@@ -1231,47 +1231,47 @@
     },
     {
         "video_id": "ZZ_4_28",
-        "video_url": "https://www.youtube.com/watch?v=gwrKLL4Gefg",
-        "video_duration": "51:55",
-        "video_type": "探索 - 参观",
+        "video_url": "https://www.youtube.com/watch?v=wNbtUDd7Sjc",
+        "video_duration": "24:42",
+        "video_type": "教学 - 工业制造",
         "qa_list": [
             {
-                "question": "Is the spherical roof of St. Peter's Basilica regular or irregular?",
-                "answer": "Irregular.",
-                "question_type": "多模态/多语言推理,通用知识推理",
-                "knowledge": "视频中提到第三位建筑师改变了米开朗基罗的设计，用尖拱形代替了半球形，将屋顶加高了7m，并通过演示视频可知，并不是规则的球形。",
-                "reasoning": "模型需定位到介绍教堂的第三位建筑者德拉的片段，视频中提到他改变了上一任建筑者的设计，要在短时间内建成屋顶，因此做出了改变，并结合演示视频可知屋顶是不规则的球形。"
+                "question": "Is Dongtao chicken a symbol of luxury or just ordinary chicken?",
+                "answer": "A symbol of luxury.",
+                "question_type": "通用知识推理",
+                "knowledge": "视频中提到dongtao鸡会先给皇室或者在越南特别的节日里才会出现，由此可知这不是普通的鸡肉而是一种高级的象征。",
+                "reasoning": "模型需定位到介绍dongyao鸡的片段，介绍了dongtao鸡的特殊用途可知它是一种高级的象征。"
             },
             {
-                "question": "Besides its aesthetic effect, what additional function does the double-layer spherical design on the top of St. Peter's Basilica serve?",
-                "answer": "It stabilizes the building.",
-                "question_type": "多线索推理,通用知识推理",
-                "knowledge": "视频中米开朗基罗与德拉在屋顶的设计均有双球型结构，但是都是为了共同承担建筑的重量，因为屋顶完全暴露在风中会不稳定，并且德拉的最终设计外壳更厚更稳固。",
-                "reasoning": "模型需定位到米开朗基罗和德拉设计屋顶的片段，两种设计有相似性，但是作用是相同的，就是采用两层屋顶共同分担重量，并且德拉的最终设计外壳更厚，所以是为了稳固建筑。"
-            },
-            {
-                "question": "Is Della Porta an innovator or a conservative?",
-                "answer": "Innovator.",
-                "question_type": "人物属性建模",
-                "knowledge": "",
-                "reasoning": "模型需定位到介绍della是如何修改米开朗基罗的设计的片段，他将米开朗基罗设计的优点保留，并且减少时间成本，由此可知他是一个敢于创新的人。"
-            },
-            {
-                "question": "Was the Pope highly attentive to the construction of the obelisk or merely perfunctory?",
-                "answer": "He was highly attentive.",
-                "question_type": "人物属性建模",
-                "knowledge": "",
-                "reasoning": "模型需定位到视频介绍obelisk是如何运输并建成的片段，视频中提到，建设在人群中进行，尽管有人围观，但是过程并没有松懈，因为教皇说要杀死任何干扰这项工作的人。由此可知教皇对这项工程非常重视"
-            },
-            {
-                "question": "Are there any figures painted on the walls inside the Tower of Wind?",
+                "question": "Is it possible to tape multiple sheets of paper to the same place of wall when drying them?",
                 "answer": "Yes.",
-                "question_type": "多模态/多语言推理",
+                "question_type": "通用知识推理",
+                "knowledge": "视频中Tam把纸张贴在墙上时通过观察可以发现一块墙皮可以贴好多张纸张，并且刷上sap，在墙上停留一周。",
+                "reasoning": "模型需定位到造纸业的片段，纸张在潮湿环境下形成后需要晾干，通过观察贴在墙上后刷上sap，多张纸可以贴在同一个地方。"
+            },
+            {
+                "question": "Is Giang a person who knows a lot about how to feed dongtao chicken or not?",
+                "answer": "He knows a lot.",
+                "question_type": "人物属性建模",
                 "knowledge": "",
-                "reasoning": "模型需定位到介绍风之塔的片段，片段中介绍了风之塔墙壁的高度时拍摄到了内部的墙壁，通过观察可知有人物画像布满墙壁。"
+                "reasoning": "模型需定位到介绍Giang是第三代养鸡户的片段，他知道dongtao鸡的特点以及与其他鸡的区别，并且长辈也都是dongyao鸡的专家，由此可知他十分了解。"
+            },
+            {
+                "question": "Is Giang a slothful person?",
+                "answer": "No.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "模型需定位到Giang照顾dongtao鸡的片段，他不辞辛劳为dongtao鸡比赛做准备，包括用盐和茶的混合物洗腿、饮食等。他很认真。由此可知他是一个工作认真、勤奋的人。"
+            },
+            {
+                "question": "Is Tran a person who like traditional crafts or modern technology?",
+                "answer": "Tranditonal crafts.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "模型需定位到Tran使用Tam做的纸制作传统艺术品的片段，他希望通过这种方式鼓励现在的年轻人多多关注传统造纸技术，由此可知她是一个热爱传统工艺的人。"
             }
         ],
-        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/gwrKLL4Gefg.mp4"
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/wNbtUDd7Sjc.mp4"
     },
     {
         "video_id": "ZZ_4_29",
@@ -3281,7 +3281,8 @@
                 "knowledge": "",
                 "reasoning": "Jarren在每次展示他的自行车技巧的时候，全是在街上，周围有行人路过，而他丝毫不在意意外的发生，可推断出他是个安全意识薄弱的人"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/-bMyTZYVzgw.mp4"
     },
     {
         "video_id": "ZZ_4_2_72",
@@ -3324,7 +3325,8 @@
                 "knowledge": "",
                 "reasoning": "视频需定位到妈妈带三个女儿做完指甲的片段，结合视觉可知，Stella，Livvy和妈妈Chelsea的手指甲是粉色的，故有三个人。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/hFQBiOOEGcc.mp4"
     },
     {
         "video_id": "ZZ_4_2_73",
@@ -3367,7 +3369,8 @@
                 "knowledge": "",
                 "reasoning": "模型需定位到丽贝卡的片段，她回到家后向记者展示了购买的东西，当记者问会先吃哪一个时，她拿起了混沌，通过观察外包装是白色的。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/myv7yydtCKc.mp4"
     },
     {
         "video_id": "ZZ_4_2_74",
@@ -3410,7 +3413,8 @@
                 "knowledge": "视频中在肌肉痉挛期（\"cramps in toes\"）频繁使用冰桶，并非单纯镇痛。低温可延缓钠钾泵失效，维持神经信号传导（\"prevent cramping\"的科学机制），避免动作变形引发二次损伤，此非表层描述的\"降温\"需求。",
                 "reasoning": "首先要定位到肌肉痉挛期（\"cramps in toes\"），再根据在这一时期频繁使用冰桶，并非单纯镇痛，而是低温可延缓钠钾泵失效，维持神经信号传导（\"prevent cramping\"的科学机制），从而避免动作变形引发二次损伤，推理得出答案冰桶是为维持神经信号传导的。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/DoSHmN_OvK8.mp4"
     },
     {
         "video_id": "ZZ_4_2_75",
@@ -3453,7 +3457,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要定位到博主介绍DeWalt vacuum cleaner的片段，通过视觉分析，得出这个产品的颜色是黄色。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/Yzdabta1nAA.mp4"
     },
     {
         "video_id": "ZZ_4_2_76",
@@ -3496,7 +3501,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要对比博主在雨天以及晴天下的不同反应，在晴天博主十分的活跃，精力充沛，可以布置他的花园。但是在雨天他却没有办法布置花园，通过他的神态以及语气可以得出答案。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/pyMfkhtEI28.mp4"
     },
     {
         "video_id": "ZZ_4_2_77",
@@ -3539,7 +3545,8 @@
                 "knowledge": "视频中，Molly说到自己来到了Gail's这家店，由视觉信息可知店里摆放着各式各样的面包，并且Molly也在店里点了牛奶和咖啡这样的饮品，由此可推断Gail's是一家买面包，牛奶和咖啡的店",
                 "reasoning": "模型需定位到Gail's片段，由视觉信息和听觉信息得出这家店的主卖品是什么，进而推断出这是一家什么店"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/z09MICaSBZM.mp4"
     },
     {
         "video_id": "ZZ_4_2_78",
@@ -3582,7 +3589,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要定位到Manshiyat Nasser人将垃圾收集分好类的的片段，通过对分类后的行为进行判断分析，可知，垃圾分类后，将会被Manshiyat Nasser人送到工厂。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/8SsfH1iSlUA.mp4"
     },
     {
         "video_id": "ZZ_4_2_79",
@@ -3625,7 +3633,8 @@
                 "knowledge": "Brett每周三都会参加breakfast club，Brett是个缺乏自信的英国男孩，这个club就是针对这个学生群体的，由此可知，这个club的目的是帮助他们回复自信和自尊。",
                 "reasoning": "模型可以追踪到这个breakfast club，找到是谁去参加，这个人有什么特点，就能推导出这个club的目的是什么。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/jhkLgoR8ArQ.mp4"
     },
     {
         "video_id": "ZZ_4_2_80",
@@ -3668,7 +3677,8 @@
                 "knowledge": "",
                 "reasoning": "模型需根据这几位trainee的外貌特征确定其性别，但要注意问的是trainee,模型需将trainer这个男性去掉，所以是三个男性三个女性"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/UNA_1DXsLmg.mp4"
     },
     {
         "video_id": "ZZ_4_2_81",
@@ -3711,7 +3721,8 @@
                 "knowledge": "Nico在视频中说自己刚做了美黑，所以短时间内不能出汗，由此可判断美黑后不能马上运动，因为运动会出汗。",
                 "reasoning": "模型需要定位到Nico说自己做了美黑的片段，根据Nico的话可知做完美黑不能出汗，因此也不能马上进行运动。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/vn8wpqQAC_g.mp4"
     },
     {
         "video_id": "ZZ_4_2_82",
@@ -3754,7 +3765,8 @@
                 "knowledge": "视频画面中出现了“March 17, 2024.”的文字，但没说这是什么日子，根据之后片段中的画面可知这一天Sophia参加了2024年的LA马拉松，因此可知2024年LA马拉松的举办时间是2024.3.17。",
                 "reasoning": "模型需要定位多个片段，根据文字及画面内容得出2024.3.17是马拉松的举办时间。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/jDl57FuShkk.mp4"
     },
     {
         "video_id": "ZZ_4_2_83",
@@ -3797,7 +3809,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要首先定位到Hannah参观British Museum的片段，再根据之后的片段画面分析Hannah去了哪里，可以看到之后她去了礼品店。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/ha_0JviC_R8.mp4"
     },
     {
         "video_id": "ZZ_4_2_84",
@@ -3840,7 +3853,8 @@
                 "knowledge": "",
                 "reasoning": "模型需浏览整个视频,通过整个视频中所有的片段，对marko在整个视频中一共为街上的陌生人彩绘了几辆车进行总结，最后可得一共三辆。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/GNkQEDyq89A.mp4"
     },
     {
         "video_id": "ZZ_4_2_85",
@@ -3883,7 +3897,8 @@
                 "knowledge": "节目中，Jackson说他爸爸说Khonom Bueang是中国小吃，对男性健康有益，而在公布答案后，可知Khonom Bueang是泰国小吃，Jackson也承认他爸爸说了谎话，因此也推断出Khonom Bueang是泰国小吃，并且对男性健康无益处",
                 "reasoning": "模型需整合Jackson给出的信息和正确答案信息，判断出什么是正确信息，给出答案"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/3JHoGH_f3Qw.mp4"
     },
     {
         "video_id": "ZZ_4_2_86",
@@ -3926,7 +3941,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要定位Ella从 Nairobi to Masai Mara Safari的路线，通过对多个片段的分析，可以得治Ella公仔路途经停了Narok和Rift Valley 两个地点。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/Y2EwTrsCD64.mp4"
     },
     {
         "video_id": "ZZ_4_2_87",
@@ -3969,7 +3985,8 @@
                 "knowledge": "在整个节目中，根据视频画面可知在正式回答问题前，不管是男队还是女队都出现过集体讨论的镜头画面，且不止一次，主持人看到后也并未阻止，因此可推断出在这档节目里，在正式回答问题前，参赛者是允许进行赛前讨论的。",
                 "reasoning": "在整个节目中，根据视频画面可知在正式回答问题前，不管是男队还是女队都出现过集体讨论的镜头画面，且不止一次，主持人看到后也并未阻止，模型需抓住这个关键信息进行推断，得出答案。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/t7KedM2NLto.mp4"
     },
     {
         "video_id": "ZZ_4_2_88",
@@ -4019,7 +4036,8 @@
                 "knowledge": "视频中来英国学习一年课程的巴拿马女孩在 Heathrow Airport接受边境检查时被告知巴拿马人来英国学习超过6个月需要补办visa，由此推断巴拿马人在英国学习时间在六个月内，就不需要reapply  any documents。",
                 "reasoning": "模型需要定位到边境检查的片段，通过边境检查工作人员要求学习时间超过六个月，在英学习一年的巴拿马女孩补办visa，模型可据此推断，巴拿马人在英学习时间不超过6个月，就不用补办任何其他证件。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/-YTXQzyLU6Y.mp4"
     },
     {
         "video_id": "ZZ_4_2_89",
@@ -4062,7 +4080,8 @@
                 "knowledge": "",
                 "reasoning": "模型首先需要定位到六人进行完第一轮自我介绍后的片段，接着需要通过六人各自怀疑的人，模型需要对六人的票数进行统计，最后得出zach在第一轮自我介绍后，获得怀疑得票数最多。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/mjFVfM3MHso.mp4"
     },
     {
         "video_id": "ZZ_4_2_90",
@@ -4105,7 +4124,8 @@
                 "knowledge": "Sasha 在挑战中通过单臂悬挂和调整重心完成动作（如“trust your hand”），未强调双手抓握，推断单手持握即可完成。",
                 "reasoning": "模型需要定位到视频中latch the bridge这一检查点，再根据Sasha在挑战中通过单臂悬挂和调整重心完成动作（如“trust your hand”），未强调双手抓握，推断单手持握即可完成。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/0X1dVCnbRPU.mp4"
     },
     {
         "video_id": "ZZ_4_2_91",
@@ -4148,7 +4168,8 @@
                 "knowledge": "根据Rachel的制作过程，可以判断出在制作draping的过程中需要用到人台，珠针，标记带和裁剪剪刀。",
                 "reasoning": "模型可以首先定位到Rachel完成draping的片段，然后根据她提到的dress form以及画面中出现的珠针，剪刀和标记带等工具判断出制作draping过程所需用到的道具。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/ws2gtnEMz1k.mp4"
     },
     {
         "video_id": "ZZ_4_2_92",
@@ -4191,7 +4212,8 @@
                 "knowledge": "博主介绍到San Diego Zoo每周都会有一批黑鲈鱼当做北极熊的食物，因为这种鱼不易感染对北极熊来说致命的肝吸虫，因此推断出北极熊最适宜吃黑鲈鱼",
                 "reasoning": "结合博主介绍到的黑鲈鱼的特点，推理出答案"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/9TSQ8rVmtv4.mp4"
     },
     {
         "video_id": "ZZ_4_2_93",
@@ -4234,7 +4256,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要根据整条视频两人的互动没有十分亲昵的举动，并且女主人提到这些鞋子也让“TRC的工作人员”都进行过测评，由此可知他们有一个团队，故推测两人是同事关系。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/YyrSj3HEa0w.mp4"
     },
     {
         "video_id": "ZZ_4_2_94",
@@ -4277,7 +4300,8 @@
                 "knowledge": "根据视频画面可看到All-in-one cable很便携，并且在各种场合都能锻炼，还能锻炼不同的部位，因此外出旅行时想健身可以选All-in-one cable。",
                 "reasoning": "模型需要定位Will测评All-in-one cable的片段，根据片段中的画面和Will的评价可知外出旅行时想健身可以选All-in-one cable。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/T3d-c1TAQQg.mp4"
     },
     {
         "video_id": "ZZ_4_2_95",
@@ -4320,7 +4344,8 @@
                 "knowledge": "",
                 "reasoning": "模型需浏览整个视频，对视频中marko一共改造了多少位陌生人的物品进行分析总结，最后可以得出判断，一共改造了四位陌生人家里的物品。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/s97yHdof2oU.mp4"
     },
     {
         "video_id": "ZZ_4_2_96",
@@ -4363,7 +4388,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要定位到marko改造Lorenzo架子鼓的片段，通过marko两次拜访时 ，Lorenzo 的狗都在他身边围绕以及其中一次抱着小狗可知，Lorenzo 是一个喜欢小狗的人。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/2-c2448GzBI.mp4"
     },
     {
         "video_id": "ZZ_4_2_97",
@@ -4406,7 +4432,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要浏览整个视频。对视频中多个片段的包裹以及出现在屏幕上包裹价值进行总结，在看完视频中出现的100个包裹的价值后，对包裹价值进行对比，找到所有包裹中最贵的一个。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/fHQd58auPag.mp4"
     },
     {
         "video_id": "ZZ_4_2_98",
@@ -4449,7 +4476,8 @@
                 "knowledge": "",
                 "reasoning": "模型需要根据整个视频，视频中Kezzy介绍的大多数帽子都是带有图标的，并且他用来提供示例的自己的帽子也都是有标志的，由此可猜测Kezzy平时常戴的帽子都是带有标志的。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/DxWJjfKzpv0.mp4"
     },
     {
         "video_id": "ZZ_4_2_99",
@@ -4492,7 +4520,8 @@
                 "knowledge": "",
                 "reasoning": "Max在视频中颁发了7个奖项，模型首先需要定位到Biggest YouTube Star\" award办法的片段，通过Max提名多位博主增长粉丝量的多个片段，模型需结合多片段对提名人数进行总结。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/s8Z603K7cOw.mp4"
     },
     {
         "video_id": "ZZ_4_2_100",
@@ -4535,6 +4564,7 @@
                 "knowledge": "",
                 "reasoning": "模型需要浏览整个视频，对 George一行人在厄尔瓜多停留的多个地方进行多片段搜集，最后对 George一行人在厄尔瓜多停留的地方进行总结，得出停留了Mashpi,Volcanos, Cuenca Southern Andes, Loja province四个地方。"
             }
-        ]
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/JTmb4Kkfyzg.mp4"
     }
 ]
