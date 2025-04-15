@@ -188,6 +188,8 @@ def retrieve_from_videograph(video_graph, query, topk=5, mode='argmax'):
         sorted_clips = sorted(clip_scores.items(), key=lambda x: x[1], reverse=True)[:topk]
         top_clips.extend([clip_id for clip_id, _ in sorted_clips])
 
+    top_clips = list(set(top_clips))
+    
     return top_clips
 
 # def answer_with_retrieval(video_graph, question, query_num=5, topk=5, auto_refresh=False, mode='argmax'):
