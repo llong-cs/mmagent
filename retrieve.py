@@ -146,10 +146,7 @@ def retrieve_from_videograph(video_graph, query, topk=5, mode='argmax'):
         match = re.search(pattern, query)
         if match:
             clip_id = int(match.group(1))
-            if clip_id in video_graph.text_nodes_by_clip:
-                top_clips = [clip_id]
-            else:
-                raise ValueError(f"Clip {clip_id} not found in video graph")
+            top_clips = [clip_id]
         else:
             raise ValueError(f"Invalid query: {query}")
     else:
@@ -331,8 +328,11 @@ def answer_with_retrieval(video_graph, question, topk=5, auto_refresh=False, mod
             related_clips.extend(new_clips)
             
             for new_clip in new_clips:
-                related_nodes = video_graph.text_nodes_by_clip[new_clip]
-                new_memories[new_clip] = translate(video_graph, [video_graph.nodes[node_id].metadata['contents'][0] for node_id in related_nodes])
+                if new_clip not in video_graph.text_nodes_by_clip:
+                    new_memories[new_clip] = [f"CLIP_{new_clip} not found in memory bank, please search for other information"]
+                else:
+                    related_nodes = video_graph.text_nodes_by_clip[new_clip]
+                    new_memories[new_clip] = translate(video_graph, [video_graph.nodes[node_id].metadata['contents'][0] for node_id in related_nodes])
                                 
             # sort related_memories by timestamp
             new_memories = dict(sorted(new_memories.items(), key=lambda x: x[0]))
