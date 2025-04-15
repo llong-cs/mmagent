@@ -43,7 +43,7 @@ def verify_qa(qa):
         },
     ]
     messages = generate_messages(input)
-    model = "gpt-4o-2024-08-06"
+    model = "gemini-1.5-pro-002"
     response = get_response_with_retry(model, messages)
     qa["verify_result"] = response[0]
 
@@ -82,7 +82,7 @@ def verify_qa_list(qa_list):
         ] for qa in qa_list
     ]
     messages = [generate_messages(input) for input in inputs]
-    model = "gpt-4o-2024-11-20"
+    model = "gemini-1.5-pro-002"
     responses = parallel_get_response(model, messages)
 
     results = responses[0]
@@ -93,51 +93,51 @@ def verify_qa_list(qa_list):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dataset", type=str, default="data/annotations/small_test.jsonl")
-    parser.add_argument("--num_processes", type=int, default=16)
+    parser.add_argument("--dataset", type=str, default="data/annotations/small_train.jsonl")
     args = parser.parse_args()
     args.dataset_with_agent_answer = args.dataset.replace(".jsonl", "_with_agent_answer.jsonl")
-
-    # qa_list = []
-    # dataset = args.dataset
-    # dataset_with_agent_answer = args.dataset_with_agent_answer
-    # num_processes = args.num_processes
-
-    # with open(dataset, "r") as f:
-    #     for line in f:
-    #         qa = json.loads(line)
-    #         if os.path.exists(qa["mem_path"]):
-    #             qa_list.append(qa)
-
-    # qa_list_with_agent_answer = process_qa_list(qa_list)
-
-    # with open(dataset_with_agent_answer, "w") as f:
-    #     for qa in qa_list_with_agent_answer:
-    #         f.write(json.dumps(qa) + "\n")
-
-    # qa_list_with_agent_answer_verified = verify_qa_list(qa_list_with_agent_answer)
-
-    # with open(dataset_with_agent_answer, "w") as f:
-    #     for qa in qa_list_with_agent_answer_verified:
-    #         f.write(json.dumps(qa) + "\n")
-    
-    # verify only
-    qa_list = []
+    args.dataset_with_agent_answer_verified = args.dataset.replace("_with_agent_answer", "_with_agent_answer_verified")
+    dataset = args.dataset
     dataset_with_agent_answer = args.dataset_with_agent_answer
-    with open(dataset_with_agent_answer, "r") as f:
+    dataset_with_agent_answer_verified = args.dataset_with_agent_answer_verified
+
+    qa_list = []
+    
+    with open(dataset, "r") as f:
         for line in f:
             qa = json.loads(line)
             if os.path.exists(qa["mem_path"]):
                 qa_list.append(qa)
-    
-    qa_list = verify_qa_list(qa_list)
-    
-    with open(dataset_with_agent_answer.replace("_with_agent_answer", "_with_agent_answer_verified"), "w") as f:
-        for qa in qa_list:
+    qa_list_with_agent_answer = process_qa_list(qa_list[:20])
+
+    with open(dataset_with_agent_answer, "w") as f:
+        for qa in qa_list_with_agent_answer:
             f.write(json.dumps(qa) + "\n")
+        
+    print("finished generating agent answer")
+
+    qa_list_with_agent_answer_verified = verify_qa_list(qa_list_with_agent_answer)
+
+    with open(dataset_with_agent_answer_verified, "w") as f:
+        for qa in qa_list_with_agent_answer_verified:
+            f.write(json.dumps(qa) + "\n")
+    
+    # # verify only
+    # qa_list = []
+    # dataset_with_agent_answer = args.dataset_with_agent_answer
+    # with open(dataset_with_agent_answer, "r") as f:
+    #     for line in f:
+    #         qa = json.loads(line)
+    #         if os.path.exists(qa["mem_path"]):
+    #             qa_list.append(qa)
+    
+    # qa_list = verify_qa_list(qa_list)
+    
+    # with open(dataset_with_agent_answer.replace("_with_agent_answer", "_with_agent_answer_verified"), "w") as f:
+    #     for qa in qa_list:
+    #         f.write(json.dumps(qa) + "\n")
 
     # calculate accuracy
-    dataset_with_agent_answer_verified = args.dataset_with_agent_answer.replace("_with_agent_answer", "_with_agent_answer_verified")
     total = 0
     correct = 0
     with open(dataset_with_agent_answer_verified, "r") as f:

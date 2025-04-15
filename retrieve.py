@@ -335,14 +335,14 @@ def answer_with_retrieval(video_graph, question, topk=5, auto_refresh=False, mod
                 messages = generate_messages(input)
                 model = "gpt-4o-2024-11-20"
                 resp = get_response_with_retry(model, messages)[0]
-                reasoning = resp.split("[ANSWER]")[0]
-                final_answer = resp.split("[ANSWER]")[1]
+                reasoning = resp.split("[ANSWER]")[0].strip()
+                final_answer = resp.split("[ANSWER]")[1].strip()
                 responses.append({
                     "reasoning": reasoning,
                     "action_type": "answer",
                     "action_content": final_answer
                 })
-                print(f"Answer: {final_answer}")
+                print(f"Forced answer: {final_answer}")
                 break
             new_clips = retrieve_from_videograph(video_graph, action_content, topk, mode)
             new_clips = [new_clip for new_clip in new_clips if new_clip not in related_clips]
