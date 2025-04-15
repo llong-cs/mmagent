@@ -6,7 +6,7 @@ from utils.chat_api import (
     get_response_with_retry,
     parallel_get_embedding,
 )
-from prompts import prompt_answer_with_retrieval_clipwise_final, prompt_generate_action
+from prompts import prompt_answer_with_retrieval_clipwise_final, prompt_generate_action, prompt_generate_plan, prompt_generate_action_with_plan
 from memory_processing import parse_video_caption
 
 processing_config = json.load(open("configs/processing_config.json"))
@@ -265,14 +265,15 @@ def retrieve_from_videograph(video_graph, query, topk=5, mode='argmax'):
     
 #     return final_answer
 
-def generate_action(question, knowledge):
+def generate_action(question, knowledge, retrieval_plan=None):
     print(knowledge)
     input = [
         {
             "type": "text",
-            "content": prompt_generate_action.format(
+            "content": prompt_generate_action_with_plan.format(
                 question=question,
                 knowledge=knowledge,
+                retrieval_plan=retrieval_plan,
             ),
         }
     ]
@@ -300,7 +301,7 @@ def generate_action(question, knowledge):
     print(action)
     return reasoning, action_type, action_content
 
-def answer_with_retrieval(video_graph, question, topk=5, auto_refresh=False, mode='argmax'):
+def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5, auto_refresh=False, mode='argmax'):
     if auto_refresh:
         video_graph.refresh_equivalences()
         
@@ -312,8 +313,27 @@ def answer_with_retrieval(video_graph, question, topk=5, auto_refresh=False, mod
     memories = [[]]
     responses = []
     
+    if video_clip_base64 is not None:
+        input = [
+            {
+                "type": "video_base64/mp4",
+                "content": video_clip_base64,
+            },
+            {
+                "type": "text",
+                "content": prompt_generate_plan.format(question=question),
+            }
+        ]
+
+        messages = generate_messages(input)
+        model = "gemini-1.5-pro-002"
+        retrieval_plan = get_response_with_retry(model, messages)[0]
+        print(f"Retrieval plan: {retrieval_plan}")
+    else:
+        retrieval_plan = None
+
     for i in range(max_retrieval_steps):
-        reasoning, action_type, action_content = generate_action(question, context)
+        reasoning, action_type, action_content = generate_action(question, context, retrieval_plan)
         reasoning = reasoning.strip("### Reasoning:").strip("### Answer or Search:").strip("Reasoning:").strip()
         if action_type == "answer":
             final_answer = action_content

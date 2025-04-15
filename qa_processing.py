@@ -1,5 +1,6 @@
 import json
 import os
+import base64
 from tqdm import tqdm
 import argparse
 from concurrent.futures import ProcessPoolExecutor
@@ -8,11 +9,26 @@ from utils.chat_api import generate_messages, get_response_with_retry, parallel_
 from retrieve import answer_with_retrieval
 from prompts import prompt_agent_verify_answer
 
+def video_to_base64(video_path):
+    with open(video_path, 'rb') as video_file:
+        video_bytes = video_file.read()
+        base64_encoded = base64.b64encode(video_bytes).decode('utf-8')
+        return base64_encoded
 
-def process_qa(qa):
+def process_qa(qa, planning=True):
     mem = load_video_graph(qa["mem_path"])
     question = qa["question"]
-    agent_answer, session = answer_with_retrieval(mem, question)
+    
+    if planning:
+        clip_path = qa["clip_path"]
+        clips = os.listdir(clip_path)
+        # sorted by number
+        last_clip = sorted(clips, key=lambda x: int(x.split(".")[0]))[-1]
+        video_clip_base64 = video_to_base64(os.path.join(clip_path, last_clip))
+    else:
+        video_clip_base64 = None
+    
+    agent_answer, session = answer_with_retrieval(mem, question, video_clip_base64)
     qa["agent_answer"] = agent_answer
     qa["session"] = session
     return qa
