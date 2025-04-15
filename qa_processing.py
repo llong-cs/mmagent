@@ -4,7 +4,7 @@ from tqdm import tqdm
 import argparse
 from concurrent.futures import ProcessPoolExecutor
 from utils.general import load_video_graph
-from utils.chat_api import generate_messages, get_response_with_retry
+from utils.chat_api import generate_messages, get_response_with_retry, parallel_get_response
 from retrieve import answer_with_retrieval
 from prompts import prompt_agent_verify_answer
 
@@ -43,12 +43,11 @@ def verify_qa(qa):
         },
     ]
     messages = generate_messages(input)
-    model = "gpt-4o-2024-11-20"
+    model = "gpt-4o-2024-08-06"
     response = get_response_with_retry(model, messages)
     qa["verify_result"] = response[0]
 
     return qa
-
 
 def process_qa_list(qa_list, max_workers=16):
     with ProcessPoolExecutor(max_workers=max_workers) as executor:
@@ -61,15 +60,35 @@ def process_qa_list(qa_list, max_workers=16):
         )
     return qa_list
 
-def verify_qa_list(qa_list, max_workers=50):
-    with ProcessPoolExecutor(max_workers=max_workers) as executor:
-        qa_list = list(
-            tqdm(
-                executor.map(verify_qa, qa_list),
-                total=len(qa_list),
-                desc="Verifying answers",
-            )
-        )
+def verify_qa_list(qa_list):
+    inputs = [
+        [
+            {
+                "type": "text",
+                "content": json.dumps({
+                    "question": qa["question"],
+                    "ground_truth_answer": qa["answer"],
+                    "agent_answer": qa["agent_answer"],
+                }),
+            },
+            {
+                "type": "text",
+                "content": prompt_agent_verify_answer,
+            },
+            {
+                "type": "text",
+                "content": "Now answer if the answer from the baseline is correct or not:",
+            },            
+        ] for qa in qa_list
+    ]
+    messages = [generate_messages(input) for input in inputs]
+    model = "gpt-4o-2024-11-20"
+    responses = parallel_get_response(model, messages)
+
+    results = responses[0]
+    for qa, result in zip(qa_list, results):
+        qa["verify_result"] = result
+
     return qa_list
 
 if __name__ == "__main__":
@@ -113,6 +132,19 @@ if __name__ == "__main__":
     
     qa_list = verify_qa_list(qa_list)
     
-    with open(args.dataset_with_agent_answer, "w") as f:
+    with open(dataset_with_agent_answer.replace("_with_agent_answer", "_with_agent_answer_verified"), "w") as f:
         for qa in qa_list:
             f.write(json.dumps(qa) + "\n")
+
+    # calculate accuracy
+    dataset_with_agent_answer_verified = args.dataset_with_agent_answer.replace("_with_agent_answer", "_with_agent_answer_verified")
+    total = 0
+    correct = 0
+    with open(dataset_with_agent_answer_verified, "r") as f:
+        for line in f:
+            qa = json.loads(line)
+            total += 1
+            if qa["verify_result"].lower().startswith("yes"):
+                correct += 1
+
+    print(f"Accuracy: {correct / total}")
