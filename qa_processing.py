@@ -71,7 +71,7 @@ def process_qa_list(qa_list, max_workers=16):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dataset", type=str, default="data/annotations/small_train.jsonl")
+    parser.add_argument("--dataset", type=str, default="data/annotations/small_test.jsonl")
     parser.add_argument("--num_processes", type=int, default=16)
     args = parser.parse_args()
     args.dataset_with_agent_answer = args.dataset.replace(".jsonl", "_with_agent_answer.jsonl")
@@ -87,7 +87,7 @@ if __name__ == "__main__":
             if os.path.exists(qa["mem_path"]):
                 qa_list.append(qa)
 
-    new_qa_list = process_qa_list(qa_list[:20], num_processes)
+    new_qa_list = process_qa_list(qa_list, num_processes)
 
     with open(dataset_with_agent_answer, "w") as f:
         for qa in new_qa_list:
