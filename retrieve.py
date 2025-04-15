@@ -6,8 +6,7 @@ from utils.chat_api import (
     get_response_with_retry,
     parallel_get_embedding,
 )
-from utils.general import validate_and_fix_python_list
-from prompts import prompt_memory_retrieval, prompt_answer_with_retrieval_clipwise, prompt_answer_with_retrieval_clipwise_final, prompt_generate_action
+from prompts import prompt_answer_with_retrieval_clipwise_final, prompt_generate_action
 from memory_processing import parse_video_caption
 
 processing_config = json.load(open("configs/processing_config.json"))
@@ -140,52 +139,54 @@ def back_translate(video_graph, queries):
 
 # retrieve by clip
 def retrieve_from_videograph(video_graph, query, topk=5, mode='argmax'):
-    if "CLIP_" in query:
-        # find CLIP_x in query
-        pattern = r"CLIP_(\d+)"
-        match = re.search(pattern, query)
-        if match:
+    top_clips = []
+    # find all CLIP_x in query
+    pattern = r"CLIP_(\d+)"
+    matches = re.finditer(pattern, query)
+    top_clips = []
+    for match in matches:
+        try:
             clip_id = int(match.group(1))
-            top_clips = [clip_id]
-        else:
-            top_clips = []
+            top_clips.append(clip_id)
+        except ValueError:
+            continue
+        
+    queries = back_translate(video_graph, [query])
+
+    model = "text-embedding-3-large"
+    query_embeddings = parallel_get_embedding(model, queries)[0]
+
+    clip_scores = {}
+
+    if mode == 'argmax':
+        threshold = 0
+    elif mode == 'accumulate':
+        threshold = 0.2
     else:
-        queries = back_translate(video_graph, [query])
+        raise ValueError(f"Unknown mode: {mode}")
 
-        model = "text-embedding-3-large"
-        query_embeddings = parallel_get_embedding(model, queries)[0]
-
-        clip_scores = {}
-
-        if mode == 'argmax':
-            threshold = 0
-        elif mode == 'accumulate':
-            threshold = 0.2
-        else:
-            raise ValueError(f"Unknown mode: {mode}")
-
-        for query_embedding in query_embeddings:
-            nodes = video_graph.search_text_nodes([query_embedding], threshold=threshold)
-            for node in nodes:
-                node_id = node[0]
-                node_score = node[1]
-                clip_id = video_graph.nodes[node_id].metadata['timestamp']
-                if mode == 'accumulate':
-                    if clip_id not in clip_scores:
-                        clip_scores[clip_id] = 0
-                    clip_scores[clip_id] += node_score
-                elif mode == 'argmax':
-                    if clip_id not in clip_scores:
-                        clip_scores[clip_id] = node_score
-                    elif node_score > clip_scores[clip_id]:
-                        clip_scores[clip_id] = node_score
-                else:
-                    raise ValueError(f"Unknown mode: {mode}")
+    for query_embedding in query_embeddings:
+        nodes = video_graph.search_text_nodes([query_embedding], threshold=threshold)
+        for node in nodes:
+            node_id = node[0]
+            node_score = node[1]
+            clip_id = video_graph.nodes[node_id].metadata['timestamp']
+            if mode == 'accumulate':
+                if clip_id not in clip_scores:
+                    clip_scores[clip_id] = 0
+                clip_scores[clip_id] += node_score
+            elif mode == 'argmax':
+                if clip_id not in clip_scores:
+                    clip_scores[clip_id] = node_score
+                elif node_score > clip_scores[clip_id]:
+                    clip_scores[clip_id] = node_score
+            else:
+                raise ValueError(f"Unknown mode: {mode}")
 
                 
         # Sort clips by score and get top k clips
         sorted_clips = sorted(clip_scores.items(), key=lambda x: x[1], reverse=True)[:topk]
-        top_clips = [clip_id for clip_id, _ in sorted_clips]
+        top_clips.extend([clip_id for clip_id, _ in sorted_clips])
 
     return top_clips
 
