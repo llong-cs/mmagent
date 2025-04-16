@@ -234,6 +234,18 @@ def generate_messages(inputs):
         content should be a string for text,
         a list of base64 encoded media for images/video/audio,
         or a string (url) for video_url
+        inputs are like: 
+        [
+            {
+                "type": "video_base64/mp4",
+                "content": <base64>
+            },
+            {
+                "type": "text",
+                "content": "Describe the video content."
+            },
+            ...
+        ]
 
     Returns:
         list: Formatted messages for chat completion

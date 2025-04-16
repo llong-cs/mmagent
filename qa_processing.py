@@ -80,8 +80,13 @@ def verify_qa(qa):
 def process_qa_list(qa_list, dataset_with_agent_answer, max_workers=16):
     bs = 100
     results = []
-    with open(dataset_with_agent_answer, "r") as f:
-        sample_count = len(f.readlines())
+    try:
+        with open(dataset_with_agent_answer, "r") as f:
+            sample_count = len(f.readlines())
+    except Exception as e:
+        print(f"Error reading dataset_with_agent_answer: {dataset_with_agent_answer}")
+        print(e)
+        sample_count = 0
     for i in range(sample_count, len(qa_list), bs):
         qa_list_batch = qa_list[i:i+bs]
         with ProcessPoolExecutor(max_workers=max_workers) as executor:
@@ -100,8 +105,13 @@ def process_qa_list(qa_list, dataset_with_agent_answer, max_workers=16):
 
 def verify_qa_list(qa_list, dataset_with_agent_answer_verified):
     bs = 100
-    with open(dataset_with_agent_answer_verified, "r") as f:
-        sample_count = len(f.readlines())
+    try:
+        with open(dataset_with_agent_answer_verified, "r") as f:
+            sample_count = len(f.readlines())
+    except Exception as e:
+        print(f"Error reading dataset_with_agent_answer_verified: {dataset_with_agent_answer_verified}")
+        print(e)
+        sample_count = 0
     for i in range(sample_count, len(qa_list), bs):
         qa_list_batch = qa_list[i:i+bs]
         inputs = [
