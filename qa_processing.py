@@ -7,7 +7,7 @@ from concurrent.futures import ProcessPoolExecutor
 from utils.general import load_video_graph
 from utils.chat_api import generate_messages, get_response_with_retry, parallel_get_response
 from retrieve import answer_with_retrieval
-from prompts import prompt_agent_verify_answer
+from prompts import prompt_agent_verify_answer, prompt_agent_verify_answer_with_reasoning
 
 def video_to_base64(video_path):
     with open(video_path, 'rb') as video_file:
@@ -146,6 +146,50 @@ def verify_qa_list(qa_list, dataset_with_agent_answer_verified):
             for qa in qa_list_batch:
                 f.write(json.dumps(qa) + "\n")
                 
+def verify_qa_list_with_reasoning(qa_list, dataset_with_agent_answer_verified):
+    bs = 100
+    try:
+        with open(dataset_with_agent_answer_verified, "r") as f:
+            sample_count = len(f.readlines())
+    except Exception as e:
+        print(f"Error reading dataset_with_agent_answer_verified: {dataset_with_agent_answer_verified}")
+        print(e)
+        sample_count = 0
+    for i in range(sample_count, len(qa_list), bs):
+        qa_list_batch = qa_list[i:i+bs]
+        inputs = [
+            [
+                {
+                    "type": "text",
+                    "content": json.dumps({
+                        "question": qa["question"],
+                        "ground_truth_answer": qa["answer"],
+                        "agent_answer": qa["agent_answer"],
+                        "reasoning": qa["reasoning"],
+                    }),
+                },
+                {
+                    "type": "text",
+                    "content": prompt_agent_verify_answer_with_reasoning,
+                },
+                {
+                    "type": "text",
+                    "content": "Now answer if the answer from the baseline is correct or not:",
+                },            
+            ] for qa in qa_list_batch
+        ]
+        messages = [generate_messages(input) for input in inputs]
+        model = "gpt-4o-2024-11-20"
+        responses = parallel_get_response(model, messages)
+
+        verify_results = responses[0]
+        for qa, verify_result in zip(qa_list_batch, verify_results):
+            qa["verify_result"] = verify_result
+        
+        with open(dataset_with_agent_answer_verified, "a") as f:
+            for qa in qa_list_batch:
+                f.write(json.dumps(qa) + "\n")
+                
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset", type=str, default="data/annotations/small_train.jsonl")
@@ -179,3 +223,4 @@ if __name__ == "__main__":
         # with open(dataset_with_agent_answer_verified, "w") as f:
         #     f.truncate(0)
         verify_qa_list(qa_list_with_agent_answer, dataset_with_agent_answer_verified)
+        # verify_qa_list_with_reasoning(qa_list_with_agent_answer, dataset_with_agent_answer_verified)
