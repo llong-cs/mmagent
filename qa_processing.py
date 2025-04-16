@@ -146,13 +146,9 @@ if __name__ == "__main__":
     args = parser.parse_args()
     args.dataset_with_agent_answer = os.path.join(args.output_dir, os.path.basename(args.dataset).replace(".jsonl", "_with_agent_answer.jsonl"))
     args.dataset_with_agent_answer_verified = os.path.join(args.output_dir, os.path.basename(args.dataset_with_agent_answer).replace("_with_agent_answer", "_with_agent_answer_verified"))
-    dataset = args.dataset
-    dataset_with_agent_answer = args.dataset_with_agent_answer
-    dataset_with_agent_answer_verified = args.dataset_with_agent_answer_verified
-    sample_rounds = args.sample_rounds
 
     qa_list = []
-    
+    dataset = args.dataset
     with open(dataset, "r") as f:
         for line in f:
             qa = json.loads(line)
@@ -161,9 +157,10 @@ if __name__ == "__main__":
 
     # # idx = 0
     # # qa_list_with_agent_answer = process_qa_list(qa_list[idx:idx+1])
+    sample_rounds = args.sample_rounds
     for i in range(sample_rounds):
-        dataset_with_agent_answer = dataset.replace(".jsonl", f"_with_agent_answer_{i}.jsonl")
-        dataset_with_agent_answer_verified = dataset_with_agent_answer.replace("_with_agent_answer", f"_with_agent_answer_verified")
+        dataset_with_agent_answer = args.dataset_with_agent_answer.replace("_with_agent_answer", f"_with_agent_answer_{i}")
+        dataset_with_agent_answer_verified = args.dataset_with_agent_answer_verified.replace("_with_agent_answer_verified", f"_with_agent_answer_verified_{i}")
         # clear the file
         # with open(dataset_with_agent_answer, "w") as f:
         #     f.truncate(0)
