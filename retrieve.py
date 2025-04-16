@@ -351,7 +351,7 @@ def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5,
                         "type": "text",
                         "content": prompt_answer_with_retrieval_clipwise_final.format(
                             question=question,
-                            related_memories=context,
+                            information=context,
                         ),
                     }
                 ]

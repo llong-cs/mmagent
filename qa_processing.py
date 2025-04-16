@@ -124,24 +124,26 @@ if __name__ == "__main__":
             qa = json.loads(line)
             if os.path.exists(qa["mem_path"]):
                 qa_list.append(qa)
-    idx = 4
-    qa_list_with_agent_answer = process_qa_list(qa_list)
 
-    with open(dataset_with_agent_answer, "w") as f:
-        for qa in qa_list_with_agent_answer:
-            f.write(json.dumps(qa) + "\n")
-        
-    print("finished generating agent answer")
+    # # idx = 0
+    # # qa_list_with_agent_answer = process_qa_list(qa_list[idx:idx+1])
+    for i in range(5):
+        dataset_with_agent_answer = dataset.replace(".jsonl", f"_with_agent_answer_{i}.jsonl")
+        dataset_with_agent_answer_verified = dataset_with_agent_answer.replace("_with_agent_answer", f"_with_agent_answer_verified")
+        qa_list_with_agent_answer = process_qa_list(qa_list)
 
-    qa_list_with_agent_answer_verified = verify_qa_list(qa_list_with_agent_answer)
+        with open(dataset_with_agent_answer, "w") as f:
+            for qa in qa_list_with_agent_answer:
+                f.write(json.dumps(qa) + "\n")
+            
+        qa_list_with_agent_answer_verified = verify_qa_list(qa_list_with_agent_answer)
 
-    with open(dataset_with_agent_answer_verified, "w") as f:
-        for qa in qa_list_with_agent_answer_verified:
-            f.write(json.dumps(qa) + "\n")
+        with open(dataset_with_agent_answer_verified, "w") as f:
+            for qa in qa_list_with_agent_answer_verified:
+                f.write(json.dumps(qa) + "\n")
     
-    # # verify only
+    # verify only
     # qa_list = []
-    # dataset_with_agent_answer = args.dataset_with_agent_answer
     # with open(dataset_with_agent_answer, "r") as f:
     #     for line in f:
     #         qa = json.loads(line)
@@ -150,18 +152,18 @@ if __name__ == "__main__":
     
     # qa_list = verify_qa_list(qa_list)
     
-    # with open(dataset_with_agent_answer.replace("_with_agent_answer", "_with_agent_answer_verified"), "w") as f:
+    # with open(dataset_with_agent_answer_verified, "w") as f:
     #     for qa in qa_list:
     #         f.write(json.dumps(qa) + "\n")
 
     # calculate accuracy
-    total = 0
-    correct = 0
-    with open(dataset_with_agent_answer_verified, "r") as f:
-        for line in f:
-            qa = json.loads(line)
-            total += 1
-            if qa["verify_result"].lower().startswith("yes"):
-                correct += 1
+    # total = 0
+    # correct = 0
+    # with open(dataset_with_agent_answer_verified, "r") as f:
+    #     for line in f:
+    #         qa = json.loads(line)
+    #         total += 1
+    #         if qa["verify_result"].lower().startswith("yes"):
+    #             correct += 1
 
-    print(f"Accuracy: {correct / total}")
+    # print(f"Accuracy: {correct / total}")

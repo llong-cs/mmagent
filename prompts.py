@@ -388,9 +388,12 @@ Output:"""
 prompt_generate_action_with_plan = """You are given a question and some relevant knowledge about a specific video. You are also provided with a retrieval plan, which outlines the types of information that should be retrieved from a memory bank in order to answer the question. Your task is to reason about whether the provided knowledge is sufficient to answer the question. If it is sufficient, output [ANSWER] followed by the answer. If it is not sufficient, output [SEARCH] and generate a query that will be encoded into embeddings for a vector similarity search. The query will help retrieve additional information from a memory bank that contains detailed descriptions and high-level abstractions of the video, considering the question, the provided knowledge, and the retrieval plan.
 
 Specifically, your response should contain the following two parts:
-	1.	Reasoning: First, consider the question and existing knowledge. Think about whether the current information can answer the question. If not, do some reasoning about what is the exact information that is still missing and the reason why it is important to answer the question.
+	1.	Reasoning: First, consider the question and existing knowledge. Think about whether the current information can answer the question. If yes, do some analysis about the information that has been gathered. If not, do some reasoning about what is the exact information that is still missing and the reason why it is important to answer the question.
 	2.	Answer or Search:
 	•	Answer: If you can answer the question based on the provided knowledge, output [ANSWER] and provide the answer.
+		•	When referring to a character in your final answer, always use their specific name if it appears in the memories.
+		•	Do not use ID tags like <character_1> or <face_1> in your final answer.
+		•	Your final answer should be short, clear, and directly address the question. 
 	•	Search: If you cannot answer the question based on the provided knowledge, output [SEARCH] and generate a query. For the query:
 		•	Use the retrieval plan to inform what type of content should be searched for next. These contents should cover aspects that provide useful context or background to the question, such as character names, behaviors, relationships, personality traits, actions, and key events.
 		•	Make the query concise and focused on a specific piece of information that could help answer the question. 
@@ -460,7 +463,7 @@ Now, generate your response for the following input:
 
 Question: {question}
 
-Retrieval plan: {retrieval_plan}
+Retrieval Plan: {retrieval_plan}
 
 Knowledge: {knowledge}
 
@@ -768,20 +771,21 @@ Related Memories:
 
 Answer:"""
 
-prompt_answer_with_retrieval_clipwise_final = """You are given a question and a dictionary of related memories. Each key in the dictionary is a clip_id (a positive integer), representing a video segment in chronological order. The corresponding value is a list of memory strings from that clip.
+prompt_answer_with_retrieval_clipwise_final = """You are given a question about a specific video and a a dictionary of some related information about the video. Each key in the dictionary is a clip id (an integer), representing the index of a video clip. The corresponding value is a list of video descriptions of that clip.
 
-Your task is to answer the question based on all the provided memories.
+Your task is to reason over the provided information, and provide a most reasonable answer of the given question.
+
+Your resposne should start with the reasoning, and then output "[ANSWER]" before generating the final answer.
 
 Important Instructions:
 	•	When referring to a character, always use their specific name if it appears in the memories.
-	•	Do not use placeholder IDs like <character_1>, or vague descriptions such as "the man in the suit" or "the person speaking".
-	•	Your answer should be short, clear, and directly address the question.
-	•	Avoid repeating or summarizing the memories—focus only on delivering the final answer.
-	•	Reasoning over the provided information before giving the final answer. Use the format like: "<reasoning> [ANSWER] <final_answer>" for your response.
+	•	Do not use ID tags like <character_1> or <face_1>.
+	•	Your final answer should be short, clear, and directly address the question.
+	•	Avoid repeating or summarizing the memories. Focus only on delivering the final answer.
 
 Question: {question}
 
-Related Memories: {related_memories}
+Video Information: {information}
 
 Answer:"""
 
@@ -808,21 +812,17 @@ Input:
 
 Output:"""
 
-prompt_agent_verify_answer = """You are provided with a question, the ground truth answer, and the answer from an agent model. Your task is to assess whether the agent answer is semantically consistent with the ground truth answer. If the meaning of the agent answer aligns with the ground truth answer, regardless of exact wording, return "Yes". If the agent answer is semantically incorrect, return "No".
+prompt_agent_verify_answer = """You are provided with a question, the ground truth answer, and the answer from an agent model. Your task is to assess whether the agent answer is semantically consistent with the ground truth answer, in the context of the question.
 
-Input Example:
+If the meaning expressed by the agent answer aligns with the meaning of the ground truth answer — even if the wording or format is different — return "Yes". If the agent answer expresses a different or incorrect meaning, return "No".
 
-{
-	"question": "What is the capital of France?",
-	"ground_truth_answer": "Paris",
-	"agent_answer": "Paris"
-}
+Do not require exact wording or surface form match. Semantic equivalence, given the context of the question, is sufficient.
 
-Output Example:
+Please only return "Yes" or "No", with no additional explanation or formatting."""
 
-Yes
+# prompt_agent_verify_answer = """You are provided with a question, the ground truth answer, and the answer from an agent model. Your task is to assess whether the agent answer is semantically consistent with the ground truth answer. If the meaning of the agent answer aligns with the ground truth answer, regardless of exact wording, return "Yes". If the agent answer is semantically incorrect, return "No".
 
-Please only return "Yes" or "No", without any additional explanation or formatting."""
+# Please only return "Yes" or "No", without any additional explanation or formatting."""
 
 prompt_generate_plan = """You are given a clip from a specific video and a question about the video. There exists a memory bank that contains information about this video, but you will not be shown its contents.
 
@@ -830,18 +830,25 @@ The memory bank is structured as a temporally ordered sequence of entries. Each 
 	•	a fine-grained description of a specific moment in the video, or
 	•	a high-level summary or abstraction of events.
 
-Your task is to create a retrieval plan: a step-by-step outline describing what kinds of information should be retrieved from the memory bank to answer the question effectively.
+Your task is to create a detailed and robust retrieval plan: a step-by-step outline describing what kinds of information should be retrieved from the memory bank to answer the question effectively.
 
-Guidelines:
-	•	Do not attempt to answer the question.
-	•	Based on your understanding of what the memory bank likely contains, generate a string list where each item is a logically ordered retrieval step.
-	•	Each step should specify a type of content or temporal segment to retrieve (e.g., "find entries describing character motivations" or "look for summaries of the climax").
-	•	Your plan should reflect a reasoning process tailored to the question type.
+Requirements:
+	•	Do not answer the question.
+	•	Instead, output a string list, where each item describes one retrieval step.
+	•	Each step should specify a type of content, topic, or temporal segment to retrieve (e.g., "find entries describing character motivations" or "look for summaries of the climax").
 
-Some examples of the entries in the memory bank:
-	•	"<face_1> and <face_2> are seen arguing in the living room."
-	•	"<face_1> raises her voice, and <face_2> looks upset."
-	•	"<face_1> accuses <face_2> of not listening to her."
+Your plan must:
+	1.	Ensure completeness:
+		The plan must guide the retrieval process in such a way that all essential pieces of information required to answer the question will be retrieved — including context, reasoning chains, motivations, consequences, and temporal links, as relevant.
+		Do not stop at partial evidence. Design the plan so that it systematically explores and gathers all necessary supporting elements.
+	2.	Include contingency strategies:
+		Anticipa what might go wrong or be missing during retrieval. For example:
+		•	What if direct mentions of an event are not available?
+		•	What if the memory bank contains conflicting interpretations?
+		•	What if characters' intentions or relationships are implied but not explicitly stated?
+		Your plan should include fallback options and indirect paths to cover these cases (e.g., using emotion cues, related scenes, earlier summaries, or surrounding context).
+	3.	Follow a logical order:
+		The steps should be ordered in a way that reflects effective reasoning — e.g., from specific to general, or from earlier scenes to later consequences.
 
 Output format:
 A list of strings. Example:
@@ -852,7 +859,7 @@ A list of strings. Example:
   "Step 3: Find summaries that explain the consequences of the key events."
 ]
 
-Please response with only the string list of the plan, without any additional explanation or formatting.
+Please response with only the string list of the plan (wrapped by "[]"), without any additional explanation or formatting.
 
 Now start generating the plan.
 
