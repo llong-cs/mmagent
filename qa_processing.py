@@ -124,10 +124,12 @@ if __name__ == "__main__":
             qa = json.loads(line)
             if os.path.exists(qa["mem_path"]):
                 qa_list.append(qa)
+                
+    sample_rounds = 5
 
     # # idx = 0
     # # qa_list_with_agent_answer = process_qa_list(qa_list[idx:idx+1])
-    for i in range(5):
+    for i in range(sample_rounds):
         dataset_with_agent_answer = dataset.replace(".jsonl", f"_with_agent_answer_{i}.jsonl")
         dataset_with_agent_answer_verified = dataset_with_agent_answer.replace("_with_agent_answer", f"_with_agent_answer_verified")
         qa_list_with_agent_answer = process_qa_list(qa_list)
@@ -141,29 +143,3 @@ if __name__ == "__main__":
         with open(dataset_with_agent_answer_verified, "w") as f:
             for qa in qa_list_with_agent_answer_verified:
                 f.write(json.dumps(qa) + "\n")
-    
-    # verify only
-    # qa_list = []
-    # with open(dataset_with_agent_answer, "r") as f:
-    #     for line in f:
-    #         qa = json.loads(line)
-    #         if os.path.exists(qa["mem_path"]):
-    #             qa_list.append(qa)
-    
-    # qa_list = verify_qa_list(qa_list)
-    
-    # with open(dataset_with_agent_answer_verified, "w") as f:
-    #     for qa in qa_list:
-    #         f.write(json.dumps(qa) + "\n")
-
-    # calculate accuracy
-    # total = 0
-    # correct = 0
-    # with open(dataset_with_agent_answer_verified, "r") as f:
-    #     for line in f:
-    #         qa = json.loads(line)
-    #         total += 1
-    #         if qa["verify_result"].lower().startswith("yes"):
-    #             correct += 1
-
-    # print(f"Accuracy: {correct / total}")
