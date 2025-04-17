@@ -301,6 +301,25 @@ def generate_action(question, knowledge, retrieval_plan=None):
     print(action)
     return reasoning, action_type, action_content
 
+def search(video_graph, query, current_clips, topk=5, mode='argmax'):
+    new_clips = retrieve_from_videograph(video_graph, query, topk, mode)
+    new_clips = [new_clip for new_clip in new_clips if new_clip not in current_clips]
+    new_memories = {}
+    current_clips.extend(new_clips)
+    
+    for new_clip in new_clips:
+        if new_clip not in video_graph.text_nodes_by_clip:
+            new_memories[new_clip] = [f"CLIP_{new_clip} not found in memory bank, please search for other information"]
+        else:
+            related_nodes = video_graph.text_nodes_by_clip[new_clip]
+            new_memories[new_clip] = translate(video_graph, [video_graph.nodes[node_id].metadata['contents'][0] for node_id in related_nodes])
+                        
+    # sort related_memories by timestamp
+    new_memories = dict(sorted(new_memories.items(), key=lambda x: x[0]))
+    new_memories = {f"clip_{k}": v for k, v in new_memories.items()}
+    
+    return new_memories, current_clips
+
 def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5, auto_refresh=False, mode='argmax'):
     if auto_refresh:
         video_graph.refresh_equivalences()
@@ -367,21 +386,8 @@ def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5,
                 })
                 print(f"Forced answer: {final_answer}")
                 break
-            new_clips = retrieve_from_videograph(video_graph, action_content, topk, mode)
-            new_clips = [new_clip for new_clip in new_clips if new_clip not in related_clips]
-            new_memories = {}
-            related_clips.extend(new_clips)
             
-            for new_clip in new_clips:
-                if new_clip not in video_graph.text_nodes_by_clip:
-                    new_memories[new_clip] = [f"CLIP_{new_clip} not found in memory bank, please search for other information"]
-                else:
-                    related_nodes = video_graph.text_nodes_by_clip[new_clip]
-                    new_memories[new_clip] = translate(video_graph, [video_graph.nodes[node_id].metadata['contents'][0] for node_id in related_nodes])
-                                
-            # sort related_memories by timestamp
-            new_memories = dict(sorted(new_memories.items(), key=lambda x: x[0]))
-            new_memories = {f"clip_{k}": v for k, v in new_memories.items()}
+            new_memories, related_clips = search(video_graph, action_content, related_clips, topk, mode)
             
             context.append({
                 "query": action_content,
@@ -392,6 +398,7 @@ def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5,
                 "clip_id": k,
                 "memory": v
             } for k, v in new_memories.items()])
+            
             responses.append({
                 "reasoning": reasoning,
                 "action_type": action_type,
