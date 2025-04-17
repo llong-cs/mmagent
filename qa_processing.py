@@ -37,7 +37,7 @@ def process_qa(qa, planning=True):
         print(e)
         qa["agent_answer"] = None
         qa["session"] = None
-        return None
+        return qa
     return qa
 
 
@@ -88,19 +88,22 @@ def process_qa_list(qa_list, dataset_with_agent_answer, max_workers=16):
         print(e)
         sample_count = 0
     for i in range(sample_count, len(qa_list), bs):
-        qa_list_batch = qa_list[i:i+bs]
-        with ProcessPoolExecutor(max_workers=max_workers) as executor:
-            result = list(
-                tqdm(
-                    executor.map(process_qa, qa_list_batch),
-                    total=len(qa_list_batch),
-                    desc=f"Generating answers {i}/{len(qa_list)}",
+        try:
+            qa_list_batch = qa_list[i:i+bs]
+            with ProcessPoolExecutor(max_workers=max_workers) as executor:
+                result = list(
+                    tqdm(
+                        executor.map(process_qa, qa_list_batch),
+                        total=len(qa_list_batch),
+                        desc=f"Generating answers {i}/{len(qa_list)}",
+                    )
                 )
-            )
-        with open(dataset_with_agent_answer, "a") as f:
-            for qa in result:
-                f.write(json.dumps(qa) + "\n")
-        results.extend(result)
+            with open(dataset_with_agent_answer, "a") as f:
+                for qa in result:
+                    f.write(json.dumps(qa) + "\n")
+            results.extend(result)
+        except Exception as e:
+            raise RuntimeError(f"Error processing qa_list_batch: {i}") from e
     return results
 
 def verify_qa_list(qa_list, dataset_with_agent_answer_verified):
@@ -112,39 +115,42 @@ def verify_qa_list(qa_list, dataset_with_agent_answer_verified):
         print(f"Error reading dataset_with_agent_answer_verified: {dataset_with_agent_answer_verified}")
         print(e)
         sample_count = 0
-    for i in range(sample_count, len(qa_list), bs):
-        qa_list_batch = qa_list[i:i+bs]
-        inputs = [
-            [
-                {
-                    "type": "text",
-                    "content": json.dumps({
-                        "question": qa["question"],
-                        "ground_truth_answer": qa["answer"],
-                        "agent_answer": qa["agent_answer"],
-                    }),
-                },
-                {
-                    "type": "text",
-                    "content": prompt_agent_verify_answer,
-                },
-                {
-                    "type": "text",
-                    "content": "Now answer if the answer from the baseline is correct or not:",
-                },            
-            ] for qa in qa_list_batch
-        ]
-        messages = [generate_messages(input) for input in inputs]
-        model = "gpt-4o-2024-11-20"
-        responses = parallel_get_response(model, messages)
+    for i in tqdm(range(sample_count, len(qa_list), bs)):
+        try:
+            qa_list_batch = qa_list[i:i+bs]
+            inputs = [
+                [
+                    {
+                        "type": "text",
+                        "content": json.dumps({
+                            "question": qa["question"],
+                            "ground_truth_answer": qa["answer"],
+                            "agent_answer": qa["agent_answer"],
+                        }),
+                    },
+                    {
+                        "type": "text",
+                        "content": prompt_agent_verify_answer,
+                    },
+                    {
+                        "type": "text",
+                        "content": "Now answer if the answer from the baseline is correct or not:",
+                    },            
+                ] for qa in qa_list_batch
+            ]
+            messages = [generate_messages(input) for input in inputs]
+            model = "gpt-4o-2024-11-20"
+            responses = parallel_get_response(model, messages)
 
-        verify_results = responses[0]
-        for qa, verify_result in zip(qa_list_batch, verify_results):
-            qa["verify_result"] = verify_result
-        
-        with open(dataset_with_agent_answer_verified, "a") as f:
-            for qa in qa_list_batch:
-                f.write(json.dumps(qa) + "\n")
+            verify_results = responses[0]
+            for qa, verify_result in zip(qa_list_batch, verify_results):
+                qa["verify_result"] = verify_result
+            
+            with open(dataset_with_agent_answer_verified, "a") as f:
+                for qa in qa_list_batch:
+                    f.write(json.dumps(qa) + "\n")
+        except Exception as e:
+            raise RuntimeError(f"Error processing qa_list_batch: {i}") from e
                 
 def verify_qa_list_with_reasoning(qa_list, dataset_with_agent_answer_verified):
     bs = 100
@@ -155,46 +161,49 @@ def verify_qa_list_with_reasoning(qa_list, dataset_with_agent_answer_verified):
         print(f"Error reading dataset_with_agent_answer_verified: {dataset_with_agent_answer_verified}")
         print(e)
         sample_count = 0
-    for i in range(sample_count, len(qa_list), bs):
-        qa_list_batch = qa_list[i:i+bs]
-        inputs = [
-            [
-                {
-                    "type": "text",
-                    "content": json.dumps({
-                        "question": qa["question"],
-                        "ground_truth_answer": qa["answer"],
-                        "agent_answer": qa["agent_answer"],
-                        "reasoning": qa["reasoning"],
-                    }),
-                },
-                {
-                    "type": "text",
-                    "content": prompt_agent_verify_answer_with_reasoning,
-                },
-                {
-                    "type": "text",
-                    "content": "Now answer if the answer from the baseline is correct or not:",
-                },            
-            ] for qa in qa_list_batch
-        ]
-        messages = [generate_messages(input) for input in inputs]
-        model = "gpt-4o-2024-11-20"
-        responses = parallel_get_response(model, messages)
+    for i in tqdm(range(sample_count, len(qa_list), bs)):
+        try:
+            qa_list_batch = qa_list[i:i+bs]
+            inputs = [
+                [
+                    {
+                        "type": "text",
+                        "content": json.dumps({
+                            "question": qa["question"],
+                            "ground_truth_answer": qa["answer"],
+                            "agent_answer": qa["agent_answer"],
+                            "reasoning": qa["reasoning"],
+                        }),
+                    },
+                    {
+                        "type": "text",
+                        "content": prompt_agent_verify_answer_with_reasoning,
+                    },
+                    {
+                        "type": "text",
+                        "content": "Now answer if the answer from the baseline is correct or not:",
+                    },            
+                ] for qa in qa_list_batch
+            ]
+            messages = [generate_messages(input) for input in inputs]
+            model = "gpt-4o-2024-11-20"
+            responses = parallel_get_response(model, messages)
 
-        verify_results = responses[0]
-        for qa, verify_result in zip(qa_list_batch, verify_results):
-            qa["verify_result"] = verify_result
-        
-        with open(dataset_with_agent_answer_verified, "a") as f:
-            for qa in qa_list_batch:
-                f.write(json.dumps(qa) + "\n")
+            verify_results = responses[0]
+            for qa, verify_result in zip(qa_list_batch, verify_results):
+                qa["verify_result"] = verify_result
+            
+            with open(dataset_with_agent_answer_verified, "a") as f:
+                for qa in qa_list_batch:
+                    f.write(json.dumps(qa) + "\n")
+        except Exception as e:
+            raise RuntimeError(f"Error processing qa_list_batch: {i}") from e
                 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dataset", type=str, default="data/annotations/small_train.jsonl")
-    parser.add_argument("--sample_rounds", type=int, default=1)
-    parser.add_argument("--output_dir", type=str, default="data/annotations/results")
+    parser.add_argument("--dataset", type=str, default="data/annotations/small_test.jsonl")
+    parser.add_argument("--sample_rounds", type=int, default=5)
+    parser.add_argument("--output_dir", type=str, default="data/annotations/results/forcing_answer")
     
     
     args = parser.parse_args()
@@ -215,12 +224,22 @@ if __name__ == "__main__":
     for i in range(sample_rounds):
         dataset_with_agent_answer = args.dataset_with_agent_answer.replace("_with_agent_answer", f"_with_agent_answer_{i}")
         dataset_with_agent_answer_verified = args.dataset_with_agent_answer_verified.replace("_with_agent_answer_verified", f"_with_agent_answer_verified_{i}")
+
         # clear the file
         # with open(dataset_with_agent_answer, "w") as f:
         #     f.truncate(0)
-        qa_list_with_agent_answer = process_qa_list(qa_list, dataset_with_agent_answer)
+        qa_list = process_qa_list(qa_list, dataset_with_agent_answer)
+
         # clear the file
         # with open(dataset_with_agent_answer_verified, "w") as f:
         #     f.truncate(0)
-        verify_qa_list(qa_list_with_agent_answer, dataset_with_agent_answer_verified)
+        # qa_list = []
+        # with open(dataset_with_agent_answer, "r") as f:
+        #     for line in f:
+        #         try:
+        #             qa_list.append(json.loads(line))
+        #         except Exception as e:
+        #             print(f"Error loading qa: {line}")
+        #             raise e
+        verify_qa_list(qa_list, dataset_with_agent_answer_verified)
         # verify_qa_list_with_reasoning(qa_list_with_agent_answer, dataset_with_agent_answer_verified)

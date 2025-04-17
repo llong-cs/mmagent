@@ -771,58 +771,73 @@ Related Memories:
 
 Answer:"""
 
-prompt_answer_with_retrieval_clipwise_final = """You are given a question about a specific video and a a dictionary of some related information about the video. Each key in the dictionary is a clip id (an integer), representing the index of a video clip. The corresponding value is a list of video descriptions of that clip.
+prompt_answer_with_retrieval_clipwise_final = """You are given a question about a specific video and a dictionary of some related information about the video. Each key in the dictionary is a clip ID (an integer), representing the index of a video clip. The corresponding value is a list of video descriptions from that clip.
 
-Your task is to reason over the provided information, and provide a most reasonable answer of the given question.
+Your task is to analyze the provided information, reason over it, and produce the most reasonable and well-supported answer to the question.
 
-Your resposne should start with the reasoning, and then output "[ANSWER]" before generating the final answer.
+Output Requirements:
+	•	Your response must begin with a brief reasoning process that explains how you arrive at the answer.
+	•	Then, output [ANSWER] followed by your final answer.
+	•	The format must be: Here is the reasoning... [ANSWER] Your final answer here.
+	•	Your final answer must be definite and specific — even if the information is partial or ambiguous, you must infer and provide the most reasonable answer based on the given evidence.
+	•	Do not refuse to answer or say that the answer is unknowable. Use reasoning to reach the best possible conclusion.
 
-Important Instructions:
-	•	When referring to a character, always use their specific name if it appears in the memories.
-	•	Do not use ID tags like <character_1> or <face_1>.
-	•	Your final answer should be short, clear, and directly address the question.
-	•	Avoid repeating or summarizing the memories. Focus only on delivering the final answer.
-
-Question: {question}
-
-Video Information: {information}
-
-Answer:"""
-
-prompt_refine_qa_list = """You are given a list of question-answer (QA) pairs derived from a video. Please revise each question and answer to ensure grammatical correctness, clarity, and formal expression. Keep the revisions as concise as possible without changing the original meaning. Return only the revised list in the same format.
-
-Example input:
-
-[
-	{{"question": "what's the man doing?", "answer": "he fixing the car."}},
-	{{"question": "why she looks angry?", "answer": "because someone take her bag."}}
-]
-
-Expected output:
-
-[
-	{{"question": "What is the man doing?", "answer": "He is repairing the car."}},
-	{{"question": "Why does she appear upset?", "answer": "Because someone took her bag."}}
-]
-
-Please only return the valid json list, without any additional explanation or formatting. Now, use the same logic and structure to analyze the new input.
+Additional Guidelines:
+	•	When referring to a character, always use their specific name if it appears in the video information.
+	•	Do not use placeholder tags like <character_1> or <face_1>.
+	•	Avoid summarizing or repeating the video information. Focus on reasoning and answering.
+	•	The final answer should be short, clear, and directly address the question.
 
 Input:
-{qa_list}
+	•	Question: {question}
+	•	Video Information: {information}
 
 Output:"""
 
-prompt_translate_qa_list = """You are given a list of question-answer (QA) pairs based on specific videos, along with corresponding reasoning processes written in Chinese. Your task is to:
+# prompt_refine_qa_list = """You are given a list of question-answer (QA) pairs derived from a video. Please revise each question and answer to ensure grammatical correctness, clarity, and formal expression. Keep the revisions as concise as possible without changing the original meaning. Return only the revised list in the same format.
+
+# Example input:
+
+# [
+# 	{{"question": "what's the man doing?", "answer": "he fixing the car."}},
+# 	{{"question": "why she looks angry?", "answer": "because someone take her bag."}}
+# ]
+
+# Expected output:
+
+# [
+# 	{{"question": "What is the man doing?", "answer": "He is repairing the car."}},
+# 	{{"question": "Why does she appear upset?", "answer": "Because someone took her bag."}}
+# ]
+
+# Please only return the valid json list, without any additional explanation or formatting. Now, use the same logic and structure to analyze the new input.
+
+# Input:
+# {qa_list}
+
+# Output:"""
+
+prompt_refine_qa_list = """You are given a list of question-answer (QA) pairs based on specific videos, along with corresponding reasoning processes written in Chinese. Your task is to:
 	1.	Translate the reasoning processes into concise and fluent English, without changing their original meaning.
-	2.	Refine the expression to make the reasoning clearer, especially in terms of how the answer is derived from the video content.
-	3.	Ensure the translated reasoning is as concise as possible while remaining informative and accurate.
+	2.	Refine the reasoning to make it clearer and more precise, especially in terms of how the answer is logically derived from the video content.
+	3.	Revise the question and answer to ensure they are:
+	•	Natural and grammatically correct in English
+	•	Logically consistent with the reasoning
+	•	Expressed in a clear, specific, and rigorous way
 
-Return the result as a valid JSON list in the same format, with each item containing:
-	•	a natural and grammatically correct English question
-	•	a properly phrased English answer
-	•	a refined English reasoning explaining how the video supports the answer
+Additional constraints:
+	•	Question: Adjust the wording and scope to closely match what the reasoning supports. The question should be specific enough to yield a unique, well-justified answer based on the video. Avoid vague or overly broad questions.
+	•	Answer: Revise the answer so that it is:
+	•	Concise, grammatically correct, and semantically precise
+	•	Directly supported by the reasoning and video
+	•	Unambiguous and standardized, so it can be reliably used as ground truth for evaluating other model outputs
 
-Only return the final translated JSON list. Do not include any extra explanation, comments, or formatting.
+Output format:
+
+Return a valid JSON list where each item contains:
+	•	question: the revised English question
+	•	answer: the revised English answer (refined for clarity and evaluation use)
+	•	reasoning: the translated and refined English reasoning explaining how the answer is derived from the video
 
 Example Input:
 
@@ -835,7 +850,7 @@ Expected Output:
 
 [
 	{{"question": "What is the man doing?", "answer": "He is repairing the car.", "reasoning": "There is a clip showing the man repairing the car."}},
-	{{"question": "Why does she appear upset?", "answer": "Because someone took her bag.", "reasoning": "There is a clip showing the woman looking upset because someone took her bag."}}
+	{{"question": "Why does the woman look upset?", "answer": "Because someone took her bag.", "reasoning": "The video shows a scene where the woman appears upset after someone takes her bag."}}
 ]
 
 Now, apply the same logic to the following input:

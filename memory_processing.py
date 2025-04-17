@@ -30,7 +30,7 @@ def parse_video_caption(video_graph, video_caption):
         try:
             node_type, node_id = entity_str.split("_")
             node_type = node_type.strip().lower()
-            assert node_type in ["face", "voice"]
+            assert node_type in ["face", "voice", "character"]
             node_id = int(node_id)
             entities.append((node_type, node_id))
         except Exception as e:
