@@ -406,7 +406,7 @@ Output:"""
 
 prompt_generate_action_with_plan_multiple_queries = """You are given a question and some relevant knowledge about a specific video. You are also provided with a retrieval plan, which outlines the types of information that should be retrieved from a memory bank in order to answer the question. Your task is to reason about whether the provided knowledge is sufficient to answer the question.
 
-If the knowledge is sufficient, output [ANSWER] followed by the answer. If it is not sufficient, output [SEARCH] and generate five diverse queries that can be used to retrieve more information from the memory bank. The memory bank contains detailed descriptions and high-level abstractions of the video. Your queries should take into account the question, the provided knowledge, and the retrieval plan.
+If the knowledge is sufficient, output [ANSWER] followed by the answer. If it is not sufficient, output [SEARCH] and generate five diverse queries (in the form of string list wrapped by "[]") that can be used to retrieve more information from the memory bank. The memory bank contains detailed descriptions and high-level abstractions of the video. Your queries should take into account the question, the provided knowledge, and the retrieval plan.
 
 Your response should contain two parts:
 	1.	Reasoning
@@ -427,7 +427,7 @@ Instructions for [SEARCH] queries:
 	•	You can also generate queries that focus on specific characters or characters' attributes using the id shown in the knowledge.
 	•	Make sure your generated query focus on some aspects that are not retrieved or asked yet. Do not repeatedly generate queries that have high semantic similarity with those generated before.
 	•	Ensure diversity: the five queries must not be semantically redundant. Each query should explore a distinct direction toward answering the question.
-	•	Format the queries as a Python-style string list, like this: [SEARCH] ["What does Bob do after the argument?", "How does Alice react in CLIP_3?", "What is the emotional state of Alice after CLIP_2?", "What conclusions are drawn in high-level summaries about Alice and Bob's relationship?", "Does CLIP_4 show any reconciliation or continued conflict?"]
+	•	Format the queries as a **Python-style string list wrapped by "[]"**: [SEARCH] ["What does Bob do after the argument?", "How does Alice react in CLIP_3?", "What is the emotional state of Alice after CLIP_2?", "What conclusions are drawn in high-level summaries about Alice and Bob's relationship?", "Does CLIP_4 show any reconciliation or continued conflict?"]
 
 Example 1:
 
@@ -452,13 +452,7 @@ Knowledge:
 Output:
 
 It seems that <face_1> and <face_2> are engaged in an argument, but their identities are not yet known, and there is no information about the consequences of the argument. To understand how it influenced their relationship, I need more contextual information about their identities, reactions, and what happened after.
-[SEARCH] [
-	"What are the names of <face_1> and <face_2>?",
-	"What is the emotional state of <face_1> and <face_2> after the argument?",
-	"What happens immediately after CLIP_2?",
-	"Is there a summary indicating a change in the relationship between these two characters?",
-	"Do any later clips show reconciliation or continued conflict between <face_1> and <face_2>?"
-]
+[SEARCH] ["What are the names of <face_1> and <face_2>?", "What is the emotional state of <face_1> and <face_2> after the argument?", "What happens immediately after CLIP_2?", "Is there a summary indicating a change in the relationship between these two characters?", "Do any later clips show reconciliation or continued conflict between <face_1> and <face_2>?"]
 
 Example 2:
 
@@ -492,13 +486,7 @@ Knowledge:
 Output:
 
 CLIP_1 identifies <face_1> as Alice and <face_2> as Bob. CLIP_2 shows the argument between them. However, the influence of this argument on their relationship is not yet clear — we need to know what happened afterward and whether their interaction changed.
-[SEARCH] [
-	"What happens in CLIP_3 after the argument?",
-	"How does Alice behave toward Bob after the argument?",
-	"Are there any summaries indicating a shift in Alice and Bob’s relationship?",
-	"Do Alice and Bob interact again in later clips?",
-	"Is there any indication that their relationship improves or deteriorates after CLIP_2?"
-]
+[SEARCH] ["What happens in CLIP_3 after the argument?", "How does Alice behave toward Bob after the argument?", "Are there any summaries indicating a shift in Alice and Bob's relationship?", "Do Alice and Bob interact again in later clips?", "Is there any indication that their relationship improves or deteriorates after CLIP_2?"]
 
 Now, generate your response for the following input:
 

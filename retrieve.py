@@ -7,12 +7,11 @@ from utils.chat_api import (
     parallel_get_embedding,
 )
 from utils.general import validate_and_fix_python_list
-from prompts import prompt_answer_with_retrieval_final, prompt_generate_action, prompt_generate_plan, prompt_generate_action_with_plan
+from prompts import prompt_answer_with_retrieval_final, prompt_generate_action, prompt_generate_plan, prompt_generate_action_with_plan, prompt_generate_action_with_plan_multiple_queries
 from memory_processing import parse_video_caption
 
 processing_config = json.load(open("configs/processing_config.json"))
 MAX_RETRIES = processing_config["max_retries"]
-max_retrieval_steps = processing_config["max_retrieval_steps"]
 
 def translate(video_graph, memories):
     new_memories = []
@@ -115,6 +114,10 @@ def generate_action(question, knowledge, retrieval_plan=None, multiple_queries=F
                 question=question,
                 knowledge=knowledge,
                 retrieval_plan=retrieval_plan,
+            ) if not multiple_queries else prompt_generate_action_with_plan_multiple_queries.format(
+                question=question,
+                knowledge=knowledge,
+                retrieval_plan=retrieval_plan,
             ),
         }
     ]
@@ -144,7 +147,6 @@ def generate_action(question, knowledge, retrieval_plan=None, multiple_queries=F
             break
     if action_content is None:
         raise Exception("Failed to generate action")
-    print(action)
     return reasoning, action_type, action_content
 
 def select_queries(action_content, responses):
@@ -199,7 +201,7 @@ def search(video_graph, query, current_clips, topk=5, mode='argmax'):
     
     return new_memories, current_clips
 
-def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5, auto_refresh=False, mode='argmax'):
+def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5, auto_refresh=False, mode='argmax', multiple_queries=False, max_retrieval_steps=10):
     if auto_refresh:
         video_graph.refresh_equivalences()
         
@@ -232,7 +234,7 @@ def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5,
 
     for i in range(max_retrieval_steps):
         # reasoning, action_type, action_content = generate_action(question, context, retrieval_plan)
-        reasoning, action_type, action_content = generate_action(question, context, retrieval_plan, multiple_queries=True, responses=responses)
+        reasoning, action_type, action_content = generate_action(question, context, retrieval_plan, multiple_queries=multiple_queries, responses=responses)
         reasoning = reasoning.strip("### Reasoning:").strip("### Answer or Search:").strip("Reasoning:").strip()
         if action_type == "answer":
             final_answer = action_content
@@ -296,10 +298,18 @@ def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5,
 
 if __name__ == "__main__":
     from utils.general import load_video_graph
+    import base64
     processing_config["logging"] = "DETAIL"
+    processing_config["topk"] = 30
 
-    video_graph_path = "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/-UhacNNM_HU_30_5_-1_10_20_0.3_0.6.pkl"
+    def video_to_base64(video_path):
+        with open(video_path, 'rb') as video_file:
+            video_bytes = video_file.read()
+            base64_encoded = base64.b64encode(video_bytes).decode('utf-8')
+            return base64_encoded
+
+    video_graph_path = "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/Efk3K4epEzg_30_5_-1_10_20_0.3_0.6.pkl"
     video_graph = load_video_graph(video_graph_path)
 
-    question = "Do Hannahlei's parents support her dancing?"
-    answer = answer_with_retrieval(video_graph, question)
+    question = "Which collection has the highest starting price?"
+    answer = answer_with_retrieval(video_graph, question, video_to_base64("/mnt/hdfs/foundation/longlin.kylin/mmagent/data/video_clips/CZ_1/Efk3K4epEzg/39.mp4"), topk=processing_config["topk"], multiple_queries=processing_config["multiple_queries"], max_retrieval_steps=processing_config["max_retrieval_steps"])

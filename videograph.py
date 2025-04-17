@@ -14,7 +14,7 @@ import numpy as np
 import json
 from tqdm import tqdm
 from memory_processing import process_captions, parse_video_caption
-from prompts import prompt_node_summarization, prompt_extract_entities
+from prompts import prompt_extract_entities
 from utils.chat_api import generate_messages, get_response_with_retry
 from utils.general import validate_and_fix_python_list
 
@@ -293,34 +293,34 @@ class VideoGraph:
                 
         return weakened_count
     
-    def summarize(self):
-        new_semantic_memory = []
-        for node in self.nodes.values():
-            if node.type != "img" and node.type != "voice":
-                continue
-            connected_text_nodes = self.get_connected_nodes(node.id, type=['episodic', 'semantic'])
-            connected_text_nodes_contents = [self.nodes[text_id].metadata['contents'][0] for text_id in connected_text_nodes]
-            node_id = '<face_'+str(node.id)+'>' if node.type == 'img' else '<voice_'+str(node.id)+'>'
-            input = [
-                {
-                    "type": "text",
-                    "content": prompt_node_summarization.format(node_id=node_id, history_information=connected_text_nodes_contents),
-                }
-            ]
-            messages = generate_messages(input)
-            model = "gpt-4o-2024-11-20"
-            summary = None
-            for i in range(MAX_RETRIES):
-                summary_string = get_response_with_retry(model, messages)[0]
-                summary = validate_and_fix_python_list(summary_string)
-                if summary is not None:
-                    break
-            if summary is None:
-                raise Exception("Failed to generate summary")
+    # def summarize(self):
+    #     new_semantic_memory = []
+    #     for node in self.nodes.values():
+    #         if node.type != "img" and node.type != "voice":
+    #             continue
+    #         connected_text_nodes = self.get_connected_nodes(node.id, type=['episodic', 'semantic'])
+    #         connected_text_nodes_contents = [self.nodes[text_id].metadata['contents'][0] for text_id in connected_text_nodes]
+    #         node_id = '<face_'+str(node.id)+'>' if node.type == 'img' else '<voice_'+str(node.id)+'>'
+    #         input = [
+    #             {
+    #                 "type": "text",
+    #                 "content": prompt_node_summarization.format(node_id=node_id, history_information=connected_text_nodes_contents),
+    #             }
+    #         ]
+    #         messages = generate_messages(input)
+    #         model = "gpt-4o-2024-11-20"
+    #         summary = None
+    #         for i in range(MAX_RETRIES):
+    #             summary_string = get_response_with_retry(model, messages)[0]
+    #             summary = validate_and_fix_python_list(summary_string)
+    #             if summary is not None:
+    #                 break
+    #         if summary is None:
+    #             raise Exception("Failed to generate summary")
 
-            new_semantic_memory.extend(summary)
+    #         new_semantic_memory.extend(summary)
             
-        process_captions(self, new_semantic_memory, type='semantic')
+    #     process_captions(self, new_semantic_memory, type='semantic')
         
     def fix_collisions(self, node_id, mode='argmax'):
         # detect collisions through clustering (one-node-cluster is allowed)

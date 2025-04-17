@@ -9,6 +9,8 @@ from utils.chat_api import generate_messages, get_response_with_retry, parallel_
 from retrieve import answer_with_retrieval
 from prompts import prompt_agent_verify_answer, prompt_agent_verify_answer_with_reasoning
 
+processing_config = json.load(open("configs/processing_config.json"))
+
 def video_to_base64(video_path):
     with open(video_path, 'rb') as video_file:
         video_bytes = video_file.read()
@@ -24,12 +26,12 @@ def process_qa(qa, planning=True):
             clip_path = qa["clip_path"]
             clips = os.listdir(clip_path)
             # sorted by number
-            last_clip = sorted(clips, key=lambda x: int(x.split(".")[0]))[-1]
+            last_clip = sorted(clips, key=lambda x: int(x.split(".")[0]))[-2]
             video_clip_base64 = video_to_base64(os.path.join(clip_path, last_clip))
         else:
             video_clip_base64 = None
         
-        agent_answer, session = answer_with_retrieval(mem, question, video_clip_base64)
+        agent_answer, session = answer_with_retrieval(mem, question, video_clip_base64, topk=processing_config["topk"], multiple_queries=processing_config["multiple_queries"], max_retrieval_steps=processing_config["max_retrieval_steps"])
         qa["agent_answer"] = agent_answer
         qa["session"] = session
     except Exception as e:
@@ -202,13 +204,25 @@ def verify_qa_list_with_reasoning(qa_list, dataset_with_agent_answer_verified):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset", type=str, default="data/annotations/small_test.jsonl")
-    parser.add_argument("--sample_rounds", type=int, default=5)
+    parser.add_argument("--sample_rounds", type=int, default=3)
     parser.add_argument("--output_dir", type=str, default="data/annotations/results/forcing_answer")
     
-    
+    exp_settings = {
+        "multiple_queries": {
+            "topk": 5,
+            "multiple_queries": true,
+            "max_retrieval_steps": 20
+        },
+        "large_retrieval": {
+            "topk": 30,
+            "multiple_queries": true,
+            "max_retrieval_steps": 3
+        }
+    }
+
     args = parser.parse_args()
-    args.dataset_with_agent_answer = os.path.join(args.output_dir, os.path.basename(args.dataset).replace(".jsonl", "_with_agent_answer.jsonl"))
-    args.dataset_with_agent_answer_verified = os.path.join(args.output_dir, os.path.basename(args.dataset_with_agent_answer).replace("_with_agent_answer", "_with_agent_answer_verified"))
+    args.dataset_with_agent_answer = os.path.basename(args.dataset).replace(".jsonl", "_with_agent_answer.jsonl")
+    args.dataset_with_agent_answer_verified = os.path.basename(args.dataset_with_agent_answer).replace("_with_agent_answer", "_with_agent_answer_verified")
 
     qa_list = []
     dataset = args.dataset
@@ -221,25 +235,34 @@ if __name__ == "__main__":
     # # idx = 0
     # # qa_list_with_agent_answer = process_qa_list(qa_list[idx:idx+1])
     sample_rounds = args.sample_rounds
-    for i in range(sample_rounds):
-        dataset_with_agent_answer = args.dataset_with_agent_answer.replace("_with_agent_answer", f"_with_agent_answer_{i}")
-        dataset_with_agent_answer_verified = args.dataset_with_agent_answer_verified.replace("_with_agent_answer_verified", f"_with_agent_answer_verified_{i}")
+    for exp, exp_setting in exp_settings.items():
+        for param, value in exp_setting.items():
+            processing_config[param] = value
+        print(f"Processing {exp} with {exp_setting}")
+        for i in range(sample_rounds):
+            dataset_with_agent_answer = args.dataset_with_agent_answer.replace("_with_agent_answer", f"_with_agent_answer_{i}")
+            dataset_with_agent_answer = os.path.join(args.output_dir, exp, dataset_with_agent_answer)
+            os.makedirs(os.path.dirname(dataset_with_agent_answer), exist_ok=True)
 
-        # clear the file
-        # with open(dataset_with_agent_answer, "w") as f:
-        #     f.truncate(0)
-        qa_list = process_qa_list(qa_list, dataset_with_agent_answer)
+            dataset_with_agent_answer_verified = args.dataset_with_agent_answer_verified.replace("_with_agent_answer_verified", f"_with_agent_answer_verified_{i}")
+            dataset_with_agent_answer_verified = os.path.join(args.output_dir, exp, dataset_with_agent_answer_verified)
+            os.makedirs(os.path.dirname(dataset_with_agent_answer_verified), exist_ok=True)
 
-        # clear the file
-        # with open(dataset_with_agent_answer_verified, "w") as f:
-        #     f.truncate(0)
-        # qa_list = []
-        # with open(dataset_with_agent_answer, "r") as f:
-        #     for line in f:
-        #         try:
-        #             qa_list.append(json.loads(line))
-        #         except Exception as e:
-        #             print(f"Error loading qa: {line}")
-        #             raise e
-        verify_qa_list(qa_list, dataset_with_agent_answer_verified)
-        # verify_qa_list_with_reasoning(qa_list_with_agent_answer, dataset_with_agent_answer_verified)
+            # clear the file
+            # with open(dataset_with_agent_answer, "w") as f:
+            #     f.truncate(0)
+            qa_list = process_qa_list(qa_list, dataset_with_agent_answer)
+
+            # clear the file
+            # with open(dataset_with_agent_answer_verified, "w") as f:
+            #     f.truncate(0)
+            # qa_list = []
+            # with open(dataset_with_agent_answer, "r") as f:
+            #     for line in f:
+            #         try:
+            #             qa_list.append(json.loads(line))
+            #         except Exception as e:
+            #             print(f"Error loading qa: {line}")
+            #             raise e
+            verify_qa_list(qa_list, dataset_with_agent_answer_verified)
+            # verify_qa_list_with_reasoning(qa_list_with_agent_answer, dataset_with_agent_answer_verified)

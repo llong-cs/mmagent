@@ -1,0 +1,2691 @@
+[
+    {
+        "video_id": "CZ_4_1",
+        "video_url": "https://www.youtube.com/watch?v=DZOGCt4e02Q",
+        "video_duration": "22:24",
+        "video_type": "vlog - 运动",
+        "qa_list": [
+            {
+                "question": "How can you tell if the motorcycle is in first gear?",
+                "answer": "Release the clutch and see if the wheels move.",
+                "question_type": "通用知识推理",
+                "knowledge": "摩托车挂挡的验证方式。",
+                "reasoning": "The video shows the instructor mentioning that after shifting the motorcycle into first gear, you can determine if it's in first gear by releasing the clutch and observing if the wheels move."
+            },
+            {
+                "question": "What is the drill after the 'Friction Zone'?",
+                "answer": "The Power Walking.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "The model needs to locate the segment in the video about the 'Friction Zone' and analyze the surrounding content to identify the subsequent drill."
+            },
+            {
+                "question": "What happens if you fail to look properly during a motorcycle turn?",
+                "answer": "It may result in an excessively wide turn.",
+                "question_type": "通用知识推理",
+                "knowledge": "驾驶摩托车转弯的注意事项。",
+                "reasoning": "The video shows the instructor emphasizing that 'Vision is everything when riding.' Failing to look properly during a turn can lead to an excessively wide turn, which can cause a series of dangers."
+            },
+            {
+                "question": "What is Derek's job?",
+                "answer": "He is a videographer.",
+                "question_type": "人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "The video includes a scene of Derek holding a camera and filming, and a blogger mentions that viewers haven't seen Derek because he is always behind the camera. This implies that Derek is a videographer."
+            },
+            {
+                "question": "Is Spike a teacher who encourages his students?",
+                "answer": "Yes, he is.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video shows Spike praising and encouraging Derek during the teaching process, noting that Derek learns new things quickly. This indicates that Spike is a teacher who encourages his students."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/DZOGCt4e02Q.mp4"
+    },
+    {
+        "video_id": "CZ_4_2",
+        "video_url": "https://www.youtube.com/watch?v=D7mG_L1zkL8",
+        "video_duration": "21:32",
+        "video_type": "综艺 - 表演/选秀",
+        "qa_list": [
+            {
+                "question": "What is the aim of the 'Ultimate Ninja Kidz Champion' competition?",
+                "answer": "To select new members for the channel 'Ninja Kidz TV'.",
+                "question_type": "多线索推理,多模态/多语言推理,通用知识推理",
+                "knowledge": "'Ultimate Ninja Kidz Champion'选拔在武术技巧、ninja技巧和艺术技能中有出色表现的同学，扩大频道的成员队伍，从而宣传ninja文化。",
+                "reasoning": "The video shows that the 'Ultimate Ninja Kidz Champion' selects children worldwide who excel in talents, and they are chosen based on their performances. Therefore, the aim is to select new members for the channel."
+            },
+            {
+                "question": "In what ability is Maisy Roskelly talented?",
+                "answer": "Athletic ability.",
+                "question_type": "人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "The video content shows that Maisy Roskelly, at just eight years old, has won numerous medals in obstacle races, indicating her talent in athletic ability."
+            },
+            {
+                "question": "Is Bayton someone who cares about other people's feelings?",
+                "answer": "Yes, he is.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video shows Bayton comforting each contestant who did not win, continuously encouraging them to prevent them from feeling sad, indicating that he cares about others' feelings."
+            },
+            {
+                "question": "How popular is Ninja culture in the United States?",
+                "answer": "It is very popular.",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "Ninja文化在世界范围内的传播。",
+                "reasoning": "The video shows that the selection of new members for Ninja Kidz TV attracted ten thousand children interested in the Ninja theme, indicating that Ninja culture is quite popular in the United States."
+            },
+            {
+                "question": "Who appeared after Robert Bass?",
+                "answer": "Maisy Roskelly.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "The task requires identifying the segment where Robert Bass appears and analyzing the subsequent appearances, which shows that Maisy Roskelly came on after him."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/D7mG_L1zkL8.mp4"
+    },
+    {
+        "video_id": "CZ_4_3",
+        "video_url": "https://www.youtube.com/watch?v=UyXH2etBP80",
+        "video_duration": "21:30",
+        "video_type": "街头互动 - 采访",
+        "qa_list": [
+            {
+                "question": "Does Raphael enjoy life?",
+                "answer": "Yes, he does.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video shows Raphael traveling in the Philippines for a month, enjoying beaches, food, and new cultures, indicating he is someone who enjoys life."
+            },
+            {
+                "question": "Which is more convenient in the Philippines, online or offline food ordering?",
+                "answer": "Offline food ordering.",
+                "question_type": "通用知识推理",
+                "knowledge": "在全球范围内，使用应用软件线上点餐已经因其便利性而越来越普及，对人们的生活越来越重要。",
+                "reasoning": "The video mentions that there are no food delivery apps like Grubhub in the Philippines, suggesting that offline food ordering is more convenient."
+            },
+            {
+                "question": "How many interviewees are there in the video?",
+                "answer": "Five.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "The task involves identifying and counting the interviewees shown in the video."
+            },
+            {
+                "question": "How serious is the issue of bribery at customs in Thailand?",
+                "answer": "It is a serious issue.",
+                "question_type": "通用知识推理",
+                "knowledge": "在以泰国为代表的东南亚国家，海关索取贿赂是一个很严重的问题。所有的进出口商和游客都面临被索要贿赂的问题。",
+                "reasoning": "The video describes an incident where Taz was stopped by customs in Bangkok and suspected it was an attempt at bribery, indicating that bribery is a serious issue in Thailand."
+            },
+            {
+                "question": "Is Tajik an easygoing or tough person?",
+                "answer": "He is an easygoing person.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video shows Tajik speaking slowly and calmly, and he avoids making negative comments about the Philippines despite having some complaints, suggesting he is easygoing."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/UyXH2etBP80.mp4"
+    },
+    {
+        "video_id": "CZ_4_4",
+        "video_url": "https://www.youtube.com/watch?v=lNVVNxtolyE",
+        "video_duration": "21:59",
+        "video_type": "vlog - 特殊事件",
+        "qa_list": [
+            {
+                "question": "Which groups does Save It target?",
+                "answer": "Extremely low-income groups.",
+                "question_type": "通用知识推理",
+                "knowledge": "Save It provides discounted food for people with low incomes.",
+                "reasoning": "Save It, a social supermarket, sells discounted food that is past its best-before date or slightly damaged. Food banks assist families with extremely low income who cannot afford food, and volunteers select food based on residents' needs."
+            },
+            {
+                "question": "Which city in the UK does Jojo live in?",
+                "answer": "London.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "At the beginning of the video, Jojo's family mentions visiting friends near Wellington, Telford, UK, to volunteer at a food bank before returning home. Later, they express hope that it hasn't snowed in London, indicating they live there."
+            },
+            {
+                "question": "Is Jay enthusiastic about public welfare?",
+                "answer": "Yes.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "Jay's mother describes him as having volunteered at the local food bank for many years, indicating his enthusiasm for public welfare."
+            },
+            {
+                "question": "How is food distributed to extremely low-income families by Save It?",
+                "answer": "Food is distributed by the staff.",
+                "question_type": "多模态/多语言推理,通用知识推理",
+                "knowledge": "Volunteers select food for the residents according to their needs.",
+                "reasoning": "The video shows Jojo's family helping others find specific ingredients, and visually, only staff are seen handling food in the food bank, not customers."
+            },
+            {
+                "question": "What did Jojo's family do when the food bank was short of some ingredients?",
+                "answer": "They bought some items in the next-door supermarket and donated them.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "The video first shows Jojo's mother noticing the shortage of ingredients at the food bank. Subsequently, Jojo's family goes to the nearby supermarket to purchase and donate the needed items."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/lNVVNxtolyE.mp4"
+    },
+    {
+        "video_id": "CZ_4_5",
+        "video_url": "https://www.youtube.com/watch?v=1C40AQRqWxI",
+        "video_duration": "27:22",
+        "video_type": "探索 - 参观",
+        "qa_list": [
+            {
+                "question": "What is Jorge's job?",
+                "answer": "He is a guide.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video begins by mentioning that Jorge is an expert from Bondable Tours in Mexico. Throughout the tour, Jorge provides explanations and leads visits to various sites, indicating his role as a guide."
+            },
+            {
+                "question": "Does Sammy have a positive or negative attitude towards trying unknown things?",
+                "answer": "She has a positive attitude.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "Sammy tries mamey fruit, various insect dishes, and different tacos, showing her willingness to experience and enjoy local culinary specialties."
+            },
+            {
+                "question": "Which plant is most representative in Mexican culture?",
+                "answer": "Nopales.",
+                "question_type": "通用知识推理",
+                "knowledge": "Nopales are deeply rooted in Mexican culture.",
+                "reasoning": "Cacti are deeply rooted in Mexican culture, appearing on Mexican coins and the national flag. They are used in making tortillas, juices, and salads, highlighting their cultural significance."
+            },
+            {
+                "question": "Which two religions mainly influence Sonora Market?",
+                "answer": "Hinduism and Buddhism.",
+                "question_type": "通用知识推理",
+                "knowledge": "Sonora Market is influenced by Hinduism, Buddhism, African culture and Native American culture. ",
+                "reasoning": "Sonora Market features elements related to witchcraft and mentions influences from Hinduism, Buddhism, African culture, and Native American culture, reflecting a blend of various cultures and beliefs."
+            },
+            {
+                "question": "What are the characteristics of seasoning use in Mexico City's food culture?",
+                "answer": "The use of seasonings is rich and diverse.",
+                "question_type": "通用知识推理",
+                "knowledge": "Both Michelada and taco contain a variety of seasonings.",
+                "reasoning": "Michelada includes various sauces like three types of Worcestershire sauce, Maggie sauce, Valentina hot sauce, sesame, and miguelito, which combines chili powder, sugar, and chamoy. Tacos use salsa and lime to enhance flavor, showcasing the Mexican culinary culture's skillful use of diverse seasonings to create unique tastes."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/1C40AQRqWxI.mp4"
+    },
+    {
+        "video_id": "CZ_4_6",
+        "video_url": "https://www.youtube.com/watch?v=0B5ZP2X7c8I",
+        "video_duration": "31:27",
+        "video_type": "访谈 - 动态（含充分视觉信息）",
+        "qa_list": [
+            {
+                "question": "What bad habit does Rich have in his daily life?",
+                "answer": "Smoking.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "When Rich is seen smoking, he expresses a desire to hide it from the doctor, indicating that smoking is a regular habit for him."
+            },
+            {
+                "question": "What is the attitude of the sausage shop owner in the Bronx market towards the future of traditional shops?",
+                "answer": "He holds a pessimistic attitude.",
+                "question_type": "多跳推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "In a conversation with the sausage shop owner, he mentions the high cost of raising children leading Italian-Americans to have fewer children, and young people are unwilling to work in traditional shops. He believes these shops may be replaced by pre-packaged products and online services in the future."
+            },
+            {
+                "question": "How many years of history does Addeo & Sons Bakery have?",
+                "answer": "It has a history of more than seventy years.",
+                "question_type": "多模态/多语言推理,通用知识推理",
+                "knowledge": "Addeo & Sons Bakery has been in existence since the 1950s. ",
+                "reasoning": "The video mentions that the bakery has remained largely unchanged since the 1950s, with fresh and delicious bread, and visually shows the name of the shop."
+            },
+            {
+                "question": "Is the current situation of family education in the Bronx community better or worse than before?",
+                "answer": "It's worse than before.",
+                "question_type": "通用知识推理",
+                "knowledge": "In the past, the children in the community would go home for meals at specific times, but now the family structure is unstable. ",
+                "reasoning": "In the past, children in the community would return home at specific times for meals due to stable family structures and parental emphasis on discipline, often summoned by whistles. Now, family structures have changed, with many young families lacking stability and effective parental supervision, leading to a loss of family discipline."
+            },
+            {
+                "question": "Is Rich proud of his Italian-American identity?",
+                "answer": "Yes.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "Rich expresses pride in the contributions of Italian-Americans to society in areas such as art, culture, cuisine, and inventions. Despite the lack of recognition, he consistently values and cherishes his Italian-American identity."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/0B5ZP2X7c8I.mp4"
+    },
+    {
+        "video_id": "CZ_4_7",
+        "video_url": "https://www.youtube.com/watch?v=ZXlvP9hJnZs",
+        "video_duration": "23:27",
+        "video_type": "探索 - 旅行探险",
+        "qa_list": [
+            {
+                "question": "What is Wes's hobby?",
+                "answer": "He enjoys writing poetry.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "Wes shows the author a poem he created called 'Wily Lynch'."
+            },
+            {
+                "question": "What is Chris's opinion of the Jamaican government?",
+                "answer": "He is dissatisfied.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "Chris believes the government sold all the infrastructure, making it difficult for Jamaicans to access their own beaches, and he thinks the government's actions harm the people's interests."
+            },
+            {
+                "question": "Who is considered the representative of reggae music by Jamaicans?",
+                "answer": "Bob Marley.",
+                "question_type": "通用知识推理",
+                "knowledge": "Bob Marley brought reggae music to the international stage.",
+                "reasoning": "Several residents mention Bob Marley, and someone shares their experience of meeting him in 1973, considering him a Jamaican hero who brought reggae music to the international stage."
+            },
+            {
+                "question": "What restrictions has the Jamaican government imposed on its citizens for tourism development?",
+                "answer": "Jamaicans find it difficult to access their own beaches.",
+                "question_type": "通用知识推理",
+                "knowledge": "The Jamaican government has sold off the infrastructure. ",
+                "reasoning": "Residents mention that the government sold infrastructure, making it hard for Jamaicans to access their beaches, while tourists often arrive by cruise ships or stay confined to beachfront hotel rooms."
+            },
+            {
+                "question": "What is the level of control over guns and drugs in Flankers Block?",
+                "answer": "There is no control over guns and drugs.",
+                "question_type": "通用知识推理",
+                "knowledge": "Many residents' friends died from guns.",
+                "reasoning": "Residents mention various types of drugs and the lifestyle of mixing drugs with rum, and some say many people have damaged their minds due to drugs, only able to do simple jobs, with many friends dying from gun violence, indicating no control in Flankers."
+            },
+            {
+                "question": "When Drew went to Flankers Block at night, was he only accompanied by McCoy?",
+                "answer": "No.",
+                "question_type": "多跳推理,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "In the segment where Drew goes to Flankers Block at night, he mentions bringing team members along, and visually, a white person accompanies Drew to the Flankers Block bar."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/ZXlvP9hJnZs.mp4"
+    },
+    {
+        "video_id": "CZ_4_8",
+        "video_url": "https://www.youtube.com/watch?v=2mbOKgPhen4",
+        "video_duration": "20:48",
+        "video_type": "教学 - 烹饪",
+        "qa_list": [
+            {
+                "question": "Is Andy someone who teaches in detail?",
+                "answer": "Yes, he teaches very thoroughly.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "By observing the video, Andy provides detailed explanations on how to select and marinate fish, among other details. This indicates that Andy is someone who teaches very thoroughly."
+            },
+            {
+                "question": "What technique does Andy suggest to ensure the fish fillet is in full contact with the pan when frying?",
+                "answer": "Press a heavy object on the fish.",
+                "question_type": "通用知识推理",
+                "knowledge": "煎鱼肉时用重物压制有用，可让鱼肉与锅底充分接触、受热均匀，防止卷曲变形，加速煎制并使外皮更快变酥脆，还能改善口感，使外皮酥脆、内部鲜嫩，但要注意控制重物重量，避免鱼肉破碎。 ",
+                "reasoning": "In the video segment about frying fish, Andy shares a tip of placing a protein press on the fish to ensure it fully contacts the pan for better frying. If a protein press is unavailable, other heavy objects can be used."
+            },
+            {
+                "question": "What did Andy take after placing the protein press on the fish?",
+                "answer": "A camera.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "By observing the video, after Andy places the protein press on the fish, he takes a camera to capture the frying process while waiting for the fish to cook. This indicates that Andy took a camera."
+            },
+            {
+                "question": "How can you apply salt more evenly when salting fish?",
+                "answer": "Season from a height.",
+                "question_type": "通用知识推理",
+                "knowledge": "腌制鱼时，从高处放盐能扩大盐粒落点范围，让盐在鱼表面分布得相对均匀，减少局部集中。但要想盐完全均匀覆盖，还得用手或工具涂抹、翻动鱼身，确保各个部位都能沾到盐，达到最佳腌制效果 。 ",
+                "reasoning": "In the video segment on marinating fish, Andy teaches Katelyn that seasoning from a height allows for more even distribution without needing to spread it out. This shows that seasoning from a height results in more even salting."
+            },
+            {
+                "question": "Is Katelyn interested in cooking?",
+                "answer": "Yes, she is interested in cooking.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "By observing the video, it is evident that Katelyn is enthusiastic throughout the teaching process, actively participating and asking questions. This indicates that Katelyn is interested in cooking."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/2mbOKgPhen4.mp4"
+    },
+    {
+        "video_id": "CZ_4_9",
+        "video_url": "https://www.youtube.com/watch?v=5fQlj00cTM0",
+        "video_duration": "20:32",
+        "video_type": "教学 - 医疗",
+        "qa_list": [
+            {
+                "question": "Is Michelle a person with strong empathy?",
+                "answer": "Yes.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "In the video, Michelle undergoes experiences such as simulating childbirth pain and delivery to better understand her mother's birthing process. This shows she deeply empathizes with the challenges women face, indicating she has strong empathy."
+            },
+            {
+                "question": "After experiencing the pain of childbirth, which room did Michelle go to?",
+                "answer": "The delivery room.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "The video shows that after experiencing childbirth pain, Michelle goes to a delivery room in a medical training facility."
+            },
+            {
+                "question": "Which word better describes Michelle, articulate or ineloquent?",
+                "answer": "Articulate.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "Observing the video, Michelle demonstrates effective communication skills in various segments, rather than being ineloquent. This suggests that 'articulate' is a more accurate description of Michelle."
+            },
+            {
+                "question": "What is the role of the transparent collection bag during the childbirth simulation?",
+                "answer": "To collect blood and other fluids during childbirth.",
+                "question_type": "通用知识推理",
+                "knowledge": "在分娩过程中，透明收集袋用于收集羊水、血液等液体，帮助医护人员观察液体性状、评估出血量、保持卫生，并为进一步检查提供样本，确保分娩安全和母婴健康。",
+                "reasoning": "In the childbirth simulation part of the video, Michelle asks Dr. Klein about the purpose of the transparent collection bag. Dr. Klein explains that it is used to collect blood and other fluids to prevent mess, clarifying the bag's role."
+            },
+            {
+                "question": "What situations can the 'Lucina simulator' realistically simulate?",
+                "answer": "Childbirth situations.",
+                "question_type": "通用知识推理",
+                "knowledge": "Lucina模拟器能够高度模拟真实分娩过程，包括正常分娩、难产和紧急情况，是医护人员培训和技能提升的重要工具。虽然它无法完全替代真实临床经验，但可以为学员提供一个安全、可控的学习环境。",
+                "reasoning": "The video shows that the 'Lucina simulator' can realistically replicate childbirth scenarios, including details like jaundice in the eyes, intravenous injections, and vital signs, indicating its capability to simulate childbirth processes."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/5fQlj00cTM0.mp4"
+    },
+    {
+        "video_id": "CZ_4_10",
+        "video_url": "https://www.youtube.com/watch?v=un-Xy9msK4o",
+        "video_duration": "34:18",
+        "video_type": "教学 - 烹饪",
+        "qa_list": [
+            {
+                "question": "Is Shaes someone who provides detailed explanations?",
+                "answer": "Yes, she provides detailed explanations.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "By observing the video, Shaes explains each step of the teaching process in detail, such as how to stir and season, indicating that her teaching is very thorough."
+            },
+            {
+                "question": "What technique can be used to ensure meat patties cook more evenly?",
+                "answer": "Press the middle part thinner.",
+                "question_type": "通用知识推理",
+                "knowledge": "肉饼在烹饪过程中，边缘会因受热较快而收缩，导致中间部分隆起，从而影响受热均匀性。因此，在塑形时，可以用手指在肉饼中间轻轻按压，使其比边缘略薄一些。这样烹饪时，肉饼的整体厚度会更均匀，熟得更一致。",
+                "reasoning": "In the video, Shaes mentions that making the center of the meat patty thinner helps it cook more evenly."
+            },
+            {
+                "question": "How can we make mashing potatoes easier when making mashed potatoes?",
+                "answer": "Mash them while they are still hot.",
+                "question_type": "通用知识推理",
+                "knowledge": "土豆在热的时候更容易搅碎，因为加热使其淀粉糊化、细胞结构软化。为了获得细腻的土豆泥或碎土豆，建议在土豆煮熟后趁热操作。",
+                "reasoning": "In the video, Shaes emphasizes the importance of mashing the potatoes while they are still hot, making it easier to mash them."
+            },
+            {
+                "question": "Is Ash skilled at cooking?",
+                "answer": "No, Ash is not skilled at cooking.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "Observing the video, including Shaes' teaching on cutting potatoes and seasoning, combined with Ash's visible nervousness during cooking, indicates that Ash is not skilled at cooking."
+            },
+            {
+                "question": "What dish did Shaes and Ash start to make after putting the meat patties in the pan?",
+                "answer": "Mashed potatoes.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "The video shows that after placing the meat patties in the pan, Shaes uses the waiting time to start teaching how to make mashed potatoes."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/un-Xy9msK4o.mp4"
+    },
+    {
+        "video_id": "CZ_4_11",
+        "video_url": "https://www.youtube.com/watch?v=Y3HxUfqfNmE",
+        "video_duration": "41:50",
+        "video_type": "纪录片 - 人文",
+        "qa_list": [
+            {
+                "question": "Is Stacy overly indulgent in caring for her children?",
+                "answer": "Yes.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "When Jaylen cries, Stacy always comforts him with food, even though she knows it's not good for his weight. Despite knowing she shouldn't give in to his requests for more food after he becomes overweight, she eventually compromises."
+            },
+            {
+                "question": "What is Bernard's reaction to learning about Briana being bullied at school?",
+                "answer": "He felt worried and angry.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "In the segment discussing Briana being bullied at school, Bernard believes a young girl shouldn't endure such treatment. He feels worried and angry about the words spoken to her."
+            },
+            {
+                "question": "How did R.J.'s attitude towards his mother Melisa change after she lost weight?",
+                "answer": "From feeling ashamed to seeing her as a role model.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "Before losing weight, R.J. felt ashamed of his mother's obesity and feared being seen with her by classmates. After her weight loss, he regards her as a role model and superhero, and their relationship becomes closer."
+            },
+            {
+                "question": "Is Jaylen's obesity caused by family heredity or acquired factors?",
+                "answer": "Acquired factors.",
+                "question_type": "多线索推理,人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "Listening to Stacy's description of Jaylen's obesity, and observing that the other three children have normal body sizes, indicates there is no family history of obesity."
+            },
+            {
+                "question": "Does American society pay high attention to children's dietary health or lack attention?",
+                "answer": "It lacks attention.",
+                "question_type": "通用知识推理",
+                "knowledge": "Many parents are not aware of the importance of a healthy diet, and schools lack the guidance on healthy eating for students. ",
+                "reasoning": "Many parents only realize the importance of dietary health after their children become severely obese. Schools also lack guidance on healthy eating and sell a lot of unhealthy food."
+            },
+            {
+                "question": "How did Melisa celebrate her weight loss after a year?",
+                "answer": "By releasing balloons.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "After a year of effort, during a weigh-in with the Pound Punchers organization, Melisa lost over 120 pounds and changed her eating habits. They celebrated by releasing balloons, each representing one pound lost, and expressed hope to continue losing weight."
+            },
+            {
+                "question": "What is Chanelle's job?",
+                "answer": "She is a cook.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "Chanelle increases her family's income by cooking for the community, indicating her profession is a cook."
+            },
+            {
+                "question": "Does the school in Mississippi play a positive or negative role in child obesity?",
+                "answer": "It plays a negative role.",
+                "question_type": "通用知识推理",
+                "knowledge": "The lunches provided by schools and the foods sold in schools are mostly high-calorie and high-sugar junk foods. ",
+                "reasoning": "The school contributes negatively to child obesity by providing lunches and selling foods that are high in calories and sugar, promoting unhealthy eating choices and worsening the obesity problem."
+            },
+            {
+                "question": "Which organization established the first gym in Alcole?",
+                "answer": "Pound Punchers.",
+                "question_type": "通用知识推理",
+                "knowledge": "The gym established by the Pound Punchers is the first gym in the town of Alcole.",
+                "reasoning": "The community lacked exercise facilities, so Melisa invited friends to join a weight loss effort, forming the Pound Punchers organization. They secured a donation from the county committee to establish a gym at the fire station, the first in the area, open to the community for free."
+            },
+            {
+                "question": "Does Chanelle rarely cook green vegetables because the supermarket lacks fresh ones?",
+                "answer": "No.",
+                "question_type": "多线索推理,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "Chanelle avoids fresh vegetables while shopping until reminded by Ling. Her cooking habits, combined with visual and auditory cues, indicate that her avoidance of vegetables is due to cultural habits rather than supply issues."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/Y3HxUfqfNmE.mp4"
+    },
+    {
+        "video_id": "CZ_4_12",
+        "video_url": "https://www.youtube.com/watch?v=VH85aZZ1PMY",
+        "video_duration": "22:36",
+        "video_type": "测评 - 食品",
+        "qa_list": [
+            {
+                "question": "How many types of foods did the students evaluate in total?",
+                "answer": "Eight.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "After watching the video, it is clear that the students evaluated a total of eight types of food."
+            },
+            {
+                "question": "What is the relationship between Jayden and Darnell?",
+                "answer": "Darnell is Jayden's senior.",
+                "question_type": "人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "Based on their identical clothing, it can be inferred they are from the same school. From their introductions, it is clear that Darnell is Jayden's senior."
+            },
+            {
+                "question": "Is Jayden a humorous and earnest person?",
+                "answer": "Yes.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "During the evaluations, Jayden made many humorous remarks and gestures, and he provided detailed ratings multiple times, indicating he is both humorous and earnest."
+            },
+            {
+                "question": "Which type of snacks are healthier, Chinese snacks or American snacks?",
+                "answer": "Chinese snacks.",
+                "question_type": "通用知识推理",
+                "knowledge": "Snacks in the United States place particular emphasis on processing and sweetness, leading to an increasing number of people suffering from obesity, while Chinese snacks tend to have a more mild taste.",
+                "reasoning": "American snacks are heavily processed and sweet, contributing to increasing obesity rates, while Chinese snacks are milder in taste, suggesting that Chinese snacks are healthier than American snacks."
+            },
+            {
+                "question": "Would Yan Yan snacks be popular or disliked among American students?",
+                "answer": "Popular.",
+                "question_type": "通用知识推理",
+                "knowledge": "Yan Yan在美国学生群体之间会是受欢迎的零食",
+                "reasoning": "Based on the ratings given by high school and college students, it can be inferred that Yan Yan snacks would be popular among American students."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/VH85aZZ1PMY.mp4"
+    },
+    {
+        "video_id": "CZ_4_13",
+        "video_url": "https://www.youtube.com/watch?v=j89TEXbRHXY",
+        "video_duration": "28:02",
+        "video_type": "vlog - 派对",
+        "qa_list": [
+            {
+                "question": "What is the relationship between Ava and Kaci-Jay?",
+                "answer": "They have a very good relationship.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video contains multiple clips indicating that Ava and Kaci-Jay have a very good relationship."
+            },
+            {
+                "question": "Does Kaci-Jay like the Mexican restaurant they found?",
+                "answer": "Yes, she likes it very much.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "The answer is derived from Kaci-Jay's comments about the Mexican restaurant in the video."
+            },
+            {
+                "question": "What is the sunshine duration in Napa?",
+                "answer": "Napa has a long sunshine duration.",
+                "question_type": "通用知识推理",
+                "knowledge": "纳帕（Napa）的日照时长很长。",
+                "reasoning": "Kaci-Jay mentions that even after getting lost and sitting at a restaurant, it was not completely dark at 8 PM, indicating a long sunshine duration."
+            },
+            {
+                "question": "Does Kaci-Jay enjoy drinking alcohol?",
+                "answer": "Yes.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video shows Kaci-Jay and her group frequently visiting bars and occasionally drinking at the hotel, suggesting she enjoys drinking alcohol."
+            },
+            {
+                "question": "What climate zone can be inferred from the coconut trees seen in Napa?",
+                "answer": "Tropical climate zone.",
+                "question_type": "通用知识推理",
+                "knowledge": "NAPA处于热带气候区。",
+                "reasoning": "The presence of coconut trees in the video suggests that Napa is in a tropical climate zone."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/j89TEXbRHXY.mp4"
+    },
+    {
+        "video_id": "CZ_4_14",
+        "video_url": "https://www.youtube.com/watch?v=2PJPREoLohI",
+        "video_duration": "24:45",
+        "video_type": "测评 - 工具/机械",
+        "qa_list": [
+            {
+                "question": "Why is the soundproofing so effective in luxury minivans?",
+                "answer": "Because their air suspension system and double-glazed windows effectively block out noise.",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "空气悬挂系统和双重玻璃可以起到很好的隔音效果。",
+                "reasoning": "The video includes a segment testing the soundproofing of electric vehicles, which provides the answer."
+            },
+            {
+                "question": "Does the author like the AI system in the luxury minivans?",
+                "answer": "Yes, he does.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video shows the author using the car's AI system, and his positive reaction indicates he likes it."
+            },
+            {
+                "question": "How well does the author speak Chinese?",
+                "answer": "He doesn't speak Chinese very well.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video shows the blogger attempting to demonstrate car features through a Chinese conversation, but he struggles to use most functions, leading to this conclusion."
+            },
+            {
+                "question": "How can you increase the trunk capacity of the luxury minivans?",
+                "answer": "Press a button to fold down the third row of seats.",
+                "question_type": "多模态/多语言推理,通用知识推理",
+                "knowledge": "通过放下座椅可以让后备箱容量变大。",
+                "reasoning": "The video segment shows how to increase trunk capacity, with visuals and the blogger's description supporting the answer."
+            },
+            {
+                "question": "Does the author like the sound insulation of the luxury minivans?",
+                "answer": "Yes, he likes it very much.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video includes a segment where the author discusses the car's sound insulation, leading to the conclusion that he likes it."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/2PJPREoLohI.mp4"
+    },
+    {
+        "video_id": "CZ_4_15",
+        "video_url": "https://www.youtube.com/watch?v=BIGHp_NyW6o",
+        "video_duration": "24:23",
+        "video_type": "街头互动 - 游戏",
+        "qa_list": [
+            {
+                "question": "How would you describe Unghetto's basketball skills?",
+                "answer": "His skills are good.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "Unghetto's basketball skills are demonstrated as good through his dunking ability and winning a street game."
+            },
+            {
+                "question": "What is LeBron's profession?",
+                "answer": "He is a basketball player.",
+                "question_type": "人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "After Unghetto mentions LeBron, an NBA game clip is shown where the commentator refers to LeBron, indicating he is a basketball player."
+            },
+            {
+                "question": "Did Savani make his first shot or miss it?",
+                "answer": "He missed it.",
+                "question_type": "多线索推理,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "The introduction identifies Savani, and the video shows his first shot, which visually confirms he missed it."
+            },
+            {
+                "question": "Where is the street game 'MAKE THE SHOT OR GET SLAPPED' likely held?",
+                "answer": "At a school.",
+                "question_type": "通用知识推理",
+                "knowledge": "MAKE THE SHOT OR GET SLAPPED这个街头游戏可以在学校举行",
+                "reasoning": "The background includes banners, many bicycles, young people with backpacks, and a student center, suggesting the game takes place at a school."
+            },
+            {
+                "question": "What type of software is Zelle?",
+                "answer": "It is a money transfer software.",
+                "question_type": "通用知识推理",
+                "knowledge": "Zelle是一款转账软件",
+                "reasoning": "After a basketball shot is made, Unghetto uses his phone and mentions $1000 being transferred to his Zelle account, indicating Zelle is a money transfer software."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/BIGHp_NyW6o.mp4"
+    },
+    {
+        "video_id": "CZ_4_16",
+        "video_url": "https://www.youtube.com/watch?v=oSVhdSuSISQ",
+        "video_duration": "33:18",
+        "video_type": "教学 - 烹饪",
+        "qa_list": [
+            {
+                "question": "How many people did Moe teach to cook in the video?",
+                "answer": "Three.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "The video shows Moe teaching three men how to cook."
+            },
+            {
+                "question": "Which word better describes Moe, 'patient' or 'irritable'?",
+                "answer": "Patient.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "By observing Moe's teaching process in the video, it is clear that Moe explains each step patiently, detailing what to do first and how to do it. This indicates that Moe is very patient in his teaching."
+            },
+            {
+                "question": "Why is chopping food by hand superior to using a blender in terms of taste?",
+                "answer": "It can better preserve the original flavor of the food.",
+                "question_type": "通用知识推理",
+                "knowledge": "手工切碎比搅拌机更能保留食物原味。手工切碎避免过度加工，维持食材细胞结构，减少风味物质挥发氧化，且产热少，不影响味道；而搅拌机高速运转易破坏细胞，因摩擦产热致食物成分热反应，改变风味，如洋葱和水果泥的处理。 ",
+                "reasoning": "In the chopping scene, Moe mentions that a blender should not be used because it would ruin the taste of the food. This suggests that hand chopping better preserves the food's original flavor."
+            },
+            {
+                "question": "What is the function of using tin foil in cooking?",
+                "answer": "To speed up the cooking process.",
+                "question_type": "通用知识推理",
+                "knowledge": "锡纸能够反射热量，使食物周围的热量分布更加均匀，从而在一定程度上加速烹饪过程。",
+                "reasoning": "In the video, Moe uses tin foil as a makeshift lid to heat the potatoes faster, indicating that tin foil is used to speed up cooking."
+            },
+            {
+                "question": "Which word better describes the relationship between Moe and the three boys, 'close' or 'strange'?",
+                "answer": "Close.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video shows interactions and details during the cooking lesson that indicate Moe and the three boys have a close relationship, rather than a strange one."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/oSVhdSuSISQ.mp4"
+    },
+    {
+        "video_id": "CZ_4_17",
+        "video_url": "https://www.youtube.com/watch?v=oO8w6XcXJUs",
+        "video_duration": "21:20",
+        "video_type": "访谈 - 静态（对话密集型，少量视觉信息）",
+        "qa_list": [
+            {
+                "question": "Is the atmosphere of 'Real Time with Bill Maher' relaxed or tense?",
+                "answer": "Relaxed.",
+                "question_type": "通用知识推理",
+                "knowledge": "（Real Time with Bill Maher）的节目氛围轻松，原因在于：主持人比尔·马赫风格幽默，以诙谐语言和讽刺手法评时事，缓和气氛；嘉宾多元，与马赫互动自由，既谈严肃政治也分享趣事，氛围和谐；演播室布置简洁、灯光柔和，助力轻松氛围营造。 ",
+                "reasoning": "By observing the interview between Bill and Elon, such as their relaxed and pleasant expressions and humorous conversation, it is evident that the show's atmosphere is relaxed rather than tense."
+            },
+            {
+                "question": "Is Bill Maher a humorous and funny person?",
+                "answer": "He is a humorous and funny person.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "By watching the video, where Bill Maher makes jokes during the conversation and responds humorously, it is clear that he is a humorous and funny person."
+            },
+            {
+                "question": "What is the focus of the program 'Real Time with Bill Maher'?",
+                "answer": "Politics and current affairs.",
+                "question_type": "通用知识推理",
+                "knowledge": "“Real Time with Bill Maher” 是一个以政治和时事为核心的节目，主持人 Bill Maher 通过幽默讽刺的方式探讨美国及全球的政治、社会和文化议题。节目形式包括嘉宾访谈、小组辩论和独白，风格轻松但内容严肃，吸引了对政治感兴趣的观众。",
+                "reasoning": "By watching the video, where the host Bill asks Elon questions about artificial intelligence, technology, and freedom of speech, it is clear that the program focuses on politics and current affairs."
+            },
+            {
+                "question": "Does Bill Maher prepare in advance for his work?",
+                "answer": "He prepares in advance.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "By observing the video, where Bill asks precise questions and shows thorough understanding, it is evident that he prepares in advance for his interviews."
+            },
+            {
+                "question": "How many of Elon's identities are introduced in the video?",
+                "answer": "Three.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "By observing the video, it introduces Elon as the CEO of Tesla, Twitter, and the lead engineer of SpaceX, totaling three identities."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/oO8w6XcXJUs.mp4"
+    },
+    {
+        "video_id": "CZ_4_18",
+        "video_url": "https://www.youtube.com/watch?v=sUaViquOfKs",
+        "video_duration": "21:02",
+        "video_type": "街头互动 - 采访",
+        "qa_list": [
+            {
+                "question": "What is the rate of price inflation in Canada?",
+                "answer": "It is rapid.",
+                "question_type": "通用知识推理",
+                "knowledge": "不同国家的物价水平不同，物价增长的水平也不同。加拿大的物价增长速度近些年来较快，与许多发达国家相似。",
+                "reasoning": "The video features a woman in a white dress mentioning that when she arrived in Canada in 2019, the price of milk was approximately 4.5, and now in 2024, it is 6. This indicates that the rate of price inflation in Canada is rapid."
+            },
+            {
+                "question": "How is the cost of housing in Vancouver?",
+                "answer": "The cost of housing is high.",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "住房成本对人来说是重要的经济负担，直接影响个人财务状况、生活选择和长期规划。",
+                "reasoning": "In the video, when asked about the largest part of living expenses, everyone's first response is the cost of rent. A local interviewee living with parents mentions that as a student, they cannot afford rent. This suggests that the cost of housing in Vancouver is high."
+            },
+            {
+                "question": "What did the host ask about after discussing income?",
+                "answer": "He asked about expenses.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "The model needs to locate the segment in the video related to discussing income and then analyze the subsequent content, which shows the host asking about expenses."
+            },
+            {
+                "question": "Which kind of drink does Sofia consume most frequently?",
+                "answer": "Coffee.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video shows Sofia mentioning that she drinks a cup of coffee every day, indicating that coffee is the drink she consumes most frequently."
+            },
+            {
+                "question": "What is the occupation of the highest-earning interviewee in the video?",
+                "answer": "Bank advisor.",
+                "question_type": "多线索推理,多跳推理,人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "The model needs to identify the segment in the video related to income levels, determine the highest earner, and analyze the video footage to conclude that this person's occupation is a bank advisor."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/sUaViquOfKs.mp4"
+    },
+    {
+        "video_id": "CZ_4_19",
+        "video_url": "https://www.youtube.com/watch?v=NDIp0Vu9iII",
+        "video_duration": "27:25",
+        "video_type": "vlog - 出行",
+        "qa_list": [
+            {
+                "question": "Did Kara and Nate enjoy their trip?",
+                "answer": "Yes.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "The video shows multiple segments where their expressions and actions indicate they enjoyed the trip."
+            },
+            {
+                "question": "What is the relationship between Kara and Nate?",
+                "answer": "They are in a romantic relationship.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video depicts several behaviors that suggest they are in a romantic relationship."
+            },
+            {
+                "question": "What is the climate on Bora Bora Island as indicated by the coconut trees?",
+                "answer": "Tropical climate.",
+                "question_type": "通用知识推理",
+                "knowledge": "椰子树通常分布在热带气候区",
+                "reasoning": "The presence of coconut trees in the video suggests that Bora Bora Island has a tropical climate."
+            },
+            {
+                "question": "What type of cuisine is featured in the food on Bora Bora Island?",
+                "answer": "French cuisine.",
+                "question_type": "通用知识推理",
+                "knowledge": "波拉波拉岛法属波利尼西亚，属于法国菜系",
+                "reasoning": "Nate mentions that Bora Bora is influenced by French Polynesia, indicating that the cuisine is French."
+            },
+            {
+                "question": "Is Kara attentive to details?",
+                "answer": "Yes.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video shows that the host prepares a personalized incense menu for Kara, suggesting she is attentive to details."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/NDIp0Vu9iII.mp4"
+    },
+    {
+        "video_id": "CZ_4_20",
+        "video_url": "https://www.youtube.com/watch?v=DuyEq2I7YXM",
+        "video_duration": "39:30",
+        "video_type": "测评 - 食品",
+        "qa_list": [
+            {
+                "question": "What is the evaluation style of Rusty and Chris?",
+                "answer": "Meticulous.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video shows that Rusty and Chris pay close attention to details during their evaluations, such as the conclusions and cooking methods. This indicates that their evaluation style is meticulous."
+            },
+            {
+                "question": "In what situations at home can 'Peak Refuel Meals' be used?",
+                "answer": "Family emergency situations.",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "“Peak Refuel Meals”适合作为家庭应急食品，原因如下：1. 营养丰富：采用100% USDA检验肉类，无填充物，高蛋白，非转基因成分，冻干技术锁住营养。2. 方便快捷：加热水10分钟内即可食用，断电时也能快速提供热食。3. 易于储存：冻干技术使其轻便小巧，保质期至少5年，不占空间，适合应对紧急情况。",
+                "reasoning": "At the beginning of the evaluation, the video mentions that 'Peak Refuel Meals' use advanced technology to preserve nutritional value. Chris recommends them as an option for family emergency situations, which supports the answer."
+            },
+            {
+                "question": "What is the heating method for 'Peak Refuel Meals'?",
+                "answer": "Add hot water.",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "“Peak Refuel Meals”主要通过加热水加热，打开包装取吸氧剂，加规定量热水，搅拌后密封，约10分钟再搅即可达食用温度。部分餐品也能冷水冲泡，但耗时且得冷餐，该加热方式借热传递让冻干食物速复口感温度，方便食用。 ",
+                "reasoning": "The video shows Rusty and Chris heating the food by simply adding hot water, unlike other instant meals that require a microwave. This indicates that the heating method for this brand's products is to just add hot water."
+            },
+            {
+                "question": "How would you describe the relationship between Rusty and Chris: harmonious or contradictory?",
+                "answer": "Harmonious.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video shows that Rusty and Chris have a harmonious relationship, as evidenced by their interactions, atmosphere, and language."
+            },
+            {
+                "question": "Which food was evaluated after 'Butternut dal bhat'?",
+                "answer": "Cheesy chicken and broccoli.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "By locating the segment of the video where 'Butternut dal bhat' is evaluated, it is clear that 'Cheesy chicken and broccoli' was evaluated immediately afterward."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/DuyEq2I7YXM.mp4"
+    },
+    {
+        "video_id": "CZ_4_21",
+        "video_url": "https://www.youtube.com/watch?v=GqUDWHUD2WY",
+        "video_duration": "23:03",
+        "video_type": "教学 - 烹饪",
+        "qa_list": [
+            {
+                "question": "How would you describe Gordon's cooking performance, skilled or amateur?",
+                "answer": "Skilled.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "By observing the video, Gordon demonstrates proficiency and attention to detail in each step of the cooking process, indicating that he is skilled rather than amateur."
+            },
+            {
+                "question": "What is the difference in acidity between eating apples and cooking apples?",
+                "answer": "Cooking apples have higher acidity.",
+                "question_type": "通用知识推理",
+                "knowledge": "食用苹果酸度相对较低，pH值通常在3.3至4.0之间，口感甜美、清爽，适合直接生食；烹饪苹果酸度较高，pH值可能在3.0至3.5左右，在烹饪中能保持形状，为菜肴增添风味，不过苹果酸度会受品种、产地、成熟度等因素影响。",
+                "reasoning": "In the video, when Gordon cuts the apples, he has a girl taste a slice, and her surprised reaction to the acidity prompts Gordon to explain that cooking apples generally have higher acidity, requiring cooking to balance it, unlike eating apples."
+            },
+            {
+                "question": "After cutting the mushrooms, which food was prepared next for cutting?",
+                "answer": "Onion.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "In the video segment on making sausages, after finishing the mushroom preparation, the next step shown is preparing onions for cutting."
+            },
+            {
+                "question": "What is the relationship between Gordon and his three children, harmonious or distant?",
+                "answer": "Harmonious.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video shows Gordon inviting his three children to cook with him, and their interactions during the process reveal a harmonious and close relationship, rather than a distant one."
+            },
+            {
+                "question": "What was added to marinate the chicken to make it more tender?",
+                "answer": "Buttermilk.",
+                "question_type": "通用知识推理",
+                "knowledge": "酪乳中的酸性成分、天然酶类和保湿作用，能有效软化鸡肉纤维，提升嫩度和风味，是腌制鸡肉的理想选择",
+                "reasoning": "In the video, during the chicken marination process, Gordon mentions that buttermilk is ideal for marinating chicken as it makes the meat more tender, indicating that buttermilk is the special ingredient added."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/GqUDWHUD2WY.mp4"
+    },
+    {
+        "video_id": "CZ_4_22",
+        "video_url": "https://www.youtube.com/watch?v=2b-1LFjEMtI",
+        "video_duration": "25:31",
+        "video_type": "测评 - 食品",
+        "qa_list": [
+            {
+                "question": "Are Joe and Harry professional reviewers or amateurs?",
+                "answer": "Professional reviewers.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video shows Joe and Harry evaluating food with attention to details such as appearance, preparation, and taste, indicating they are professional reviewers rather than amateurs."
+            },
+            {
+                "question": "What type of videos does 'Insider Food' share?",
+                "answer": "Food store exploration and evaluation.",
+                "question_type": "通用知识推理",
+                "knowledge": "Insider Food是一个通过分享探店测评、工厂生产揭秘、简易食谱教学、饮食文化科普、大厨挑战/技巧等视频，带你探索全球美食和饮食文化的媒体频道。",
+                "reasoning": "The video primarily features Joe and Harry visiting and evaluating three different burrito shops, which indicates the type of content 'Insider Food' shares."
+            },
+            {
+                "question": "How would you describe the evaluation atmosphere of Joe and Harry, relaxed or tense?",
+                "answer": "Relaxed.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video shows Joe and Harry with happy expressions and joking with each other during evaluations, suggesting a relaxed atmosphere."
+            },
+            {
+                "question": "Where did Harry and Joe go for their next food evaluation after Sonoritas Prime Tacos?",
+                "answer": "Al and Bea's.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "The video shows Harry and Joe traveling by car to another location for evaluation after visiting Sonoritas Prime Tacos."
+            },
+            {
+                "question": "What is the burrito-making style at El Ruso's?",
+                "answer": "The Sonoran style.",
+                "question_type": "通用知识推理",
+                "knowledge": "索诺兰方式（Sonoran style）是墨西哥索诺拉州的烹饪风格与美食特色。食材上，索诺拉州是小麦种植区，面粉玉米饼薄如纸、有烟熏味，且因牧场多，牛肉菜品受欢迎，常见于多种食物中。菜品有enchiladas等，chimichanga 也起源于此。烹饪注重食材新鲜品质，风格简单丰盛，不重繁琐装饰与复杂技巧。 ",
+                "reasoning": "The video features Joe and Harry discussing the burrito-making method at El Ruso, which involves placing ingredients on a grill and covering them directly with a tortilla, characteristic of the Sonoran style."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/2b-1LFjEMtI.mp4"
+    },
+    {
+        "video_id": "CZ_4_23",
+        "video_url": "https://www.youtube.com/watch?v=DpNUCGoc_4U",
+        "video_duration": "22:43",
+        "video_type": "测评 - 食品",
+        "qa_list": [
+            {
+                "question": "Was the family atmosphere around Brayden pleasant or tense?",
+                "answer": "Pleasant.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "By observing the video, particularly during the evaluation segment, it is evident from the interactions between Brayden, his sister Aliyah, and their parents that Brayden is in a harmonious and pleasant family environment."
+            },
+            {
+                "question": "Who are Rafferty's Garden products suitable for?",
+                "answer": "Infants.",
+                "question_type": "通用知识推理",
+                "knowledge": "Rafferty's Garden 是一个来自澳大利亚的知名婴儿食品品牌。该品牌创立于 2007 年，致力于为宝宝提供优质的食品。从诞生起，它就秉持着天然、无添加的理念，希望让宝宝在饮食之旅中有一个良好的开端。",
+                "reasoning": "The video shows that Rafferty's Garden products are made as baby food with pureed fruits and vegetables without additives, indicating they are very suitable for infants."
+            },
+            {
+                "question": "Which word better describes Aliyah's personality, lively or withdrawn?",
+                "answer": "Lively.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "Observation reveals that Aliyah is a lively, cheerful, and outgoing girl, rather than withdrawn or isolated."
+            },
+            {
+                "question": "What was the next flavor Brayden and Aliyah tasted after the first one?",
+                "answer": "The mixed flavor of apple, banana, and pear.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "By watching the video, after identifying the first flavor they tasted, it becomes clear that the next flavor they tried was a mix of apple, banana, and pear."
+            },
+            {
+                "question": "What are the characteristics of Rafferty's Garden products in terms of selection?",
+                "answer": "Diverse options.",
+                "question_type": "通用知识推理",
+                "knowledge": "Rafferty's Garden的产品有多种口味选择。果泥系列含水果组合（如苹果与蓝莓等）和蔬菜搭配（如胡萝卜与甜土豆等）口味；肉泥系列有鸡肉（如鸡肉与糙米）、牛肉（如牛肉与蔬菜）、鱼肉（如金枪鱼）及其他（如香肠）等口味；零食系列有蔬果条（蓝莓、苹果等味）、溶豆（草莓味等）、燕麦棒（苹果与树莓等味）。 ",
+                "reasoning": "The video features a challenge involving 10 different flavors, each containing different fruits and vegetables, indicating that Rafferty's Garden offers a wide variety of flavors, highlighting the diverse options in their product selection."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/DpNUCGoc_4U.mp4"
+    },
+    {
+        "video_id": "CZ_4_24",
+        "video_url": "https://www.youtube.com/watch?v=3EZfbrk3Bco",
+        "video_duration": "26:45",
+        "video_type": "vlog - 出行",
+        "qa_list": [
+            {
+                "question": "What type of theme park is Universal Studios?",
+                "answer": "It is an immersive theme park.",
+                "question_type": "通用知识推理",
+                "knowledge": "沉浸式主题公园（Immersive Theme Park）指的是一种通过高度还原影视作品、游戏或文化场景，让游客仿佛“身临其境”的游乐园。",
+                "reasoning": "The video shows that Universal Studios' Mario World and Harry Potter themed areas perfectly recreate scenes from movies or games, providing an immersive experience for visitors."
+            },
+            {
+                "question": "Where did Ann and Jan go after visiting Super Nintendo World?",
+                "answer": "They went to the Harry Potter Magic World.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "The model needs to identify the segment featuring Super Nintendo World and analyze the surrounding content to determine their next destination."
+            },
+            {
+                "question": "Is the WaterWorld show thrilling or boring?",
+                "answer": "It's thrilling.",
+                "question_type": "多模态/多语言推理,通用知识推理",
+                "knowledge": "环球影城的水世界 (WaterWorld) 表演是以1995年电影《未来水世界 (Waterworld)》为灵感打造的实景特技表演。表演包含高空跳水、爆炸特效、火焰特效，演员们的打斗场面和特技表演也非常惊险刺激，让观众仿佛身临其境。",
+                "reasoning": "The video depicts the WaterWorld show with performers spraying water at the audience, watercraft stunts, gunfire performances, and diving acts, making it visually exciting."
+            },
+            {
+                "question": "Which theme at Universal Studios does Ann like the best?",
+                "answer": "Harry Potter.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video shows Ann spending $150 on a wizard robe, buying a $21 cup for tea, and tasting butterbeer in the Harry Potter area, indicating her preference for this theme."
+            },
+            {
+                "question": "Which does Jan value more, the cost or the experience?",
+                "answer": "The experience.",
+                "question_type": "人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "Before tasting butterbeer, Jan remarked that its $9 price was too high, but after tasting it, he expressed a desire to buy another, showing he values the experience over the cost."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/3EZfbrk3Bco.mp4"
+    },
+    {
+        "video_id": "CZ_4_25",
+        "video_url": "https://www.youtube.com/watch?v=gK4AkrKzbHo",
+        "video_duration": "22:21",
+        "video_type": "vlog - 烹饪",
+        "qa_list": [
+            {
+                "question": "Why should eggshells be discarded immediately after cracking the eggs?",
+                "answer": "To avoid Salmonella contamination.",
+                "question_type": "通用知识推理",
+                "knowledge": "生鸡蛋壳可能含有沙门氏菌。",
+                "reasoning": "The video shows Lizze mentioning that eggshells should be discarded immediately after cracking to prevent Salmonella contamination."
+            },
+            {
+                "question": "How can pickled cucumber slices be better coated with flour?",
+                "answer": "Remove excess moisture from the slices using kitchen paper.",
+                "question_type": "通用知识推理",
+                "knowledge": "吸干水分可以帮助面粉、面糊等更好地附着，使炸出来的腌黄瓜片更加酥脆。",
+                "reasoning": "The video shows Ryland placing pickled cucumber slices on kitchen paper to remove excess moisture before Lizze coats them with flour and egg wash. This suggests that removing moisture helps the flour adhere better."
+            },
+            {
+                "question": "What did Ryland and Lizze do after drying the pickles?",
+                "answer": "They prepared the breading ingredients.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "The reasoning involves identifying the segment where the pickles are dried and analyzing the subsequent actions, which include preparing the breading ingredients."
+            },
+            {
+                "question": "Does Ryland enjoy cleaning?",
+                "answer": "No, he doesn't.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video shows Ryland avoiding touching raw egg and expressing dislike for cleaning up after cooking, indicating he does not enjoy cleaning."
+            },
+            {
+                "question": "Are Ryland and Lizze 'partners in crime' or 'casual friends'?",
+                "answer": "They are 'partners in crime'.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video depicts them working together on a podcast and joking with each other without getting upset, suggesting they are close friends who can collaborate on various activities."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/gK4AkrKzbHo.mp4"
+    },
+    {
+        "video_id": "CZ_4_26",
+        "video_url": "https://www.youtube.com/watch?v=oBEoqiZRIvg",
+        "video_duration": "32:01",
+        "video_type": "访谈 - 静态（对话密集型，少量视觉信息）",
+        "qa_list": [
+            {
+                "question": "Does the host have extensive knowledge about politics?",
+                "answer": "Yes, he does.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video shows the host discussing various political topics related to Elon Musk, indicating his understanding of politics."
+            },
+            {
+                "question": "What is the style of the moderator's interview?",
+                "answer": "It is humorous.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "During the conversation, the moderator uses humor while interacting with Elon Musk, suggesting a humorous interview style."
+            },
+            {
+                "question": "Why do Americans question the fairness of the election?",
+                "answer": "Because money and special interests can influence election results.",
+                "question_type": "通用知识推理",
+                "knowledge": "美国大选公平性的影响因素。",
+                "reasoning": "The video features Elon Musk and the host questioning the fairness of the U.S. election, mentioning concerns about financial influence, which resonates with the audience."
+            },
+            {
+                "question": "What does the Doge Dividend Check reveal about the U.S. tax system?",
+                "answer": "It reveals issues of low efficiency and transparency.",
+                "question_type": "通用知识推理",
+                "knowledge": "“Doge股息支票”是近期提出的一项建议，旨在利用政府效率办公室（Department of Government Efficiency，简称DOGE）所节省的资金，向美国纳税人发放每人5,000美元的退税支票。",
+                "reasoning": "Elon Musk's support for the Doge Dividend Check highlights public awareness of potential inefficiencies and lack of transparency in the U.S. tax system, suggesting resources could be better used to benefit citizens."
+            },
+            {
+                "question": "What did the host mention after Elon Musk criticized the government for lacking compassion for taxpayers?",
+                "answer": "He mentioned the shooting incident involving Trump.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "The model needs to identify the segment where Elon Musk criticizes the government's lack of compassion for taxpayers and then analyze the subsequent content where the host mentions the shooting incident involving Trump."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/oBEoqiZRIvg.mp4"
+    },
+    {
+        "video_id": "CZ_4_27",
+        "video_url": "https://www.youtube.com/watch?v=ymvjfu_Hm_8",
+        "video_duration": "25:22",
+        "video_type": "测评 - 其他",
+        "qa_list": [
+            {
+                "question": "Which airline does Makayla work for?",
+                "answer": "Etihad Airways.",
+                "question_type": "多线索推理,人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "During the first flight, Ryan talks to the flight attendants and mentions they are from Etihad Airways. In the second flight, Makayla is wearing the same uniform as the attendants from the first flight, indicating she also works for Etihad Airways."
+            },
+            {
+                "question": "Is Isaac a nostalgic person?",
+                "answer": "Yes.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "Isaac asks Ryan to deliver David's favorite American cereal to Singapore, which holds cherished Christmas memories from their childhood with their mother. In a letter to David, Isaac reminisces about how they rarely meet since David moved away and highlights David's humor and the good times they shared."
+            },
+            {
+                "question": "What are the main types of rooms provided by Yotel Air hotel?",
+                "answer": "Sleep pods and capsule hotels.",
+                "question_type": "通用知识推理",
+                "knowledge": "If you are interested in sleep pods and capsule hotels, Yotel Air is a great choice.",
+                "reasoning": "Yotel Air is located at Singapore Airport. After delivering the cereal to David, Ryan has a few hours before his return flight and chooses to rest there. He mentions that if you are interested in sleep pods and capsule hotels, this is a good choice."
+            },
+            {
+                "question": "How many aircraft of Etihad Airways provide The Residence area?",
+                "answer": "Only one.",
+                "question_type": "通用知识推理",
+                "knowledge": "There is only one aircraft in the world that has the Residence area. ",
+                "reasoning": "At the beginning of the video, it is mentioned that globally, only one aircraft is equipped with a private bathroom, private room, and private flight attendant. Later, it is revealed that all four flights are with Etihad Airways."
+            },
+            {
+                "question": "In which seating areas were personal care products distributed during Ryan's four flights?",
+                "answer": "Business and Residence.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "Ryan mentions personal care products only in the Business and Residence areas."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/ymvjfu_Hm_8.mp4"
+    },
+    {
+        "video_id": "CZ_4_28",
+        "video_url": "https://www.youtube.com/watch?v=acpjsCxV8U8",
+        "video_duration": "29:49",
+        "video_type": "探索 - 旅行探险",
+        "qa_list": [
+            {
+                "question": "Was Eric the first to catch the suspect during the pursuit?",
+                "answer": "No.",
+                "question_type": "多跳推理,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "In the segment showing the pursuit of the suspect, both visual and auditory cues indicate that the person who caught the suspect was not Eric."
+            },
+            {
+                "question": "Is Gen a native of the United States?",
+                "answer": "No.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "Gen mentions being a descendant of legal immigrants and identifies as Asian, indicating that they are not a native of the United States."
+            },
+            {
+                "question": "What indicates that one has entered the Rio Bravo area in Texas?",
+                "answer": "A huge advertising road sign for Lezcano Law Firm.",
+                "question_type": "多模态/多语言推理,通用知识推理",
+                "knowledge": "Seeing the road sign means entering the Rio Bravo area.",
+                "reasoning": "Eric audibly mentions that seeing this sign signifies entering the Rio Bravo area, and visually, it is represented by a large advertising road sign."
+            },
+            {
+                "question": "What economic interests have influenced the US government's stance on illegal immigration?",
+                "answer": "Illegal immigrants can provide cheap labor for enterprises.",
+                "question_type": "通用知识推理",
+                "knowledge": "Hiring illegal immigrants can reduce the costs of enterprises. ",
+                "reasoning": "The video mentions that industries like agriculture and construction rely on immigrant labor. Illegal immigrants can fill labor gaps and reduce costs for businesses by providing labor at lower wages, which is crucial for large industries that depend on immigrants for jobs that Americans are less willing to do."
+            },
+            {
+                "question": "Is Eric an ordinary Texas highway police officer or of a higher rank?",
+                "answer": "He is of a higher rank.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "Eric provides detailed information about the work of Texas highway police, has access to the Texas Rangers' office for discussions, and takes a leading and commanding role during the suspect pursuit."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/acpjsCxV8U8.mp4"
+    },
+    {
+        "video_id": "CZ_4_29",
+        "video_url": "https://www.youtube.com/watch?v=jmXMtNnXHGU",
+        "video_duration": "26:15",
+        "video_type": "vlog - 旅行",
+        "qa_list": [
+            {
+                "question": "Where is the price of Havaianas lower, in the UK or Rio de Janeiro, Brazil?",
+                "answer": "The price of Havaianas is lower in Rio de Janeiro.",
+                "question_type": "通用知识推理",
+                "knowledge": "Havaianas slippers in Rio de Janeiro are cheaper than those in the UK. ",
+                "reasoning": "Leesh decided to buy Havaianas sandals and found that they are cheaper in Rio de Janeiro than in the UK, costing less than 10 pounds per pair, with many colors and styles available, and the option to add small decorations, indicating lower pricing in Rio."
+            },
+            {
+                "question": "What color do people in Rio de Janeiro wear uniformly when going out on New Year's Eve?",
+                "answer": "Pure white clothes.",
+                "question_type": "多模态/多语言推理,通用知识推理",
+                "knowledge": "Everyone wore white clothes on New Year's Eve.",
+                "reasoning": "Leesh mentioned that it was New Year's Eve, and they all wore white clothes to the beach for the event. Visually, everyone was seen wearing white clothes to celebrate the New Year."
+            },
+            {
+                "question": "Is Hels an introverted or extroverted person?",
+                "answer": "She is an extroverted person.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "Based on the overall language and behavior of Hels throughout the video, it is concluded that she is extroverted."
+            },
+            {
+                "question": "Does Leesh have obsessive-compulsive disorder?",
+                "answer": "No.",
+                "question_type": "人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "Leesh described the state of the living room in the morning, and visually, the clothes were scattered messily, indicating she does not have obsessive-compulsive disorder."
+            },
+            {
+                "question": "Was Capas satisfied with the service at Nusa Cafe when dining there?",
+                "answer": "Capas wasn't satisfied.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "By locating the segment where Capas dined at Nusa Cafe and considering Capas's feedback, it is clear that she was not satisfied with the service."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/jmXMtNnXHGU.mp4"
+    },
+    {
+        "video_id": "CZ_4_30",
+        "video_url": "https://www.youtube.com/watch?v=7pKemn_SjFI",
+        "video_duration": "22:07",
+        "video_type": "vlog - 出行",
+        "qa_list": [
+            {
+                "question": "How many children does Mike have?",
+                "answer": "Mike has three children.",
+                "question_type": "多线索推理,人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "The video clearly shows Mike has a son named Ryan and a daughter named Katie. Brennan is mentioned when discussing purchases for him, and his college life is discussed. The family photos at the beginning of the video consistently show five people, confirming Mike has three children."
+            },
+            {
+                "question": "What service can someone choose to transport their car from Virginia to Florida?",
+                "answer": "They can take the Auto Train.",
+                "question_type": "通用知识推理",
+                "knowledge": "The Auto Train is a means of transportation from Virginia to Florida, allowing passengers to board the train together with their cars. ",
+                "reasoning": "The video shows Mike's mother taking the Auto Train from Virginia to Florida, where passengers can travel with their cars and drive them upon arrival."
+            },
+            {
+                "question": "Does Mrs. Donnelly prioritize quality of life or cost-effectiveness in her daily spending?",
+                "answer": "She prioritizes cost-effectiveness.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "Mrs. Donnelly chooses cost-effective options, such as buying train tickets wisely, purchasing food before traveling to avoid high train prices, and shopping at Costco for bulk items to take advantage of price benefits."
+            },
+            {
+                "question": "Is the climate in Florida dry or humid?",
+                "answer": "The climate in Florida is relatively humid.",
+                "question_type": "通用知识推理",
+                "knowledge": "Mrs. Donnelly expressed that she likes a humid climate. ",
+                "reasoning": "Upon arriving in Sarasota, Florida, Mrs. Donnelly expresses her liking for the humidity, noting its benefits for skin, despite potential negative effects on hair, which can be managed with suitable products. This indicates Florida's climate is humid."
+            },
+            {
+                "question": "How was Mrs. Donnelly's sleeping condition on the Auto Train?",
+                "answer": "Her sleeping condition was good.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "Mrs. Donnelly experimented with different sleeping positions on the Auto Train, such as reclining her seat and using the footrest, and later sleeping diagonally when the seat next to her was empty. She reported sleeping quite well overall."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/7pKemn_SjFI.mp4"
+    },
+    {
+        "video_id": "CZ_4_31",
+        "video_url": "https://www.youtube.com/watch?v=NDsO1LT_0lw",
+        "video_duration": "21:42",
+        "video_type": "探索 - 旅行探险",
+        "qa_list": [
+            {
+                "question": "Where was the Pharaoh's wife buried?",
+                "answer": "In the mini pyramids.",
+                "question_type": "通用知识推理",
+                "knowledge": "The function of the mini pyramid.",
+                "reasoning": "This is inferred from the tour guide's explanation during the visit."
+            },
+            {
+                "question": "How did the Pharaohs protect their mummies using the Pyramids?",
+                "answer": "They built many decoy chambers to protect the real burial chamber.",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "The protective measures for the pyramids.",
+                "reasoning": "This is inferred from the expert's description and study of the pyramid's structure."
+            },
+            {
+                "question": "Which special kind of writing can Zahi understand?",
+                "answer": "Ancient Egyptian script.",
+                "question_type": "人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "This is inferred from Zahi's conversation and behavior with Jimmy at the top of the tower."
+            },
+            {
+                "question": "Does Zahi know a lot about the pyramids?",
+                "answer": "Yes, he does.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "In the video, Zahi continuously introduces various knowledge about the pyramids."
+            },
+            {
+                "question": "What did Jimmy and Zahi do after entering the Sphinx?",
+                "answer": "They buried a letter and a gold swarm.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "This is inferred from the video content."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/NDsO1LT_0lw.mp4"
+    },
+    {
+        "video_id": "CZ_4_32",
+        "video_url": "https://www.youtube.com/watch?v=SUtZcC6fVag",
+        "video_duration": "25:56",
+        "video_type": "纪录片 - 自然",
+        "qa_list": [
+            {
+                "question": "What is Stefan's profession?",
+                "answer": "Botanist",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "Stefan's actions in the video suggest he is a botanist."
+            },
+            {
+                "question": "What are the benefits of using a 3D scanner to record plant growth?",
+                "answer": "It can more intuitively show the lushness of the plants.",
+                "question_type": "多模态/多语言推理,通用知识推理",
+                "knowledge": "3D扫描仪的扫描结果能够更加直观的展示植物的茂密程度的分布情况。",
+                "reasoning": "The video demonstrates the use of a 3D scanner, showing scanned images and analysis that highlight the lushness of the plants."
+            },
+            {
+                "question": "How is Wigold's work attitude described?",
+                "answer": "Conscientious, responsible, and caring about employees.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "Wigold's actions when visiting the factory and descriptions of him in the video indicate he is conscientious, responsible, and cares about employees."
+            },
+            {
+                "question": "What type of soil promotes tree growth?",
+                "answer": "The soil should contain fertilizers such as charcoal.",
+                "question_type": "通用知识推理",
+                "knowledge": "有助于新生树木生长的土壤的必要条件。",
+                "reasoning": "The video includes expert recommendations on soil requirements for tree growth."
+            },
+            {
+                "question": "What preparations are made before Planting Day begins?",
+                "answer": "The land is divided into sections.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "The video shows the segment before Planting Day, where the land is divided into sections."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/SUtZcC6fVag.mp4"
+    },
+    {
+        "video_id": "CZ_4_33",
+        "video_url": "https://www.youtube.com/watch?v=afPVy0yiLRw",
+        "video_duration": "28:31",
+        "video_type": "纪录片 - 自然",
+        "qa_list": [
+            {
+                "question": "Is Olafur Teitur Guonason knowledgeable about how rocks absorb carbon dioxide?",
+                "answer": "Yes, he is.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video shows Olafur Teitur Guonason explaining the principles of carbon dioxide absorption, indicating his expertise."
+            },
+            {
+                "question": "How can basaltic rock contribute to addressing the climate crisis?",
+                "answer": "It can help store greenhouse gases.",
+                "question_type": "通用知识推理",
+                "knowledge": "The working principle of the Orca carbon-capture plant.",
+                "reasoning": "The video explains the principle of filtering carbon dioxide, suggesting that basaltic rock can store greenhouse gases."
+            },
+            {
+                "question": "What is Thorben Amann's occupation?",
+                "answer": "Researcher",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video introduces Thorben Amann as being employed at the University of Hamburg. Scenes of him entering a laboratory and his work content suggest he is a researcher."
+            },
+            {
+                "question": "Which type of plant is suitable for absorbing carbon dioxide in the Sahara region?",
+                "answer": "Algae.",
+                "question_type": "通用知识推理",
+                "knowledge": "Algae absorb CO2 and store it as carbon.",
+                "reasoning": "The video discusses methods of handling carbon dioxide in the Sahara region, leading to the conclusion that algae are suitable."
+            },
+            {
+                "question": "How many methods of dealing with carbon dioxide are demonstrated in the video?",
+                "answer": "Four.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "The video demonstrates four methods for dealing with carbon dioxide."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/afPVy0yiLRw.mp4"
+    },
+    {
+        "video_id": "CZ_4_34",
+        "video_url": "https://www.youtube.com/watch?v=6Pm0Mn0-jYU",
+        "video_duration": "25:44",
+        "video_type": "访谈 - 动态（含充分视觉信息）",
+        "qa_list": [
+            {
+                "question": "What welfare benefits are provided for newborns in Finland?",
+                "answer": "All the essentials a baby needs in the first year.",
+                "question_type": "通用知识推理",
+                "knowledge": "芬兰对于新生儿的福利。",
+                "reasoning": "The video content indicates that Finland provides all necessary items for a baby's first year."
+            },
+            {
+                "question": "How is public security and safety in Finland?",
+                "answer": "It is very safe.",
+                "question_type": "通用知识推理",
+                "knowledge": "芬兰群众对于周边安全的信任。",
+                "reasoning": "The video shows that Finns are not afraid of losing items or having them stolen, indicating a high level of safety."
+            },
+            {
+                "question": "Who is Lars AP?",
+                "answer": "He is a social activist and writer.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video reveals that Lars AP writes books and organizes social activities aimed at cultural change, identifying him as a writer and social activist."
+            },
+            {
+                "question": "What type of art does Saara Alhopuro prefer to create?",
+                "answer": "She creates works using natural materials like wild mushrooms.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video shows Saara Alhopuro's art creations, highlighting her preference for using wild mushrooms in her artwork."
+            },
+            {
+                "question": "What happens if someone loses their job in Denmark?",
+                "answer": "The Danish government provides unemployment benefits.",
+                "question_type": "通用知识推理",
+                "knowledge": "丹麦政府对于失业人员的补助。",
+                "reasoning": "The video content suggests that the Danish government offers unemployment benefits to those who lose their jobs."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/6Pm0Mn0-jYU.mp4"
+    },
+    {
+        "video_id": "CZ_4_35",
+        "video_url": "https://www.youtube.com/watch?v=-wzFQKrEDaM",
+        "video_duration": "32:30",
+        "video_type": "综艺 - 游戏",
+        "qa_list": [
+            {
+                "question": "Are Sal and Christine a real couple or a fake couple?",
+                "answer": "They are a fake couple.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "Christine is a producer, and her presence is intended to add some confusion to the game. They are not in a real marital relationship."
+            },
+            {
+                "question": "How many people took photos with Dave Jacobs?",
+                "answer": "Four people took photos with him.",
+                "question_type": "多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "Auditory cues identify Dave Jacobs, and visual evidence shows four people posing for photos with him."
+            },
+            {
+                "question": "What kind of person is Joe revealed to be through the Put Pocketing challenge?",
+                "answer": "He is a smart and talkative person.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "During the Put Pocketing challenge, Joe quickly devised a potentially successful strategy and appeared relaxed and natural when conversing with strangers, indicating he is smart and talkative."
+            },
+            {
+                "question": "What is the scale of Fairway Market?",
+                "answer": "It is large.",
+                "question_type": "通用知识推理",
+                "knowledge": "Fairway Market的规模大",
+                "reasoning": "The video shows that the market is extensive and offers a wide variety of goods, indicating that Fairway Market is large in scale."
+            },
+            {
+                "question": "Which payment method is accepted at Fairway Market?",
+                "answer": "Payment can be made by bank card.",
+                "question_type": "通用知识推理",
+                "knowledge": "Fairway Market接受银行卡支付",
+                "reasoning": "When Joe helped someone make a payment, he used his bank card, suggesting that Fairway Market accepts bank card payments."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/-wzFQKrEDaM.mp4"
+    },
+    {
+        "video_id": "CZ_4_36",
+        "video_url": "https://www.youtube.com/watch?v=PCSqrpAWq1s",
+        "video_duration": "29:39",
+        "video_type": "探索 - 旅行探险",
+        "qa_list": [
+            {
+                "question": "Is Iceland an ideal destination or a no-go zone for adventurers?",
+                "answer": "An ideal destination.",
+                "question_type": "通用知识推理",
+                "knowledge": "冰岛人口少，大部分地区未开发,所以属于探险者的理想之地。",
+                "reasoning": "Based on Soph's introduction, Iceland is sparsely populated and largely undeveloped, making it an ideal destination for adventurers."
+            },
+            {
+                "question": "What is the relationship between Jordan and Soph?",
+                "answer": "They are a couple.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video shows their behavior and interactions, indicating that they are a couple."
+            },
+            {
+                "question": "Do Jordan and Soph enjoy travel and adventure?",
+                "answer": "Yes.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "Their enthusiasm for travel and adventure, as well as their attitudes towards it, indicate that they enjoy it very much."
+            },
+            {
+                "question": "What are the walls of the old house at Drangshlid 2 made of?",
+                "answer": "They are made of stone and turf.",
+                "question_type": "通用知识推理",
+                "knowledge": "墙壁由堆叠的石头和草皮屋顶制成，旨在与自然土地无缝融合。",
+                "reasoning": "The video locates the segment about the old house at Drangshlid 2, and Soph's description provides the answer."
+            },
+            {
+                "question": "What happened to the passengers on the DC3 aircraft that crashed on the remote beach?",
+                "answer": "All the passengers survived.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "The video segment about the DC3 aircraft, along with Soph's description, reveals that all passengers survived."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/PCSqrpAWq1s.mp4"
+    },
+    {
+        "video_id": "CZ_4_37",
+        "video_url": "https://www.youtube.com/watch?v=Mdx2lWEjSak",
+        "video_duration": "23:10",
+        "video_type": "探索 - 旅行探险",
+        "qa_list": [
+            {
+                "question": "What should you do to show respect for local traditions when drinking in Munduk village?",
+                "answer": "Pour a little wine on the ground.",
+                "question_type": "通用知识推理",
+                "knowledge": "在喝酒前，往地上倒一点酒是当地传统",
+                "reasoning": "When dining at the chief's house, Tania and Nalom poured a little wine on the ground before drinking to respect local traditions."
+            },
+            {
+                "question": "What is the relationship between Adam and Tania?",
+                "answer": "They are a couple.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "While sleeping at the camp, Adam and Tania shared a tent and slept close together, suggesting they are a couple."
+            },
+            {
+                "question": "Can Tania use a squatting toilet?",
+                "answer": "No.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "In the village, Adam taught Tania how to use a squatting toilet, indicating that Tania was unfamiliar with using it."
+            },
+            {
+                "question": "What kind of animal did Adam and Tania encounter after eating Huel?",
+                "answer": "A mouse.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "After finishing their Huel meal, Adam and Tania saw a mouse eating something."
+            },
+            {
+                "question": "What is the weather like in Bali?",
+                "answer": "Rainy.",
+                "question_type": "通用知识推理",
+                "knowledge": "巴厘岛的丛林气候是多雨的",
+                "reasoning": "During their three-day stay in the Bali jungle, they experienced two rain showers, indicating that the jungle climate in Bali is rainy."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/Mdx2lWEjSak.mp4"
+    },
+    {
+        "video_id": "CZ_4_38",
+        "video_url": "https://www.youtube.com/watch?v=XopNzWS5-A0",
+        "video_duration": "22:51",
+        "video_type": "教学 - 烹饪",
+        "qa_list": [
+            {
+                "question": "What is the relationship between Monny and Joy?",
+                "answer": "Their relationship is good.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "By observing the video, details such as intimate body language and happy expressions indicate that Monny and Joy have a very good relationship."
+            },
+            {
+                "question": "Why is Abula considered a troublesome dish to make?",
+                "answer": "The preparation steps are cumbersome.",
+                "question_type": "通用知识推理",
+                "knowledge": "Abula 是一种起源于尼日利亚西部约鲁巴人的汤品，制作过程相对复杂，较为麻烦。整个制作过程不仅步骤繁多，在烹饪过程中需要不断搅拌，以防止食材粘锅或煮焦，对烹饪技巧和耐心都是不小的考验",
+                "reasoning": "The video shows Monny constantly stirring and processing ingredients, indicating that the preparation steps for Abula are cumbersome, making it a troublesome dish to make."
+            },
+            {
+                "question": "Is Monny a careful teacher?",
+                "answer": "Yes, she is a very careful teacher.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video shows Monny teaching step by step, introducing ingredients and explaining each method and technique, indicating that she is a very careful teacher."
+            },
+            {
+                "question": "What did Monny take out after putting the beef to boil?",
+                "answer": "She took out pepper.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "In the video, after Monny adds water to boil the beef, she takes out pepper."
+            },
+            {
+                "question": "What is the staple food served with Abula?",
+                "answer": "Amala.",
+                "question_type": "通用知识推理",
+                "knowledge": "Abula 是一道经典的尼日利亚约鲁巴（Yoruba）风味套餐，它的核心主食通常是Amala（山药面团）。",
+                "reasoning": "The video shows Monny teaching how to make the traditional Nigerian dish Abula, and she eventually demonstrates how to make Amala, the staple food served with Abula."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/XopNzWS5-A0.mp4"
+    },
+    {
+        "video_id": "CZ_4_39",
+        "video_url": "https://www.youtube.com/watch?v=y2n1fWrqhFk",
+        "video_duration": "20:57",
+        "video_type": "教学 - 运动",
+        "qa_list": [
+            {
+                "question": "Which word better describes Hal, 'vibrant' or 'listless'?",
+                "answer": "Vibrant.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "In the video, Hal is portrayed as an energetic handyman who enthusiastically introduces the basketball court facilities, indicating that he is vibrant."
+            },
+            {
+                "question": "How is the basketball net typically attached to the hoop?",
+                "answer": "It is attached by twelve evenly distributed hook and loop fasteners at the top.",
+                "question_type": "通用知识推理",
+                "knowledge": "篮筐的下边缘通常设计有12个均匀分布的钩环（或小孔），用于固定篮网。篮网通过顶部的小钩或环扣固定在篮筐的钩环上，这种设计简单、牢固且易于更换。",
+                "reasoning": "In the segment where Hal explains the standard basketball hoop, he mentions that the net is secured with twelve evenly distributed hook and loop fasteners."
+            },
+            {
+                "question": "Where does Hal go after mopping the floor?",
+                "answer": "The announcer's desk.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "By observing the segment where Hal finishes mopping, it is clear that he proceeds to the announcer's desk."
+            },
+            {
+                "question": "What is Hal's teaching style like?",
+                "answer": "Careful.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "By watching the video, it is evident from Hal's detailed explanations, such as personal demonstrations and hands-on measurements, that his teaching style is careful."
+            },
+            {
+                "question": "Is there anything the same height as the aiming box on the backboard?",
+                "answer": "The diameter of the basketball hoop.",
+                "question_type": "通用知识推理",
+                "knowledge": "篮板上的瞄准框的高度和篮筐的直径是相同的，投篮方块的设计是为了帮助球员在投篮时找到合适的瞄准点，尤其是在打板投篮时。它的高度与篮筐直径一致，但宽度更大，为球员提供了更大的瞄准范围。",
+                "reasoning": "In the video, Hal measures the length and width of the backboard's aiming box and is surprised to find that its height matches the diameter of the basketball hoop."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/y2n1fWrqhFk.mp4"
+    },
+    {
+        "video_id": "CZ_4_40",
+        "video_url": "https://www.youtube.com/watch?v=YuIc4mq7zMU",
+        "video_duration": "24:01",
+        "video_type": "访谈 - 静态（对话密集型，少量视觉信息）",
+        "qa_list": [
+            {
+                "question": "How skilled is Priscilla Chan at surfing?",
+                "answer": "She is very skilled.",
+                "question_type": "人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "The video shows Priscilla Chan surfing skillfully on the sea, indicating her extensive experience in surfing."
+            },
+            {
+                "question": "Is Emily Chang proficient at asking questions?",
+                "answer": "Yes, she is.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video shows Emily Chang asking targeted questions about Zuckerberg's research, guiding the interview to deeper insights, demonstrating her proficiency in questioning."
+            },
+            {
+                "question": "Which two technologies are essential for the next generation of technology?",
+                "answer": "AI technology and VR technology.",
+                "question_type": "通用知识推理",
+                "knowledge": "AI 负责理解、预测和决策，而 AR 负责视觉呈现和增强现实体验，两者是未来科技发展的关键。",
+                "reasoning": "The video features Zuckerberg mentioning that to have more control over the next platform of technology, the development of artificial intelligence and virtual reality technologies is essential."
+            },
+            {
+                "question": "What are the trends in AI development?",
+                "answer": "From an information tool to an interactive intelligent companion.",
+                "question_type": "通用知识推理",
+                "knowledge": "人们已经接受了 AI 作为一种“对话式智能体（Conversational AI）”，愿意与其交流、练习或模拟现实场景。",
+                "reasoning": "The video shows Zuckerberg discussing how many users use AI for simulated conversations, like interviews, indicating that AI is evolving from a mere tool to a 'digital conversation partner'."
+            },
+            {
+                "question": "What did Emily Chang and Zuckerberg discuss after the AI competition between China and America?",
+                "answer": "Sam Altman.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "The model needs to locate the segment in the video related to the AI competition between China and America and analyze the surrounding content to determine the discussion about Sam Altman."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/YuIc4mq7zMU.mp4"
+    },
+    {
+        "video_id": "CZ_4_41",
+        "video_url": "https://www.youtube.com/watch?v=IVOj6nAozY4",
+        "video_duration": "33:06",
+        "video_type": "访谈 - 静态（对话密集型，少量视觉信息）",
+        "qa_list": [
+            {
+                "question": "Which industries are worth investing in during an economic recession?",
+                "answer": "The pet food and beauty products industries.",
+                "question_type": "通用知识推理",
+                "knowledge": "在经济低迷时期，人们可能减少大额开支，但仍然愿意在小额、情感价值高的消费上花钱。",
+                "reasoning": "The video shows Clarisse mentioning that pet food is a good investment because people continue to buy pet food and beauty products even during an economic recession."
+            },
+            {
+                "question": "How does the United States provide medical resources for children with mental illnesses?",
+                "answer": "The resources are insufficient.",
+                "question_type": "通用知识推理",
+                "knowledge": "尽管美国提供了一定的儿童心理健康资源，但由于供需失衡、地域差异和政策不完善，许多儿童仍然无法获得充分的支持。",
+                "reasoning": "The video shows Clarisse mentioning that many children with mental illnesses cannot receive treatment due to a lack of emergency room beds, forcing them to stay in temporary emergency room settings without proper care."
+            },
+            {
+                "question": "Is Clarisse a compassionate or insensitive person?",
+                "answer": "She is a compassionate person.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video shows Clarisse expressing frustration over children not receiving treatment and comforting herself by believing discharged patients will improve, indicating her compassion."
+            },
+            {
+                "question": "What is Clarisse like as a nurse?",
+                "answer": "She is a competent nurse.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video shows Clarisse managing her concerns for discharged patients to focus on her work, taking her pediatric patients seriously, and adhering to the 'no hugging patients' rule, demonstrating her competence."
+            },
+            {
+                "question": "What was Clarisse discussing before the host asked about the causes of mental illness?",
+                "answer": "Clarisse said people always call her for help with emotional problems.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "The model needs to identify the segment where the host asks about the causes of mental illness and analyze the preceding content to determine what Clarisse was discussing."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/IVOj6nAozY4.mp4"
+    },
+    {
+        "video_id": "CZ_4_42",
+        "video_url": "https://www.youtube.com/watch?v=30TFrquvs9g",
+        "video_duration": "39:59",
+        "video_type": "教学 - 工业制造",
+        "qa_list": [
+            {
+                "question": "What mechanism did Koenigsegg design to ensure car doors can open in an emergency?",
+                "answer": "An explosive mechanism.",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "Koenigsegg汽车设计上的应急措施。",
+                "reasoning": "The video shows Christian demonstrating the Koenigsegg car door design, which opens upwards. To prevent obstruction when the vehicle is overturned, an explosive device is installed inside the door to facilitate opening."
+            },
+            {
+                "question": "What is the purpose of the special transmission system used in Koenigsegg's cars?",
+                "answer": "To maintain torque stability.",
+                "question_type": "通用知识推理",
+                "knowledge": "Koenigsegg所选用的变速系统，帮助车辆在切换齿轮时避免传统变速箱中常见的扭矩丧失现象，使得动力传递更为平稳，尤其在高性能驾驶中，避免了换挡时的动力中断。",
+                "reasoning": "The video explains that the transmission system in Koenigsegg cars uses multiple clutches, allowing for more power transmission options. This ensures that torque remains stable and is not lost when selecting clutches."
+            },
+            {
+                "question": "What does Christian like to collect?",
+                "answer": "Car models.",
+                "question_type": "人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "Christian introduces car models in his office that hold special significance, and there are many car models displayed on the shelves, indicating his interest in collecting them."
+            },
+            {
+                "question": "What was introduced after the small explosive device in the car door?",
+                "answer": "An electronic display above the steering wheel.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "The reasoning requires identifying the segment in the video related to the small explosive device in the car door and analyzing the content before and after this segment."
+            },
+            {
+                "question": "How experienced is Christian in car manufacturing?",
+                "answer": "He is highly experienced.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video shows Christian's thorough understanding of car testing devices and various systems and components in cars, indicating his extensive experience in car manufacturing."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/30TFrquvs9g.mp4"
+    },
+    {
+        "video_id": "CZ_4_43",
+        "video_url": "https://www.youtube.com/watch?v=JJysDT3-Gzg",
+        "video_duration": "24:34",
+        "video_type": "vlog - 日常（综合）",
+        "qa_list": [
+            {
+                "question": "What is the relationship between Jayco and Val?",
+                "answer": "They are married.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "Jayco and Val are deeply in love and have purchased a house together, indicating a marital relationship."
+            },
+            {
+                "question": "Who is Beluch?",
+                "answer": "Beluch is Jayco and Val's dog.",
+                "question_type": "多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "Beluch is a dog owned by Jayco and Val."
+            },
+            {
+                "question": "Are Jayco and Val hospitable?",
+                "answer": "Yes, they are hospitable.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "Jayco and Val have thoughtfully considered their guests in the decoration and arrangement of their new home, showing hospitality and attentiveness."
+            },
+            {
+                "question": "What conditions need to be met to purchase a house in Dallas?",
+                "answer": "Tax or income conditions must be met.",
+                "question_type": "通用知识推理",
+                "knowledge": "在达拉斯买房要符合税收或者收入条件。",
+                "reasoning": "Jayco and Val's tax situation does not meet the conditions for buying a house in Dallas, but their income does. They face high mortgage rates, suggesting that either tax or income conditions must be met to purchase a house in Dallas."
+            },
+            {
+                "question": "What is the property tax rate for buying a house in Dallas if tax conditions are not met?",
+                "answer": "10%.",
+                "question_type": "通用知识推理",
+                "knowledge": "在达拉斯买房不符合税收条件要交10%的房利率。",
+                "reasoning": "Jayco and Val do not meet the tax conditions, but Jacob is willing to wait for them for a year, so they choose to buy a house with him, implying a 10% property tax rate."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/JJysDT3-Gzg.mp4"
+    },
+    {
+        "video_id": "CZ_4_44",
+        "video_url": "https://www.youtube.com/watch?v=QQ5vYe9BBuo",
+        "video_duration": "25:38",
+        "video_type": "vlog - 亲子",
+        "qa_list": [
+            {
+                "question": "What type of fish is most commonly caught in Crosswind Lake?",
+                "answer": "Lake trout.",
+                "question_type": "通用知识推理",
+                "knowledge": "克罗斯温德湖中生长的主要鱼类是湖鳟鱼。",
+                "reasoning": "Mark and his friends caught the most lake trout while fishing in Crosswind Lake."
+            },
+            {
+                "question": "Is Jack a determined person?",
+                "answer": "Yes, Jack is very determined.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "Jack and Mark drilled six fishing holes and fished for two hours without catching anything. When Mark asked if he wanted to continue, Jack nodded, showing his perseverance."
+            },
+            {
+                "question": "What is the best bait for catching trout and lake trout in Lake Louise, Alaska?",
+                "answer": "White fish.",
+                "question_type": "通用知识推理",
+                "knowledge": "在阿拉斯加路易斯湖想要钓到鳟鱼和江鳕鱼最好的诱饵是白鱼。",
+                "reasoning": "Before fishing for trout and lake trout, Luke tried to catch white fish but was unsuccessful. Fortunately, he had brought frozen white fish as a backup."
+            },
+            {
+                "question": "How skilled is Luke at hands-on tasks?",
+                "answer": "His hands-on ability is very strong.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "When the car broke down, Luke skillfully used a fishing rack to repair it, demonstrating quick and proficient repair skills."
+            },
+            {
+                "question": "How many times did Luke go fishing in total?",
+                "answer": "He went fishing a total of two times.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "Luke went fishing first at Lake Louise in Alaska and then at Crosswind Lake."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/QQ5vYe9BBuo.mp4"
+    },
+    {
+        "video_id": "CZ_4_45",
+        "video_url": "https://www.youtube.com/watch?v=Illiperf_i8",
+        "video_duration": "21:25",
+        "video_type": "vlog - 日常（综合）",
+        "qa_list": [
+            {
+                "question": "What did Val and the photographer discuss before the photo shoot?",
+                "answer": "Photo poses.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "Before the photo shoot, Val and the photographer discussed the poses for the photos."
+            },
+            {
+                "question": "What percentage of babies are born on their due date?",
+                "answer": "5%.",
+                "question_type": "通用知识推理",
+                "knowledge": "大概有5%婴儿会在预产期准时出生。",
+                "reasoning": "Val's due date is January 30th, but there is only a 5% chance of giving birth on that day, suggesting that approximately 5% of babies are born on their due date."
+            },
+            {
+                "question": "How many sets of maternity photos did Val take?",
+                "answer": "Three sets.",
+                "question_type": "多线索推理,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "The video shows Val changing into three different outfits, indicating she took three sets of maternity photos."
+            },
+            {
+                "question": "Is Val someone who loves to learn?",
+                "answer": "Yes, she is.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "Val enjoys watching videos and reading, learns new things daily, and shares this knowledge with her husband, suggesting she is someone who loves to learn."
+            },
+            {
+                "question": "When do mucus plugs typically flow out of the vagina?",
+                "answer": "When a pregnant woman is about to give birth.",
+                "question_type": "通用知识推理",
+                "knowledge": "当粘液栓从阴道里流出说明孕妇快要分娩了.",
+                "reasoning": "During pregnancy, the flow of mucus plugs from the vagina indicates that the pregnant woman is about to give birth."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/Illiperf_i8.mp4"
+    },
+    {
+        "video_id": "CZ_4_46",
+        "video_url": "https://www.youtube.com/watch?v=E8OWAZ1t1l8",
+        "video_duration": "30:00",
+        "video_type": "街头互动 - 采访",
+        "qa_list": [
+            {
+                "question": "How many pairs of a man and a woman successfully matched with each other?",
+                "answer": "One pair.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "The video requires identifying successful matches where both parties are a man and a woman."
+            },
+            {
+                "question": "Does Junior enjoy reminiscing about the past?",
+                "answer": "No.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "During a date conversation, Junior expresses that he does not like to dwell on past events and people. He believes in forming new connections and looking towards the future."
+            },
+            {
+                "question": "What kind of activity does Emily enjoy?",
+                "answer": "Backpacking alone.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "In a conversation with Sonyamia, Emily discusses the negative perceptions of solo backpacking but shares that she fell in love with it during college. She believes solo travel enhances ambition and provides a sense of achievement, indicating her strong preference for it."
+            },
+            {
+                "question": "What factors do American college students significantly consider when choosing a romantic partner?",
+                "answer": "The life stages of the individuals.",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "视频中在此次程配对的约会对象中，大多约会组，采访原因都首先说明大四学生与大一、大二学生的未来规划不同，所以没有选择继续。",
+                "reasoning": "In the video, during the final stage of the matching process, only one pair chooses to continue dating. Interviews reveal that differences in future plans between seniors and freshmen or sophomores are a primary reason for not continuing, highlighting the importance of life stages."
+            },
+            {
+                "question": "How many times can a person undergo nipple plastic surgery?",
+                "answer": "A person can undergo nipple plastic surgery multiple times.",
+                "question_type": "通用知识推理",
+                "knowledge": "基于Emily讲述她自己打破乖巧女孩的经历，她仅从乳头整形手术，且她自己目前为止进行了两次手术由此可推断。",
+                "reasoning": "Emily shares her experience of breaking away from being a 'good girl' through nipple plastic surgery, mentioning she has undergone the procedure twice, suggesting it can be repeated."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/E8OWAZ1t1l8.mp4"
+    },
+    {
+        "video_id": "CZ_4_47",
+        "video_url": "https://www.youtube.com/watch?v=wZvvvfWsw9w",
+        "video_duration": "20:17",
+        "video_type": "测评 - 工具/机械",
+        "qa_list": [
+            {
+                "question": "Does James like the LFA?",
+                "answer": "Yes, he does.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "This is inferred from James's mood and statements while driving the LFA."
+            },
+            {
+                "question": "Does Thomas like the appearance of the LFA?",
+                "answer": "Yes, he does.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "This is inferred from Thomas's comments on the appearance of the LFA."
+            },
+            {
+                "question": "What is the shifting method of the LFA?",
+                "answer": "Manumatic.",
+                "question_type": "通用知识推理",
+                "knowledge": "根据James驾驶的换挡方式。",
+                "reasoning": "James demonstrates both manual and automatic shifting while driving the LFA."
+            },
+            {
+                "question": "Which tire manufacturer does Raceway Park in British Columbia cooperate with?",
+                "answer": "Michelin.",
+                "question_type": "通用知识推理",
+                "knowledge": "不列颠哥伦比亚省的赛车公园与米其林轮胎有合作",
+                "reasoning": "This is inferred from Thomas thanking Michelin for replacing the tires after drifting."
+            },
+            {
+                "question": "What did Thomas do before test-driving the LFA?",
+                "answer": "He checked the engine.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "By analyzing the video segment before Thomas test-drives the LFA, it is shown that he checks the engine."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/wZvvvfWsw9w.mp4"
+    },
+    {
+        "video_id": "CZ_4_48",
+        "video_url": "https://www.youtube.com/watch?v=FG88ovQ1ZGA",
+        "video_duration": "28:32",
+        "video_type": "测评 - 其他",
+        "qa_list": [
+            {
+                "question": "What type of beverage does David prefer?",
+                "answer": "Coffee.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "This is inferred from David's choice of beverages in the treehouses he stayed in."
+            },
+            {
+                "question": "Is David someone who enjoys sports?",
+                "answer": "Yes, he is.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "This is inferred from scenes showing David going for a morning run and rowing to the next location."
+            },
+            {
+                "question": "Is it necessary to go through customs when traveling from Sweden to Finland?",
+                "answer": "No, it's unnecessary.",
+                "question_type": "多模态/多语言推理,通用知识推理",
+                "knowledge": "瑞典和芬兰的国境线之间无海关。",
+                "reasoning": "David points out a border sign during his run, indicating that one can travel directly between the two countries."
+            },
+            {
+                "question": "Does Scandinavian style emphasize simplicity or complexity?",
+                "answer": "Simplicity.",
+                "question_type": "通用知识推理",
+                "knowledge": "Scandinavian风格注重简约、实用性和自然材料。",
+                "reasoning": "This is inferred from David's introduction of a Scandinavian house made of treehouses resembling bird nests."
+            },
+            {
+                "question": "How many times did David use the sauna?",
+                "answer": "Two times.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "This is inferred from the number of times David is shown using the sauna in the video."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/FG88ovQ1ZGA.mp4"
+    },
+    {
+        "video_id": "CZ_4_49",
+        "video_url": "https://www.youtube.com/watch?v=dtp6b76pMak",
+        "video_duration": "37:18",
+        "video_type": "测评 - 电子产品",
+        "qa_list": [
+            {
+                "question": "Does the blogger like the software adaptation of Apple Vision Pro?",
+                "answer": "No, he doesn't.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "The blogger's description of his experience using the software suggests he does not like it."
+            },
+            {
+                "question": "What is the blogger's level of skill in table tennis?",
+                "answer": "The blogger has a good level of table tennis skills.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video shows the blogger playing table tennis smoothly while wearing the Vision Pro, indicating a good level of skill."
+            },
+            {
+                "question": "How can you properly and completely shut down the Apple Vision Pro?",
+                "answer": "Disconnect the connection between Apple Vision Pro and the battery.",
+                "question_type": "通用知识推理",
+                "knowledge": "There is no on or off button on the Apple Vision Pro.",
+                "reasoning": "The video explains that the Apple Vision Pro lacks a power button and removing it only puts it in standby mode, so disconnecting the battery is the correct shutdown method."
+            },
+            {
+                "question": "What does it mean if a person wearing Apple Vision Pro is emitting blue-violet light?",
+                "answer": "It means that he is currently unable to see you.",
+                "question_type": "多模态/多语言推理,通用知识推理",
+                "knowledge": "Apple Vision Pro的外置屏幕显示的信息含义。",
+                "reasoning": "The video shows that when the wearer is viewing content that blocks their vision, the external screen emits blue-violet light, indicating this status."
+            },
+            {
+                "question": "After introducing the battery of Apple Vision Pro, what did the blogger discuss next?",
+                "answer": "The control methods of Apple Vision Pro.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "The video content suggests that after discussing the battery, the blogger talked about the control methods."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/dtp6b76pMak.mp4"
+    },
+    {
+        "video_id": "CZ_4_50",
+        "video_url": "https://www.youtube.com/watch?v=sSsTR8qqDl4",
+        "video_duration": "27:55",
+        "video_type": "探索 - 旅行探险",
+        "qa_list": [
+            {
+                "question": "What did Luke do after finding a suitable camping site?",
+                "answer": "He built a shelter.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "After arriving on the island, Luke first searched for a suitable camping site and then used tools to build a shelter."
+            },
+            {
+                "question": "What does Luke usually eat for breakfast according to his eating habits?",
+                "answer": "Pancakes with syrup.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video shows that pancakes with syrup appear most frequently in Luke's breakfast, indicating his eating habits."
+            },
+            {
+                "question": "Why do glaciers appear blue?",
+                "answer": "The bottom of the glacier is super compressed.",
+                "question_type": "通用知识推理",
+                "knowledge": "冰川呈现蓝色是因为底部被压缩。",
+                "reasoning": "This conclusion is drawn from Luke's explanation while rowing near the glacier."
+            },
+            {
+                "question": "How skilled is Luke at surviving in the wild?",
+                "answer": "He has skilled wilderness survival skills.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "Luke survived alone on the island for four days, building his own shelter and solving food issues, demonstrating his extensive wilderness survival skills."
+            },
+            {
+                "question": "What are the characteristics of tidal rivers?",
+                "answer": "They change direction according to the ebb and flow of the tide.",
+                "question_type": "通用知识推理",
+                "knowledge": "潮汐河可以根据潮汐的涨落改变河流的方向。",
+                "reasoning": "The video mentions that tidal rivers can change their direction based on the rise and fall of the tide."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/sSsTR8qqDl4.mp4"
+    },
+    {
+        "video_id": "CZ_4_51",
+        "video_url": "https://www.youtube.com/watch?v=9ZXzsjeRtdk",
+        "video_duration": "27:14",
+        "video_type": "测评 - 其他",
+        "qa_list": [
+            {
+                "question": "Can a fire be made to cook on the boat where Ryan lives?",
+                "answer": "No.",
+                "question_type": "多线索推理,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "The video shows that the boat's kitchen has a microwave and a refrigerator. A scene depicts someone being upset about the lack of a stove, indicating that the boat does not allow for cooking with fire."
+            },
+            {
+                "question": "What is Ryan's favorite movie?",
+                "answer": "Shrek.",
+                "question_type": "多线索推理,人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "In the video, Ryan mentions enjoying watching Ratatouille on Friday nights. However, a later scene displays his top five favorite movies, with the Shrek series ranked first, indicating it is his favorite animated movie."
+            },
+            {
+                "question": "What is the operating state of the boat when staying overnight in a boat house-style homestay?",
+                "answer": "It is docked at the port.",
+                "question_type": "通用知识推理",
+                "knowledge": "在视频中Ryan 介绍自己成功入住船屋类Airbnb房间，船长带Ryan到海上行使一段时间，船长最终停靠在港口表示船只停靠港口睡觉是安全要求。",
+                "reasoning": "In the video, Ryan explains that after a brief trip at sea, the captain docks the boat at the port for safety during the night. The next morning, Ryan wakes up still at the port, confirming the boat remains docked overnight."
+            },
+            {
+                "question": "What type of food coloring does the brand Joyride use in its candy products?",
+                "answer": "Natural food coloring.",
+                "question_type": "通用知识推理",
+                "knowledge": "基于视频Ryan的介绍Joyride（糖果）的制作过程中不添加人工色素，也不使用劣质成分。",
+                "reasoning": "Ryan explains in the video that Joyride candies are made without artificial colors or low-quality ingredients, indicating the use of natural food coloring."
+            },
+            {
+                "question": "Does Ryan enjoy challenges?",
+                "answer": "Yes.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "Ryan expresses in the video his enthusiasm for exploring different types of Airbnb accommodations. He finds these experiences novel and actively explores the surroundings of each place he stays, showing he enjoys challenges."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/9ZXzsjeRtdk.mp4"
+    },
+    {
+        "video_id": "CZ_4_52",
+        "video_url": "https://www.youtube.com/watch?v=6KcV1C1Ui5s",
+        "video_duration": "25:00",
+        "video_type": "教学 - 科技",
+        "qa_list": [
+            {
+                "question": "What tasks did Mark's team complete before assembling the satellite?",
+                "answer": "They designed the satellite using CAD and analyzed potential threats.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "In the video, Mark explains that the first steps in their six-step process for creating a personal satellite involved designing the satellite using CAD and analyzing four potential threats in space before proceeding with assembly."
+            },
+            {
+                "question": "Which device in SATGUS allows it to control its own rotation?",
+                "answer": "The flywheel and the torsion bar.",
+                "question_type": "通用知识推理",
+                "knowledge": "飞轮和扭力杆的可以用于控制物体自身扭转。",
+                "reasoning": "Based on Mark's introduction to SATGUS, he mentions using a flywheel to address self-positioning control issues and a torsion bar as a backup system to ensure success."
+            },
+            {
+                "question": "What has motivated Mark to continue his scientific work?",
+                "answer": "Curiosity.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "Mark states that his innate curiosity since childhood has enabled him to persist in his work and achieve his current success."
+            },
+            {
+                "question": "How long will SATGUS remain operational in space?",
+                "answer": "One to three years.",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "国际公约中对个人卫星的要求",
+                "reasoning": "According to international agreements, once a satellite enters orbit, it must disintegrate within a specified timeframe and location, so SATGUS cannot remain indefinitely."
+            },
+            {
+                "question": "Does Mark have a passion for the aerospace field?",
+                "answer": "Yes.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "Mark describes his childhood curiosity about outer space and his dedication over three years to launch a satellite, from theoretical design to final assembly and safety testing, indicating his passion for aerospace."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/6KcV1C1Ui5s.mp4"
+    },
+    {
+        "video_id": "CZ_4_53",
+        "video_url": "https://www.youtube.com/watch?v=VHXiaiN3ntI",
+        "video_duration": "22:06",
+        "video_type": "综艺 - 纪实（真人秀）",
+        "qa_list": [
+            {
+                "question": "Does Terry often cook?",
+                "answer": "No.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "Terry shows an 8 out of 10 level of fear when seeing the ingredients, indicating his reluctance to cook. He also admits to being unfamiliar with the ingredients, suggesting he does not cook often."
+            },
+            {
+                "question": "How many members are in Terry's family?",
+                "answer": "Three.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "Terry's wife mentions at 9:00 that they have a son, indicating there are three family members."
+            },
+            {
+                "question": "Does Terry usually dress fashionably?",
+                "answer": "No.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "Terry's wardrobe is monotonous, and he describes his dressing habits as not fashionable."
+            },
+            {
+                "question": "What negative impacts can traditional culture have on how men interact with their partners?",
+                "answer": "Lack of self-confidence and suppression of emotional expression.",
+                "question_type": "通用知识推理",
+                "knowledge": "传统文化对男性的要求使他们缺乏自我肯定，男性很少能得到外界关于自身外貌或魅力的积极反馈，并且被期望将关注点主要放在他人身上，而不是关注自己、欣赏自己，这抑制了男性与伴侣相处的情感表达",
+                "reasoning": "In the psychological cognitive assistance segment, members help Terry realize the importance of recognizing his own charm. They discuss how traditional culture can lead to a lack of self-confidence in men, which the model summarizes from the dialogue."
+            },
+            {
+                "question": "Which cheese does Terry prefer, Brie or Blue Cheese?",
+                "answer": "Blue Cheese.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "Terry mentions he likes strong-flavored cheese. Brie is mild, while Blue Cheese is strong, so Terry would prefer Blue Cheese."
+            },
+            {
+                "question": "How can you avoid hair sticking down and being flattened when applying hair wax?",
+                "answer": "Start applying from the back, apply it deeply, and then comb the hair.",
+                "question_type": "通用知识推理",
+                "knowledge": "涂抹发蜡时从后颈部开始涂抹、深入涂抹并梳理避免头发向下贴紧压塌",
+                "reasoning": "In the video segment where Terry learns about self-care, it is mentioned that combing hair from the front is not advisable."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/VHXiaiN3ntI.mp4"
+    },
+    {
+        "video_id": "CZ_4_54",
+        "video_url": "https://www.youtube.com/watch?v=mwu3adhKlDI",
+        "video_duration": "28:17",
+        "video_type": "综艺 - 游戏",
+        "qa_list": [
+            {
+                "question": "Does Coach Jeff prioritize individual skills or team collaboration in his selection criteria?",
+                "answer": "Team collaboration.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "During the 3v3 segment, Coach Jeff emphasizes that basketball is a team sport, requiring players to set screens and move without the ball. In the 5v5 phase, he explicitly states that he is not looking for solo players but rather those with high basketball IQ, strong defense, and the ability to lead a team to victory. The selected players, No. 137 and No. 115, exhibit these traits, indicating that he values team collaboration over individual scoring ability."
+            },
+            {
+                "question": "Was Vier successfully selected after the 5v5 match?",
+                "answer": "Yes.",
+                "question_type": "多跳推理,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "After the 5v5 match, the video does not directly associate No. 230 with Vier, requiring visual and auditory cues to confirm that Vier is No. 230. When the selection results are announced, the coach only mentions the players who were not selected and does not mention No. 230, implying that No. 230, and thus Vier, was successfully selected."
+            },
+            {
+                "question": "Is Player No. 127's playing style more suited for offense or defense?",
+                "answer": "Offense.",
+                "question_type": "多线索推理,人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "Based on the visual performance of Player No. 127 on the court and the coach's comments, it is evident that his playing style is more suited for offense."
+            },
+            {
+                "question": "What is the most valued ability by AAU for joining a basketball team, besides excellent personal confrontation skills?",
+                "answer": "Teamwork ability.",
+                "question_type": "通用知识推理",
+                "knowledge": "Teamwork is a crucial part of AAU team.",
+                "reasoning": "The coach states that teamwork is a fundamental principle for joining an AAU team. During the 3v3 match, the white team demonstrates teamwork by successfully passing and breaking through the black team's defense, which the coach highly appreciates. They seek players who not only have excellent individual skills but can also lead the team to victory."
+            },
+            {
+                "question": "What is a classic tactic of the Bucket Squad?",
+                "answer": "Long pass fast break.",
+                "question_type": "多模态/多语言推理,通用知识推理",
+                "knowledge": "The passing and scoring methods of Player No. 64 and Player No. 127 are regarded as the classic style of Bucket Squad by the coach. ",
+                "reasoning": "Visually, during the 5v5 match, Player No. 64 makes a long pass to the basket area, where Player No. 127 catches the ball and scores. The coach audibly confirms that this is the classic style of the Bucket Squad."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/mwu3adhKlDI.mp4"
+    },
+    {
+        "video_id": "CZ_4_55",
+        "video_url": "https://www.youtube.com/watch?v=8lI1Z0_UwCE",
+        "video_duration": "29:27",
+        "video_type": "探索 - 参观",
+        "qa_list": [
+            {
+                "question": "Is Sam proficient in shooting?",
+                "answer": "No.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "The shooting training shows that Sam's shot placements indicate he is not proficient in shooting."
+            },
+            {
+                "question": "To whom is the letter in the fingerprint examiner's hand addressed?",
+                "answer": "The President of the United States.",
+                "question_type": "多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "The video introduces the fingerprint examiner, and a visual inspection of the letter's content reveals it is addressed to the President of the United States."
+            },
+            {
+                "question": "What is David's job?",
+                "answer": "He is an ink analyst.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "The conversation between the fingerprint examiner and Sam reveals that David is the ink analyst mentioned earlier."
+            },
+            {
+                "question": "Which driving skill is essential for a secret agent?",
+                "answer": "J-turn.",
+                "question_type": "通用知识推理",
+                "knowledge": "The J-turn is part of the special agent class, and the instructor skillfully demonstrated that the J-turn is a skill that every special agent must know.",
+                "reasoning": "The J-turn is part of the agent training curriculum, and the instructor demonstrates it skillfully, indicating that it is an essential skill for every secret agent."
+            },
+            {
+                "question": "What does Cadillac's provision of vehicles for many presidents indicate about its prominence?",
+                "answer": "The aspect of safety.",
+                "question_type": "通用知识推理",
+                "knowledge": "凯迪拉克公司在汽车安全方面的研究很突出",
+                "reasoning": "The video explains that Cadillac customizes vehicles for many presidents, and given the high safety requirements for presidential cars, it can be inferred that Cadillac is prominent in automotive safety research."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/8lI1Z0_UwCE.mp4"
+    },
+    {
+        "video_id": "CZ_4_56",
+        "video_url": "https://www.youtube.com/watch?v=H42zWaD4A4s",
+        "video_duration": "20:51",
+        "video_type": "探索 - 参观",
+        "qa_list": [
+            {
+                "question": "What is Marvin's nickname?",
+                "answer": "Psycho.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "First, identify Marvin in the video, then determine his nickname."
+            },
+            {
+                "question": "What time is the last checkpoint passed?",
+                "answer": "9:33 on October 30th.",
+                "question_type": "多跳推理,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "Use both audio and visual cues to find the time when the last checkpoint is reached."
+            },
+            {
+                "question": "What does the yellow line in front of the cells in CECOT signify?",
+                "answer": "Prohibit entry.",
+                "question_type": "通用知识推理",
+                "knowledge": "在CECOT时禁止越过黄线靠近牢房，站在黄线外可以避免受到伤害",
+                "reasoning": "Infer the purpose of the yellow line from the video."
+            },
+            {
+                "question": "Is MS-13 a new or old criminal organization?",
+                "answer": "It is an old criminal organization.",
+                "question_type": "通用知识推理",
+                "knowledge": "The fact that Marvin said in the interview that he joined MS13 in 2004 implies that MS13 is an old criminal organization.",
+                "reasoning": "During Marvin's interview, he mentions joining MS-13 in 2004, indicating that MS-13 is an established organization."
+            },
+            {
+                "question": "Which organization does Marvin belong to?",
+                "answer": "MS-13.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "Marvin's tattoos and the questions asked in the video indicate that he is a member of the MS-13 organization."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/H42zWaD4A4s.mp4"
+    },
+    {
+        "video_id": "CZ_4_57",
+        "video_url": "https://www.youtube.com/watch?v=jzVhMoO5jPo",
+        "video_duration": "29:00",
+        "video_type": "街头互动 - 采访",
+        "qa_list": [
+            {
+                "question": "What is the state of security management in Dublin?",
+                "answer": "It is relaxed.",
+                "question_type": "通用知识推理",
+                "knowledge": "都柏林的治安状况",
+                "reasoning": "The video shows Peter mentioning that Dublin's city center is chaotic and the security is not good, indicating that security management is relaxed."
+            },
+            {
+                "question": "What is the cost of living like in Dublin?",
+                "answer": "It is a city with a high cost of living.",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "都柏林的消费水平",
+                "reasoning": "The video features Wendy mentioning that grocery shopping expenses are crazy and comparable to New York, and a student from Belfast states that Dublin's prices are nearly four times those of Belfast, indicating a high cost of living."
+            },
+            {
+                "question": "Does Wendy love literature and art?",
+                "answer": "Yes, she does.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video shows Wendy discussing the attractions of Dublin, highlighting beautiful theaters, rich culture, and its status as the hometown of many great writers and poets, indicating her love for literature and art."
+            },
+            {
+                "question": "How many people were interviewed in total?",
+                "answer": "14.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "The model needs to locate segments in the video related to the interviewees, then analyze and count them to determine the total number."
+            },
+            {
+                "question": "What is Cara's attitude toward environmental protection?",
+                "answer": "She is radical in her approach.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "The video shows Cara protesting with classmates at the Dublin government against the German government's violent eviction of environmentalists, and she is concerned about fossil fuel use and its impact on global warming, indicating a radical approach to environmental protection."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/jzVhMoO5jPo.mp4"
+    },
+    {
+        "video_id": "CZ_4_58",
+        "video_url": "https://www.youtube.com/watch?v=rw93uuzG0tg",
+        "video_duration": "32:51",
+        "video_type": "vlog - 园艺",
+        "qa_list": [
+            {
+                "question": "Does Christopher prefer simple or ornate flower pots?",
+                "answer": "Simple-style.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "While selecting flower pots, Eric and Christopher discuss the shape and color in detail. Christopher expresses his preference for a plain, undecorated flower pot."
+            },
+            {
+                "question": "What is Christopher's occupation?",
+                "answer": "He is a hairdresser.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "At the beginning of the video, it is mentioned that they are buying plants for Christopher's hair studio. Later, Eric is welcomed to Christopher's private hair salon suite."
+            },
+            {
+                "question": "Where are the prices of plant-related products displayed at Fagans Garden Center?",
+                "answer": "They are pasted on the flower pots.",
+                "question_type": "多模态/多语言推理,通用知识推理",
+                "knowledge": "The location of the prices of the goods in Fagans Garden Center.",
+                "reasoning": "While Eric and Christopher select plants, the video shows price tags attached to the surface of the flower pots."
+            },
+            {
+                "question": "How does Christopher prevent soil from falling out of the new flower pot during repotting?",
+                "answer": "He puts a piece of paper towel at the bottom of the flower pot.",
+                "question_type": "多跳推理,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "During the repotting process, Christopher uses a paper towel as a guard to prevent soil from falling out. Visually, he places the paper towel at the bottom of the new pot to help the soil settle better."
+            },
+            {
+                "question": "What is the recommended usage frequency and dosage of the Microb Life BMC product?",
+                "answer": "Add one drop to the watering can every two weeks or once a month.",
+                "question_type": "通用知识推理",
+                "knowledge": "The usage method of Microb Life BMC.",
+                "reasoning": "During the repotting process, Christopher introduces the Microb Life BMC product to prevent fungus gnat larvae and recommends adding one drop to the watering can every two weeks or once a month to protect plant growth."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/rw93uuzG0tg.mp4"
+    },
+    {
+        "video_id": "CZ_4_59",
+        "video_url": "https://www.youtube.com/watch?v=6SpNMNQAVnI",
+        "video_duration": "30:11",
+        "video_type": "探索 - 体验新事物",
+        "qa_list": [
+            {
+                "question": "How many people participated in the selection of special tactics operators?",
+                "answer": "13 participants.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "Sam, as a participant, wore a uniform numbered 13. After the training, it was mentioned that one person couldn't handle the pressure and chose to quit, leaving 12 candidates plus Sam."
+            },
+            {
+                "question": "Does Sam have a military background?",
+                "answer": "Yes.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "Sam stated that he served in the Air Force."
+            },
+            {
+                "question": "How does the United States Air Force Special Operations Ground Forces handle a casualty needing a large blood transfusion?",
+                "answer": "They conduct the 'walking blood bank' plan.",
+                "question_type": "通用知识推理",
+                "knowledge": "The SOS team has invested a great deal of time in the training of the walking blood bank to deal with emergency blood transfusion situations. ",
+                "reasoning": "In a simulated mission, when Sam was 'injured,' the SOS team treated him as he lost a significant amount of blood. The team mentioned performing the 'walking blood bank' operation, which involved drawing a unit of blood from a respiratory therapist to revive Sam. The team emphasized their extensive training in the 'walking blood bank' method, which has saved many lives."
+            },
+            {
+                "question": "What medium is most suitable for simulating combat stress in military training?",
+                "answer": "Simulate stress with water.",
+                "question_type": "通用知识推理",
+                "knowledge": "There are many water-related tests in the selection process.",
+                "reasoning": "The video showed a water immersion mask kicking training, where water enters the nose and throat, causing a sensation of vomiting and suffocation. Candidates had their feet and hands tied, hands behind their backs, and jumped into a pool to perform a series of actions like sinking to the bottom, pushing off, and surfacing to breathe. After completing a certain number of repetitions, they moved and flipped. The cold water temperature added extra stress, testing the candidates' ability to handle pressure."
+            },
+            {
+                "question": "How is Sam's ability to withstand pressure?",
+                "answer": "He has a strong ability to withstand pressure.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "Sam, as a participant, managed to complete physical tests, pool training, and beach training despite not having undergone training for many years."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/6SpNMNQAVnI.mp4"
+    },
+    {
+        "video_id": "CZ_4_60",
+        "video_url": "https://www.youtube.com/watch?v=0QG0DtfzM2M",
+        "video_duration": "37:00",
+        "video_type": "纪录片 - 人文",
+        "qa_list": [
+            {
+                "question": "Is the living pressure high on Trinidad Island?",
+                "answer": "No.",
+                "question_type": "通用知识推理",
+                "knowledge": "The people on Trinidad Island are passionate about parties and truly live an island life. ",
+                "reasoning": "Trinidad Island is filled with small houses, and the people there love parties and truly live a relaxed island lifestyle."
+            },
+            {
+                "question": "How many biological sisters does Thomas have?",
+                "answer": "Four.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "Thomas has a twin sister, then found two more sisters, and finally, his father mentioned there is one more daughter yet to be found, indicating Thomas has four sisters."
+            },
+            {
+                "question": "Does Trinidad Island have rich cultural diversity or a completely unified single culture?",
+                "answer": "It has rich cultural diversity.",
+                "question_type": "通用知识推理",
+                "knowledge": "Shayla said that the best thing about living on Trinidad Island is its diversity, which includes Indian culture, Chinese culture, British culture and so on. ",
+                "reasoning": "Shayla mentions that the best part of living on Trinidad Island is the diversity, including people, culture, and transportation. The food variety reflects a blend of Indian, Chinese, and British cultures."
+            },
+            {
+                "question": "After Shayla met her biological parents, did she return to her biological parents' home or go somewhere else?",
+                "answer": "She went back to her original place.",
+                "question_type": "多跳推理,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "In the scene where Shayla reunites with her parents, she is seen saying goodbye to them. Visually, only her parents get into the car, and she returns to her previous place."
+            },
+            {
+                "question": "Which country is Hung from?",
+                "answer": "Vietnam.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "Hung speaks Vietnamese and sings Vietnamese songs when reuniting with his children."
+            }
+        ],
+        "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_4/0QG0DtfzM2M.mp4"
+    }
+]
