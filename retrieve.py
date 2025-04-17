@@ -6,7 +6,8 @@ from utils.chat_api import (
     get_response_with_retry,
     parallel_get_embedding,
 )
-from prompts import prompt_answer_with_retrieval_clipwise_final, prompt_generate_action, prompt_generate_plan, prompt_generate_action_with_plan
+from utils.general import validate_and_fix_python_list
+from prompts import prompt_answer_with_retrieval_final, prompt_generate_action, prompt_generate_plan, prompt_generate_action_with_plan
 from memory_processing import parse_video_caption
 
 processing_config = json.load(open("configs/processing_config.json"))
@@ -50,92 +51,6 @@ def back_translate(video_graph, queries):
         # Add all variants of the translated query
         translated_queries.extend(to_be_translated)
     return translated_queries
-
-# def generate_queries(question, related_memories, query_num=5):
-#     input = [
-#         {
-#             "type": "text",
-#             "content": prompt_memory_retrieval.format(
-#                 question=question,
-#                 query_num=query_num,
-#                 knowledge=related_memories,
-#             ),
-#         }
-#     ]
-#     messages = generate_messages(input)
-#     model = "gpt-4o-2024-11-20"
-#     # model = "gemini-1.5-pro-002"
-#     queries = None
-#     for i in range(MAX_RETRIES):
-#         print(f"Generating queries {i} times")
-#         queries = get_response_with_retry(model, messages)[0]
-#         queries = validate_and_fix_python_list(queries)
-#         if queries is not None:
-#             break
-#     if queries is None:
-#         raise Exception("Failed to generate queries")
-#     return queries
-
-# retrieve by entry
-# def retrieve_from_videograph(video_graph, question, related_memories, query_num=5, topk=5):
-#     queries = generate_queries(question, related_memories, query_num)
-#     queries = back_translate(video_graph, queries)
-#     print(f"Queries: {queries}")
-
-#     model = "text-embedding-3-large"
-#     query_embeddings = parallel_get_embedding(model, queries)[0]
-
-#     related_nodes = []
-
-#     for query_embedding in query_embeddings:
-#         nodes = video_graph.search_text_nodes([query_embedding], threshold=0.5)
-#         related_nodes.extend(nodes[:topk])
-
-#     related_nodes = list(set(related_nodes))
-#     return related_nodes
-
-# def answer_with_retrieval(video_graph, question, query_num=5, topk=5, auto_refresh=False):
-#     if auto_refresh:
-#         video_graph.refresh_equivalences()
-        
-#     related_nodes = []
-#     related_memories = []
-    
-#     continue_retrieving = True
-#     while continue_retrieving:
-#         new_nodes = retrieve_from_videograph(video_graph, question, related_memories, query_num, topk)
-#         new_nodes = [new_node for new_node in new_nodes if new_node not in related_nodes]
-#         related_nodes.extend(new_nodes)
-            
-#         new_memories = [video_graph.nodes[node_id].metadata['contents'][0] for node_id in new_nodes]
-#         new_memories = translate(video_graph, new_memories)
-#         print(new_memories)
-#         related_memories.extend(new_memories)
-#         # replace the entities in the memories with the character mappings
-#         input = [
-#             {
-#                 "type": "text",
-#                 "content": prompt_answer_with_retrieval.format(
-#                     question=question,
-#                     related_memories=related_memories,
-#                 ),
-#             }
-#         ]
-#         messages = generate_messages(input)
-#         model = "gpt-4o-2024-11-20"
-#         # model = "gemini-1.5-pro-002"
-#         answer = get_response_with_retry(model, messages)[0]
-#         print(answer)
-        
-#         answer_type = answer[answer.find("[")+1:answer.find("]")] if "[" in answer and "]" in answer else ""
-#         if answer_type.lower() == "intermediate":
-#             continue_retrieving = True
-#             question += answer[answer.find("]")+1:]
-#         elif answer_type.lower() == "final":
-#             continue_retrieving = False
-#         else:
-#             raise ValueError(f"Unknown answer type: {answer_type}")
-#     return answer
 
 # retrieve by clip
 def retrieve_from_videograph(video_graph, query, topk=5, mode='argmax'):
@@ -192,81 +107,7 @@ def retrieve_from_videograph(video_graph, query, topk=5, mode='argmax'):
     
     return top_clips
 
-# def answer_with_retrieval(video_graph, question, query_num=5, topk=5, auto_refresh=False, mode='argmax'):
-#     if auto_refresh:
-#         video_graph.refresh_equivalences()
-        
-#     related_clips = []
-#     related_memories = {}
-    
-#     context = []
-    
-#     for i in range(max_retrieval_steps):
-#         new_clips, queries = retrieve_from_videograph(video_graph, question, related_memories, query_num, topk, mode)
-#         new_clips = [new_clip for new_clip in new_clips if new_clip not in related_clips]
-#         new_memories = {}
-#         related_clips.extend(new_clips)
-        
-#         for new_clip in new_clips:
-#             related_nodes = video_graph.text_nodes_by_clip[new_clip]
-#             related_memories[new_clip] = translate(video_graph, [video_graph.nodes[node_id].metadata['contents'][0] for node_id in related_nodes])
-#             new_memories[new_clip] = related_memories[new_clip]
-            
-#             print(f"New memories from clip {new_clip}: {related_memories[new_clip]}")        
-            
-#         # sort related_memories by timestamp
-#         related_memories = dict(sorted(related_memories.items(), key=lambda x: x[0]))
-#         related_memories = {f"clip_{k}": v for k, v in related_memories.items()}
-#         new_memories = dict(sorted(new_memories.items(), key=lambda x: x[0]))
-#         new_memories = {f"clip_{k}": v for k, v in new_memories.items()}
-        
-#         context.append({
-#             "queries": queries,
-#             "retrieved memories": new_memories
-#         })
-
-#         # replace the entities in the memories with the character mappings
-#         input = [
-#             {
-#                 "type": "text",
-#                 "content": prompt_answer_with_retrieval_clipwise.format(
-#                     question=question,
-#                     related_memories=json.dumps(related_memories),
-#                 ),
-#             }
-#         ]
-#         messages = generate_messages(input)
-#         model = "gpt-4o-2024-11-20"
-#         # model = "gemini-1.5-pro-002"
-#         answer = get_response_with_retry(model, messages)[0]
-#         print(answer)
-        
-#         answer_type = answer[answer.find("[")+1:answer.find("]")] if "[" in answer and "]" in answer else ""
-#         if answer_type.lower() == "intermediate":
-#             question += answer[answer.find("]")+1:]
-#         elif answer_type.lower() == "final":
-#             break
-#         else:
-#             raise ValueError(f"Unknown answer type: {answer_type}")
-    
-#     input = [
-#         {
-#             "type": "text",
-#             "content": prompt_answer_with_retrieval_clipwise_final.format(
-#                 question=question,
-#                 related_memories=json.dumps(related_memories),
-#             ),
-#         }
-#     ]
-#     messages = generate_messages(input)
-#     model = "gpt-4o-2024-11-20"
-#     final_answer = get_response_with_retry(model, messages)[0]
-#     print(f"Final answer: {final_answer}")
-    
-#     return final_answer
-
-def generate_action(question, knowledge, retrieval_plan=None):
-    print(knowledge)
+def generate_action(question, knowledge, retrieval_plan=None, multiple_queries=False, responses=[]):
     input = [
         {
             "type": "text",
@@ -289,9 +130,14 @@ def generate_action(question, knowledge, retrieval_plan=None):
             reasoning = action.split("[ANSWER]")[0].strip()
             action_content = action.split("[ANSWER]")[1].strip()
         elif "[SEARCH]" in action:
-            action_type = "search"
-            reasoning = action.split("[SEARCH]")[0].strip()
-            action_content = action.split("[SEARCH]")[1].strip()
+            if not multiple_queries:
+                action_type = "search"
+                reasoning = action.split("[SEARCH]")[0].strip()
+                action_content = action.split("[SEARCH]")[1].strip() 
+            else:
+                action_type = "search"
+                reasoning = action.split("[SEARCH]")[0].strip()
+                action_content = select_queries(validate_and_fix_python_list(action.split("[SEARCH]")[1].strip()), responses)
         else:
             raise ValueError(f"Unknown action type: {action}")
         if action_content is not None:
@@ -300,6 +146,39 @@ def generate_action(question, knowledge, retrieval_plan=None):
         raise Exception("Failed to generate action")
     print(action)
     return reasoning, action_type, action_content
+
+def select_queries(action_content, responses):
+    if not action_content:
+        return None
+    
+    history_queries = [response["action_content"] for response in responses]
+    history_embeddings = parallel_get_embedding("text-embedding-3-large", history_queries)[0]
+    
+    queries = action_content
+    embeddings = parallel_get_embedding("text-embedding-3-large", queries)[0]
+    
+    # If there are no history queries, return the first query
+    if not history_queries:
+        return queries[0]
+    
+    # Calculate cosine similarity between each query and all history queries
+    avg_similarities = []
+    for query_embedding in embeddings:
+        similarities = []
+        for history_embedding in history_embeddings:
+            # Compute cosine similarity
+            dot_product = sum(a*b for a,b in zip(query_embedding, history_embedding))
+            query_norm = sum(a*a for a in query_embedding) ** 0.5
+            history_norm = sum(b*b for b in history_embedding) ** 0.5
+            cos_sim = dot_product / (query_norm * history_norm)
+            similarities.append(cos_sim)
+        # Calculate average similarity for this query
+        avg_similarity = sum(similarities) / len(similarities)
+        avg_similarities.append(avg_similarity)
+    
+    # Return query with lowest average similarity
+    min_similarity_idx = avg_similarities.index(min(avg_similarities))
+    return queries[min_similarity_idx]
 
 def search(video_graph, query, current_clips, topk=5, mode='argmax'):
     new_clips = retrieve_from_videograph(video_graph, query, topk, mode)
@@ -316,7 +195,7 @@ def search(video_graph, query, current_clips, topk=5, mode='argmax'):
                         
     # sort related_memories by timestamp
     new_memories = dict(sorted(new_memories.items(), key=lambda x: x[0]))
-    new_memories = {f"clip_{k}": v for k, v in new_memories.items()}
+    new_memories = {f"CLIP_{k}": v for k, v in new_memories.items()}
     
     return new_memories, current_clips
 
@@ -352,7 +231,8 @@ def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5,
         retrieval_plan = None
 
     for i in range(max_retrieval_steps):
-        reasoning, action_type, action_content = generate_action(question, context, retrieval_plan)
+        # reasoning, action_type, action_content = generate_action(question, context, retrieval_plan)
+        reasoning, action_type, action_content = generate_action(question, context, retrieval_plan, multiple_queries=True, responses=responses)
         reasoning = reasoning.strip("### Reasoning:").strip("### Answer or Search:").strip("Reasoning:").strip()
         if action_type == "answer":
             final_answer = action_content
@@ -368,7 +248,7 @@ def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5,
                 input = [
                     {
                         "type": "text",
-                        "content": prompt_answer_with_retrieval_clipwise_final.format(
+                        "content": prompt_answer_with_retrieval_final.format(
                             question=question,
                             information=context,
                         ),
@@ -394,20 +274,32 @@ def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5,
                 "retrieved memories": new_memories
             })
             
-            memories.append([{
-                "clip_id": k,
-                "memory": v
-            } for k, v in new_memories.items()])
-            
-            responses.append({
+            new_response_item = {
                 "reasoning": reasoning,
                 "action_type": action_type,
                 "action_content": action_content
-            })        
-    
+            }
+            responses.append(new_response_item)
+            
+            new_memory_items = [{
+                "clip_id": k,
+                "memory": v
+            } for k, v in new_memories.items()]
+            memories.append(new_memory_items)
+            
+            if processing_config["logging"] == "DETAIL":
+                print("=" * 10 + "Retrieval Step " + str(i+1) + "=" * 10)
+                print(new_response_item)
+                print(new_memory_items)
+            
     return final_answer, (memories, responses)
 
 if __name__ == "__main__":
-    video_graph = VideoGraph()
-    question = "What is the main character's name?"
+    from utils.general import load_video_graph
+    processing_config["logging"] = "DETAIL"
+
+    video_graph_path = "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/-UhacNNM_HU_30_5_-1_10_20_0.3_0.6.pkl"
+    video_graph = load_video_graph(video_graph_path)
+
+    question = "Do Hannahlei's parents support her dancing?"
     answer = answer_with_retrieval(video_graph, question)

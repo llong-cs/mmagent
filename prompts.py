@@ -1,97 +1,3 @@
-prompt_select_representative_faces = """You are given a set of facial images of a person. Your task is to select **the most distinctive and recognizable** face from the given set and return its index (e.g., 0, 1, 2, 3, ...). The selected image **should meet all the following criteria**:
-	1.	Clear Facial Features: The image should clearly show the person's key facial features (eyes, nose, mouth, and overall facial structure).
-	2.	Neutral or Natural Expression: The expression should be neutral or naturally pleasant (e.g., a slight smile), avoiding exaggerated emotions (e.g., extreme happiness, sadness, or surprise).
-	3.	High Resolution & Clarity: The image should be sharp, with clear facial details and minimal noise or blur.
-	4.	Good Lighting & Contrast: The face should be well-lit, with sufficient contrast to distinguish facial features clearly.
-	5.	Minimal Occlusions: The face should be free from significant occlusions such as sunglasses, masks, or hair covering key facial features.
-	6.	Representative Appearance: The selected image should best represent the person's typical appearance, avoiding extreme makeup, unusual hairstyles, or accessories that alter recognition.
-
-If there is no qualified face in the given set, return -1.
-
-Return only the index of the most recognizable face, without any additional explanation or formatting."""
-
-prompt_select_representative_faces_forced = """You are given a set of facial images of a person. Your task is to select **the most distinctive and recognizable** face from the given set and return its index (e.g., 0, 1, 2, 3, ...). The selected image **should meet all the following criteria**:
-	1.	Clear Facial Features: The image should clearly show the person's key facial features (eyes, nose, mouth, and overall facial structure).
-	2.	Neutral or Natural Expression: The expression should be neutral or naturally pleasant (e.g., a slight smile), avoiding exaggerated emotions (e.g., extreme happiness, sadness, or surprise).
-	3.	High Resolution & Clarity: The image should be sharp, with clear facial details and minimal noise or blur.
-	4.	Good Lighting & Contrast: The face should be well-lit, with sufficient contrast to distinguish facial features clearly.
-	5.	Minimal Occlusions: The face should be free from significant occlusions such as sunglasses, masks, or hair covering key facial features.
-	6.	Representative Appearance: The selected image should best represent the person's typical appearance, avoiding extreme makeup, unusual hairstyles, or accessories that alter recognition.
-
-Return only the index of the most recognizable face, without any additional explanation or formatting."""
-
-prompt_classify_recognizable_faces = """You are given a single facial image. Your task is to determine whether the face in the image is sufficiently distinctive and recognizable based on the following criteria:
-	1.	Clear Facial Features: The image should clearly show the person's key facial features (eyes, nose, mouth, and overall facial structure).
-	2.	Neutral or Natural Expression: The expression should be neutral or naturally pleasant (e.g., a slight smile), avoiding exaggerated emotions (e.g., extreme happiness, sadness, or surprise).
-	3.	High Resolution & Clarity: The image should be sharp, with clear facial details and minimal noise or blur.
-	4.	Good Lighting & Contrast: The face should be well-lit, with sufficient contrast to distinguish facial features clearly.
-	5.	Minimal Occlusions: The face should be free from significant occlusions such as sunglasses, masks, or hair covering key facial features.
-	6.	Representative Appearance: The image should depict the person's typical appearance, avoiding extreme makeup, unusual hairstyles, or accessories that alter recognition.
-
-If the face meets all the above criteria, return 1. Otherwise, return 0.
-
-Return only 1 or 0, without any additional explanation or formatting."""
-
-prompt_generate_captions_with_ids = """You are given a video, a set of character features. Each feature (some of them may belong to the same character) can be a face image represented by a video frame with a bounding box, or can be a voice feature represented by several speech segments, each with a start time, an end time (both in MM:SS format), and the corresponding content. Each face and voice feature is identified by a unique ID enclosed in angle brackets (< >).
-
-Additionally, you are provided with episodic history, representing events from previous consecutive clips.
-
-Your Task:
-
-Based on the video content and episodic history, generate a structured list of detailed descriptions of what's shown in the video clip. Each description should focus on a single specific aspect, and include (but is not limited to) the following categories:
-
-	1.	Characters' Appearance: Describe one specific aspect of the character's appearance, such as their clothing, facial features, or any distinguishing characteristics.
-	2.	Characters' Actions & Movements: Describe one specific gesture, movement, or interaction performed by the character.
-	3.	Characters' Spoken Dialogue: Transcribe or summarize a specific instance of speech spoken by the character.
-	4.	Characters' Contextual Behavior: Describe one specific aspect of the character's role in the scene or their interaction with another character, focusing on their behavior, emotional state, or relationships.
-
-Strict Requirements:
-	•	Every reference to a character must use their exact ID enclosed in angle brackets (e.g., <face_1>, <voice_2>).
-	•	Do not use generic descriptions, inferred names, or pronouns (e.g., "he," "they," "the man").
-	•	Each description must focus on one specific detail and provide sufficient specificity and clarity for the given aspect.
-	•	Whenever possible, include natural time expressions and physical location cues in the descriptions to improve contextual understanding. These should be based on inferred situational context (e.g., "in the evening at the dinner table," "early morning outside the building"), not on video clip timestamps.
-	•	Ensure all descriptions remain consistent with the provided IDs and do not introduce assumptions beyond what can be inferred from the video and audio content.
-
-Example Input:
-
-{
-	"video": <input_video>,
-	"characters": {
-		"<face_1>": <img_1>,
-		"<face_2>": <img_2>,
-		"<face_3>": <img_3>
-	},
-	"speakers": {
-		"<voice_1>": [
-			{"start_time": "00:05", "end_time": "00:08", "asr": "Hello, everyone."},
-			{"start_time": "00:09", "end_time": "00:12", "asr": "Let's get started with today's agenda."}
-		],
-		"<voice_2>": [
-			{"start_time": "00:15", "end_time": "00:18", "asr": "Thank you for having me here."},
-			{"start_time": "00:19", "end_time": "00:22", "asr": "I'm excited to share my presentation."}
-		]
-	},
-	"episodic_history": [
-		"<face_1> wears a black suit with a white shirt and tie.",
-		"<face_1> has short black hair and wears glasses.",
-		"<face_1> enters the conference room and shakes hands with <face_2>.",
-		"<face_2> sits down at the table next to <face_1> after briefly greeting <face_1>.",
-		"<voice_1> says: 'Good afternoon, everyone. Let's begin the meeting.'",
-		"<face_2> wears a red dress and has long brown hair.",
-		"<face_2> waves at <face_1> while sitting at the table and checks her phone."
-	]
-}
-
-Example Output:
-
-[
-	"<face_1> adjusts his tie and starts speaking to the group.",
-	"<face_2> listens attentively to <face_1>'s speech and nods in agreement.",
-	"<face_3> enters the room from the back, looking a bit anxious and unsure."
-]
-
-Please only return the valid string list (which starts with "[" and ends with "]"), without any additional explanation or formatting."""
-
 prompt_audio_segmentation = """You are given a video. Your task is to perform Automatic Speech Recognition (ASR) and audio diarization on the provided video. Extract all speech segments with accurate timestamps and segment them by speaker turns (i.e., different speakers should have separate segments), but without assigning speaker identifiers.
 
 Return a JSON list where each entry represents a speech segment with the following fields:
@@ -117,7 +23,7 @@ Strict Requirements:
 	
 Now generate the JSON list based on the given video:"""
 
-prompt_generate_captions_with_ids_ = """You are given a video, a set of character features. Each feature (some of them may belong to the same character) can be a face image represented by a video frame with a bounding box, or can be a voice feature represented by several speech segments, each with a start time, an end time (both in MM:SS format), and the corresponding content. Each face and voice feature is identified by a unique ID enclosed in angle brackets (< >).
+prompt_generate_captions_with_ids = """You are given a video, a set of character features. Each feature (some of them may belong to the same character) can be a face image represented by a video frame with a bounding box, or can be a voice feature represented by several speech segments, each with a start time, an end time (both in MM:SS format), and the corresponding content. Each face and voice feature is identified by a unique ID enclosed in angle brackets (< >).
 
 Your Task:
 
@@ -288,24 +194,6 @@ Yes
 
 Please only return "Yes" or "No", without any additional explanation or formatting."""
 
-prompt_benchmark_verify_answer_strict = """You are provided with a question, the ground truth answer, and a baseline answer. Your task is to strictly assess whether the baseline answer conveys exactly the same meaning as the ground truth answer, without introducing any additional information.
-
-If the baseline answer is semantically identical to the ground truth answer, return "Yes". If the baseline answer deviates in meaning, includes incorrect details, or adds information beyond the ground truth answer, return "No".
-
-Input Example:
-
-{
-	"question": "What is the capital of France?",
-	"answer": "Paris",
-	"baseline_answer": "Paris"
-}
-
-Output Example:
-
-Yes
-
-Please only return "Yes" or "No", without any additional explanation or formatting."""
-
 prompt_generate_action = """You are given a question and some relevant knowledge about a specific video. Your task is to reason about whether the provided knowledge is sufficient to answer the question. If it is sufficient, output [ANSWER] followed by the answer. If it is not sufficient, output [SEARCH] and generate a query that will be encoded into embeddings for a vector similarity search. The query will help retrieve additional information from a memory bank that consists of detailed descriptions and high-level abstractions of the video, considering both the question and the provided knowledge.
 
 Specifically, your response should contain the following two parts:
@@ -385,28 +273,74 @@ Knowledge: {knowledge}
 
 Output:"""
 
+prompt_generate_plan = """You are given a clip from a specific video and a question about the video. There exists a memory bank that contains information about this video, but you will not be shown its contents.
+
+The memory bank is structured as a temporally ordered sequence of entries. Each entry contains either:
+	•	a fine-grained description of a specific moment in the video, or
+	•	a high-level summary or abstraction of events.
+
+Your task is to create a detailed and robust retrieval plan: a step-by-step outline describing what kinds of information should be retrieved from the memory bank to answer the question effectively.
+
+Requirements:
+	•	Do not answer the question.
+	•	Instead, output a string list, where each item describes one retrieval step.
+	•	Each step should specify a type of content, topic, or temporal segment to retrieve (e.g., "find entries describing character motivations" or "look for summaries of the climax").
+
+Your plan must:
+	1.	Ensure completeness:
+		The plan must guide the retrieval process in such a way that all essential pieces of information required to answer the question will be retrieved — including context, reasoning chains, motivations, consequences, and temporal links, as relevant.
+		Do not stop at partial evidence. Design the plan so that it systematically explores and gathers all necessary supporting elements.
+	2.	Include contingency strategies:
+		Anticipa what might go wrong or be missing during retrieval. For example:
+		•	What if direct mentions of an event are not available?
+		•	What if the memory bank contains conflicting interpretations?
+		•	What if characters' intentions or relationships are implied but not explicitly stated?
+		Your plan should include fallback options and indirect paths to cover these cases (e.g., using emotion cues, related scenes, earlier summaries, or surrounding context).
+	3.	Follow a logical order:
+		The steps should be ordered in a way that reflects effective reasoning — e.g., from specific to general, or from earlier scenes to later consequences.
+
+Output format:
+A list of strings. Example:
+
+[
+	"Step 1: Retrieve entries describing the initial context and setting of the video.",
+	"Step 2: Look for interactions between the main characters relevant to the question.",
+	"Step 3: Find summaries that explain the consequences of the key events."
+]
+
+Please response with only the string list of the plan (wrapped by "[]"), without any additional explanation or formatting.
+
+Now start generating the plan.
+
+Questions: {question}"""
+
 prompt_generate_action_with_plan = """You are given a question and some relevant knowledge about a specific video. You are also provided with a retrieval plan, which outlines the types of information that should be retrieved from a memory bank in order to answer the question. Your task is to reason about whether the provided knowledge is sufficient to answer the question. If it is sufficient, output [ANSWER] followed by the answer. If it is not sufficient, output [SEARCH] and generate a query that will be encoded into embeddings for a vector similarity search. The query will help retrieve additional information from a memory bank that contains detailed descriptions and high-level abstractions of the video, considering the question, the provided knowledge, and the retrieval plan.
 
-Specifically, your response should contain the following two parts:
-	1.	Reasoning: First, consider the question and existing knowledge. Think about whether the current information can answer the question. If yes, do some analysis about the information that has been gathered. If not, do some reasoning about what is the exact information that is still missing and the reason why it is important to answer the question.
-	2.	Answer or Search:
-	•	Answer: If you can answer the question based on the provided knowledge, output [ANSWER] and provide the answer.
-		•	When referring to a character in your final answer, always use their specific name if it appears in the memories.
-		•	Do not use ID tags like <character_1> or <face_1> in your final answer.
-		•	Your final answer should be short, clear, and directly address the question. 
-	•	Search: If you cannot answer the question based on the provided knowledge, output [SEARCH] and generate a query. For the query:
-		•	Use the retrieval plan to inform what type of content should be searched for next. These contents should cover aspects that provide useful context or background to the question, such as character names, behaviors, relationships, personality traits, actions, and key events.
-		•	Make the query concise and focused on a specific piece of information that could help answer the question. 
-		•	The query should target information outside of the existing knowledge that might help answer the question.
-		•	For time-sensitive or chronological information (e.g., events occurring in sequence, changes over time, or specific moments in a timeline), you can generate clip-based queries that reference specific clips or moments in time. These queries should include a reference to the clip number, indicating the index of the clip in the video (a number from 1 to N, where a smaller number indicates an earlier clip). Format these queries as "CLIP_x", where x should be an integer that indicates the clip index. Note only generate clip-based queries if the question is about a specific moment in time or a sequence of events.
-		•	You can also generate queries that focus on specific characters or characters' attributes using the id shown in the knowledge.
-		•	Make sure your generated query focus on some aspects that are not retrieved or asked yet. Do not repeatedly generate queries that have high semantic similarity with those generated before.
+Your response should contain two parts:
+	1.	Reasoning
+	•	Analyze the question, the knowledge, and the retrieval plan.
+	•	If the current information is sufficient, explain why and what conclusions you can draw.
+	•	If not, clearly identify what is missing and why it is important.
+	2.	Answer or Search
+	•	[ANSWER]: If the answer can be derived from the provided knowledge, output [ANSWER] followed by a short, clear, and direct answer.
+	•	When referring to a character, always use their specific name if available.
+	•	Do not use ID tags like <character_1> or <face_1>.
+	•	[SEARCH]: If the answer cannot be derived yet, output [SEARCH] followed by a list of 5 diverse search queries that would help retrieve the missing information.
+
+Instructions for [SEARCH] queries:
+	•	Use the retrieval plan to inform what type of content should be searched for next. These contents should cover aspects that provide useful context or background to the question, such as character names, behaviors, relationships, personality traits, actions, and key events.
+	•	Make the query concise and focused on a specific piece of information that could help answer the question. 
+	•	The query should target information outside of the existing knowledge that might help answer the question.
+	•	For time-sensitive or chronological information (e.g., events occurring in sequence, changes over time, or specific moments in a timeline), you can generate clip-based queries that reference specific clips or moments in time. These queries should include a reference to the clip number, indicating the index of the clip in the video (a number from 1 to N, where a smaller number indicates an earlier clip). Format these queries as "CLIP_x", where x should be an integer that indicates the clip index. Note only generate clip-based queries if the question is about a specific moment in time or a sequence of events.
+	•	You can also generate queries that focus on specific characters or characters' attributes using the id shown in the knowledge.
+	•	Make sure your generated query focus on some aspects that are not retrieved or asked yet. Do not repeatedly generate queries that have high semantic similarity with those generated before.
 
 Example 1:
 
 Input:
 
 Question: How did the argument between Alice and Bob influence their relationship in the story?
+
 Knowledge:
 [
 	{{
@@ -431,6 +365,7 @@ Example 2:
 Input:
 
 Question: How did the argument between Alice and Bob influence their relationship in the story?
+
 Knowledge:
 [
 	{{
@@ -457,7 +392,7 @@ Knowledge:
 Output:
 
 It seems that content in CLIP_2 shows exactly the argument between Alice and Bob. To figure out how did the argument between Alice and Bob influence their relationship, I need to see what happened next in CLIP_3.
-[SEARCH] CLIP_3
+[SEARCH] What happened in CLIP_3?
 
 Now, generate your response for the following input:
 
@@ -469,142 +404,109 @@ Knowledge: {knowledge}
 
 Output:"""
 
-prompt_memory_retrieval = """You are given a question and some relevant knowledge. Your task is to generate a list of distinct and well-defined queries that will be encoded into embeddings and used to retrieve relevant information from a memory bank via vector similarity search. The goal is to retrieve additional information that will help answer the question, considering both the question and the provided knowledge.
+prompt_generate_action_with_plan_multiple_queries = """You are given a question and some relevant knowledge about a specific video. You are also provided with a retrieval plan, which outlines the types of information that should be retrieved from a memory bank in order to answer the question. Your task is to reason about whether the provided knowledge is sufficient to answer the question.
 
-For each query:
-	1.	Identify broad topics or themes that may help answer the question. These themes should cover aspects that provide useful context or background to the question and go beyond the existing knowledge you have. Think about different angles, including but not limited to character names, behaviors, relationships, personality traits, actions, and key events.
-	2.	Make each query concise and focused on a specific piece of information that could help answer the question, based on the broad themes you identified. The query should target information **outside of the existing knowledge** that might help answer the question.
-	3.	Ensure diversity in the queries by covering different facets of the question. This includes things like character interactions, emotions, motivations, actions, key dialogue, character appearances, and context that have not yet been provided.
-	4.	Avoid vague or overly broad formulations. Focus on generating queries that are actionable and specific, which will provide clear, targeted information for embedding-based retrieval.
-	5.	The queries should reflect a wide variety of themes and topics, allowing the system to retrieve information from different angles that may not have been covered by the provided knowledge.
+If the knowledge is sufficient, output [ANSWER] followed by the answer. If it is not sufficient, output [SEARCH] and generate five diverse queries that can be used to retrieve more information from the memory bank. The memory bank contains detailed descriptions and high-level abstractions of the video. Your queries should take into account the question, the provided knowledge, and the retrieval plan.
 
-The example memory bank contains descriptions like:
-	•	"<voice_0> introduces four individuals named Denny, Herm, Aaron, and JC, along with five other unnamed individuals."
-	•	"<face_9> wears a black jacket, a plaid shirt, and jeans."
-	•	"<face_4> points at <face_9>."
-	•	"<face_1> is likely an executive or a presenter, leading a meeting."
-	•	"Equivalence: <face_3>, <voice_2>"
+Your response should contain two parts:
+	1.	Reasoning
+	•	Analyze the question, the knowledge, and the retrieval plan.
+	•	If the current information is sufficient, explain why and what conclusions you can draw.
+	•	If not, clearly identify what is missing and why it is important.
+	2.	Answer or Search
+	•	[ANSWER]: If the answer can be derived from the provided knowledge, output [ANSWER] followed by a short, clear, and direct answer.
+	•	When referring to a character, always use their specific name if available.
+	•	Do not use ID tags like <character_1> or <face_1>.
+	•	[SEARCH]: If the answer cannot be derived yet, output [SEARCH] followed by a list of 5 diverse search queries that would help retrieve the missing information.
+
+Instructions for [SEARCH] queries:
+	•	Use the retrieval plan to inform what type of content should be searched for next. These contents should cover aspects that provide useful context or background to the question, such as character names, behaviors, relationships, personality traits, actions, and key events.
+	•	Make the query concise and focused on a specific piece of information that could help answer the question. 
+	•	The query should target information outside of the existing knowledge that might help answer the question.
+	•	For time-sensitive or chronological information (e.g., events occurring in sequence, changes over time, or specific moments in a timeline), you can generate clip-based queries that reference specific clips or moments in time. These queries should include a reference to the clip number, indicating the index of the clip in the video (a number from 1 to N, where a smaller number indicates an earlier clip). Format these queries as "CLIP_x", where x should be an integer that indicates the clip index. Note only generate clip-based queries if the question is about a specific moment in time or a sequence of events.
+	•	You can also generate queries that focus on specific characters or characters' attributes using the id shown in the knowledge.
+	•	Make sure your generated query focus on some aspects that are not retrieved or asked yet. Do not repeatedly generate queries that have high semantic similarity with those generated before.
+	•	Ensure diversity: the five queries must not be semantically redundant. Each query should explore a distinct direction toward answering the question.
+	•	Format the queries as a Python-style string list, like this: [SEARCH] ["What does Bob do after the argument?", "How does Alice react in CLIP_3?", "What is the emotional state of Alice after CLIP_2?", "What conclusions are drawn in high-level summaries about Alice and Bob's relationship?", "Does CLIP_4 show any reconciliation or continued conflict?"]
 
 Example 1:
 
-Question: How did Sarah's relationship with her father, David, influence her decision to leave home in the story?
+Input:
 
-Number of Queries: 6
+Question: How did the argument between Alice and Bob influence their relationship in the story?
 
 Knowledge:
-[]
-
-Queries:
-
 [
-	"Names of the characters.",
-    "Sarah and David's father-daughter relationship dynamics.",
-    "David's controlling behavior towards Sarah.",
-    "How Sarah's desire for independence influenced her decision.",
-    "Sarah's feelings of restriction due to David's overprotectiveness.",
-    "Character traits of Sarah and David in the story."
+	{{
+		"query": "What happened during the argument between Alice and Bob?",
+		"related memories": {{
+			"CLIP_2": [
+				"<face_1> and <face_2> are seen arguing in the living room."
+				"<face_1> raises her voice, and <face_2> looks upset."
+				"<face_1> accuses <face_2> of not listening to her."
+			],
+		}}
+	}}
+]
+
+Output:
+
+It seems that <face_1> and <face_2> are engaged in an argument, but their identities are not yet known, and there is no information about the consequences of the argument. To understand how it influenced their relationship, I need more contextual information about their identities, reactions, and what happened after.
+[SEARCH] [
+	"What are the names of <face_1> and <face_2>?",
+	"What is the emotional state of <face_1> and <face_2> after the argument?",
+	"What happens immediately after CLIP_2?",
+	"Is there a summary indicating a change in the relationship between these two characters?",
+	"Do any later clips show reconciliation or continued conflict between <face_1> and <face_2>?"
 ]
 
 Example 2:
 
-Question: Who is the host of the meeting?
+Input:
 
-Number of Queries: 3
+Question: How did the argument between Alice and Bob influence their relationship in the story?
 
 Knowledge:
 [
-	"<voice_1> introduces the meeting and assigns tasks to the participants.",
-	"<face_2> listens attentively to <face_1> and takes notes.",
-	"Equivalence: <face_1>, <voice_1>.",
-	"<character_1> is the host of the meeting."
-]
-
-Queries:
-
-[
-	"What is the name of <face_1>?",
-	"What is the name of <voice_1>?",
-	"What is the name of <character_1>?"
-]
-
-Now, given the example memory bank, here is how the system will generate queries:
-	1.	Identify broad themes such as character relationships, motivations, emotions, actions, and pivotal moments in the story.
-	2.	Ensure the queries cover a variety of aspects of the question, such as character dynamics, feelings of restriction, desire for freedom, and key story events that can provide insight into the protagonist's decision.
-
-Please ensure that the output queries are diverse, targeted, and well-aligned with the provided knowledge while covering different angles of the question.
-
-Input:
-
-Question: {question}
-
-Number of Queries: {query_num}
-
-Knowledge: {knowledge}
-
-Queries:"""
-
-prompt_node_summarization = """You are an expert-level reasoning assistant. Given a specific node ID and a set of existing observations or knowledge points about this node in the format shown below, generate new high-level thinking conclusions. These conclusions should reflect abstract inferences or summarizations that go beyond simple visual facts or surface-level descriptions.
-
-⸻
-
-Input Format:
-	•	A target node_id (e.g., <face_1>)
-	•	A list of observations or knowledge points, each formatted as a short declarative sentence. For example:
-		•	"<face_1> is <voice_1>."
-		•	"<face_1>'s name is David."
-		•	"<face_1> is likely an executive or a presenter, leading a meeting."
-		•	"<face_3> appears anxious, possibly involved in a tense situation outside the meeting."
-		•	"<face_2> may work in a collaborative or supportive role."
-
-⸻
-
-Your Task:
-
-Generate new high-level thinking conclusions related to the given node. These should include, but are not limited to:
-	1.	Identity correspondences, such as which speaker a character is, or vice versa.
-	2.	Relationships between the node and other characters (e.g., social, emotional, professional).
-	3.	Personality traits, roles, occupations, or behavioral patterns inferred from observed actions and dialogue.
-	4.	Background knowledge or contextual reasoning that helps better understand the node's role or state in the video.
-
-⸻
-
-Strict Constraints:
-	•	Every person mentioned must be referenced using their exact ID in angle brackets (e.g., <face_1>, <voice_2>).
-	•	Do not use names, pronouns, or vague terms like "the man" or "she."
-	•	Do not restate simple input facts or give low-level visual details.
-	•	Only return the final high-level conclusions, omitting intermediate reasoning steps.
-
-⸻
-
-Example
-
-Node: <face_1>
-
-History Information:
-[
-	"<voice_1>'s name is David.",
-	"<voice_1> is <face_1>.",
-	"<voice_2> is <face_2>.",
-	"<face_1> is leading the conversation and assigning tasks.",
-	"<face_2> appears to be listening attentively and taking notes."
+	{{
+		"query": "What happened during the argument between Alice and Bob?",
+		"related memories": {{
+			"CLIP_2": [
+				"<face_1> and <face_2> are seen arguing in the living room."
+				"<face_1> raises her voice, and <face_2> looks upset."
+				"<face_1> accuses <face_2> of not listening to her."
+			],
+		}}
+	}},
+	{{
+		"query": "What are the names of <face_1> and <face_2>?",
+		"related memories": {{
+			"CLIP_1": [
+				"<face_1> says to <face_2>: 'I am done with you Bob!'",
+				"<face_2> says to <face_1>: 'What about now, Alice?'"
+			],
+		}}
+	}}	
 ]
 
 Output:
-[
-	"<face_1>'s name is David.",
-	"<face_1> likely holds a leadership or managerial role.",
-	"<face_1> appears to be in a position of authority over <face_2>."
+
+CLIP_1 identifies <face_1> as Alice and <face_2> as Bob. CLIP_2 shows the argument between them. However, the influence of this argument on their relationship is not yet clear — we need to know what happened afterward and whether their interaction changed.
+[SEARCH] [
+	"What happens in CLIP_3 after the argument?",
+	"How does Alice behave toward Bob after the argument?",
+	"Are there any summaries indicating a shift in Alice and Bob’s relationship?",
+	"Do Alice and Bob interact again in later clips?",
+	"Is there any indication that their relationship improves or deteriorates after CLIP_2?"
 ]
 
-⸻
+Now, generate your response for the following input:
 
-Please only return the valid string list, without any additional explanation or formatting. 
+Question: {question}
 
-Now, use the same logic and structure to analyze the new input.
+Retrieval Plan: {retrieval_plan}
 
-Node: {node_id}
-
-History Information: {history_information}
+Knowledge: {knowledge}
 
 Output:"""
 
@@ -647,131 +549,7 @@ Input:
 
 Output:"""
 
-prompt_answer_with_retrieval = """You are given a question and a list of related memories. Your task is to answer the question based on the provided memories, ensuring that your response is clearly categorized as either an intermediate thought process or a final answer.
-
-For each answer:
-	1.	If you have gathered enough information to provide the final answer, start the response with "[FINAL]" and write the answer.
-	•	In [FINAL] answers, when you need to refer to a character, use their specific names, instead of id tags like <character_1>, or ambiguous descriptions like "the man in the suit" or "the person speaking.".
-	•	If the characters' names are unknown and references are needed, do not fabricate them -- return an [INTERMEDIATE] answer and explain what information is still needed.
-	2.	If you have not yet gathered complete information to provide the final answer and need to express an intermediate step, start the response with "[INTERMEDIATE]".
-	•	In [INTERMEDIATE] answers, when referencing characters, you can use their feature ID (e.g., <character_1>) from the memories. 
-	•	In each [INTERMEDIATE] answer, include the next step or question that needs to be resolved in order to reach the final answer, such as identifying a character's name or confirming a specific event.
-
-Strict Requirements:
-	•	Do not use tags or placeholders like <character_1> in [FINAL] answers. 
-	•	Do not use ambiguous descriptive references in [FINAL] answers. 
-	•	The final answer should be a clear, human-readable piece of information derived from the memories. 
-	•	If the characters' specific names are unknown, respond with [INTERMEDIATE] answers and include a next step of identifying the characters' names.
-    
-Example 1:
-
-Question: Who is the host of the meeting?
-
-Related Memories:
-
-[
-    "<character_1> introduces the meeting and assigns tasks to the participants.",
-    "<character_2> listens attentively to <character_1> and takes notes."
-]
-
-Answer:
-
-[INTERMEDIATE] <character_1> is the host of the meeting. Next, I need to verify the identity the name of <character_1>.
-
-Example 2:
-
-Question: Who is the host of the meeting?
-
-Related Memories:
-
-[
-    "<character_1> introduces the meeting and assigns tasks to the participants.",
-    "<character_2> listens attentively to <character_1> and takes notes.",
-    "<character_1> says: 'My name is David.'"
-]
-
-Answer:
-
-[FINAL] David is the host of the meeting.
-
-Your Task:
-	•	If you can definitively answer the question based on the provided memories, start your response with "[FINAL]" and avoid using  tags.
-	•	If you need more information to make the final decision, provide an intermediate answer with the "[INTERMEDIATE]" tag and include  tags for relationships or inferred information.
-
-Please ensure that the output includes only one type of answer: either "[INTERMEDIATE]" or "[FINAL]".
-
-Question: {question}
-
-Related Memories: {related_memories}
-
-Answer:"""
-
-prompt_answer_with_retrieval_clipwise = """You are given a question and a dictionary of related memories, where each key is a clip_id (a positive integer) representing a video segment in chronological order, and the corresponding value is a list of memory strings from that clip.
-
-Your task is to answer the question based on all provided memories, ensuring that your response is clearly categorized as either an intermediate thought process or a final answer.
-
-For each answer:
-	1.	If you have gathered enough information to provide the final answer, start the response with "[FINAL]" and write the answer.
-	•	In [FINAL] answers, when you need to refer to a character, use their specific names, instead of id tags like <character_1>, or ambiguous descriptions like "the man in the suit" or "the person speaking.".
-	•	If the characters' names are unknown and references are needed, do not fabricate them -- return an [INTERMEDIATE] answer and explain what information is still needed.
-	2.	If you have not yet gathered complete information to provide the final answer and need to express an intermediate step, start the response with "[INTERMEDIATE]".
-	•	In [INTERMEDIATE] answers, when referencing characters, you can use their feature ID (e.g., <character_1>) from the memories. 
-	•	In each [INTERMEDIATE] answer, include the next step or question that needs to be resolved in order to reach the final answer, such as identifying a character's name or confirming a specific event.
-
-Example 1
-
-Question: Who is the host of the meeting?
-
-Related Memories:
-
-{{
-    "clip_1": [
-        "<character_1> enters the meeting room and walks to the front.",
-        "<character_1> introduces the meeting and assigns tasks to the participants.",
-        "<character_2> listens attentively to <character_1> and takes notes."
-    ]
-}}
-
-Answer:
-
-[INTERMEDIATE] <character_1> is the host of the meeting. Next, I need to identify the name of <character_1>.
-
-Example 2
-
-Question: Who is the host of the meeting?
-
-Related Memories:
-
-{{
-    "clip_1": [
-        "<character_1> enters the meeting room and walks to the front.",
-        "<character_1> introduces the meeting and assigns tasks to the participants.",
-        "<character_2> listens attentively to <character_1> and takes notes."
-    ],
-    "clip_2": [
-        "<character_1> says: 'My name is David.'"
-    ]
-}}
-
-Answer:
-
-[FINAL] David is the host of the meeting.
-
-
-Your Task:
-	•	If you can definitively answer the question based on the full memory dict, respond with a [FINAL] answer using specific names only (if references are needed).
-	•	If you still need key information (such as a character’s identity), respond with an [INTERMEDIATE] answer using <ID> references, and clearly state what the next step is to reach the final answer.
-
-Only provide one type of answer per response: either [INTERMEDIATE] or [FINAL].
-
-Question: {question}
-
-Related Memories: 
-{related_memories}
-
-Answer:"""
-
-prompt_answer_with_retrieval_clipwise_final = """You are given a question about a specific video and a dictionary of some related information about the video. Each key in the dictionary is a clip ID (an integer), representing the index of a video clip. The corresponding value is a list of video descriptions from that clip.
+prompt_answer_with_retrieval_final = """You are given a question about a specific video and a dictionary of some related information about the video. Each key in the dictionary is a clip ID (an integer), representing the index of a video clip. The corresponding value is a list of video descriptions from that clip.
 
 Your task is to analyze the provided information, reason over it, and produce the most reasonable and well-supported answer to the question.
 
@@ -793,29 +571,6 @@ Input:
 	•	Video Information: {information}
 
 Output:"""
-
-# prompt_refine_qa_list = """You are given a list of question-answer (QA) pairs derived from a video. Please revise each question and answer to ensure grammatical correctness, clarity, and formal expression. Keep the revisions as concise as possible without changing the original meaning. Return only the revised list in the same format.
-
-# Example input:
-
-# [
-# 	{{"question": "what's the man doing?", "answer": "he fixing the car."}},
-# 	{{"question": "why she looks angry?", "answer": "because someone take her bag."}}
-# ]
-
-# Expected output:
-
-# [
-# 	{{"question": "What is the man doing?", "answer": "He is repairing the car."}},
-# 	{{"question": "Why does she appear upset?", "answer": "Because someone took her bag."}}
-# ]
-
-# Please only return the valid json list, without any additional explanation or formatting. Now, use the same logic and structure to analyze the new input.
-
-# Input:
-# {qa_list}
-
-# Output:"""
 
 prompt_refine_qa_list = """You are given a list of question-answer (QA) pairs based on specific videos, along with corresponding reasoning processes written in Chinese. Your task is to:
 	1.	Translate the reasoning processes into concise and fluent English, without changing their original meaning.
@@ -870,10 +625,6 @@ Do not require exact wording or surface form match. Semantic equivalence, given 
 
 Please only return "Yes" or "No", with no additional explanation or formatting."""
 
-# prompt_agent_verify_answer = """You are provided with a question, the ground truth answer, and the answer from an agent model. Your task is to assess whether the agent answer is semantically consistent with the ground truth answer. If the meaning of the agent answer aligns with the ground truth answer, regardless of exact wording, return "Yes". If the agent answer is semantically incorrect, return "No".
-
-# Please only return "Yes" or "No", without any additional explanation or formatting."""
-
 prompt_agent_verify_answer_with_reasoning = """You are provided with a question, a ground truth answer, a reasoning that supports the ground truth answer (based on video content), and an answer from an agent model.
 
 Your task is to assess whether the agent answer is semantically valid, based on the question and the provided reasoning.
@@ -891,44 +642,3 @@ Input fields:
 	•	ground_truth_answer: the correct answer
 	•	reasoning: explanation of how the answer is derived from the video
 	•	agent_answer: the answer generated by the model"""
-
-prompt_generate_plan = """You are given a clip from a specific video and a question about the video. There exists a memory bank that contains information about this video, but you will not be shown its contents.
-
-The memory bank is structured as a temporally ordered sequence of entries. Each entry contains either:
-	•	a fine-grained description of a specific moment in the video, or
-	•	a high-level summary or abstraction of events.
-
-Your task is to create a detailed and robust retrieval plan: a step-by-step outline describing what kinds of information should be retrieved from the memory bank to answer the question effectively.
-
-Requirements:
-	•	Do not answer the question.
-	•	Instead, output a string list, where each item describes one retrieval step.
-	•	Each step should specify a type of content, topic, or temporal segment to retrieve (e.g., "find entries describing character motivations" or "look for summaries of the climax").
-
-Your plan must:
-	1.	Ensure completeness:
-		The plan must guide the retrieval process in such a way that all essential pieces of information required to answer the question will be retrieved — including context, reasoning chains, motivations, consequences, and temporal links, as relevant.
-		Do not stop at partial evidence. Design the plan so that it systematically explores and gathers all necessary supporting elements.
-	2.	Include contingency strategies:
-		Anticipa what might go wrong or be missing during retrieval. For example:
-		•	What if direct mentions of an event are not available?
-		•	What if the memory bank contains conflicting interpretations?
-		•	What if characters' intentions or relationships are implied but not explicitly stated?
-		Your plan should include fallback options and indirect paths to cover these cases (e.g., using emotion cues, related scenes, earlier summaries, or surrounding context).
-	3.	Follow a logical order:
-		The steps should be ordered in a way that reflects effective reasoning — e.g., from specific to general, or from earlier scenes to later consequences.
-
-Output format:
-A list of strings. Example:
-
-[
-	"Step 1: Retrieve entries describing the initial context and setting of the video.",
-	"Step 2: Look for interactions between the main characters relevant to the question.",
-	"Step 3: Find summaries that explain the consequences of the key events."
-]
-
-Please response with only the string list of the plan (wrapped by "[]"), without any additional explanation or formatting.
-
-Now start generating the plan.
-
-Questions: {question}"""
