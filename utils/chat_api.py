@@ -82,8 +82,7 @@ def parallel_get_response(model, messages, timeout=10):
     for i in range(0, len(messages), batch_size):
         batch = messages[i:i + batch_size]
         with ThreadPoolExecutor(max_workers=len(batch)) as executor:
-            futures = [executor.submit(get_response_with_retry, model, msg, timeout) for msg in batch]
-            batch_responses = [future.result() for future in futures]
+            batch_responses = list(executor.map(lambda msg: get_response_with_retry(model, msg, timeout), batch))
             
         # Extract answers and tokens from batch responses
         batch_answers = [response[0] for response in batch_responses]
