@@ -205,18 +205,18 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset", type=str, default="data/annotations/small_test.jsonl")
     parser.add_argument("--sample_rounds", type=int, default=3)
-    parser.add_argument("--output_dir", type=str, default="data/annotations/results/forcing_answer")
+    parser.add_argument("--output_dir", type=str, default="data/annotations/results")
     
     exp_settings = {
-        "multiple_queries": {
-            "topk": 5,
-            "multiple_queries": true,
-            "max_retrieval_steps": 20
-        },
         "large_retrieval": {
             "topk": 30,
-            "multiple_queries": true,
+            "multiple_queries": True,
             "max_retrieval_steps": 3
+        },
+        "multiple_queries": {
+            "topk": 5,
+            "multiple_queries": True,
+            "max_retrieval_steps": 20
         }
     }
 

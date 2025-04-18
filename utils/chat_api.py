@@ -26,7 +26,7 @@ for model_name in config.keys():
 
 MAX_RETRIES = 10
 
-def get_response(model, messages):
+def get_response(model, messages, timeout=10):
     """Get chat completion response from specified model.
 
     Args:
@@ -37,12 +37,12 @@ def get_response(model, messages):
         tuple: (response content, total tokens used)
     """
     response = client[model].chat.completions.create(
-        model=model, messages=messages, temperature=temp
+        model=model, messages=messages, temperature=temp, timeout=timeout
     )
     # return answer and number of tokens
     return response.choices[0].message.content, response.usage.total_tokens
 
-def get_response_with_retry(model, messages):
+def get_response_with_retry(model, messages, timeout=10):
     """Retry get_response up to MAX_RETRIES times with error handling.
 
     Args:
@@ -57,14 +57,14 @@ def get_response_with_retry(model, messages):
     """
     for i in range(MAX_RETRIES):
         try:
-            return get_response(model, messages)
+            return get_response(model, messages, timeout)
         except Exception as e:
             sleep(30)
             print(f"Retry {i} times, exception: {e}")
             continue
     raise Exception(f"Failed to get response after {MAX_RETRIES} retries")
 
-def parallel_get_response(model, messages):
+def parallel_get_response(model, messages, timeout=10):
     """Process multiple messages in parallel using ThreadPoolExecutor.
     Messages are processed in batches, with each batch completing before starting the next.
 
@@ -82,7 +82,7 @@ def parallel_get_response(model, messages):
     for i in range(0, len(messages), batch_size):
         batch = messages[i:i + batch_size]
         with ThreadPoolExecutor(max_workers=len(batch)) as executor:
-            futures = [executor.submit(get_response_with_retry, model, msg) for msg in batch]
+            futures = [executor.submit(get_response_with_retry, model, msg, timeout) for msg in batch]
             batch_responses = [future.result() for future in futures]
             
         # Extract answers and tokens from batch responses
@@ -95,7 +95,7 @@ def parallel_get_response(model, messages):
     return responses, total_tokens
 
 
-def get_embedding(model, text):
+def get_embedding(model, text, timeout=5):
     """Get embedding for text using specified model.
 
     Args:
@@ -105,11 +105,11 @@ def get_embedding(model, text):
     Returns:
         tuple: (embedding vector, total tokens used)
     """
-    response = client[model].embeddings.create(input=text, model=model)
+    response = client[model].embeddings.create(input=text, model=model, timeout=timeout)
     return response.data[0].embedding, response.usage.total_tokens
 
 
-def get_embedding_with_retry(model, text):
+def get_embedding_with_retry(model, text, timeout=5):
     """Retry get_embedding up to MAX_RETRIES times with error handling.
 
     Args:
@@ -124,14 +124,14 @@ def get_embedding_with_retry(model, text):
     """
     for i in range(MAX_RETRIES):
         try:
-            return get_embedding(model, text)
+            return get_embedding(model, text, timeout)
         except Exception as e:
             sleep(30)
             print(f"Retry {i} times, exception: {e}")
             continue
     raise Exception(f"Failed to get embedding after {MAX_RETRIES} retries")
 
-def parallel_get_embedding(model, texts):
+def parallel_get_embedding(model, texts, timeout=5):
     """Process multiple texts in parallel to get embeddings.
 
     Args:
@@ -151,7 +151,7 @@ def parallel_get_embedding(model, texts):
         max_workers = len(batch)
         
         with ThreadPoolExecutor(max_workers=max_workers) as executor:
-            results = list(executor.map(lambda x: get_embedding_with_retry(model, x), batch))
+            results = list(executor.map(lambda x: get_embedding_with_retry(model, x, timeout), batch))
             
         # Split batch results into embeddings and tokens
         batch_embeddings = [result[0] for result in results]
