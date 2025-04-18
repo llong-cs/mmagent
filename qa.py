@@ -9,7 +9,7 @@ from concurrent.futures import ProcessPoolExecutor
 from mmagent.utils.general import load_video_graph
 from mmagent.utils.chat_api import generate_messages, get_response_with_retry, parallel_get_response
 from mmagent.retrieve import answer_with_retrieval
-from mmagent.prompts import prompt_agent_verify_answer, prompt_agent_verify_answer_with_reasoning
+from mmagent.prompts import prompt_agent_verify_answer, prompt_agent_verify_answer_with_reasoning, prompt_agent_verify_answer_referencing
 import mmagent.videograph
 
 sys.modules["videograph"] = mmagent.videograph
@@ -137,7 +137,7 @@ def verify_qa_list(qa_list, dataset_with_agent_answer_verified):
                     },
                     {
                         "type": "text",
-                        "content": prompt_agent_verify_answer,
+                        "content": prompt_agent_verify_answer_referencing,
                     },
                     {
                         "type": "text",

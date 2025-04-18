@@ -568,19 +568,24 @@ prompt_refine_qa_list = """You are given a list of question-answer (QA) pairs ba
 	•	Logically consistent with the reasoning
 	•	Expressed in a clear, specific, and rigorous way
 
-Additional constraints:
-	•	Question: Adjust the wording and scope to closely match what the reasoning supports. The question should be specific enough to yield a unique, well-justified answer based on the video. Avoid vague or overly broad questions.
-	•	Answer: Revise the answer so that it is:
-	•	Concise, grammatically correct, and semantically precise
-	•	Directly supported by the reasoning and video
-	•	Unambiguous and standardized, so it can be reliably used as ground truth for evaluating other model outputs
+Additional Constraints:
+	•	Question:
+		•	Do not oversimplify or generalize the original question.
+		•	Preserve important contextual details or conditions from the original input.
+		•	The revised question should be more specific and tightly scoped, such that the video provides a unique and unambiguous answer.
+		•	Avoid vagueness or ambiguity; the revised question should not allow multiple valid answers.
+	•	Answer:
+		•	Ensure the answer is concise, grammatically correct, and semantically precise.
+		•	It should be directly supported by the reasoning and the video.
+		•	The answer should be unambiguous and standardized, suitable for use as ground truth in evaluation tasks.
 
-Output format:
+Output Format:
 
 Return a valid JSON list where each item contains:
-	•	question: the revised English question
-	•	answer: the revised English answer (refined for clarity and evaluation use)
-	•	reasoning: the translated and refined English reasoning explaining how the answer is derived from the video
+	•	"question": the revised English question
+	•	"answer": the revised English answer (refined for clarity and evaluability)
+	•	"reasoning": the translated and refined English reasoning explaining how the answer is derived from the video
+
 
 Example Input:
 
@@ -592,8 +597,8 @@ Example Input:
 Expected Output:
 
 [
-	{{"question": "What is the man doing?", "answer": "He is repairing the car.", "reasoning": "There is a clip showing the man repairing the car."}},
-	{{"question": "Why does the woman look upset?", "answer": "Because someone took her bag.", "reasoning": "The video shows a scene where the woman appears upset after someone takes her bag."}}
+	{{"question": "What is the man doing to the vehicle in the garage?", "answer": "He is repairing the car.", "reasoning": "There is a clip showing the man repairing a car in the garage."}},
+	{{"question": "Why does the woman appear upset after walking into the hallway?", "answer": "Because someone took her bag.", "reasoning": "The video shows the woman appearing upset in the hallway after someone takes her bag."}}
 ]
 
 Now, apply the same logic to the following input:
@@ -612,6 +617,20 @@ If the meaning expressed by the agent answer aligns with the meaning of the grou
 Do not require exact wording or surface form match. Semantic equivalence, given the context of the question, is sufficient.
 
 Please only return "Yes" or "No", with no additional explanation or formatting."""
+
+prompt_agent_verify_answer_referencing = """You are provided with a question, a ground truth answer, and an answer from an agent model. Your task is to determine whether the ground truth answer can be logically inferred from the agent's answer, in the context of the question.
+
+Do not directly compare the surface forms of the agent answer and the ground truth answer. Instead, assess whether the meaning expressed by the agent answer supports or implies the ground truth answer. If the ground truth can be reasonably derived from the agent answer, return "Yes". If it cannot, return "No".
+
+Important notes:
+	•	Do not require exact wording or matching structure.
+	•	Semantic inference is sufficient, as long as the agent answer entails or implies the meaning of the ground truth answer, given the question.
+	•	Only return "Yes" or "No", with no additional explanation or formatting.
+
+Input fields:
+	•	question: the question asked
+	•	ground_truth_answer: the correct answer
+	•	agent_answer: the model's answer to be evaluated"""
 
 prompt_agent_verify_answer_with_reasoning = """You are provided with a question, a ground truth answer, a reasoning that supports the ground truth answer (based on video content), and an answer from an agent model.
 
