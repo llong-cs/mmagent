@@ -5,8 +5,8 @@ import os
 
 import euler
 euler.install_thrift_import_hook()
-from idl.base_thrift import *
-from idl.face_processing_thrift import *
+from .idl.base_thrift import *
+from .idl.face_processing_thrift import *
 
 
 # Build client

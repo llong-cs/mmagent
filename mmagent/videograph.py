@@ -13,10 +13,10 @@ from PIL import Image
 import numpy as np
 import json
 from tqdm import tqdm
-from memory_processing import process_captions, parse_video_caption
-from prompts import prompt_extract_entities
-from utils.chat_api import generate_messages, get_response_with_retry
-from utils.general import validate_and_fix_python_list
+from .memory_processing import process_captions, parse_video_caption
+from .prompts import prompt_extract_entities
+from .utils.chat_api import generate_messages, get_response_with_retry
+from .utils.general import validate_and_fix_python_list
 
 processing_config = json.load(open("configs/processing_config.json"))
 MAX_RETRIES = processing_config["max_retries"]

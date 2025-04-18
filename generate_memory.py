@@ -5,15 +5,15 @@ import json
 from concurrent.futures import ProcessPoolExecutor
 import multiprocessing
 
-from videograph import VideoGraph
-from utils.general import *
-from utils.video_processing import *
-from utils.chat_api import *
-from prompts import *
+from mmagent.videograph import VideoGraph
+from mmagent.utils.general import *
+from mmagent.utils.video_processing import *
+from mmagent.utils.chat_api import *
+from mmagent.prompts import *
 
-from face_processing import process_faces
-from voice_processing import process_voices
-from memory_processing import (
+from mmagent.face_processing import process_faces
+from mmagent.voice_processing import process_voices
+from mmagent.memory_processing import (
     process_captions,
     generate_captions_and_thinkings_with_ids,
 )

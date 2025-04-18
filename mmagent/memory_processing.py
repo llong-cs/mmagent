@@ -11,9 +11,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from PIL import Image, ImageDraw
 
-from utils.chat_api import generate_messages, get_response_with_retry, parallel_get_embedding, print_messages
-from utils.general import validate_and_fix_python_list
-from prompts import prompt_generate_captions_with_ids, prompt_generate_thinkings_with_ids
+from .utils.chat_api import generate_messages, get_response_with_retry, parallel_get_embedding, print_messages
+from .utils.general import validate_and_fix_python_list
+from .prompts import prompt_generate_captions_with_ids, prompt_generate_thinkings_with_ids
 
 processing_config = json.load(open("configs/processing_config.json"))
 

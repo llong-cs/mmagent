@@ -1,14 +1,14 @@
 import json
 import re
-from videograph import VideoGraph
-from utils.chat_api import (
+from .videograph import VideoGraph
+from .utils.chat_api import (
     generate_messages,
     get_response_with_retry,
     parallel_get_embedding,
 )
-from utils.general import validate_and_fix_python_list
-from prompts import prompt_answer_with_retrieval_final, prompt_generate_action, prompt_generate_plan, prompt_generate_action_with_plan, prompt_generate_action_with_plan_multiple_queries
-from memory_processing import parse_video_caption
+from .utils.general import validate_and_fix_python_list
+from .prompts import prompt_answer_with_retrieval_final, prompt_generate_action, prompt_generate_plan, prompt_generate_action_with_plan, prompt_generate_action_with_plan_multiple_queries
+from .memory_processing import parse_video_caption
 
 processing_config = json.load(open("configs/processing_config.json"))
 MAX_RETRIES = processing_config["max_retries"]

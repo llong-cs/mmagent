@@ -12,7 +12,7 @@ from itertools import combinations
 import struct
 import pickle
 import shutil
-from utils.chat_api import parallel_get_whisper
+from .chat_api import parallel_get_whisper
 
 processing_config = json.load(open("configs/processing_config.json"))
 memory_config = json.load(open("configs/memory_config.json"))

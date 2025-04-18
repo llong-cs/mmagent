@@ -1,0 +1,10 @@
+include README.md
+include requirements.txt
+
+recursive-include mmagent *.py
+recursive-include mmagent *.thrift
+
+global-exclude *.pyc
+global-exclude *.log
+global-exclude *.ipynb
+global-exclude __pycache__

@@ -3,11 +3,16 @@ import os
 import base64
 from tqdm import tqdm
 import argparse
+import sys
 from concurrent.futures import ProcessPoolExecutor
-from utils.general import load_video_graph
-from utils.chat_api import generate_messages, get_response_with_retry, parallel_get_response
-from retrieve import answer_with_retrieval
-from prompts import prompt_agent_verify_answer, prompt_agent_verify_answer_with_reasoning
+
+from mmagent.utils.general import load_video_graph
+from mmagent.utils.chat_api import generate_messages, get_response_with_retry, parallel_get_response
+from mmagent.retrieve import answer_with_retrieval
+from mmagent.prompts import prompt_agent_verify_answer, prompt_agent_verify_answer_with_reasoning
+import mmagent.videograph
+
+sys.modules["videograph"] = mmagent.videograph
 
 processing_config = json.load(open("configs/processing_config.json"))
 
@@ -208,6 +213,11 @@ if __name__ == "__main__":
     parser.add_argument("--output_dir", type=str, default="data/annotations/results")
     
     exp_settings = {
+        "full_retrieval": {
+            "topk": 1000,
+            "multiple_queries": True,
+            "max_retrieval_steps": 2
+        },
         "large_retrieval": {
             "topk": 30,
             "multiple_queries": True,

@@ -64,8 +64,6 @@ def has_static_segment(
     cap.release()
     return False
 
-
-
 def main():
     args = parse_args()
     dir = args.dir
