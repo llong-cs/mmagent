@@ -12,7 +12,11 @@ from itertools import combinations
 import struct
 import pickle
 import shutil
+import logging
 from .chat_api import parallel_get_whisper
+
+# Configure logging
+logger = logging.getLogger(__name__)
 
 processing_config = json.load(open("configs/processing_config.json"))
 memory_config = json.load(open("configs/memory_config.json"))
@@ -138,7 +142,7 @@ def generate_audio_files(video, video_config, base_path_video, base_path_audio):
         audio_clip.close()
         video_clip.close()
 
-        print(f"Audio successfully extracted and saved as: {output_path}")
+        logger.info(f"Audio successfully extracted and saved as: {output_path}")
 
 def generate_transcripts(video, video_config, base_path):
     """Generate transcripts from audio files using Whisper model.
@@ -240,7 +244,7 @@ def validate_and_fix_json(invalid_json):
         # Try to parse the fixed JSON
         return json.loads(fixed_json)
     except json.JSONDecodeError as e:
-        print(f"Still unable to fix: {e}")
+        logger.error(f"Still unable to fix: {e}")
         return None
     
 def validate_and_fix_python_list(invalid_list_string):
@@ -261,7 +265,7 @@ def validate_and_fix_python_list(invalid_list_string):
         else:
             raise ValueError("Input string is not a list")
     except (SyntaxError, ValueError) as e:
-        print(f"Parsing error: {e}")
+        logger.error(f"Parsing error: {e}")
         return None
     
 def plot_cosine_similarity_distribution(embeddings1, embeddings2):
@@ -314,18 +318,18 @@ def save_video_graph(video_graph, video_path, save_dir, file_name=None):
     save_path = os.path.join(save_dir, file_name)
     temp_save_path = os.path.join(temp_save_dir, file_name)
     with open(temp_save_path, "wb") as f:
-        print(f"Saving video graph to {temp_save_path}")
+        logger.info(f"Saving video graph to {temp_save_path}")
         pickle.dump(video_graph, f)
-    print(f"Moving video graph to {save_path}")
+    logger.info(f"Moving video graph to {save_path}")
     shutil.move(temp_save_path, save_path)
 
 def load_video_graph(video_graph_path):
     """Load video graph from pickle file.
     """
     if not os.path.exists(video_graph_path):
-        print("Video graph not found")
+        logger.warning("Video graph not found")
         return None
     with open(video_graph_path, "rb") as f:  
-        print(f"Loading video graph from {video_graph_path}")
+        logger.info(f"Loading video graph from {video_graph_path}")
         return pickle.load(f)
     

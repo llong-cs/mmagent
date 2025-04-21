@@ -18,6 +18,9 @@ logging.getLogger('moviepy').setLevel(logging.ERROR)
 logging.getLogger('moviepy.video.io.VideoFileClip').setLevel(logging.ERROR)
 logging.getLogger('moviepy.audio.io.AudioFileClip').setLevel(logging.ERROR)
 
+# Configure logging
+logger = logging.getLogger(__name__)
+
 processing_config = json.load(open("configs/processing_config.json"))
 
 def get_video_info(file_path):
@@ -139,7 +142,7 @@ def process_video_clip(video_path, start_time, interval=None, fps=10, video_form
         return base64_data["video"], base64_data["frames"], base64_data["audio"]
 
     except Exception as e:
-        print(f"Error processing video clip: {str(e)}")
+        logger.error(f"Error processing video clip: {str(e)}")
         raise
 
 def split_video_into_clips(video_path, interval, output_dir, output_format='mp4'):
@@ -219,7 +222,7 @@ def split_video_into_clips(video_path, interval, output_dir, output_format='mp4'
         return output_dir
 
     except Exception as e:
-        print(f"Error splitting video into clips: {str(e)}")
+        logger.error(f"Error splitting video into clips: {str(e)}")
         raise
 
 def verify_video_processing(video_path, output_dir, interval, strict=False):
@@ -289,7 +292,7 @@ def verify_video_processing(video_path, output_dir, interval, strict=False):
         if not os.path.exists(video_path):
             with open("logs/video_processing_failed.log", "a") as f:
                 f.write(f"Error processing {video_path}: Video file not found.\n")
-            print(f"Error processing {video_path}: Video file not found.")
+            logger.error(f"Error processing {video_path}: Video file not found.")
             return False
         # Get expected number of clips based on video duration
         video_info = get_video_info(video_path)
@@ -302,7 +305,7 @@ def verify_video_processing(video_path, output_dir, interval, strict=False):
         if not os.path.exists(clip_dir):
             with open("logs/video_processing_failed.log", "a") as f:
                 f.write(f"Error processing {video_path}: Clip directory {clip_dir} not found.\n")
-            print(f"Error processing {video_path}: Clip directory {clip_dir} not found.")
+            logger.error(f"Error processing {video_path}: Clip directory {clip_dir} not found.")
             return False
             
         actual_clips = [f for f in os.listdir(clip_dir) if os.path.isfile(os.path.join(clip_dir, f)) and f.split('.')[-1] in ['mp4', 'mov', 'webm']]
@@ -311,7 +314,7 @@ def verify_video_processing(video_path, output_dir, interval, strict=False):
         if actual_clips_num != expected_clips_num:
             with open("logs/video_processing_failed.log", "a") as f:
                 f.write(f"Error processing {video_path}: Expected {video_info['duration']}/{interval}={expected_clips_num} clips, but found {actual_clips_num} clips.\n")
-            print(f"Error processing {video_path}: Expected {video_info['duration']}/{interval}={expected_clips_num} clips, but found {actual_clips_num} clips.")
+            logger.error(f"Error processing {video_path}: Expected {video_info['duration']}/{interval}={expected_clips_num} clips, but found {actual_clips_num} clips.")
             return False
 
         if strict:
@@ -321,12 +324,12 @@ def verify_video_processing(video_path, output_dir, interval, strict=False):
                 if not has_video_and_audio(clip_file):
                     with open("logs/video_processing_failed.log", "a") as f:
                         f.write(f"Error processing {clip_file}: No video or audio streams found.\n")
-                    print(f"Error processing {clip_file}: No video or audio streams found.")
+                    logger.error(f"Error processing {clip_file}: No video or audio streams found.")
                     return False
                 if int(clip_id) < len(clip_files)-2 and has_static_segment(clip_file):
                     with open("logs/video_processing_failed.log", "a") as f:
                         f.write(f"Error processing {clip_file}: Has static segment.\n")
-                    print(f"Error processing {clip_file}: Has static segment.")
+                    logger.error(f"Error processing {clip_file}: Has static segment.")
                     return False
            
         return True
@@ -334,6 +337,7 @@ def verify_video_processing(video_path, output_dir, interval, strict=False):
     except Exception as e:
         with open("logs/video_processing_failed.log", "a") as f:
             f.write(f"Error verifying {video_path}: {e}\n")
+        logger.error(f"Error verifying {video_path}: {e}")
         return False
 
 
@@ -343,7 +347,7 @@ if __name__ == "__main__":
         try:
             split_video_into_clips(video_path, interval, output_dir)
         except Exception as e:
-            print(f"Error processing {video_path}: {str(e)}")
+            logger.error(f"Error processing {video_path}: {str(e)}")
 
     def verify_video_parallel(args):
         video_path, output_dir, interval = args
@@ -367,7 +371,7 @@ if __name__ == "__main__":
     cpu_count = multiprocessing.cpu_count()
     max_workers = min(cpu_count, 20)
     
-    print(f"Using {max_workers} processes (CPU cores: {cpu_count})")
+    logger.info(f"Using {max_workers} processes (CPU cores: {cpu_count})")
 
     # annotations_paths = ["data/annotations/CZ_1_refined.json", "data/annotations/CZ_2_refined.json"]
     # annotations_paths = ["data/annotations/CZ_3_refined.json", "data/annotations/ZZ_1_refined.json"]

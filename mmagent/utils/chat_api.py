@@ -4,6 +4,9 @@ from concurrent.futures import ThreadPoolExecutor
 from time import sleep
 import logging
 
+# Configure logging
+logger = logging.getLogger(__name__)
+
 # Disable httpx logging
 logging.getLogger("httpx").setLevel(logging.CRITICAL)
 # Disable urllib3 logging (which httpx uses)
@@ -15,6 +18,7 @@ logging.getLogger("httpcore").setLevel(logging.CRITICAL)
 
 processing_config = json.load(open("configs/processing_config.json"))
 temp = processing_config["temperature"]
+
 config = json.load(open("api_config.json"))
 client = {}
 for model_name in config.keys():
@@ -60,7 +64,7 @@ def get_response_with_retry(model, messages, timeout=30):
             return get_response(model, messages, timeout)
         except Exception as e:
             sleep(30)
-            print(f"Retry {i} times, exception: {e}")
+            logger.warning(f"Retry {i} times, exception: {e}")
             continue
     raise Exception(f"Failed to get response after {MAX_RETRIES} retries")
 
@@ -126,7 +130,7 @@ def get_embedding_with_retry(model, text, timeout=5):
             return get_embedding(model, text, timeout)
         except Exception as e:
             sleep(30)
-            print(f"Retry {i} times, exception: {e}")
+            logger.warning(f"Retry {i} times, exception: {e}")
             continue
     raise Exception(f"Failed to get embedding after {MAX_RETRIES} retries")
 
@@ -192,7 +196,7 @@ def get_whisper_with_retry(model, file_path):
             return get_whisper(model, file_path)
         except Exception as e:
             sleep(30)
-            print(f"Retry {i} times, exception: {e}")
+            logger.warning(f"Retry {i} times, exception: {e}")
     raise Exception(f"Failed to get response after {MAX_RETRIES} retries")
 
 def parallel_get_whisper(model, file_paths):
@@ -256,7 +260,7 @@ def generate_messages(inputs):
     content = []
     for input in inputs:
         if not input["content"]:
-            print("empty content, skip")
+            logger.warning("empty content, skip")
             continue
         if input["type"] == "text":
             content.append({"type": "text", "text": input["content"]})
@@ -323,4 +327,4 @@ def print_messages(messages):
         if message["role"] == "user":
             for item in message["content"]:
                 if item["type"] == "text":
-                    print(item['text'])
+                    logger.debug(item['text'])

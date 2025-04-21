@@ -1,5 +1,6 @@
 import json
 import re
+import logging
 from .videograph import VideoGraph
 from .utils.chat_api import (
     generate_messages,
@@ -12,6 +13,8 @@ from .memory_processing import parse_video_caption
 
 processing_config = json.load(open("configs/processing_config.json"))
 MAX_RETRIES = processing_config["max_retries"]
+# Configure logging
+logger = logging.getLogger(__name__)
 
 def translate(video_graph, memories):
     new_memories = []
@@ -228,7 +231,7 @@ def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5,
         messages = generate_messages(input)
         model = "gemini-1.5-pro-002"
         retrieval_plan = get_response_with_retry(model, messages)[0]
-        print(f"Retrieval plan: {retrieval_plan}")
+        logger.info(f"Retrieval plan: {retrieval_plan}")
     else:
         retrieval_plan = None
 
@@ -243,7 +246,7 @@ def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5,
                 "action_type": action_type,
                 "action_content": action_content
             })
-            print(f"Answer: {final_answer}")
+            logger.info(f"Answer: {final_answer}")
             break
         elif action_type == "search":
             if i == max_retrieval_steps - 1:
@@ -266,7 +269,7 @@ def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5,
                     "action_type": "answer",
                     "action_content": final_answer
                 })
-                print(f"Forced answer: {final_answer}")
+                logger.info(f"Forced answer: {final_answer}")
                 break
             
             new_memories, related_clips = search(video_graph, action_content, related_clips, topk, mode)
@@ -290,9 +293,9 @@ def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5,
             memories.append(new_memory_items)
             
             if processing_config["logging"] == "DETAIL":
-                print("=" * 10 + "Retrieval Step " + str(i+1) + "=" * 10)
-                print(new_response_item)
-                print(new_memory_items)
+                logger.debug("=" * 10 + "Retrieval Step " + str(i+1) + "=" * 10)
+                logger.debug(new_response_item)
+                logger.debug(new_memory_items)
             
     return final_answer, (memories, responses)
 
@@ -313,8 +316,8 @@ def verify_qa(question, gt, pred):
         response = get_response_with_retry(model, messages)
         result = response[0]
     except Exception as e:
-        print(f"Error verifying qa: {question}")
-        print(e)
+        logger.error(f"Error verifying qa: {question}")
+        logger.error(str(e))
         return None
     return result
 

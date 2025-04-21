@@ -4,6 +4,7 @@ This file contains functions for processing video descriptions and generating ca
 
 import base64
 import json
+import logging
 from io import BytesIO
 import re
 
@@ -18,7 +19,9 @@ from .prompts import prompt_generate_captions_with_ids, prompt_generate_thinking
 processing_config = json.load(open("configs/processing_config.json"))
 
 MAX_RETRIES = processing_config["max_retries"]
-logging = processing_config["logging"]
+# Configure logging
+logger = logging.getLogger(__name__)
+
 
 def parse_video_caption(video_graph, video_caption):
         # video_caption is a string like this: <char_1> xxx <char_2> xxx
@@ -34,7 +37,7 @@ def parse_video_caption(video_graph, video_caption):
             node_id = int(node_id)
             entities.append((node_type, node_id))
         except Exception as e:
-            print(f"Entities parsing error: {e}")
+            logger.error(f"Entities parsing error: {e}")
             continue
     entities = [entity for entity in entities if entity[1] in video_graph.nodes and ((video_graph.nodes[entity[1]].type == 'img' and entity[0] == 'face') or (video_graph.nodes[entity[1]].type == 'voice' and entity[0] == 'voice') or (video_graph.nodes[entity[1]].type in ['episodic', 'semantic'] and entity[0] == 'text'))]
     return entities
@@ -94,10 +97,10 @@ def generate_video_context(
     
     num_faces = len(face_frames)
     if num_faces == 0:
-        print("No qualified faces detected")
+        logger.warning("No qualified faces detected")
     
     # Visualize face frames with IDs
-    if logging == "DETAIL" and num_faces > 0:
+    if logging_level == "DETAIL" and num_faces > 0:
         num_rows = (num_faces + 2) // 3  # Round up division to get number of rows needed
 
         _, axes = plt.subplots(num_rows, 3, figsize=(15, 5 * num_rows))
@@ -131,10 +134,10 @@ def generate_video_context(
     
     num_voices = len(voices_input)
     if num_voices == 0:
-        print("No qualified voices detected")
+        logger.warning("No qualified voices detected")
 
-    if logging == "DETAIL" and num_voices > 0:
-        print(f"Diarized dialogues: {voices_input}")
+    if logging_level == "DETAIL" and num_voices > 0:
+        logger.debug(f"Diarized dialogues: {voices_input}")
 
     video_context = [
         {

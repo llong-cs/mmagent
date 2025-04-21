@@ -2,6 +2,7 @@
 This module defines the VideoGraph class, which is used to represent the video graph.
 """
 import random
+import logging
 
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
@@ -20,7 +21,8 @@ from .utils.general import validate_and_fix_python_list
 
 processing_config = json.load(open("configs/processing_config.json"))
 MAX_RETRIES = processing_config["max_retries"]
-logging = processing_config["logging"]
+# Configure logging
+logger = logging.getLogger(__name__)
 
 class VideoGraph:
     """
@@ -120,8 +122,7 @@ class VideoGraph:
         self.nodes[self.next_node_id] = node
         self.next_node_id += 1
 
-        if logging == "DETAIL":
-            print(f"Image node added with ID {node.id}")
+        logger.debug(f"Image node added with ID {node.id}")
 
         return node.id
 
@@ -141,8 +142,7 @@ class VideoGraph:
         self.nodes[self.next_node_id] = node
         self.next_node_id += 1
 
-        if logging == "DETAIL":
-            print(f"Voice node added with ID {node.id}")
+        logger.debug(f"Voice node added with ID {node.id}")
 
         return node.id
 
@@ -173,8 +173,7 @@ class VideoGraph:
 
         self.next_node_id += 1
 
-        if logging == "DETAIL":
-            print(f"Text node of type {text_type} added with ID {node.id} and contents: {text['contents']}")
+        logger.debug(f"Text node of type {text_type} added with ID {node.id} and contents: {text['contents']}")
 
         return node.id
 
@@ -213,8 +212,7 @@ class VideoGraph:
         else:
             node.embeddings = all_embeddings
         
-        if logging == "DETAIL":
-            print(f"Node {node_id} updated with {len(embeddings)} embeddings")
+        logger.debug(f"Node {node_id} updated with {len(embeddings)} embeddings")
 
         return True
 
@@ -225,8 +223,7 @@ class VideoGraph:
             # Add both directions with same weight
             self.edges[(node_id1, node_id2)] = weight
             self.edges[(node_id2, node_id1)] = weight
-            if logging == "DETAIL":
-                print(f"Edge added between {node_id1} and {node_id2}")
+            logger.debug(f"Edge added between {node_id1} and {node_id2}")
             return True
         return False
 
@@ -240,8 +237,7 @@ class VideoGraph:
             if self.edges[(node_id1, node_id2)] <= 0:
                 del self.edges[(node_id1, node_id2)]
                 del self.edges[(node_id2, node_id1)]
-                if logging == "DETAIL":
-                    print(f"Edge removed between {node_id1} and {node_id2}")
+                logger.debug(f"Edge removed between {node_id1} and {node_id2}")
             return True
         return False
 
@@ -264,8 +260,7 @@ class VideoGraph:
                 self.update_edge_weight(n1, n2, delta_weight)
                 reinforced_count += 1
 
-        if logging == "DETAIL":
-            print(f"{reinforced_count} edges reinforced for node {node_id}")
+        logger.debug(f"{reinforced_count} edges reinforced for node {node_id}")
                 
         return reinforced_count
 
@@ -288,8 +283,7 @@ class VideoGraph:
                 self.update_edge_weight(n1, n2, -delta_weight)  # Use negative delta_weight to decrease
                 weakened_count += 1
 
-        if logging == "DETAIL":
-            print(f"{weakened_count} edges weakened for node {node_id}")
+        logger.debug(f"{weakened_count} edges weakened for node {node_id}")
                 
         return weakened_count
     
@@ -368,20 +362,19 @@ class VideoGraph:
             else:
                 raise ValueError("Unknown mode")
             
-            if logging == "DETAIL":
-                print('=' * 80)
-                print(f"Cluster {cluster_id} has {len(cluster_nodes)} nodes: {cluster_nodes}")
-                for node in cluster_nodes:
-                    print('-' * 80)
-                    print(f"Node {node} [edge weight]: {self.edges[(node_id, node)]}")
-                    print(f"Node {node} [content]: {self.nodes[node].metadata['contents'][0]}")
+            logger.debug('=' * 80)
+            logger.debug(f"Cluster {cluster_id} has {len(cluster_nodes)} nodes: {cluster_nodes}")
+            for node in cluster_nodes:
+                logger.debug('-' * 80)
+                logger.debug(f"Node {node} [edge weight]: {self.edges[(node_id, node)]}")
+                logger.debug(f"Node {node} [content]: {self.nodes[node].metadata['contents'][0]}")
 
-                print('*' * 80)
-                print(f"Cluster {cluster_id} has {len(filtered_nodes)} nodes after filtering: {filtered_nodes}")
-                for node in filtered_nodes:
-                    print('-' * 80)
-                    print(f"Node {node} [edge weight]: {self.edges[(node_id, node)]}")
-                    print(f"Node {node} [content]: {self.nodes[node].metadata['contents'][0]}")
+            logger.debug('*' * 80)
+            logger.debug(f"Cluster {cluster_id} has {len(filtered_nodes)} nodes after filtering: {filtered_nodes}")
+            for node in filtered_nodes:
+                logger.debug('-' * 80)
+                logger.debug(f"Node {node} [edge weight]: {self.edges[(node_id, node)]}")
+                logger.debug(f"Node {node} [content]: {self.nodes[node].metadata['contents'][0]}")
                 
         return filtered_nodes
     
@@ -695,37 +688,37 @@ class VideoGraph:
         for node_id, node in self.nodes.items():
             if node.type != 'voice':
                 continue
-            print("-"*50, f"Voice Node {node_id}", "-"*50)
-            print(f"Contents: {node.metadata['contents']}")
+            logger.info("-"*50 + f"Voice Node {node_id}" + "-"*50)
+            logger.info(f"Contents: {node.metadata['contents']}")
             
             connected_text_nodes = self.get_connected_nodes(node_id, type=['episodic', 'semantic'])
-            print(f"Connected Nodes: {connected_text_nodes}")
+            logger.info(f"Connected Nodes: {connected_text_nodes}")
             connected_texts = [self.nodes[text_id].metadata['contents'] for text_id in connected_text_nodes]
-            print(f"Connected Nodes Contents: {connected_texts}")
+            logger.info(f"Connected Nodes Contents: {connected_texts}")
     
     def print_img_nodes(self, node_id=None):
         if node_id is not None:
             if self.nodes[node_id].type!= 'img':
                 return
 
-            print("-"*50, f"Image Node {node_id}", "-"*50)
+            logger.info("-"*50 + f"Image Node {node_id}" + "-"*50)
 
             connected_text_nodes = self.get_connected_nodes(node_id, type=['episodic', 'semantic'])
-            print(f"Connected Nodes: {connected_text_nodes}")
+            logger.info(f"Connected Nodes: {connected_text_nodes}")
             connected_texts = [self.nodes[text_id].metadata['contents'] for text_id in connected_text_nodes]
-            print(f"Connected Nodes Contents: {connected_texts}")
+            logger.info(f"Connected Nodes Contents: {connected_texts}")
 
             self.print_faces([node_id])
         else:
             for node_id, node in self.nodes.items():
                 if node.type != 'img':
                     continue
-                print("-"*50, f"Image Node {node_id}", "-"*50)
+                logger.info("-"*50 + f"Image Node {node_id}" + "-"*50)
 
                 connected_text_nodes = self.get_connected_nodes(node_id, type=['episodic', 'semantic'])
-                print(f"Connected Nodes: {connected_text_nodes}")
+                logger.info(f"Connected Nodes: {connected_text_nodes}")
                 connected_texts = [self.nodes[text_id].metadata['contents'] for text_id in connected_text_nodes]
-                print(f"Connected Nodes Contents: {connected_texts}")
+                logger.info(f"Connected Nodes Contents: {connected_texts}")
 
                 self.print_faces([node_id])
             

@@ -2,6 +2,7 @@ import base64
 import struct
 import json
 import os
+import logging
 
 from laplace import Client
 from pydub import AudioSegment
@@ -11,11 +12,15 @@ from .utils.general import validate_and_fix_json, normalize_embedding
 from .utils.video_processing import process_video_clip
 import io
 
+# Configure logging
 laplace = Client("tcp://10.124.106.228:9473", timeout=500)
 
 processing_config = json.load(open("configs/processing_config.json"))
 
 MAX_RETRIES = processing_config["max_retries"]
+
+# Configure logging
+logger = logging.getLogger(__name__)
 
 
 def process_voices(video_graph, base64_audio, base64_video, save_path, preprocessing=[]):
@@ -297,7 +302,7 @@ def process_voices(video_graph, base64_audio, base64_video, save_path, preproces
                 for audio in audios:
                     audio["audio_segment"] = audio["audio_segment"].encode("utf-8")
             
-            print(f"Write voice detection results to {save_path}")
+            logger.info(f"Write voice detection results to {save_path}")
         except Exception as e:
             # Save error to log file
             log_dir = processing_config["log_dir"]
@@ -328,4 +333,4 @@ if __name__ == "__main__":
     emb = outputs.output_bytes_lists["output"][0]
     format_string = 'f' * (len(emb) // struct.calcsize('f'))
     double_list_recovered = list(struct.unpack(format_string, emb))
-    print(len(double_list_recovered))
+    logger.info(f"Recovered double list length: {len(double_list_recovered)}")

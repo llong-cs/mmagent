@@ -2,6 +2,7 @@ from concurrent.futures import ThreadPoolExecutor
 from tqdm import tqdm
 import json
 import os
+import logging
 
 import euler
 euler.install_thrift_import_hook()
@@ -21,6 +22,7 @@ test_client = euler.Client(
 processing_config = json.load(open("configs/processing_config.json"))
 
 cluster_size = processing_config["cluster_size"]
+logger = logging.getLogger(__name__)
 
 def process_faces(video_graph, base64_frames, save_path, preprocessing=[]):
     """
@@ -190,7 +192,7 @@ def process_faces(video_graph, base64_frames, save_path, preprocessing=[]):
             with open(save_path, "w") as f:
                 json.dump(faces_json, f)
             
-            print(f"Write face detection results to {save_path}")
+            logger.info(f"Write face detection results to {save_path}")
         except Exception as e:
             # Save error to log file
             log_dir = processing_config["log_dir"]
@@ -198,6 +200,7 @@ def process_faces(video_graph, base64_frames, save_path, preprocessing=[]):
             error_log_path = os.path.join(log_dir, "error_face_preprocessing.log")
             with open(error_log_path, "a") as f:
                 f.write(f"Error processing {save_path}: {str(e)}\n")
+            logger.error(f"Failed to detect faces at {save_path}: {e}")
             raise RuntimeError(f"Failed to detect faces at {save_path}: {e}")
             
     if "face" in preprocessing:
