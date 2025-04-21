@@ -630,7 +630,16 @@ Important notes:
 Input fields:
 	•	question: the question asked
 	•	ground_truth_answer: the correct answer
-	•	agent_answer: the model's answer to be evaluated"""
+	•	agent_answer: the model's answer to be evaluated
+
+Now evaluate the following input:
+
+Input:
+	•	question: {question}
+	•	ground_truth_answer: {ground_truth_answer}
+	•	agent_answer: {agent_answer}
+
+Output ('Yes' or 'No'):"""
 
 prompt_agent_verify_answer_with_reasoning = """You are provided with a question, a ground truth answer, a reasoning that supports the ground truth answer (based on video content), and an answer from an agent model.
 

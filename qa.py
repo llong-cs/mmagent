@@ -47,43 +47,6 @@ def process_qa(qa, planning=True):
         return qa
     return qa
 
-
-def verify_qa(qa):
-    try:
-        questions = qa["question"]
-        ground_truth = qa["answer"]
-        agent_answer = qa["agent_answer"]
-        qa_sample = {
-            "question": questions,
-            "ground_truth_answer": ground_truth,
-            "agent_answer": agent_answer,
-        }
-
-        input = [
-            {
-                "type": "text",
-                "content": json.dumps(qa_sample),
-            },
-            {
-                "type": "text",
-                "content": prompt_agent_verify_answer,
-            },
-            {
-                "type": "text",
-                "content": "Now answer if the answer from the baseline is correct or not:",
-            },
-        ]
-        messages = generate_messages(input)
-        model = "gpt-4o-2024-11-20"
-        response = get_response_with_retry(model, messages)
-        qa["verify_result"] = response[0]
-    except Exception as e:
-        print(f"Error verifying qa: {qa['question']}")
-        print(e)
-        qa["verify_result"] = None
-        return None
-    return qa
-
 def process_qa_list(qa_list, dataset_with_agent_answer, max_workers=16):
     bs = 100
     results = []
@@ -129,20 +92,12 @@ def verify_qa_list(qa_list, dataset_with_agent_answer_verified):
                 [
                     {
                         "type": "text",
-                        "content": json.dumps({
-                            "question": qa["question"],
-                            "ground_truth_answer": qa["answer"],
-                            "agent_answer": qa["agent_answer"],
-                        }),
-                    },
-                    {
-                        "type": "text",
-                        "content": prompt_agent_verify_answer_referencing,
-                    },
-                    {
-                        "type": "text",
-                        "content": "Now answer if the answer from the baseline is correct or not:",
-                    },            
+                        "content": prompt_agent_verify_answer_referencing.format(
+                            question=qa["question"],
+                            ground_truth_answer=qa["answer"],
+                            agent_answer=qa["agent_answer"],
+                        ),
+                    }          
                 ] for qa in qa_list_batch
             ]
             messages = [generate_messages(input) for input in inputs]
@@ -209,25 +164,28 @@ def verify_qa_list_with_reasoning(qa_list, dataset_with_agent_answer_verified):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset", type=str, default="data/annotations/small_test.jsonl")
-    parser.add_argument("--sample_rounds", type=int, default=3)
+    parser.add_argument("--sample_rounds", type=int, default=5)
     parser.add_argument("--output_dir", type=str, default="data/annotations/results")
     
     exp_settings = {
-        "full_retrieval": {
-            "topk": 1000,
-            "multiple_queries": True,
-            "max_retrieval_steps": 2
+        "refined_questions": {
+
         },
-        "large_retrieval": {
-            "topk": 30,
-            "multiple_queries": True,
-            "max_retrieval_steps": 3
-        },
-        "multiple_queries": {
-            "topk": 5,
-            "multiple_queries": True,
-            "max_retrieval_steps": 20
-        }
+        # "full_retrieval": {
+        #     "topk": 1000,
+        #     "multiple_queries": True,
+        #     "max_retrieval_steps": 2
+        # },
+        # "large_retrieval": {
+        #     "topk": 30,
+        #     "multiple_queries": True,
+        #     "max_retrieval_steps": 3
+        # },
+        # "multiple_queries": {
+        #     "topk": 5,
+        #     "multiple_queries": True,
+        #     "max_retrieval_steps": 20
+        # }
     }
 
     args = parser.parse_args()
@@ -261,18 +219,19 @@ if __name__ == "__main__":
             # clear the file
             # with open(dataset_with_agent_answer, "w") as f:
             #     f.truncate(0)
-            qa_list = process_qa_list(qa_list, dataset_with_agent_answer)
+            # qa_list = process_qa_list(qa_list, dataset_with_agent_answer)
+            qa_list = []
+            with open(dataset_with_agent_answer, "r") as f:
+                for line in f:
+                    try:
+                        qa_list.append(json.loads(line))
+                    except Exception as e:
+                        print(f"Error loading qa: {line}")
+                        raise e
 
             # clear the file
             # with open(dataset_with_agent_answer_verified, "w") as f:
             #     f.truncate(0)
-            # qa_list = []
-            # with open(dataset_with_agent_answer, "r") as f:
-            #     for line in f:
-            #         try:
-            #             qa_list.append(json.loads(line))
-            #         except Exception as e:
-            #             print(f"Error loading qa: {line}")
-            #             raise e
+            
             verify_qa_list(qa_list, dataset_with_agent_answer_verified)
             # verify_qa_list_with_reasoning(qa_list_with_agent_answer, dataset_with_agent_answer_verified)

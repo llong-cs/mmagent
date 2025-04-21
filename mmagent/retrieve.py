@@ -7,7 +7,7 @@ from .utils.chat_api import (
     parallel_get_embedding,
 )
 from .utils.general import validate_and_fix_python_list
-from .prompts import prompt_answer_with_retrieval_final, prompt_generate_action, prompt_generate_plan, prompt_generate_action_with_plan, prompt_generate_action_with_plan_multiple_queries
+from .prompts import prompt_answer_with_retrieval_final, prompt_generate_action, prompt_generate_plan, prompt_generate_action_with_plan, prompt_generate_action_with_plan_multiple_queries, prompt_agent_verify_answer_referencing
 from .memory_processing import parse_video_caption
 
 processing_config = json.load(open("configs/processing_config.json"))
@@ -295,6 +295,28 @@ def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5,
                 print(new_memory_items)
             
     return final_answer, (memories, responses)
+
+def verify_qa(question, gt, pred):
+    try:
+        input = [
+            {
+                "type": "text",
+                "content": prompt_agent_verify_answer_referencing.format(
+                    question=question,
+                    ground_truth_answer=gt,
+                    agent_answer=pred,
+                ),
+            }   
+        ]
+        messages = generate_messages(input)
+        model = "gpt-4o-2024-11-20"
+        response = get_response_with_retry(model, messages)
+        result = response[0]
+    except Exception as e:
+        print(f"Error verifying qa: {question}")
+        print(e)
+        return None
+    return result
 
 if __name__ == "__main__":
     from utils.general import load_video_graph
