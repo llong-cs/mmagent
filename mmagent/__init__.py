@@ -7,14 +7,17 @@ processing_config = json.load(open("configs/processing_config.json"))
 logging_level = processing_config["logging"]
 
 # Configure root logger
-logging.basicConfig(
-    level=logging.DEBUG if logging_level == "DETAIL" else logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.StreamHandler(),  # Console handler
-        logging.FileHandler(os.path.join(processing_config["log_dir"], "mmagent.log"))  # File handler
-    ]
-)
+if processing_config.get("train", False):
+    logging.basicConfig(level=logging.CRITICAL)  # Disable all logs in training mode
+else:
+    logging.basicConfig(
+        level=logging.DEBUG if logging_level == "DETAIL" else logging.INFO,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        handlers=[
+            logging.StreamHandler(),  # Console handler
+            logging.FileHandler(os.path.join(processing_config["log_dir"], "mmagent.log"))  # File handler
+        ]
+    )
 
 # Disable third-party library logging
 logging.getLogger('moviepy').setLevel(logging.ERROR)
