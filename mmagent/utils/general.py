@@ -245,6 +245,7 @@ def validate_and_fix_json(invalid_json):
         return json.loads(fixed_json)
     except json.JSONDecodeError as e:
         logger.error(f"Still unable to fix: {e}")
+        logger.error(invalid_json)
         return None
     
 def validate_and_fix_python_list(invalid_list_string):
@@ -266,6 +267,7 @@ def validate_and_fix_python_list(invalid_list_string):
             raise ValueError("Input string is not a list")
     except (SyntaxError, ValueError) as e:
         logger.error(f"Parsing error: {e}")
+        logger.error(invalid_list_string)
         return None
     
 def plot_cosine_similarity_distribution(embeddings1, embeddings2):

@@ -17,6 +17,7 @@ from .utils.general import validate_and_fix_python_list
 from .prompts import prompt_generate_captions_with_ids, prompt_generate_thinkings_with_ids
 
 processing_config = json.load(open("configs/processing_config.json"))
+logging_level = processing_config["logging"]
 
 MAX_RETRIES = processing_config["max_retries"]
 # Configure logging
@@ -190,10 +191,14 @@ def generate_thinkings_with_ids(video_context, video_description):
     thinkings = None
     for i in range(MAX_RETRIES):
         thinkings_string = get_response_with_retry(model, messages)[0]
-        # print(thinkings_string)
+        if not thinkings_string:
+            thinkings_string = "[]"
+            with open("logs/filtered_contents.txt", "a") as f:
+                f.write(f"Filtered generated contents detected\n")
         thinkings = validate_and_fix_python_list(thinkings_string)
         if thinkings is not None:
             break
+        print(thinkings_string)
     if thinkings is None:
         raise Exception("Failed to generate thinkings")
     return thinkings
@@ -254,9 +259,14 @@ def generate_captions_and_thinkings_with_ids(
     captions = None
     for i in range(MAX_RETRIES):
         captions_string = get_response_with_retry(model, messages)[0]
+        if not captions_string:
+            captions_string = "[]"
+            with open("logs/filtered_contents.txt", "a") as f:
+                f.write(f"Filtered generated contents detected\n")
         captions = validate_and_fix_python_list(captions_string)
         if captions is not None:
             break
+        print(captions_string)
     if captions is None:
         raise Exception("Failed to generate captions")
 
