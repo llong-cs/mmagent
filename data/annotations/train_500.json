@@ -5438,7 +5438,7 @@
             }
         ],
         "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_2/IADvif3wv1M.mp4",
-        "mem_path": "",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_2/IADvif3wv1M_30_5_-1_10_20_0.3_0.6.pkl",
         "clip_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/video_clips/CZ_2/IADvif3wv1M"
     },
     {
@@ -7377,7 +7377,7 @@
             }
         ],
         "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/2udoQlxMsrE.mp4",
-        "mem_path": "",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_3/2udoQlxMsrE_30_5_-1_10_20_0.3_0.6.pkl",
         "clip_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/video_clips/CZ_3/2udoQlxMsrE"
     },
     {
@@ -8803,7 +8803,7 @@
             }
         ],
         "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/CZ_3/qm1ZZO5IxU4.mp4",
-        "mem_path": "",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_3/qm1ZZO5IxU4_30_5_-1_10_20_0.3_0.6.pkl",
         "clip_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/video_clips/CZ_3/qm1ZZO5IxU4"
     },
     {
@@ -21291,7 +21291,7 @@
             }
         ],
         "path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_4/DcQirGief28.mp4",
-        "mem_path": "",
+        "mem_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/ZZ_4/DcQirGief28_30_5_-1_10_20_0.3_0.6.pkl",
         "clip_path": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/video_clips/ZZ_4/DcQirGief28"
     },
     {
