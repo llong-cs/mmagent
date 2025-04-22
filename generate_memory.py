@@ -4,6 +4,7 @@ import os
 import json
 from concurrent.futures import ProcessPoolExecutor
 import multiprocessing
+import logging
 
 from mmagent.videograph import VideoGraph
 from mmagent.utils.general import *
@@ -17,6 +18,9 @@ from mmagent.memory_processing import (
     process_captions,
     generate_captions_and_thinkings_with_ids,
 )
+
+# Configure logger
+logger = logging.getLogger(__name__)
 
 processing_config = json.load(open("configs/processing_config.json"))
 memory_config = json.load(open("configs/memory_config.json"))
@@ -42,7 +46,7 @@ def process_segment(
             save_path=os.path.join(save_path, f"clip_{clip_id}_voices.json"),
             preprocessing=preprocessing,
         )
-        print("Finish processing voices")
+        logger.info("Finish processing voices")
 
     if not preprocessing or "face" in preprocessing:
         id2faces = process_faces(
@@ -51,10 +55,10 @@ def process_segment(
             save_path=os.path.join(save_path, f"clip_{clip_id}_faces.json"),
             preprocessing=preprocessing,
         )
-        print("Finish processing faces")
+        logger.info("Finish processing faces")
 
     if preprocessing:
-        print("Finish preprocessing segment")
+        logger.info("Finish preprocessing segment")
         return
 
     episodic_captions, semantic_captions = generate_captions_and_thinkings_with_ids(
@@ -69,7 +73,7 @@ def process_segment(
     process_captions(video_graph, episodic_captions, clip_id, type="episodic")
     process_captions(video_graph, semantic_captions, clip_id, type="semantic")
 
-    print("Finish processing segment")
+    logger.info("Finish processing segment")
 
 
 def streaming_process_video(video_graph, video_path, save_dir, preprocessing=[]):
@@ -98,9 +102,9 @@ def streaming_process_video(video_graph, video_path, save_dir, preprocessing=[])
             if start_time + interval_seconds > video_info["duration"]:
                 break
 
-            print("=" * 20)
+            logger.info("=" * 20)
 
-            print(f"Starting processing {clip_id}-th (out of {math.ceil(video_info['duration'] / interval_seconds)}) clip starting at {start_time} seconds...")
+            logger.info(f"Starting processing {clip_id}-th (out of {math.ceil(video_info['duration'] / interval_seconds)}) clip starting at {start_time} seconds...")
             base64_video, base64_frames, base64_audio = process_video_clip(
                 video_path, start_time, interval_seconds, fps, audio_format="wav"
             )
@@ -134,17 +138,13 @@ def streaming_process_video(video_graph, video_path, save_dir, preprocessing=[])
         for clip_id, video_file in enumerate(video_files):
             if segment_limit > 0 and clip_id >= segment_limit:
                 break
-            # if clip_id < 9:
-            #     continue
-            print("=" * 20)
+            logger.info("=" * 20)
             full_path = os.path.join(video_path, video_file)
-            print(f"Starting processing {clip_id}-th (out of {len(video_files)}) clip: {full_path}")
+            logger.info(f"Starting processing {clip_id}-th (out of {len(video_files)}) clip: {full_path}")
 
             base64_video, base64_frames, base64_audio = process_video_clip(
                 video_path=full_path, start_time=0, interval=None, fps=fps, audio_format="wav"
             )
-
-            # print("Start processing segment")
 
             if base64_frames:
                 process_segment(
@@ -185,14 +185,10 @@ if __name__ == "__main__":
         generated_memories = [generated_memory for generated_memory in generated_memories if generated_memory.endswith(".pkl")]
         video_paths = [video_path for video_path in video_paths if generate_file_name(video_path)+".pkl" not in generated_memories]
         
-        # save_dir = processing_config["save_dir"]
-        # video_paths = ['/mnt/hdfs/foundation/longlin.kylin/mmagent/data/video_clips/EodRBU-HVEI']
-        
         cpu_count = multiprocessing.cpu_count()
-        # max_workers = min(cpu_count, processing_config.get("max_parallel_videos", 4))
         max_workers = 32
         
-        print(f"Using {max_workers} processes (CPU cores: {cpu_count})")
+        logger.info(f"Using {max_workers} processes (CPU cores: {cpu_count})")
 
         def process_single_video(args):
             video_path, save_dir = args
@@ -204,6 +200,7 @@ if __name__ == "__main__":
                 os.makedirs(log_dir, exist_ok=True)
                 with open(os.path.join(log_dir, f"generate_memory_error.log"), "a") as f:
                     f.write(f"Error processing video {video_path}: {e}\n")
+                logger.error(f"Error processing video {video_path}: {e}")
 
         args = [(video_path, save_dir) for video_path in video_paths]
         with ProcessPoolExecutor(max_workers=max_workers) as executor:

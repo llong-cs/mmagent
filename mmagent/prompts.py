@@ -317,14 +317,14 @@ Questions: {question}"""
 prompt_generate_action_with_plan = """You are given a question and some relevant knowledge about a specific video. You are also provided with a retrieval plan, which outlines the types of information that should be retrieved from a memory bank in order to answer the question. Your task is to reason about whether the provided knowledge is sufficient to answer the question. If it is sufficient, output [ANSWER] followed by the answer. If it is not sufficient, output [SEARCH] and generate a query that will be encoded into embeddings for a vector similarity search. The query will help retrieve additional information from a memory bank that contains detailed descriptions and high-level abstractions of the video, considering the question, the provided knowledge, and the retrieval plan.
 
 Your response should contain two parts:
-	1.	Reasoning
+1.	Reasoning
 	•	Analyze the question, the knowledge, and the retrieval plan.
 	•	If the current information is sufficient, explain why and what conclusions you can draw.
 	•	If not, clearly identify what is missing and why it is important.
-	2.	Answer or Search
+2.	Answer or Search
 	•	[ANSWER]: If the answer can be derived from the provided knowledge, output [ANSWER] followed by a short, clear, and direct answer.
-	•	When referring to a character, always use their specific name if available.
-	•	Do not use ID tags like <character_1> or <face_1>.
+		•	When referring to a character, always use their specific name if available.
+		•	Do not use ID tags like <character_1> or <face_1>.
 	•	[SEARCH]: If the answer cannot be derived yet, output [SEARCH] followed by a list of 5 diverse search queries that would help retrieve the missing information.
 
 Instructions for [SEARCH] queries:
@@ -334,6 +334,102 @@ Instructions for [SEARCH] queries:
 	•	For time-sensitive or chronological information (e.g., events occurring in sequence, changes over time, or specific moments in a timeline), you can generate clip-based queries that reference specific clips or moments in time. These queries should include a reference to the clip number, indicating the index of the clip in the video (a number from 1 to N, where a smaller number indicates an earlier clip). Format these queries as "CLIP_x", where x should be an integer that indicates the clip index. Note only generate clip-based queries if the question is about a specific moment in time or a sequence of events.
 	•	You can also generate queries that focus on specific characters or characters' attributes using the id shown in the knowledge.
 	•	Make sure your generated query focus on some aspects that are not retrieved or asked yet. Do not repeatedly generate queries that have high semantic similarity with those generated before.
+
+Example 1:
+
+Input:
+
+Question: How did the argument between Alice and Bob influence their relationship in the story?
+
+Knowledge:
+[
+	{{
+		"query": "What happened during the argument between Alice and Bob?",
+		"related memories": {{
+			"CLIP_2": [
+				"<face_1> and <face_2> are seen arguing in the living room."
+				"<face_1> raises her voice, and <face_2> looks upset."
+				"<face_1> accuses <face_2> of not listening to her."
+			],
+		}}
+	}}
+]
+
+Output:
+
+It seems that <face_1> and <face_2> are arguing about their relationship. I need to figure out the names of <face_1> and <face_2>.
+[SEARCH] What are the names of <face_1> and <face_2>?
+
+Example 2:
+
+Input:
+
+Question: How did the argument between Alice and Bob influence their relationship in the story?
+
+Knowledge:
+[
+	{{
+		"query": "What happened during the argument between Alice and Bob?",
+		"related memories": {{
+			"CLIP_2": [
+				"<face_1> and <face_2> are seen arguing in the living room."
+				"<face_1> raises her voice, and <face_2> looks upset."
+				"<face_1> accuses <face_2> of not listening to her."
+			],
+		}}
+	}},
+	{{
+		"query": "What are the names of <face_1> and <face_2>?",
+		"related memories": {{
+			"CLIP_1": [
+				"<face_1> says to <face_2>: 'I am done with you Bob!'",
+				"<face_2> says to <face_1>: 'What about now, Alice?'"
+			],
+		}}
+	}}	
+]
+
+Output:
+
+It seems that content in CLIP_2 shows exactly the argument between Alice and Bob. To figure out how did the argument between Alice and Bob influence their relationship, I need to see what happened next in CLIP_3.
+[SEARCH] What happened in CLIP_3?
+
+Now, generate your response for the following input:
+
+Question: {question}
+
+Retrieval Plan: {retrieval_plan}
+
+Knowledge: {knowledge}
+
+Output:"""
+
+prompt_generate_action_with_plan_new_direction = """You are given a question and some relevant knowledge about a specific video. You are also provided with a retrieval plan, which outlines the types of information that should be retrieved from a memory bank in order to answer the question. Your task is to reason about whether the provided knowledge is sufficient to answer the question.
+
+Important Context:
+The previous retrieval attempt did not return any useful new information. Therefore, you must now shift your approach and think differently. Specifically, you must identify new angles or unexplored directions based on the retrieval plan that have not yet been considered. Your goal is to create search queries that are distinct from the ones used before, aiming to retrieve different types of content that could lead to an answer.
+
+Your response must include two parts:
+1. Reasoning:
+	•	Analyze the question, the provided knowledge, and the retrieval plan.
+	•	Evaluate why the previous queries may have failed and what new avenues should be explored now.
+	•	Identify what specific types of information are still missing and why they matter.
+	•	Suggest alternative directions that have not been fully explored yet, based on the retrieval plan.
+2. Answer or Search:
+	•	[ANSWER]: If the answer can now be derived from the current knowledge, output [ANSWER] followed by a short, clear, and direct answer.
+		•	Use specific character names if available.
+		•	Do not use generic tags like <character_1> or <face_1>.
+	•	[SEARCH]: If more information is needed, output [SEARCH] followed by 5 new, diverse search queries that are different from those used in the previous retrieval attempt.
+		•	These queries must reflect a change in strategy, targeting unexplored or less obvious aspects.
+		•	Use the retrieval plan to guide what different types of content should be searched for (e.g., overlooked characters, background events, personality traits, contextual clues).
+		•	Include CLIP-based queries only if the question relates to specific moments or sequences in time, formatted as “CLIP_x”.
+		•	Avoid repeating previous query patterns or focusing on the same semantic areas.
+		•	Ensure each query is focused, concise, and probes a new line of reasoning.
+
+Instructions for [SEARCH] queries:
+	•	Reflect on what was not captured by previous queries, and pivot towards different aspects (e.g., from actions to motivations, from individuals to relationships, from events to consequences).
+	•	Think about what has not yet been considered: Are there minor characters, secondary events, or hidden dynamics that might now be worth retrieving?
+	•	Aim for maximum diversity and originality in your search suggestions.
 
 Example 1:
 
@@ -415,8 +511,8 @@ Your response should contain two parts:
 	•	If not, clearly identify what is missing and why it is important.
 	2.	Answer or Search
 	•	[ANSWER]: If the answer can be derived from the provided knowledge, output [ANSWER] followed by a short, clear, and direct answer.
-	•	When referring to a character, always use their specific name if available.
-	•	Do not use ID tags like <character_1> or <face_1>.
+		•	When referring to a character, always use their specific name if available.
+		•	Do not use ID tags like <character_1> or <face_1>.
 	•	[SEARCH]: If the answer cannot be derived yet, output [SEARCH] followed by a list of 5 diverse search queries that would help retrieve the missing information.
 
 Instructions for [SEARCH] queries:
@@ -428,6 +524,113 @@ Instructions for [SEARCH] queries:
 	•	Make sure your generated query focus on some aspects that are not retrieved or asked yet. Do not repeatedly generate queries that have high semantic similarity with those generated before.
 	•	Ensure diversity: the five queries must not be semantically redundant. Each query should explore a distinct direction toward answering the question.
 	•	Format the queries as a **Python-style string list wrapped by "[]"**: [SEARCH] ["What does Bob do after the argument?", "How does Alice react in CLIP_3?", "What is the emotional state of Alice after CLIP_2?", "What conclusions are drawn in high-level summaries about Alice and Bob's relationship?", "Does CLIP_4 show any reconciliation or continued conflict?"]
+
+Example 1:
+
+Input:
+
+Question: How did the argument between Alice and Bob influence their relationship in the story?
+
+Knowledge:
+[
+	{{
+		"query": "What happened during the argument between Alice and Bob?",
+		"related memories": {{
+			"CLIP_2": [
+				"<face_1> and <face_2> are seen arguing in the living room."
+				"<face_1> raises her voice, and <face_2> looks upset."
+				"<face_1> accuses <face_2> of not listening to her."
+			],
+		}}
+	}}
+]
+
+Output:
+
+It seems that <face_1> and <face_2> are engaged in an argument, but their identities are not yet known, and there is no information about the consequences of the argument. To understand how it influenced their relationship, I need more contextual information about their identities, reactions, and what happened after.
+[SEARCH] ["What are the names of <face_1> and <face_2>?", "What is the emotional state of <face_1> and <face_2> after the argument?", "What happens immediately after CLIP_2?", "Is there a summary indicating a change in the relationship between these two characters?", "Do any later clips show reconciliation or continued conflict between <face_1> and <face_2>?"]
+
+Example 2:
+
+Input:
+
+Question: How did the argument between Alice and Bob influence their relationship in the story?
+
+Knowledge:
+[
+	{{
+		"query": "What happened during the argument between Alice and Bob?",
+		"related memories": {{
+			"CLIP_2": [
+				"<face_1> and <face_2> are seen arguing in the living room."
+				"<face_1> raises her voice, and <face_2> looks upset."
+				"<face_1> accuses <face_2> of not listening to her."
+			],
+		}}
+	}},
+	{{
+		"query": "What are the names of <face_1> and <face_2>?",
+		"related memories": {{
+			"CLIP_1": [
+				"<face_1> says to <face_2>: 'I am done with you Bob!'",
+				"<face_2> says to <face_1>: 'What about now, Alice?'"
+			],
+		}}
+	}}	
+]
+
+Output:
+
+CLIP_1 identifies <face_1> as Alice and <face_2> as Bob. CLIP_2 shows the argument between them. However, the influence of this argument on their relationship is not yet clear — we need to know what happened afterward and whether their interaction changed.
+[SEARCH] ["What happens in CLIP_3 after the argument?", "How does Alice behave toward Bob after the argument?", "Are there any summaries indicating a shift in Alice and Bob's relationship?", "Do Alice and Bob interact again in later clips?", "Is there any indication that their relationship improves or deteriorates after CLIP_2?"]
+
+Now, generate your response for the following input:
+
+Question: {question}
+
+Retrieval Plan: {retrieval_plan}
+
+Knowledge: {knowledge}
+
+Output:"""
+
+prompt_generate_action_with_plan_multiple_queries_new_direction = """You are given a question and some relevant knowledge about a specific video. You are also provided with a retrieval plan, which outlines the types of information that should be retrieved from a memory bank in order to answer the question. Your task is to reason about whether the provided knowledge is sufficient to answer the question.
+
+Important Note:
+The previous retrieval attempt did not return any useful new information. Therefore, you must now change your approach.
+You need to think differently and generate new types of queries that explore alternative directions based on the retrieval plan. Your new queries must be distinct from the ones used before, targeting different aspects or underexplored areas in order to uncover useful content.
+
+
+If the knowledge is sufficient, output [ANSWER] followed by the answer. If it is not sufficient, output [SEARCH] and generate five diverse and novel queries (in the form of a string list wrapped by “[]”) that can be used to retrieve more information from the memory bank. The memory bank contains detailed descriptions and high-level abstractions of the video. Your queries should take into account the question, the provided knowledge, and the retrieval plan.
+
+Your response must contain two parts:
+1. Reasoning:
+	•	Analyze the question, the knowledge, and the retrieval plan.
+	•	Evaluate why the previous queries might have failed, and identify what new areas or different perspectives can be explored now.
+	•	Clearly explain what information is still missing, and why it matters.
+	•	Suggest what alternative retrieval directions could be valuable, based on the retrieval plan but not yet fully explored.
+2. Answer or Search:
+	•	[ANSWER]: If the answer can now be derived from the current knowledge, output [ANSWER] followed by a short, clear, and direct answer.
+		•	Always use specific character names if available.
+		•	Do not use ID tags like <character_1> or <face_1>.
+	•	[SEARCH]: If more information is needed, output [SEARCH] followed by a list of 5 new, diverse, and exploratory search queries that reflect a shift in strategy.
+		•	These queries must be different in nature from those used in previous retrievals.
+		•	Use the retrieval plan to focus on alternative types of content, such as:
+			•	Less obvious character relationships or dynamics.
+			•	Emotional states, motivations, background context.
+			•	Events not directly related but potentially influential.
+		•	Include clip-based queries (formatted as “CLIP_x”) only if the question relates to specific moments or sequences in time.
+		•	Ensure the five queries are semantically diverse, each probing a unique angle.
+		•	Avoid repetition or slight variations of past queries.
+
+Formatting for Search Queries:
+	•	Output in Python-style string list, e.g.
+		[SEARCH] [“What are Alice’s intentions during CLIP_5?”, “How does the group react to the decision in CLIP_2?”, “What traits define Bob’s personality throughout the video?”, “What tension exists between secondary characters?”, “What themes are highlighted in the summary of CLIP_7?”]
+
+Guidance for New Search Angles:
+	•	Think: What have I not asked about yet?
+	•	Focus on secondary factors, overlooked characters, indirect causes, or high-level themes.
+	•	Consider shifts from actions to intentions, from events to emotions, or from individuals to group dynamics.
 
 Example 1:
 

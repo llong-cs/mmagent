@@ -5,12 +5,16 @@ from tqdm import tqdm
 import argparse
 import sys
 from concurrent.futures import ProcessPoolExecutor
+import logging
 
 from mmagent.utils.general import load_video_graph
 from mmagent.utils.chat_api import generate_messages, get_response_with_retry, parallel_get_response
 from mmagent.retrieve import answer_with_retrieval
 from mmagent.prompts import prompt_agent_verify_answer, prompt_agent_verify_answer_with_reasoning, prompt_agent_verify_answer_referencing
 import mmagent.videograph
+
+# Configure logger
+logger = logging.getLogger(__name__)
 
 sys.modules["videograph"] = mmagent.videograph
 
@@ -22,10 +26,11 @@ def video_to_base64(video_path):
         base64_encoded = base64.b64encode(video_bytes).decode('utf-8')
         return base64_encoded
 
-def process_qa(qa, planning=True):
+def process_qa(qa):
     try:
         mem = load_video_graph(qa["mem_path"])
         question = qa["question"]
+        planning = processing_config["planning"]
         
         if planning:
             clip_path = qa["clip_path"]
@@ -36,12 +41,21 @@ def process_qa(qa, planning=True):
         else:
             video_clip_base64 = None
         
-        agent_answer, session = answer_with_retrieval(mem, question, video_clip_base64, topk=processing_config["topk"], multiple_queries=processing_config["multiple_queries"], max_retrieval_steps=processing_config["max_retrieval_steps"])
+        agent_answer, session = answer_with_retrieval(
+            mem, 
+            question, 
+            video_clip_base64, 
+            topk=processing_config["topk"], 
+            multiple_queries=processing_config["multiple_queries"], 
+            max_retrieval_steps=processing_config["max_retrieval_steps"], 
+            route_switch=processing_config["route_switch"]
+        )
+        
         qa["agent_answer"] = agent_answer
         qa["session"] = session
     except Exception as e:
-        print(f"Error processing qa: {qa['question']}")
-        print(e)
+        logger.error(f"Error processing sample: {json.dumps(qa)}")
+        logger.error(str(e))
         qa["agent_answer"] = None
         qa["session"] = None
         return qa
@@ -54,8 +68,8 @@ def process_qa_list(qa_list, dataset_with_agent_answer, max_workers=16):
         with open(dataset_with_agent_answer, "r") as f:
             sample_count = len(f.readlines())
     except Exception as e:
-        print(f"Error reading dataset_with_agent_answer: {dataset_with_agent_answer}")
-        print(e)
+        logger.error(f"Error reading dataset_with_agent_answer: {dataset_with_agent_answer}")
+        logger.error(str(e))
         sample_count = 0
     for i in range(sample_count, len(qa_list), bs):
         try:
@@ -82,8 +96,8 @@ def verify_qa_list(qa_list, dataset_with_agent_answer_verified):
         with open(dataset_with_agent_answer_verified, "r") as f:
             sample_count = len(f.readlines())
     except Exception as e:
-        print(f"Error reading dataset_with_agent_answer_verified: {dataset_with_agent_answer_verified}")
-        print(e)
+        logger.error(f"Error reading dataset_with_agent_answer_verified: {dataset_with_agent_answer_verified}")
+        logger.error(str(e))
         sample_count = 0
     for i in tqdm(range(sample_count, len(qa_list), bs)):
         try:
@@ -120,8 +134,8 @@ def verify_qa_list_with_reasoning(qa_list, dataset_with_agent_answer_verified):
         with open(dataset_with_agent_answer_verified, "r") as f:
             sample_count = len(f.readlines())
     except Exception as e:
-        print(f"Error reading dataset_with_agent_answer_verified: {dataset_with_agent_answer_verified}")
-        print(e)
+        logger.error(f"Error reading dataset_with_agent_answer_verified: {dataset_with_agent_answer_verified}")
+        logger.error(str(e))
         sample_count = 0
     for i in tqdm(range(sample_count, len(qa_list), bs)):
         try:
@@ -206,7 +220,7 @@ if __name__ == "__main__":
     for exp, exp_setting in exp_settings.items():
         for param, value in exp_setting.items():
             processing_config[param] = value
-        print(f"Processing {exp} with {exp_setting}")
+        logger.info(f"Processing {exp} with {exp_setting}")
         for i in range(sample_rounds):
             dataset_with_agent_answer = args.dataset_with_agent_answer.replace("_with_agent_answer", f"_with_agent_answer_{i}")
             dataset_with_agent_answer = os.path.join(args.output_dir, exp, dataset_with_agent_answer)
@@ -226,7 +240,7 @@ if __name__ == "__main__":
                     try:
                         qa_list.append(json.loads(line))
                     except Exception as e:
-                        print(f"Error loading qa: {line}")
+                        logger.error(f"Error loading qa: {line}")
                         raise e
 
             # clear the file

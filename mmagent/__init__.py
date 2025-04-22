@@ -32,7 +32,7 @@ from . import face_processing
 from . import memory_processing
 from . import prompts
 from . import videograph
-# from . import voice_processing
+from . import voice_processing
 from . import utils
 from . import idl
 
@@ -42,7 +42,7 @@ __all__ = [
     "memory_processing",
     "prompts",
     "videograph",
-    # "voice_processing",
+    "voice_processing",
     "utils",
     "idl",
 ]

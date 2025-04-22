@@ -1,14 +1,13 @@
 import json
 import re
 import logging
-from .videograph import VideoGraph
 from .utils.chat_api import (
     generate_messages,
     get_response_with_retry,
     parallel_get_embedding,
 )
 from .utils.general import validate_and_fix_python_list
-from .prompts import prompt_answer_with_retrieval_final, prompt_generate_action, prompt_generate_plan, prompt_generate_action_with_plan, prompt_generate_action_with_plan_multiple_queries, prompt_agent_verify_answer_referencing
+from .prompts import *
 from .memory_processing import parse_video_caption
 
 processing_config = json.load(open("configs/processing_config.json"))
@@ -109,19 +108,27 @@ def retrieve_from_videograph(video_graph, query, topk=5, mode='argmax'):
     
     return top_clips
 
-def generate_action(question, knowledge, retrieval_plan=None, multiple_queries=False, responses=[]):
+def generate_action(question, knowledge, retrieval_plan=None, multiple_queries=False, responses=[], switch=False):
+    # select prompt
+    if not switch:
+        if multiple_queries:
+            prompt = prompt_generate_action_with_plan_multiple_queries
+        else:
+            prompt = prompt_generate_action_with_plan
+    else:
+        if multiple_queries:
+            prompt = prompt_generate_action_with_plan_multiple_queries_new_direction
+        else:
+            prompt = prompt_generate_action_with_plan_new_direction
+    
     input = [
         {
             "type": "text",
-            "content": prompt_generate_action_with_plan.format(
+            "content": prompt.format(
                 question=question,
                 knowledge=knowledge,
                 retrieval_plan=retrieval_plan,
-            ) if not multiple_queries else prompt_generate_action_with_plan_multiple_queries.format(
-                question=question,
-                knowledge=knowledge,
-                retrieval_plan=retrieval_plan,
-            ),
+            )
         }
     ]
     messages = generate_messages(input)
@@ -204,7 +211,7 @@ def search(video_graph, query, current_clips, topk=5, mode='argmax'):
     
     return new_memories, current_clips
 
-def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5, auto_refresh=False, mode='argmax', multiple_queries=False, max_retrieval_steps=10):
+def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5, auto_refresh=False, mode='argmax', multiple_queries=False, max_retrieval_steps=10, route_switch=True):
     if auto_refresh:
         video_graph.refresh_equivalences()
         
@@ -237,7 +244,8 @@ def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5,
 
     for i in range(max_retrieval_steps):
         # reasoning, action_type, action_content = generate_action(question, context, retrieval_plan)
-        reasoning, action_type, action_content = generate_action(question, context, retrieval_plan, multiple_queries=multiple_queries, responses=responses)
+        switch = False
+        reasoning, action_type, action_content = generate_action(question, context, retrieval_plan, multiple_queries=multiple_queries, responses=responses, switch=switch)
         reasoning = reasoning.strip("### Reasoning:").strip("### Answer or Search:").strip("Reasoning:").strip()
         if action_type == "answer":
             final_answer = action_content
@@ -273,6 +281,11 @@ def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5,
                 break
             
             new_memories, related_clips = search(video_graph, action_content, related_clips, topk, mode)
+            
+            if not new_memories and route_switch:
+                switch = True
+            else:
+                switch = False
             
             context.append({
                 "query": action_content,
