@@ -21,8 +21,9 @@
     "input_dir": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/video_clips",
     "max_parallel_videos": 32,
     "log_dir": "logs",
-    "temperature": 0.1,
+    "temperature": 0,
     "multiple_queries": false,
     "route_switch": true,
-    "planning": true
+    "planning": true,
+    "train": true
 }

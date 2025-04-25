@@ -3,15 +3,14 @@ import logging
 import os
 import tempfile
 import math
-import json
 import cv2
 import numpy as np
 from moviepy import VideoFileClip
 from tqdm import tqdm
-from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
-import multiprocessing
-import shutil
 import subprocess
+from concurrent.futures import ThreadPoolExecutor
+import shutil
+
 # Disable moviepy logging
 logging.getLogger('moviepy').setLevel(logging.ERROR)
 # Disable moviepy's tqdm progress bar
@@ -20,8 +19,6 @@ logging.getLogger('moviepy.audio.io.AudioFileClip').setLevel(logging.ERROR)
 
 # Configure logging
 logger = logging.getLogger(__name__)
-
-processing_config = json.load(open("configs/processing_config.json"))
 
 def get_video_info(file_path):
     """Get video/audio information using appropriate libraries.
@@ -339,65 +336,5 @@ def verify_video_processing(video_path, output_dir, interval, strict=False):
             f.write(f"Error verifying {video_path}: {e}\n")
         logger.error(f"Error verifying {video_path}: {e}")
         return False
-
-
-if __name__ == "__main__":
-    def process_video_parallel(args):
-        video_path, interval, output_dir = args
-        try:
-            split_video_into_clips(video_path, interval, output_dir)
-        except Exception as e:
-            logger.error(f"Error processing {video_path}: {str(e)}")
-
-    def verify_video_parallel(args):
-        video_path, output_dir, interval = args
-        if not verify_video_processing(video_path, output_dir, interval, strict=True):
-            with open(os.path.join(log_dir, f"video_processing_error.log"), "a") as f:
-                f.write(video_path + "\n")
-            return False
-        return True
-
-    def check_video_path(args):
-        video, output_dir, interval = args
-        path = video["path"]
-        if not verify_video_processing(path, output_dir, interval, strict=False):
-            return path
-        return None
-
-    interval = processing_config["interval_seconds"]
-    log_dir = processing_config["log_dir"]
-    base_save_dir = "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos"
-        
-    cpu_count = multiprocessing.cpu_count()
-    max_workers = min(cpu_count, 20)
-    
-    logger.info(f"Using {max_workers} processes (CPU cores: {cpu_count})")
-
-    # annotations_paths = ["data/annotations/CZ_1_refined.json", "data/annotations/CZ_2_refined.json"]
-    # annotations_paths = ["data/annotations/CZ_3_refined.json", "data/annotations/ZZ_1_refined.json"]
-    # annotations_paths = ["data/annotations/ZZ_2_refined.json", "data/annotations/ZZ_3_refined.json"]
-    annotations_paths = ["data/annotations/ZZ_4_refined.json", "data/annotations/ZZ_5_refined.json"]
-    for annotations_path in annotations_paths:
-        marker = annotations_path.split("/")[-1].split(".")[0].strip("_refined")
-        with open(annotations_path, "r") as f:
-            videos = json.load(f)
-        output_dir = os.path.join("/mnt/hdfs/foundation/longlin.kylin/mmagent/data/video_clips", marker)
-        os.makedirs(output_dir, exist_ok=True)
-
-        # # Check video paths in parallel
-        # with ProcessPoolExecutor(max_workers=max_workers) as executor:
-        #     args = [(video, output_dir, interval) for video in videos]
-        #     paths = list(tqdm(executor.map(check_video_path, args), total=len(args), desc="Checking video paths"))
-        #     video_paths = [path for path in paths if path is not None]
-
-        # # Process videos in parallel
-        # with ProcessPoolExecutor(max_workers=max_workers) as executor:
-        #     args = [(video_path, interval, output_dir) for video_path in video_paths]
-        #     list(tqdm(executor.map(process_video_parallel, args), total=len(args), desc="Processing videos"))
-        
-        # Verify all videos in parallel
-        with ProcessPoolExecutor(max_workers=max_workers) as executor:
-            args = [(video["path"], output_dir, interval) for video in videos if os.path.exists(video["path"])]
-            list(tqdm(executor.map(verify_video_parallel, args), total=len(args), desc="Verifying videos"))
 
         # verify_video_processing("/mnt/hdfs/foundation/longlin.kylin/mmagent/data/raw_videos/ZZ_3/vdkQWgZLrYA.mp4", output_dir, interval)

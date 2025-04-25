@@ -325,11 +325,13 @@ Your response should contain two parts:
 	•	[ANSWER]: If the answer can be derived from the provided knowledge, output [ANSWER] followed by a short, clear, and direct answer.
 		•	When referring to a character, always use their specific name if available.
 		•	Do not use ID tags like <character_1> or <face_1>.
-	•	[SEARCH]: If the answer cannot be derived yet, output [SEARCH] followed by a list of 5 diverse search queries that would help retrieve the missing information.
+	•	[SEARCH]: If the answer cannot be derived yet, output [SEARCH] followed by a single search query that would help retrieve the missing information.
 
 Instructions for [SEARCH] queries:
 	•	Use the retrieval plan to inform what type of content should be searched for next. These contents should cover aspects that provide useful context or background to the question, such as character names, behaviors, relationships, personality traits, actions, and key events.
-	•	Make the query concise and focused on a specific piece of information that could help answer the question. 
+	•	Use keyword-based queries, not command sentences. Queries should be written as compact keyword phrases, not as full sentences or instructions. Avoid using directive language like “Retrieve”, “Describe”, or question forms such as “What”, “When”, “How”.
+	•	Keep each query short and focused on one point. Each query should target one specific type of information, without combining multiple ideas or aspects.
+	•	Avoid over-complexity and unnecessary detail. Do not include too many qualifiers or conditions. Strip down to the most essential keywords needed to retrieve valuable content.
 	•	The query should target information outside of the existing knowledge that might help answer the question.
 	•	For time-sensitive or chronological information (e.g., events occurring in sequence, changes over time, or specific moments in a timeline), you can generate clip-based queries that reference specific clips or moments in time. These queries should include a reference to the clip number, indicating the index of the clip in the video (a number from 1 to N, where a smaller number indicates an earlier clip). Format these queries as "CLIP_x", where x should be an integer that indicates the clip index. Note only generate clip-based queries if the question is about a specific moment in time or a sequence of events.
 	•	You can also generate queries that focus on specific characters or characters' attributes using the id shown in the knowledge.
@@ -419,12 +421,14 @@ Your response must include two parts:
 	•	[ANSWER]: If the answer can now be derived from the current knowledge, output [ANSWER] followed by a short, clear, and direct answer.
 		•	Use specific character names if available.
 		•	Do not use generic tags like <character_1> or <face_1>.
-	•	[SEARCH]: If more information is needed, output [SEARCH] followed by 5 new, diverse search queries that are different from those used in the previous retrieval attempt.
-		•	These queries must reflect a change in strategy, targeting unexplored or less obvious aspects.
+	•	[SEARCH]: If more information is needed, output [SEARCH] followed by a new search query that are different from those used in the previous retrieval attempt.
+		•	The new query must reflect a change in strategy, targeting unexplored or less obvious aspects.
 		•	Use the retrieval plan to guide what different types of content should be searched for (e.g., overlooked characters, background events, personality traits, contextual clues).
-		•	Include CLIP-based queries only if the question relates to specific moments or sequences in time, formatted as “CLIP_x”.
+		•	Include CLIP-based queries only if the question relates to specific moments or sequences in time, formatted as "CLIP_x" (noting that the clip ids are ordered chronologically).
 		•	Avoid repeating previous query patterns or focusing on the same semantic areas.
-		•	Ensure each query is focused, concise, and probes a new line of reasoning.
+		•	Use keyword-based queries, not command sentences. Queries should be written as compact keyword phrases, not as full sentences or instructions. Avoid using directive language like “Retrieve”, “Describe”, or question forms such as “What”, “When”, “How”.
+		•	Keep each query short and focused on one point. Each query should target one specific type of information, without combining multiple ideas or aspects.
+		•	Avoid over-complexity and unnecessary detail. Do not include too many qualifiers or conditions. Strip down to the most essential keywords needed to retrieve valuable content.
 
 Instructions for [SEARCH] queries:
 	•	Reflect on what was not captured by previous queries, and pivot towards different aspects (e.g., from actions to motivations, from individuals to relationships, from events to consequences).
@@ -517,7 +521,9 @@ Your response should contain two parts:
 
 Instructions for [SEARCH] queries:
 	•	Use the retrieval plan to inform what type of content should be searched for next. These contents should cover aspects that provide useful context or background to the question, such as character names, behaviors, relationships, personality traits, actions, and key events.
-	•	Make the query concise and focused on a specific piece of information that could help answer the question. 
+	•	Use keyword-based queries, not command sentences. Queries should be written as compact keyword phrases, not as full sentences or instructions. Avoid using directive language like “Retrieve”, “Describe”, or question forms such as “What”, “When”, “How”.
+	•	Keep each query short and focused on one point. Each query should target one specific type of information, without combining multiple ideas or aspects.
+	•	Avoid over-complexity and unnecessary detail. Do not include too many qualifiers or conditions. Strip down to the most essential keywords needed to retrieve valuable content.
 	•	The query should target information outside of the existing knowledge that might help answer the question.
 	•	For time-sensitive or chronological information (e.g., events occurring in sequence, changes over time, or specific moments in a timeline), you can generate clip-based queries that reference specific clips or moments in time. These queries should include a reference to the clip number, indicating the index of the clip in the video (a number from 1 to N, where a smaller number indicates an earlier clip). Format these queries as "CLIP_x", where x should be an integer that indicates the clip index. Note only generate clip-based queries if the question is about a specific moment in time or a sequence of events.
 	•	You can also generate queries that focus on specific characters or characters' attributes using the id shown in the knowledge.
@@ -601,7 +607,7 @@ The previous retrieval attempt did not return any useful new information. Theref
 You need to think differently and generate new types of queries that explore alternative directions based on the retrieval plan. Your new queries must be distinct from the ones used before, targeting different aspects or underexplored areas in order to uncover useful content.
 
 
-If the knowledge is sufficient, output [ANSWER] followed by the answer. If it is not sufficient, output [SEARCH] and generate five diverse and novel queries (in the form of a string list wrapped by “[]”) that can be used to retrieve more information from the memory bank. The memory bank contains detailed descriptions and high-level abstractions of the video. Your queries should take into account the question, the provided knowledge, and the retrieval plan.
+If the knowledge is sufficient, output [ANSWER] followed by the answer. If it is not sufficient, output [SEARCH] and generate five diverse and novel queries (in the form of a string list wrapped by "[]") that can be used to retrieve more information from the memory bank. The memory bank contains detailed descriptions and high-level abstractions of the video. Your queries should take into account the question, the provided knowledge, and the retrieval plan.
 
 Your response must contain two parts:
 1. Reasoning:
@@ -619,13 +625,16 @@ Your response must contain two parts:
 			•	Less obvious character relationships or dynamics.
 			•	Emotional states, motivations, background context.
 			•	Events not directly related but potentially influential.
-		•	Include clip-based queries (formatted as “CLIP_x”) only if the question relates to specific moments or sequences in time.
+		•	Include clip-based queries (formatted as "CLIP_x") only if the question relates to specific moments or sequences in time.
+		•	Use keyword-based queries, not command sentences. Queries should be written as compact keyword phrases, not as full sentences or instructions. Avoid using directive language like “Retrieve”, “Describe”, or question forms such as “What”, “When”, “How”.
+		•	Keep each query short and focused on one point. Each query should target one specific type of information, without combining multiple ideas or aspects.
+		•	Avoid over-complexity and unnecessary detail. Do not include too many qualifiers or conditions. Strip down to the most essential keywords needed to retrieve valuable content.
 		•	Ensure the five queries are semantically diverse, each probing a unique angle.
 		•	Avoid repetition or slight variations of past queries.
 
 Formatting for Search Queries:
 	•	Output in Python-style string list, e.g.
-		[SEARCH] [“What are Alice’s intentions during CLIP_5?”, “How does the group react to the decision in CLIP_2?”, “What traits define Bob’s personality throughout the video?”, “What tension exists between secondary characters?”, “What themes are highlighted in the summary of CLIP_7?”]
+		[SEARCH] ["What are Alice's intentions during CLIP_5?", "How does the group react to the decision in CLIP_2?", "What traits define Bob's personality throughout the video?", "What tension exists between secondary characters?", "What themes are highlighted in the summary of CLIP_7?"]
 
 Guidance for New Search Angles:
 	•	Think: What have I not asked about yet?

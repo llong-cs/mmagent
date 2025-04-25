@@ -116,6 +116,7 @@ def generate_action(question, knowledge, retrieval_plan=None, multiple_queries=F
         else:
             prompt = prompt_generate_action_with_plan
     else:
+        logger.info(f"Route switch triggered.")
         if multiple_queries:
             prompt = prompt_generate_action_with_plan_multiple_queries_new_direction
         else:
@@ -241,10 +242,10 @@ def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5,
         logger.info(f"Retrieval plan: {retrieval_plan}")
     else:
         retrieval_plan = None
-
+        
+    switch = False
     for i in range(max_retrieval_steps):
         # reasoning, action_type, action_content = generate_action(question, context, retrieval_plan)
-        switch = False
         reasoning, action_type, action_content = generate_action(question, context, retrieval_plan, multiple_queries=multiple_queries, responses=responses, switch=switch)
         reasoning = reasoning.strip("### Reasoning:").strip("### Answer or Search:").strip("Reasoning:").strip()
         if action_type == "answer":
@@ -282,12 +283,13 @@ def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5,
             
             new_memories, related_clips = search(video_graph, action_content, related_clips, topk, mode)
             
-            if not new_memories and route_switch:
+            if len(new_memories.items()) == 0 and route_switch:
                 switch = True
             else:
                 switch = False
             
             context.append({
+                "reasoning": reasoning,
                 "query": action_content,
                 "retrieved memories": new_memories
             })

@@ -176,14 +176,15 @@ def verify_qa_list_with_reasoning(qa_list, dataset_with_agent_answer_verified):
             raise RuntimeError(f"Error processing qa_list_batch: {i}") from e
                 
 if __name__ == "__main__":
+    
+
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dataset", type=str, default="data/annotations/small_test.jsonl")
-    parser.add_argument("--sample_rounds", type=int, default=5)
+    parser.add_argument("--dataset", type=str, default="data/annotations/train_500.jsonl")
+    parser.add_argument("--sample_rounds", type=int, default=1)
     parser.add_argument("--output_dir", type=str, default="data/annotations/results")
     
     exp_settings = {
-        "refined_questions": {
-
+        "SFT0424": {
         },
         # "full_retrieval": {
         #     "topk": 1000,
@@ -233,15 +234,15 @@ if __name__ == "__main__":
             # clear the file
             # with open(dataset_with_agent_answer, "w") as f:
             #     f.truncate(0)
-            # qa_list = process_qa_list(qa_list, dataset_with_agent_answer)
-            qa_list = []
-            with open(dataset_with_agent_answer, "r") as f:
-                for line in f:
-                    try:
-                        qa_list.append(json.loads(line))
-                    except Exception as e:
-                        logger.error(f"Error loading qa: {line}")
-                        raise e
+            qa_list = process_qa_list(qa_list, dataset_with_agent_answer)
+            # qa_list = []
+            # with open(dataset_with_agent_answer, "r") as f:
+            #     for line in f:
+            #         try:
+            #             qa_list.append(json.loads(line))
+            #         except Exception as e:
+            #             logger.error(f"Error loading qa: {line}")
+            #             raise e
 
             # clear the file
             # with open(dataset_with_agent_answer_verified, "w") as f:
