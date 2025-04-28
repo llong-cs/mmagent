@@ -54,7 +54,7 @@ def back_translate(video_graph, queries):
     return translated_queries
 
 # retrieve by clip
-def retrieve_from_videograph(video_graph, query, topk=5, mode='argmax', threshold=0):
+def retrieve_from_videograph(video_graph, query, topk=5, mode='argmax'):
     top_clips = []
     # find all CLIP_x in query
     pattern = r"CLIP_(\d+)"
@@ -74,7 +74,11 @@ def retrieve_from_videograph(video_graph, query, topk=5, mode='argmax', threshol
 
     clip_scores = {}
 
-    if mode not in ['argmax', 'accumulate']:
+    if mode == 'argmax':
+        threshold = 0
+    elif mode == 'accumulate':
+        threshold = 0.2
+    else:
         raise ValueError(f"Unknown mode: {mode}")
 
     for query_embedding in query_embeddings:
@@ -189,8 +193,8 @@ def select_queries(action_content, responses):
     min_similarity_idx = avg_similarities.index(min(avg_similarities))
     return queries[min_similarity_idx]
 
-def search(video_graph, query, current_clips, topk=5, mode='argmax', threshold=0):
-    new_clips = retrieve_from_videograph(video_graph, query, topk, mode, threshold)
+def search(video_graph, query, current_clips, topk=5, mode='argmax'):
+    new_clips = retrieve_from_videograph(video_graph, query, topk, mode)
     new_clips = [new_clip for new_clip in new_clips if new_clip not in current_clips]
     new_memories = {}
     current_clips.extend(new_clips)
