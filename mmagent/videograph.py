@@ -457,7 +457,7 @@ class VideoGraph:
         # Find all nodes that are in the disjoint sets
         for x in parent:
             root = find(x)
-            tag = 'face_'+str(x) if self.nodes[x].type == 'img' else 'voice_'+str(x)
+            tag = f"face_{x}" if self.nodes[x].type == 'img' else f"voice_{x}"
             if root not in root_to_character:
                 root_to_character[root] = f"character_{character_count}"
                 character_count += 1
@@ -470,7 +470,7 @@ class VideoGraph:
             if x in parent or self.nodes[x].type not in ['img', 'voice']:
                 continue
             root = find(x)
-            tag = 'face_'+str(x) if self.nodes[x].type == 'img' else 'voice_'+str(x)
+            tag = f"face_{x}" if self.nodes[x].type == 'img' else f"voice_{x}"
             if root not in root_to_character:
                 root_to_character[root] = f"character_{character_count}"
                 character_count += 1
