@@ -329,7 +329,7 @@ Your response should contain two parts:
 
 Instructions for [SEARCH] queries:
 	•	Use the retrieval plan to inform what type of content should be searched for next. These contents should cover aspects that provide useful context or background to the question, such as character names, behaviors, relationships, personality traits, actions, and key events.
-	•	Use keyword-based queries, not command sentences. Queries should be written as compact keyword phrases, not as full sentences or instructions. Avoid using directive language like “Retrieve”, “Describe”, or question forms such as “What”, “When”, “How”.
+	•	Use keyword-based queries, not command sentences. Queries should be written as compact keyword phrases, not as full sentences or instructions. Avoid using directive language like "Retrieve", "Describe", or question forms such as "What", "When", "How".
 	•	Keep each query short and focused on one point. Each query should target one specific type of information, without combining multiple ideas or aspects.
 	•	Avoid over-complexity and unnecessary detail. Do not include too many qualifiers or conditions. Strip down to the most essential keywords needed to retrieve valuable content.
 	•	The query should target information outside of the existing knowledge that might help answer the question.
@@ -426,7 +426,7 @@ Your response must include two parts:
 		•	Use the retrieval plan to guide what different types of content should be searched for (e.g., overlooked characters, background events, personality traits, contextual clues).
 		•	Include CLIP-based queries only if the question relates to specific moments or sequences in time, formatted as "CLIP_x" (noting that the clip ids are ordered chronologically).
 		•	Avoid repeating previous query patterns or focusing on the same semantic areas.
-		•	Use keyword-based queries, not command sentences. Queries should be written as compact keyword phrases, not as full sentences or instructions. Avoid using directive language like “Retrieve”, “Describe”, or question forms such as “What”, “When”, “How”.
+		•	Use keyword-based queries, not command sentences. Queries should be written as compact keyword phrases, not as full sentences or instructions. Avoid using directive language like "Retrieve", "Describe", or question forms such as "What", "When", "How".
 		•	Keep each query short and focused on one point. Each query should target one specific type of information, without combining multiple ideas or aspects.
 		•	Avoid over-complexity and unnecessary detail. Do not include too many qualifiers or conditions. Strip down to the most essential keywords needed to retrieve valuable content.
 
@@ -521,7 +521,7 @@ Your response should contain two parts:
 
 Instructions for [SEARCH] queries:
 	•	Use the retrieval plan to inform what type of content should be searched for next. These contents should cover aspects that provide useful context or background to the question, such as character names, behaviors, relationships, personality traits, actions, and key events.
-	•	Use keyword-based queries, not command sentences. Queries should be written as compact keyword phrases, not as full sentences or instructions. Avoid using directive language like “Retrieve”, “Describe”, or question forms such as “What”, “When”, “How”.
+	•	Use keyword-based queries, not command sentences. Queries should be written as compact keyword phrases, not as full sentences or instructions. Avoid using directive language like "Retrieve", "Describe", or question forms such as "What", "When", "How".
 	•	Keep each query short and focused on one point. Each query should target one specific type of information, without combining multiple ideas or aspects.
 	•	Avoid over-complexity and unnecessary detail. Do not include too many qualifiers or conditions. Strip down to the most essential keywords needed to retrieve valuable content.
 	•	The query should target information outside of the existing knowledge that might help answer the question.
@@ -626,7 +626,7 @@ Your response must contain two parts:
 			•	Emotional states, motivations, background context.
 			•	Events not directly related but potentially influential.
 		•	Include clip-based queries (formatted as "CLIP_x") only if the question relates to specific moments or sequences in time.
-		•	Use keyword-based queries, not command sentences. Queries should be written as compact keyword phrases, not as full sentences or instructions. Avoid using directive language like “Retrieve”, “Describe”, or question forms such as “What”, “When”, “How”.
+		•	Use keyword-based queries, not command sentences. Queries should be written as compact keyword phrases, not as full sentences or instructions. Avoid using directive language like "Retrieve", "Describe", or question forms such as "What", "When", "How".
 		•	Keep each query short and focused on one point. Each query should target one specific type of information, without combining multiple ideas or aspects.
 		•	Avoid over-complexity and unnecessary detail. Do not include too many qualifiers or conditions. Strip down to the most essential keywords needed to retrieve valuable content.
 		•	Ensure the five queries are semantically diverse, each probing a unique angle.
@@ -899,3 +899,29 @@ Input:
 
 Output:
 (Directly return the revised answer.)"""
+
+prompt_refine_final_reasoning = """You are given a reasoning statement generated by the model in the final round of retrieval and analysis. Now, imagine that the model has already attempted multiple retrievals from the memory bank, but can no longer retrieve any new useful information.
+
+Your task is to:
+	•	Rephrase the beginning of this reasoning to reflect that the model has decided to stop retrieving and is now focusing on summarizing and analyzing the information it already has.
+	•	Keep the original logic and content of the reasoning unchanged, except for this addition.
+	•	Add a natural introduction such as:
+	•	"It seems no more useful information can be retrieved from memory, so now I will…"
+	•	"I can no longer retrieve helpful details, so I will analyze what I have gathered…"
+	•	"Further retrieval attempts have failed, so I will proceed with reasoning based on the available knowledge…"
+	•	Make sure the modified reasoning smoothly transitions into the original content.
+
+Example:
+
+Original Reasoning:
+Bob's reaction in CLIP_3 shows clear frustration. Given his previous behavior and the group's dynamics, it is likely he disagreed with the decision made.
+
+Modified Reasoning:
+It seems no more useful information can be retrieved from memory, so now I will analyze what I have. Bob's reaction in CLIP_3 shows clear frustration. Given his previous behavior and the group's dynamics, it is likely he disagreed with the decision made.
+
+Now, apply the same logic to the following reasoning:
+
+Original Reasoning:
+{reasoning}
+
+Modified Reasoning:"""

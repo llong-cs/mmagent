@@ -1,0 +1,14 @@
+bytedeuler 
+opencv-python-headless 
+pillow 
+matplotlib 
+pydub 
+scikit-learn 
+tqdm 
+openai 
+moviepy 
+bytedtos 
+bytedlaplace
+httpx==0.23.0
+
+# python==3.9.2
