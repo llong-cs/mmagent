@@ -179,12 +179,13 @@ if __name__ == "__main__":
     
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dataset", type=str, default="data/annotations/train_500.jsonl")
+    parser.add_argument("--dataset", type=str, default="data/annotations/small_test.jsonl")
     parser.add_argument("--sample_rounds", type=int, default=1)
     parser.add_argument("--output_dir", type=str, default="data/annotations/results")
     
     exp_settings = {
-        "SFT0424": {
+        "5_rounds": {
+            "max_retrieval_steps": 5
         },
         # "full_retrieval": {
         #     "topk": 1000,
