@@ -184,8 +184,8 @@ if __name__ == "__main__":
     parser.add_argument("--output_dir", type=str, default="data/annotations/results")
     
     exp_settings = {
-        "5_rounds": {
-            "max_retrieval_steps": 5
+        "10_rounds": {
+            "max_retrieval_steps": 10
         },
         # "full_retrieval": {
         #     "topk": 1000,

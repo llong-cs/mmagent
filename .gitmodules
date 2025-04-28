@@ -1,0 +1,4 @@
+[submodule "training"]
+	path = training
+	url = https://code.byted.org/lab/training_qwen2_5_omni.git
+	branch = dev
