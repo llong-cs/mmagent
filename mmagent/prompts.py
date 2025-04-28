@@ -925,3 +925,82 @@ Original Reasoning:
 {reasoning}
 
 Modified Reasoning:"""
+
+prompt_autodq = """Given a video description and a list of events. For each event, classify the relationship between the video description and the event into three classes: entailment, neutral, contradiction.
+
+- "entailment" means that the video description entails the event.
+- "contradiction" means that some detail in the video description contradicts with the event.
+- "neutral" means that the relationship is neither "entailment" or "contradiction".
+
+Output a list in Json format:
+[ {{"event": "copy an event here", "relationship": "put class name here", "reason": "give a reason"}}, ... ]
+
+Video description:
+{video_description}
+
+Events:
+{events}
+
+DO NOT PROVIDE ANY OTHER OUTPUT TEXT OR EXPLANATION. Only output the JSON.
+
+Output:"""
+
+prompt_vdcscore_generate_qas = """You are an intelligent chatbot designed for generating 20 question-answer pairs given a detailed description of a video or image. You are describing the video.
+
+Here’s how you can accomplish the task: 
+
+INSTRUCTIONS: 
+- Cover the main objects and actions in the video or image.
+- The questions should be open-ended and start with ’What’, ’Who’, ’Where’, ’When’, ’Why’, ’How’, etc.
+- The answer should be a short sentence or phrase.
+- Generate 20 question-answer pairs.
+
+Please generate 20 question-answer pairs given a detailed description of a video or image: 
+
+Detailed description: {video_description}
+
+Please generate the response in the form of a Python list of tuple with the question and the corresponding answer. DO NOT PROVIDE ANY OTHER OUTPUT TEXT OR EXPLANATION. Only provide the Python list of tuple. For example, your response should look like this: [(the question 1, the answer 1), (the question 2, the answer 2), . . . ].
+
+QA pairs:"""
+
+prompt_vdcscore_answer = """You are an intelligent chatbot designed for providing accurate answers to questions related to the content based on a detailed description of a video or image.
+
+Here’s how you can accomplish the task:
+
+INSTRUCTIONS:
+- Read the detailed description carefully.
+- Answer the question only based on the detailed description.
+- The answer should be a short sentence or phrase.
+
+Please provide accurate answers to questions related to the content based on a detailed description of a video or image:
+
+Detailed description: {video_description}
+
+Question: {question}
+
+DO NOT PROVIDE ANY OTHER OUTPUT TEXT OR EXPLANATION. Only provide short but accurate answer.
+
+Answer:"""
+
+prompt_vdcscore_verify = """You are an intelligent chatbot designed for evaluating the correctness of generative outputs for questionanswer pairs. Your task is to compare the predicted answer with the correct answer and determine if they match meaningfully.
+
+Here’s how you can accomplish the task:
+
+INSTRUCTIONS:
+- Focus on the meaningful match between the predicted answer and the correct answer.
+- Consider synonyms or paraphrases as valid matches.
+- Evaluate the correctness of the prediction compared to the answer.
+
+Please evaluate the following video-based question-answer pair:
+
+Question: {question}
+Correct Answer: {correct_answer}
+Predicted Answer: {predicted_answer}
+
+Provide your evaluation only as a yes/no and score where the score is an integer value between 0 and 5, with 5 indicating the highest meaningful match.
+
+Please generate the response in the form of a Python dictionary string with keys ’pred’ and ’score’, where value of ’pred’ is a string of ’yes’ or ’no’ and value of ’score’ is in INTEGER, not STRING.
+
+DO NOT PROVIDE ANY OTHER OUTPUT TEXT OR EXPLANATION. Only provide the Python dictionary string. For example, your response should look like this: {’pred’: ’yes’, ’score’: 4.8}.
+
+Evaluation:"""
