@@ -1,4 +1,6 @@
 import json
+import os
+
 from mmagent.utils.chat_api import *
 from mmagent.prompts import prompt_autodq, prompt_vdcscore_generate_qas, prompt_vdcscore_answer, prompt_vdcscore_verify
 from mmagent.utils.general import *
@@ -45,17 +47,81 @@ def descriptions_comparison_for_autodq(video_description_1, video_description_2)
     raise Exception("Failed to generate autodq result")
 
 
-def eval_vdcscore(gt_desciptions, generated_descriptions, qas=None):
-    if qas is None:
-        qas = generate_qas_for_vdcscore(gt_desciptions)
+def eval_vdcscore(gt_desciptions, generated_descriptions, qa_file=None):
+    if not os.path.exists(qa_file):
+        qas = []
+        for gt_description in gt_desciptions:
+            qas.append(generate_qas_for_vdcscore(gt_description))
+        with open(qa_file, "w") as f:
+            json.dump(qas, f)
     else:
-        with open(qas, "r") as f:
+        with open(qa_file, "r") as f:
             qas = json.load(f)
     
-    for gt_description, generated_description in zip(gt_desciptions, generated_descriptions):
-        for qa in qas:
-            if qa["event"] == generated_description:
-                print(qa)
+    if "predicted_answer" not in qas[0][0].keys():
+        for qa_list, generated_description in zip(qas, generated_descriptions):
+            inputs = [
+                [
+                    {
+                        "type": "text",
+                        "content": prompt_vdcscore_answer.format(video_description=generated_description, question=qa["question"])
+                    }
+                ]
+                for qa in qa_list
+            ]
+            messages = [generate_messages(input) for input in inputs]
+            model = "gpt-4o-2024-11-20"
+            answers = parallel_get_response(model, messages)[0]
+            
+            for qa, answer in zip(qa_list, answers):
+                qa["predicted_answer"] = answer
+        
+        with open(qa_file, "w") as f:
+            json.dump(qas, f)
+    
+    if "evaluation" not in qas[0][0].keys():
+        for qa_list in qas:
+            inputs = [
+                [
+                    {
+                        "type": "text",
+                        "content": prompt_vdcscore_verify.format(question=qa["question"], correct_answer=qa["answer"], predicted_answer=qa["predicted_answer"])
+                    }
+                ]
+                for qa in qa_list
+            ]
+            messages = [generate_messages(input) for input in inputs]
+            model = "gpt-4o-2024-11-20"
+            for _ in range(MAX_RETRIES):
+                evaluations = parallel_get_response(model, messages)[0]
+                try:
+                    evaluations = [validate_and_fix_json(evaluation) for evaluation in evaluations]
+                    break
+                except Exception as e:
+                    continue
+                raise Exception("Failed to evaluate vdcscore")
+            
+            for qa, evaluation in zip(qa_list, evaluations):
+                qa["evaluation"] = evaluation
+        
+        with open(qa_file, "w") as f:
+            json.dump(qas, f)
+    
+    correct = 0
+    score = 0
+    total = 0
+    
+    for qa_list in qas:
+        for qa in qa_list:
+            if qa["evaluation"]["pred"].lower().startswith("yes"):
+                correct += 1
+            score += float(qa["evaluation"]["score"])
+            total += 1
+    
+    precision = correct / total
+    avg_score = score / total
+
+    return precision, avg_score
 
 def eval_autodq(gt_desciptions, generated_descriptions):
     total_precision = 0
@@ -84,3 +150,18 @@ def eval_autodq(gt_desciptions, generated_descriptions):
     
     return precision, recall, f1
 
+
+if __name__ == "__main__":
+    gt_desciptions = [
+        ["<character_0> describes the Cactus Store, located on the Lower East Side of New York City.", "The Cactus Store is situated between an old paint shop and a modern hotel.", "A man in a blue shirt and khaki pants sets up a yellow A-frame sign that reads 'Cactus Store and Other Plants'.", "Another man in a gray shirt and white shorts carries a large cactus in an orange bucket.", "The man in the gray shirt places the cactus near the entrance of the Cactus Store.", "A man walks through a narrow alley filled with plants and bamboo stalks.", "Inside a greenhouse, a man in a blue shirt and khaki pants tends to various cacti and succulents.", "He uses a small brush and a scoop to care for the plants.", "The greenhouse is filled with rows of potted cacti and succulents of different sizes and shapes, arranged on metal shelves and wooden tables.", "<character_0> welcomes viewers to the Cactus Store.", "Inside the store, <character_0> gestures towards a large plant.", "<character_0> is knowledgeable about the Cactus Store's location and offerings.", "<character_0> is welcoming and enthusiastic about the Cactus Store.", "A man in a blue shirt sets up the store for the day and tends to the plants.", "A man in a gray shirt helps set up the store by bringing in a large cactus.", "The Cactus Store is located in a slim alley on the Lower East Side of New York City.", "The Cactus Store specializes in cacti and succulent collectibles.", "The video showcases the unique and hidden nature of the Cactus Store.", "The video aims to introduce viewers to the Cactus Store and its offerings."]
+    ]
+    generated_descriptions = [
+        ["<character_0> describes the Cactus Store, located on the Lower East Side of New York City.", "The Cactus Store is situated between an old paint shop and a modern hotel.", "A man in a blue shirt and khaki pants sets up a yellow A-frame sign that reads 'Cactus Store and Other Plants'.", "Another man in a gray shirt and white shorts carries a large cactus in an orange bucket.", "The man in the gray shirt places the cactus near the entrance of the Cactus Store.", "A man walks through a narrow alley filled with plants and bamboo stalks.", "Inside a greenhouse, a man in a blue shirt and khaki pants tends to various cacti and succulents.", "He uses a small brush and a scoop to care for the plants.", "The greenhouse is filled with rows of potted cacti and succulents of different sizes and shapes, arranged on metal shelves and wooden tables.", "<character_0> welcomes viewers to the Cactus Store.", "Inside the store, <character_0> gestures towards a large plant.", "<character_0> is knowledgeable about the Cactus Store's location and offerings.", "<character_0> is welcoming and enthusiastic about the Cactus Store.", "A man in a blue shirt sets up the store for the day and tends to the plants.", "A man in a gray shirt helps set up the store by bringing in a large cactus."]
+    ]
+    print("Evaluating vdcscore...")
+    precision, avg_score = eval_vdcscore(gt_desciptions, generated_descriptions, "data/results/0428/vdcscore_qa.json")
+    print(f"Precision: {precision}, Avg Score: {avg_score}")
+
+    print("Evaluating autodq...")
+    precision, recall, f1 = eval_autodq(gt_desciptions, generated_descriptions)
+    print(f"Precision: {precision}, Recall: {recall}, F1: {f1}")
