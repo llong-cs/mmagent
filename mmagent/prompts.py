@@ -945,17 +945,17 @@ DO NOT PROVIDE ANY OTHER OUTPUT TEXT OR EXPLANATION. Only output the JSON.
 
 Output:"""
 
-prompt_vdcscore_generate_qas = """You are an intelligent chatbot designed for generating 20 question-answer pairs given a detailed description of a video or image. You are describing the video.
+prompt_vdcscore_generate_qas = """You are an intelligent chatbot designed for generating 10 question-answer pairs given a detailed description of a video or image. You are describing the video.
 
-Here’s how you can accomplish the task: 
+Here's how you can accomplish the task: 
 
 INSTRUCTIONS: 
 - Cover the main objects and actions in the video or image.
-- The questions should be open-ended and start with ’What’, ’Who’, ’Where’, ’When’, ’Why’, ’How’, etc.
+- The questions should be open-ended and start with 'What', 'Who', 'Where', 'When', 'Why', 'How', etc.
 - The answer should be a short sentence or phrase.
-- Generate 20 question-answer pairs.
+- Generate 10 question-answer pairs.
 
-Please generate 20 question-answer pairs given a detailed description of a video or image: 
+Please generate 10 question-answer pairs given a detailed description of a video or image: 
 
 Detailed description: {video_description}
 
@@ -965,7 +965,7 @@ QA pairs:"""
 
 prompt_vdcscore_answer = """You are an intelligent chatbot designed for providing accurate answers to questions related to the content based on a detailed description of a video or image.
 
-Here’s how you can accomplish the task:
+Here's how you can accomplish the task:
 
 INSTRUCTIONS:
 - Read the detailed description carefully.
@@ -984,7 +984,7 @@ Answer:"""
 
 prompt_vdcscore_verify = """You are an intelligent chatbot designed for evaluating the correctness of generative outputs for questionanswer pairs. Your task is to compare the predicted answer with the correct answer and determine if they match meaningfully.
 
-Here’s how you can accomplish the task:
+Here's how you can accomplish the task:
 
 INSTRUCTIONS:
 - Focus on the meaningful match between the predicted answer and the correct answer.
@@ -999,8 +999,8 @@ Predicted Answer: {predicted_answer}
 
 Provide your evaluation only as a yes/no and score where the score is an integer value between 0 and 5, with 5 indicating the highest meaningful match.
 
-Please generate the response in the form of a Python dictionary string with keys ’pred’ and ’score’, where value of ’pred’ is a string of ’yes’ or ’no’ and value of ’score’ is in INTEGER, not STRING.
+Please generate the response in the form of a Python dictionary string with keys 'pred' and 'score', where value of 'pred' is a string of 'yes' or 'no' and value of 'score' is in INTEGER, not STRING.
 
-DO NOT PROVIDE ANY OTHER OUTPUT TEXT OR EXPLANATION. Only provide the Python dictionary string. For example, your response should look like this: {’pred’: ’yes’, ’score’: 4.8}.
+DO NOT PROVIDE ANY OTHER OUTPUT TEXT OR EXPLANATION. Only provide the Python dictionary string. For example, your response should look like this: {{'pred': 'yes', 'score': 4.8}}.
 
 Evaluation:"""

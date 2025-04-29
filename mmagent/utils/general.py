@@ -259,7 +259,7 @@ def validate_and_fix_python_list(invalid_list_string):
     """
     try:
         # Remove ```json or ``` from start/end
-        s = invalid_list_string.strip("```json").strip("```python").strip("```")
+        s = invalid_list_string.strip("```json").strip("```python").strip("```").strip()
         result = ast.literal_eval(s)
         if isinstance(result, list):
             return result

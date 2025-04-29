@@ -22,8 +22,14 @@ def generate_qas_for_vdcscore(video_description):
     
     for _ in range(MAX_RETRIES):
         response = get_response_with_retry(model, messages)[0]
-        qas = validate_and_fix_python_list(response)
-        if qas is not None:
+        qa_list = validate_and_fix_python_list(response)
+        if qa_list is not None:
+            qas = [
+                {
+                    "question": qa[0],
+                    "answer": qa[1]
+                } for qa in qa_list
+            ]
             return qas
         
     raise Exception("Failed to generate qas")
@@ -57,7 +63,7 @@ def eval_vdcscore(gt_desciptions, generated_descriptions, qa_file=None):
     else:
         with open(qa_file, "r") as f:
             qas = json.load(f)
-    
+
     if "predicted_answer" not in qas[0][0].keys():
         for qa_list, generated_description in zip(qas, generated_descriptions):
             inputs = [
@@ -94,11 +100,13 @@ def eval_vdcscore(gt_desciptions, generated_descriptions, qa_file=None):
             model = "gpt-4o-2024-11-20"
             for _ in range(MAX_RETRIES):
                 evaluations = parallel_get_response(model, messages)[0]
-                try:
-                    evaluations = [validate_and_fix_json(evaluation) for evaluation in evaluations]
+                print(evaluations)
+                evaluations = [validate_and_fix_json(evaluation) for evaluation in evaluations]
+                print(evaluations)
+                
+                if None not in evaluations:
                     break
-                except Exception as e:
-                    continue
+
                 raise Exception("Failed to evaluate vdcscore")
             
             for qa, evaluation in zip(qa_list, evaluations):
@@ -159,7 +167,7 @@ if __name__ == "__main__":
         ["<character_0> describes the Cactus Store, located on the Lower East Side of New York City.", "The Cactus Store is situated between an old paint shop and a modern hotel.", "A man in a blue shirt and khaki pants sets up a yellow A-frame sign that reads 'Cactus Store and Other Plants'.", "Another man in a gray shirt and white shorts carries a large cactus in an orange bucket.", "The man in the gray shirt places the cactus near the entrance of the Cactus Store.", "A man walks through a narrow alley filled with plants and bamboo stalks.", "Inside a greenhouse, a man in a blue shirt and khaki pants tends to various cacti and succulents.", "He uses a small brush and a scoop to care for the plants.", "The greenhouse is filled with rows of potted cacti and succulents of different sizes and shapes, arranged on metal shelves and wooden tables.", "<character_0> welcomes viewers to the Cactus Store.", "Inside the store, <character_0> gestures towards a large plant.", "<character_0> is knowledgeable about the Cactus Store's location and offerings.", "<character_0> is welcoming and enthusiastic about the Cactus Store.", "A man in a blue shirt sets up the store for the day and tends to the plants.", "A man in a gray shirt helps set up the store by bringing in a large cactus."]
     ]
     print("Evaluating vdcscore...")
-    precision, avg_score = eval_vdcscore(gt_desciptions, generated_descriptions, "data/results/0428/vdcscore_qa.json")
+    precision, avg_score = eval_vdcscore(gt_desciptions, generated_descriptions, "exp/0428/vdcscore_qa.json")
     print(f"Precision: {precision}, Avg Score: {avg_score}")
 
     print("Evaluating autodq...")

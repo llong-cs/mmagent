@@ -37,7 +37,7 @@ def verify_video_parallel(args):
 
 def check_video_path(args):
     path, output_dir, interval = args
-    if not verify_video_processing(path, output_dir, interval, strict=False):
+    if not verify_video_processing(path, output_dir, interval, strict=True):
         return path
     return None
 
@@ -76,8 +76,8 @@ if __name__ == "__main__":
         # "/mnt/hdfs/foundation/longlin.kylin/mmagent/benchmarks/MLVU/MLVU/video/2_needle",
         # "/mnt/hdfs/foundation/longlin.kylin/mmagent/benchmarks/MLVU/MLVU/video/3_ego",
         # "/mnt/hdfs/foundation/longlin.kylin/mmagent/benchmarks/MLVU/MLVU/video/4_count",
-        # "/mnt/hdfs/foundation/longlin.kylin/mmagent/benchmarks/MLVU/MLVU/video/5_order",
-        # "/mnt/hdfs/foundation/longlin.kylin/mmagent/benchmarks/MLVU/MLVU/video/6_anomaly_reco",
+        "/mnt/hdfs/foundation/longlin.kylin/mmagent/benchmarks/MLVU/MLVU/video/5_order",
+        "/mnt/hdfs/foundation/longlin.kylin/mmagent/benchmarks/MLVU/MLVU/video/6_anomaly_reco",
         "/mnt/hdfs/foundation/longlin.kylin/mmagent/benchmarks/MLVU/MLVU/video/7_topic_reasoning",
         "/mnt/hdfs/foundation/longlin.kylin/mmagent/benchmarks/MLVU/MLVU/video/8_sub_scene",
         "/mnt/hdfs/foundation/longlin.kylin/mmagent/benchmarks/MLVU/MLVU/video/9_summary"

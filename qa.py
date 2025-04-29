@@ -29,6 +29,10 @@ def video_to_base64(video_path):
 def process_qa(qa):
     try:
         mem = load_video_graph(qa["mem_path"])
+        
+        # refresh equivalences
+        mem.refresh_equivalences()
+
         question = qa["question"]
         planning = processing_config["planning"]
         
@@ -184,9 +188,12 @@ if __name__ == "__main__":
     parser.add_argument("--output_dir", type=str, default="data/annotations/results")
     
     exp_settings = {
-        "10_rounds": {
+        "10_rounds_unify_ids": {
             "max_retrieval_steps": 10
         },
+        "5_rounds_unify_ids": {
+            "max_retrieval_steps": 5
+        }
         # "full_retrieval": {
         #     "topk": 1000,
         #     "multiple_queries": True,

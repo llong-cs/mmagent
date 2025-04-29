@@ -405,7 +405,7 @@ class VideoGraph:
                 rank[px] += 1
                 
         # Process each voice node
-        for node_id in tqdm(self.nodes):
+        for node_id in self.nodes:
             if self.nodes[node_id].type != 'voice':
                 continue
                 
@@ -487,6 +487,8 @@ class VideoGraph:
             
         self.character_mappings = character_mappings
         self.reverse_character_mappings = reverse_character_mappings
+
+        logger.info(f"Found {character_count} characters")
                 
     
     # Retrieval functions

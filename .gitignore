@@ -49,6 +49,7 @@ output/
 results/
 temp/
 logs/
+exp/
 
 # Images
 imgs/
