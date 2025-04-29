@@ -616,14 +616,13 @@ class VideoGraph:
             
         return info_nodes
     
-    def search_text_nodes(self, query_embeddings, threshold=0.4):
+    def search_text_nodes(self, query_embeddings):
         
         matched_text_nodes = []
         for node_id in self.text_nodes:
             node = self.nodes[node_id]
             similarity = self._average_similarity(query_embeddings, node.embeddings)
-            if similarity >= threshold:
-                matched_text_nodes.append((node_id, similarity))
+            matched_text_nodes.append((node_id, similarity))
         
         matched_text_nodes = sorted(matched_text_nodes, key=lambda x: x[1], reverse=True)
         

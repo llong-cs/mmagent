@@ -54,7 +54,7 @@ def back_translate(video_graph, queries):
     return translated_queries
 
 # retrieve by clip
-def retrieve_from_videograph(video_graph, query, topk=5, mode='argmax'):
+def retrieve_from_videograph(video_graph, query, topk=5, mode='argmax', threshold=0):
     top_clips = []
     # find all CLIP_x in query
     pattern = r"CLIP_(\d+)"
@@ -74,18 +74,14 @@ def retrieve_from_videograph(video_graph, query, topk=5, mode='argmax'):
 
     clip_scores = {}
 
-    if mode == 'argmax':
-        threshold = 0
-    elif mode == 'accumulate':
-        threshold = 0.2
-    else:
+    if mode not in ['argmax', 'accumulate']:
         raise ValueError(f"Unknown mode: {mode}")
 
     for query_embedding in query_embeddings:
-        nodes = video_graph.search_text_nodes([query_embedding], threshold=threshold)
+        nodes = video_graph.search_text_nodes([query_embedding])
         for node in nodes:
             node_id = node[0]
-            node_score = node[1]
+            node_score = node[1] if node[1] >= threshold else 0
             clip_id = video_graph.nodes[node_id].metadata['timestamp']
             if mode == 'accumulate':
                 if clip_id not in clip_scores:
@@ -106,7 +102,7 @@ def retrieve_from_videograph(video_graph, query, topk=5, mode='argmax'):
 
     top_clips = list(set(top_clips))
     
-    return top_clips
+    return top_clips, clip_scores
 
 def generate_action(question, knowledge, retrieval_plan=None, multiple_queries=False, responses=[], switch=False):
     # select prompt
@@ -193,8 +189,8 @@ def select_queries(action_content, responses):
     min_similarity_idx = avg_similarities.index(min(avg_similarities))
     return queries[min_similarity_idx]
 
-def search(video_graph, query, current_clips, topk=5, mode='argmax'):
-    new_clips = retrieve_from_videograph(video_graph, query, topk, mode)
+def search(video_graph, query, current_clips, topk=5, mode='argmax', threshold=0):
+    new_clips, clip_scores = retrieve_from_videograph(video_graph, query, topk, mode, threshold)
     new_clips = [new_clip for new_clip in new_clips if new_clip not in current_clips]
     new_memories = {}
     current_clips.extend(new_clips)
@@ -210,7 +206,7 @@ def search(video_graph, query, current_clips, topk=5, mode='argmax'):
     new_memories = dict(sorted(new_memories.items(), key=lambda x: x[0]))
     new_memories = {f"CLIP_{k}": v for k, v in new_memories.items()}
     
-    return new_memories, current_clips
+    return new_memories, current_clips, clip_scores
 
 def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5, auto_refresh=False, mode='argmax', multiple_queries=False, max_retrieval_steps=10, route_switch=True):
     if auto_refresh:
@@ -281,7 +277,7 @@ def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5,
                 logger.info(f"Forced answer: {final_answer}")
                 break
             
-            new_memories, related_clips = search(video_graph, action_content, related_clips, topk, mode)
+            new_memories, related_clips, _ = search(video_graph, action_content, related_clips, topk, mode, threshold=0)
             
             if len(new_memories.items()) == 0 and route_switch:
                 switch = True
