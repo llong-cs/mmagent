@@ -75,6 +75,8 @@ def process_qa_list(qa_list, dataset_with_agent_answer, max_workers=16):
         logger.error(f"Error reading dataset_with_agent_answer: {dataset_with_agent_answer}")
         logger.error(str(e))
         sample_count = 0
+    logger.info(f"Starting from sample {sample_count}")
+    logger.info(f"Processing {len(qa_list)} samples with batch size {bs}")
     for i in range(sample_count, len(qa_list), bs):
         try:
             qa_list_batch = qa_list[i:i+bs]
@@ -184,7 +186,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset", type=str, default="data/annotations/small_test.jsonl")
-    parser.add_argument("--sample_rounds", type=int, default=1)
+    parser.add_argument("--sample_rounds", type=int, default=3)
     parser.add_argument("--output_dir", type=str, default="data/annotations/results")
     
     exp_settings = {
@@ -215,14 +217,6 @@ if __name__ == "__main__":
     args.dataset_with_agent_answer = os.path.basename(args.dataset).replace(".jsonl", "_with_agent_answer.jsonl")
     args.dataset_with_agent_answer_verified = os.path.basename(args.dataset_with_agent_answer).replace("_with_agent_answer", "_with_agent_answer_verified")
 
-    qa_list = []
-    dataset = args.dataset
-    with open(dataset, "r") as f:
-        for line in f:
-            qa = json.loads(line)
-            if os.path.exists(qa["mem_path"]):
-                qa_list.append(qa)
-
     # # idx = 0
     # # qa_list_with_agent_answer = process_qa_list(qa_list[idx:idx+1])
     sample_rounds = args.sample_rounds
@@ -231,6 +225,15 @@ if __name__ == "__main__":
             processing_config[param] = value
         logger.info(f"Processing {exp} with {exp_setting}")
         for i in range(sample_rounds):
+            qa_list = []
+            dataset = args.dataset
+            with open(dataset, "r") as f:
+                for line in f:
+                    qa = json.loads(line)
+                    if os.path.exists(qa["mem_path"]):
+                        qa_list.append(qa)
+            logger.info(f"Processing {len(qa_list)} samples")
+
             dataset_with_agent_answer = args.dataset_with_agent_answer.replace("_with_agent_answer", f"_with_agent_answer_{i}")
             dataset_with_agent_answer = os.path.join(args.output_dir, exp, dataset_with_agent_answer)
             os.makedirs(os.path.dirname(dataset_with_agent_answer), exist_ok=True)
