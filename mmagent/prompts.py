@@ -1004,3 +1004,15 @@ Please generate the response in the form of a Python dictionary string with keys
 DO NOT PROVIDE ANY OTHER OUTPUT TEXT OR EXPLANATION. Only provide the Python dictionary string. For example, your response should look like this: {{'pred': 'yes', 'score': 4.8}}.
 
 Evaluation:"""
+
+prompt_generate_action_qwen3 = """You are given a question and some relevant knowledge about a specific video. Your task is to reason about whether the provided knowledge is sufficient to answer the question. If it is sufficient, output [Answer] followed by the answer. If it is not sufficient, output [Search] and generate a query that will be encoded into embeddings for a vector similarity search. The query will help retrieve additional information from a memory bank that contains detailed descriptions and high-level abstractions of the video, considering the question, and the provided knowledge.
+
+Output the answer in the format:
+Action: [Answer] or [Search]
+Content: {{content}}
+
+If the answer can be derived from the provided knowledge, the {{content}} is the specific answer to the question
+If the answer cannot be derived yet, the {{content}} should be a single search query that would help retrieve the missing information.
+You need to provide an answer within 5 rounds.
+
+Question: {question}"""
