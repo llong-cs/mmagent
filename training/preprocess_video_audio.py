@@ -208,14 +208,12 @@ model = Qwen2_5OmniPreprocessor.from_pretrained(
 )
 processor = Qwen2_5OmniProcessor.from_pretrained(model_path)
 
-conversations, answers, mems = [], [], []
+conversations = []
 with open(input_data) as f:
     for line in f.readlines():
         conversations.append(json.loads(line)["messages"])
 if len(conversations) % 2 != 0:
     conversations.append(conversations[0])
-    answers.append(answers[0])
-    mems.append(mems[0])
 
 inputs_list = []
 # It must be in batch form, otherwise it will return embeddings one by one
