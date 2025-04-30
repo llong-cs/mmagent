@@ -73,11 +73,11 @@ Example Output:
 
 Please only return the valid string list (which starts with "[" and ends with "]"), without any additional explanation or formatting."""
 
-prompt_generate_thinkings_with_ids = """You are given a video and a set of character features. Each feature is either a face (represented by a video frame with a bounding box) or a voice (represented by speech segments with MM:SS timestamps and transcripts). Each feature has a unique ID in angle brackets (e.g., <face_1>, <voice_2>).
+prompt_generate_thinkings_with_ids = """You are given a video and a set of character features. Each feature is either a face (represented by a video frame with a bounding box) or a voice (represented by speech segments with MM:SS timestamps and transcripts). Each feature has a unique ID in angle brackets (e.g., <face_1>, <voice_2>). You are also given a list of video descriptions.
 
 Your Task:
 
-Using the provided feature IDs, generate a list of high-level reasoning-based conclusions across the following five categories, going beyond surface-level observations:
+Using the provided feature IDs, generate a list of high-level reasoning-based conclusions about the video across the following five categories, going beyond surface-level observations:
 
 1. Equivalence Identification
 
@@ -159,7 +159,7 @@ Example Input:
 Example Output:
 
 [
-    "Equivalence: <face_1>, <voice_1>.",
+    "Equivalence: <face_1>, <voice_1>",
 	"<face_1>'s name is David.",
 	"<face_1> holds a position of authority, likely as the meeting's organizer or a senior executive.",
     "<face_2> shows social awareness and diplomacy, possibly indicating experience in public or client-facing roles.",
@@ -169,6 +169,18 @@ Example Output:
 ]
 
 Please only return the valid string list (which starts with "[" and ends with "]"), without any additional explanation or formatting."""
+
+prompt_generate_captions_with_ids_sft = """You will be given a video and a set of character features. Each feature (some of them may belong to the same character) can be a face image represented by a video frame with a bounding box, or can be a voice feature represented by several speech segments, each with a start time, an end time (both in MM:SS format), and the corresponding content. Each face and voice feature is identified by a unique ID enclosed in angle brackets (< >).
+
+Your task is using the provided feature IDs as the reference to characters (if available) in the video and generating a detailed and cohesive description of the current video clip. The description should capture the complete set of observable and inferable events in the clip. 
+
+Your output should be a list of strings, with each string representing exactly one atomic event or description."""
+
+prompt_generate_thinkings_with_ids_sft = """You will be given a video and a set of character features. Each feature is either a face (represented by a video frame with a bounding box) or a voice (represented by speech segments with MM:SS timestamps and transcripts). Each feature has a unique ID in angle brackets (e.g., <face_1>, <voice_2>). You will also be given a list of video descriptions.
+
+Your task is using the provided feature IDs as the reference to characters (if available) in the video and generating a list of high-level reasoning-based conclusions about the video, going beyond surface-level observations. Particularly, in your output, you should identify which face and voice features refer to the same character, using the exact format: Equivalence: <face_x>, <voice_y>.
+
+Your output should be a list of strings, with each string representing exactly one high-level conclusion."""
 
 prompt_baseline_answer_clipwise_extract = """You are given a video and a question related to that video. You will be shown a specific clip from the video. Your task is to extract any relevant information from this clip that can help answer the question. If the clip does not contain any relevant or helpful information, simply respond with "none"."""
 
