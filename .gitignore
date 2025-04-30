@@ -57,8 +57,9 @@ imgs/
 # API
 api_config.json
 
-# Test
+# Test or temp
 test*
+temp*
 
 # Data
 data/videos/

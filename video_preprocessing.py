@@ -72,10 +72,10 @@ if __name__ == "__main__":
     #         list(tqdm(executor.map(verify_video_parallel, args), total=len(args), desc="Verifying videos"))
         
     videos_paths = [
-        # "/mnt/hdfs/foundation/longlin.kylin/mmagent/benchmarks/MLVU/MLVU/video/1_plotQA",
-        # "/mnt/hdfs/foundation/longlin.kylin/mmagent/benchmarks/MLVU/MLVU/video/2_needle",
-        # "/mnt/hdfs/foundation/longlin.kylin/mmagent/benchmarks/MLVU/MLVU/video/3_ego",
-        # "/mnt/hdfs/foundation/longlin.kylin/mmagent/benchmarks/MLVU/MLVU/video/4_count",
+        "/mnt/hdfs/foundation/longlin.kylin/mmagent/benchmarks/MLVU/MLVU/video/1_plotQA",
+        "/mnt/hdfs/foundation/longlin.kylin/mmagent/benchmarks/MLVU/MLVU/video/2_needle",
+        "/mnt/hdfs/foundation/longlin.kylin/mmagent/benchmarks/MLVU/MLVU/video/3_ego",
+        "/mnt/hdfs/foundation/longlin.kylin/mmagent/benchmarks/MLVU/MLVU/video/4_count",
         "/mnt/hdfs/foundation/longlin.kylin/mmagent/benchmarks/MLVU/MLVU/video/5_order",
         "/mnt/hdfs/foundation/longlin.kylin/mmagent/benchmarks/MLVU/MLVU/video/6_anomaly_reco",
         "/mnt/hdfs/foundation/longlin.kylin/mmagent/benchmarks/MLVU/MLVU/video/7_topic_reasoning",
