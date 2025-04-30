@@ -78,8 +78,9 @@ def generate_video_context(data):
     return message_content
 
 def generate_episodic_conversations(samples_path, output_path):
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(samples_path, "r") as f:
-        for line in f:
+        for line in tqdm(f):
             data = json.loads(line)
             
             messages = [
@@ -114,8 +115,9 @@ def generate_episodic_conversations(samples_path, output_path):
                 f.write(json.dumps(res) + "\n")
 
 def generate_semantic_conversations(data_path, output_path, sem_mem_types=["semantic_memory", "semantic_memory_character", "semantic_memory_relation", "semantic_memory_video", "semantic_memory_general"]):
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(data_path, "r") as f:
-        for line in f:
+        for line in tqdm(f):
             data = json.loads(line)
             
             messages = [
@@ -167,6 +169,6 @@ def generate_semantic_conversations(data_path, output_path, sem_mem_types=["sema
 if __name__ == "__main__":
     data_path = "data/sft/memgen/0429/train_for_memory_5k.json"
     samples_path = "data/sft/memgen/0429/samples/training_samples.jsonl"
-    fix_and_transfer_data(data_path, samples_path)
-    # generate_episodic_conversations(samples_path, "data/annotations/sft/memgen/0429/episodic_conversations.jsonl")
-    # generate_semantic_conversations(samples_path, "data/annotations/sft/memgen/0429/semantic_conversations.jsonl")
+    # fix_and_transfer_data(data_path, samples_path)
+    generate_episodic_conversations(samples_path, "data/sft/memgen/0429/conversations/episodic_conversations.jsonl")
+    generate_semantic_conversations(samples_path, "data/sft/memgen/0429/conversations/semantic_conversations.jsonl")
