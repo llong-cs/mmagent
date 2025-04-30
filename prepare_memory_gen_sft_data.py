@@ -3,10 +3,8 @@ import json
 from tqdm import tqdm
 from mmagent.prompts import prompt_generate_captions_with_ids_sft, prompt_generate_thinkings_with_ids_sft
 
-data_path = "data/sft/memgen/0429/train_for_memory_5k.json"
-
-def fix_and_transfer_data(data_path, output_dir):
-    os.makedirs(output_dir, exist_ok=True)
+def fix_and_transfer_data(data_path, output_path):
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
     samples = []
     with open(data_path, "r") as f:
         data = json.load(f)
@@ -18,6 +16,8 @@ def fix_and_transfer_data(data_path, output_dir):
             with open(sample, "r") as f:
                 data = json.load(f)
                 
+            data["original_path"] = sample
+                
             equivalences = data["semantic_memory"]
             if "is" in equivalences[0]:
                 new_equivalences = []
@@ -27,10 +27,8 @@ def fix_and_transfer_data(data_path, output_dir):
                     new_equivalences.append(f"Equivalence: {id1}, {id2}")
                 data["semantic_memory"] = new_equivalences
             
-            file_name = sample.split("/")[-2] + sample.split("/")[-1]
-
-            with open(os.path.join(output_dir, file_name), "w") as f:
-                json.dump(data, f, indent=4)
+            with open(output_path, "a") as f:
+                f.write(json.dumps(data) + "\n")
         except:
             continue
 
@@ -79,106 +77,96 @@ def generate_video_context(data):
 
     return message_content
 
-def generate_episodic_conversations(data_path, output_path):
-    samples = []
-    with open(data_path, "r") as f:
-        data = json.load(f)
-    for item in data:
-        samples.extend(item["clips"])
-    
-    for sample in samples:
-        with open(sample, "r") as f:
-            data = json.load(f)
-        
-        messages = [
-            {
-                "role": "user",
+def generate_episodic_conversations(samples_path, output_path):
+    with open(samples_path, "r") as f:
+        for line in f:
+            data = json.loads(line)
+            
+            messages = [
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": prompt_generate_captions_with_ids_sft
+                        }
+                    ]
+                }
+            ]
+            
+            messages[0]["content"].extend(generate_video_context(data))
+            
+            messages.append({
+                "role": "assistant",
                 "content": [
                     {
                         "type": "text",
-                        "text": prompt_generate_captions_with_ids_sft
+                        "text": json.dumps(data["episodic_memory"])
                     }
                 ]
+            })
+
+            res = {
+                "messages": messages
             }
-        ]
-        
-        messages[0]["content"].extend(generate_video_context(data))
-        
-        messages.append({
-            "role": "assistant",
-            "content": [
+
+            with open(output_path, "a") as f:
+                f.write(json.dumps(res) + "\n")
+
+def generate_semantic_conversations(data_path, output_path, sem_mem_types=["semantic_memory", "semantic_memory_character", "semantic_memory_relation", "semantic_memory_video", "semantic_memory_general"]):
+    with open(data_path, "r") as f:
+        for line in f:
+            data = json.loads(line)
+            
+            messages = [
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": prompt_generate_thinkings_with_ids_sft
+                        }
+                    ]
+                }
+            ]
+            
+            messages[0]["content"].extend(generate_video_context(data))
+            
+            messages[0]["content"].extend([
+                {
+                    "type": "text",
+                    "text": "Video descriptions:"
+                },
                 {
                     "type": "text",
                     "text": json.dumps(data["episodic_memory"])
                 }
-            ]
-        })
-
-        res = {
-            "messages": messages
-        }
-
-        with open(output_path, "a") as f:
-            f.write(json.dumps(res) + "\n")
-
-def generate_semantic_conversations(data_path, output_path, sem_mem_types=["semantic_memory", "semantic_memory_character", "semantic_memory_relation", "semantic_memory_video", "semantic_memory_general"]):
-    samples = []
-    with open(data_path, "r") as f:
-        data = json.load(f)
-    for item in data:
-        samples.extend(item["clips"])
-    
-    for sample in samples:
-        with open(sample, "r") as f:
-            data = json.load(f)
-        
-        messages = [
-            {
-                "role": "user",
+            ])
+            
+            sem_mems = []
+            for sem_mem_type in sem_mem_types:
+                sem_mems.extend(data[sem_mem_type])
+            
+            messages.append({
+                "role": "assistant",
                 "content": [
                     {
                         "type": "text",
-                        "text": prompt_generate_thinkings_with_ids_sft
+                        "text": json.dumps(sem_mems)
                     }
                 ]
-            }
-        ]
-        
-        messages[0]["content"].extend(generate_video_context(data))
-        
-        messages[0]["content"].extend([
-            {
-                "type": "text",
-                "text": "Video descriptions:"
-            },
-            {
-                "type": "text",
-                "text": json.dumps(data["episodic_memory"])
-            }
-        ])
-        
-        sem_mems = []
-        for sem_mem_type in sem_mem_types:
-            sem_mems.extend(data[sem_mem_type])
-        
-        messages.append({
-            "role": "assistant",
-            "content": [
-                {
-                    "type": "text",
-                    "text": json.dumps(sem_mems)
-                }
-            ]
-        })
+            })
 
-        res = {
-            "messages": messages
-        }
+            res = {
+                "messages": messages
+            }
 
-        with open(output_path, "a") as f:
-            f.write(json.dumps(res) + "\n")
+            with open(output_path, "a") as f:
+                f.write(json.dumps(res) + "\n")
 
 if __name__ == "__main__":
-    fix_and_transfer_data(data_path, "data/sft/memgen/0429/samples")
-    # generate_episodic_conversations(data_path, "data/annotations/sft/memgen/0429/episodic_conversations.jsonl")
-    # generate_semantic_conversations(data_path, "data/annotations/sft/memgen/0429/semantic_conversations.jsonl")
+    data_path = "data/sft/memgen/0429/train_for_memory_5k.json"
+    samples_path = "data/sft/memgen/0429/samples/training_samples.jsonl"
+    fix_and_transfer_data(data_path, samples_path)
+    # generate_episodic_conversations(samples_path, "data/annotations/sft/memgen/0429/episodic_conversations.jsonl")
+    # generate_semantic_conversations(samples_path, "data/annotations/sft/memgen/0429/semantic_conversations.jsonl")
