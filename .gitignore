@@ -74,3 +74,6 @@ cookies/
 
 # Temp files
 *_wvf_snd.mp4
+
+# SFT data
+data/sft/

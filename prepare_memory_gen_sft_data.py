@@ -1,30 +1,38 @@
 import os
 import json
+from tqdm import tqdm
 from mmagent.prompts import prompt_generate_captions_with_ids_sft, prompt_generate_thinkings_with_ids_sft
 
-data_path = "data/annotations/sft/memgen/0429/train_for_memory_5k.json"
+data_path = "data/sft/memgen/0429/train_for_memory_5k.json"
 
-def fix_equivalences_format(data_path):
+def fix_and_transfer_data(data_path, output_dir):
+    os.makedirs(output_dir, exist_ok=True)
     samples = []
     with open(data_path, "r") as f:
         data = json.load(f)
-    for item in data:
+    for _, item in data.items():
         samples.extend(item["clips"])
     
-    for sample in samples:
-        with open(sample, "r") as f:
-            data = json.load(f)
+    for sample in tqdm(samples):
+        try:
+            with open(sample, "r") as f:
+                data = json.load(f)
+                
+            equivalences = data["semantic_memory"]
+            if "is" in equivalences[0]:
+                new_equivalences = []
+                for equivalence in equivalences:
+                    id1, id2 = equivalence.split("is")
+                    id1, id2 = id1.strip(), id2.strip()
+                    new_equivalences.append(f"Equivalence: {id1}, {id2}")
+                data["semantic_memory"] = new_equivalences
             
-        equivalences = data["semantic_memory"]
-        new_equivalences = []
-        for equivalence in equivalences:
-            id1, id2 = equivalence.split("is")
-            id1, id2 = id1.strip(), id2.strip()
-            new_equivalences.append(f"Equivalence: {id1}, {id2}")
-        data["semantic_memory"] = new_equivalences
-        
-        with open(sample, "w") as f:
-            json.dump(data, f, indent=4)
+            file_name = sample.split("/")[-2] + sample.split("/")[-1]
+
+            with open(os.path.join(output_dir, file_name), "w") as f:
+                json.dump(data, f, indent=4)
+        except:
+            continue
 
 def generate_video_context(data):
     message_content = [
@@ -171,6 +179,6 @@ def generate_semantic_conversations(data_path, output_path, sem_mem_types=["sema
             f.write(json.dumps(res) + "\n")
 
 if __name__ == "__main__":
-    fix_equivalences_format(data_path)
-    generate_episodic_conversations(data_path, "data/annotations/sft/memgen/0429/episodic_conversations.jsonl")
-    generate_semantic_conversations(data_path, "data/annotations/sft/memgen/0429/semantic_conversations.jsonl")
+    fix_and_transfer_data(data_path, "data/sft/memgen/0429/samples")
+    # generate_episodic_conversations(data_path, "data/annotations/sft/memgen/0429/episodic_conversations.jsonl")
+    # generate_semantic_conversations(data_path, "data/annotations/sft/memgen/0429/semantic_conversations.jsonl")
