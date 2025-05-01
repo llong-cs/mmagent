@@ -4,7 +4,7 @@ mem_type=${1:-"episodic"}
 input_dir=${2:-"data/sft/memgen/0429/conversations"}
 output_dir=${2:-"/mnt/hdfs/foundation/longlin.kylin/mmagent/data/memgen_sft/0429"}
 
-for i in {0..15}; do
+for i in $(seq 0 15); do
     CUDA_VISIBLE_DEVICES=$i python3 prepare_memory_gen_sft_data.py \
         --conversations_path ${input_dir}/${mem_type}_conversations.jsonl \
         --output_dir ${output_dir} \
