@@ -65,7 +65,7 @@ def process_qa(qa):
         return qa
     return qa
 
-def process_qa_list(qa_list, dataset_with_agent_answer, max_workers=16):
+def process_qa_list(qa_list, dataset_with_agent_answer, max_workers=32):
     bs = 100
     results = []
     try:
@@ -190,12 +190,12 @@ if __name__ == "__main__":
     parser.add_argument("--output_dir", type=str, default="data/annotations/results")
     
     exp_settings = {
-        "10_rounds_unify_ids": {
+        "gemini_agent": {
             "max_retrieval_steps": 10
         },
-        "5_rounds_unify_ids": {
-            "max_retrieval_steps": 5
-        }
+        # "5_rounds_unify_ids": {
+        #     "max_retrieval_steps": 5
+        # }
         # "full_retrieval": {
         #     "topk": 1000,
         #     "multiple_queries": True,

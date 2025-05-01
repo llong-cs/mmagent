@@ -111,12 +111,14 @@ def generate_action(question, knowledge, retrieval_plan=None, multiple_queries=F
             prompt = prompt_generate_action_with_plan_multiple_queries
         else:
             prompt = prompt_generate_action_with_plan
+            # prompt = prompt_generate_action_with_plan_multiple_queries
     else:
         logger.info(f"Route switch triggered.")
         if multiple_queries:
             prompt = prompt_generate_action_with_plan_multiple_queries_new_direction
         else:
             prompt = prompt_generate_action_with_plan_new_direction
+            # prompt = prompt_generate_action_with_plan_multiple_queries_new_direction
     
     input = [
         {
@@ -129,8 +131,8 @@ def generate_action(question, knowledge, retrieval_plan=None, multiple_queries=F
         }
     ]
     messages = generate_messages(input)
-    model = "gpt-4o-2024-11-20"
-    # model = "gemini-1.5-pro-002"
+    # model = "gpt-4o-2024-11-20"
+    model = "gemini-1.5-pro-002"
     action_type = None
     action_content = None
     for i in range(MAX_RETRIES):
@@ -265,7 +267,8 @@ def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5,
                     }
                 ]
                 messages = generate_messages(input)
-                model = "gpt-4o-2024-11-20"
+                # model = "gpt-4o-2024-11-20"
+                model = "gemini-1.5-pro-002"
                 resp = get_response_with_retry(model, messages)[0]
                 reasoning = resp.split("[ANSWER]")[0].strip()
                 final_answer = resp.split("[ANSWER]")[1].strip()
