@@ -27,6 +27,7 @@ args = parser.parse_args()
 INPUT_EMBEDS = None
 INPUT_MASKS = None
 POSITION_IDS = None
+FAKE_RESULTS = None
 
 @dataclass
 class Qwen2_5OmniThinkerCausalLMOutputWithPast(ModelOutput):
@@ -154,51 +155,58 @@ class Qwen2_5OmniPreprocessor(Qwen2_5OmniThinkerForConditionalGeneration):
         INPUT_MASKS = attention_mask
         POSITION_IDS = position_ids
 
-        outputs = self.model(
-            attention_mask=attention_mask,
-            position_ids=position_ids,
-            past_key_values=past_key_values,
-            inputs_embeds=inputs_embeds,
-            use_cache=use_cache,
-            output_attentions=output_attentions,
-            output_hidden_states=output_hidden_states,
-            return_dict=return_dict,
-            cache_position=cache_position,
-        )
-
-        hidden_states = outputs[0]
-        logits = self.lm_head(hidden_states)
-
-        loss = None
-        if labels is not None:
-            logits = logits.float()
-            # Shift so that tokens < n predict n
-            if attention_mask is not None:
-                shift_attention_mask = attention_mask[..., 1:]
-                shift_logits = logits[..., :-1, :][shift_attention_mask.to(logits.device) != 0].contiguous()
-                shift_labels = labels[..., 1:][shift_attention_mask.to(labels.device) != 0].contiguous()
-            else:
-                shift_logits = logits[..., :-1, :].contiguous()
-                shift_labels = labels[..., 1:].contiguous()
-            # Flatten the tokens
-            loss_fct = torch.nn.CrossEntropyLoss()
-            loss = loss_fct(
-                shift_logits.view(-1, shift_logits.size(-1)), shift_labels.view(-1).to(shift_logits.device)
+        global FAKE_RESULTS
+        if FAKE_RESULTS is None:
+            outputs = self.model(
+                attention_mask=attention_mask,
+                position_ids=position_ids,
+                past_key_values=past_key_values,
+                inputs_embeds=inputs_embeds,
+                use_cache=use_cache,
+                output_attentions=output_attentions,
+                output_hidden_states=output_hidden_states,
+                return_dict=return_dict,
+                cache_position=cache_position,
             )
 
-        if not return_dict:
-            output = (logits,) + ((embeds_to_talker, outputs[0])) + outputs[1:]
-            return (loss,) + output if loss is not None else output
+            hidden_states = outputs[0]
+            logits = self.lm_head(hidden_states)
 
-        return Qwen2_5OmniThinkerCausalLMOutputWithPast(
-            loss=loss,
-            logits=logits,
-            past_key_values=outputs.past_key_values,
-            hidden_states=(embeds_to_talker, outputs.hidden_states),
-            attentions=outputs.attentions,
-            attention_mask=attention_mask,
-            rope_deltas=rope_deltas,
-        )
+            loss = None
+            if labels is not None:
+                logits = logits.float()
+                # Shift so that tokens < n predict n
+                if attention_mask is not None:
+                    shift_attention_mask = attention_mask[..., 1:]
+                    shift_logits = logits[..., :-1, :][shift_attention_mask.to(logits.device) != 0].contiguous()
+                    shift_labels = labels[..., 1:][shift_attention_mask.to(labels.device) != 0].contiguous()
+                else:
+                    shift_logits = logits[..., :-1, :].contiguous()
+                    shift_labels = labels[..., 1:].contiguous()
+                # Flatten the tokens
+                loss_fct = torch.nn.CrossEntropyLoss()
+                loss = loss_fct(
+                    shift_logits.view(-1, shift_logits.size(-1)), shift_labels.view(-1).to(shift_logits.device)
+                )
+
+            if not return_dict:
+                output = (logits,) + ((embeds_to_talker, outputs[0])) + outputs[1:]
+                return (loss,) + output if loss is not None else output
+
+            res = Qwen2_5OmniThinkerCausalLMOutputWithPast(
+                loss=loss,
+                logits=logits,
+                past_key_values=outputs.past_key_values,
+                hidden_states=(embeds_to_talker, outputs.hidden_states),
+                attentions=outputs.attentions,
+                attention_mask=attention_mask,
+                rope_deltas=rope_deltas,
+            )
+
+            FAKE_RESULTS = res
+        else:
+            res = FAKE_RESULTS
+        return res
 
 def find_tensor_start(A, B):
     len_A = len(A)
@@ -371,16 +379,8 @@ def generate_semantic_conversations(data_path, output_path, sem_mem_types=["sema
             with open(output_path, "a") as f:
                 f.write(json.dumps(res) + "\n")
 
-def preprocess_inputs(input_path, output_dir, index):
+def preprocess_inputs(model, processor, input_path, output_dir, index):
     os.makedirs(output_dir, exist_ok=True)
-    model_path = "/mnt/hdfs/foundation/agent/heyc/ckpts/Qwen2.5-Omni-7B-thinker"
-    model = Qwen2_5OmniPreprocessor.from_pretrained(
-        model_path,
-        torch_dtype="auto",
-        device_map="auto",
-        attn_implementation="flash_attention_2",
-    )
-    processor = Qwen2_5OmniProcessor.from_pretrained(model_path)
     
     conversations = []
     with open(input_path) as f:
@@ -434,4 +434,12 @@ if __name__ == "__main__":
         generate_episodic_conversations(samples_path, "data/sft/memgen/0429/conversations/episodic_conversations.jsonl")
         generate_semantic_conversations(samples_path, "data/sft/memgen/0429/conversations/semantic_conversations.jsonl")
     else:
-        preprocess_inputs(args.conversations_path, os.path.join(args.output_dir, args.memory_type), args.cuda_id)
+        model_path = "/mnt/hdfs/foundation/agent/heyc/ckpts/Qwen2.5-Omni-7B-thinker"
+        model = Qwen2_5OmniPreprocessor.from_pretrained(
+            model_path,
+            torch_dtype="auto",
+            device_map="auto",
+            attn_implementation="flash_attention_2",
+        ).eval()
+        processor = Qwen2_5OmniProcessor.from_pretrained(model_path)
+        preprocess_inputs(model, processor, args.conversations_path, os.path.join(args.output_dir, args.memory_type), args.cuda_id)

@@ -25,5 +25,6 @@
     "multiple_queries": false,
     "route_switch": true,
     "planning": true,
-    "train": true
+    "train": true,
+    "ckpt": ""
 }
