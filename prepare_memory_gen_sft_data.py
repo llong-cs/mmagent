@@ -7,6 +7,7 @@ from tqdm import tqdm
 from dataclasses import dataclass
 torch.set_printoptions(threshold=np.inf)
 import argparse
+import random
 
 from transformers import Qwen2_5OmniProcessor, Qwen2_5OmniThinkerForConditionalGeneration, Qwen2_5OmniThinkerConfig, GenerationConfig
 from transformers.utils import ModelOutput
@@ -223,6 +224,8 @@ def fix_and_transfer_data(data_path, output_path):
         data = json.load(f)
     for _, item in data.items():
         samples.extend(item["clips"])
+
+    all_data = []
     
     for sample in tqdm(samples):
         try:
@@ -232,18 +235,26 @@ def fix_and_transfer_data(data_path, output_path):
             data["original_path"] = sample
                 
             equivalences = data["semantic_memory"]
-            if "is" in equivalences[0]:
-                new_equivalences = []
-                for equivalence in equivalences:
-                    id1, id2 = equivalence.split("is")
-                    id1, id2 = id1.strip(), id2.strip()
-                    new_equivalences.append(f"Equivalence: {id1}, {id2}")
-                data["semantic_memory"] = new_equivalences
+            if len(equivalences):
+                if "is" in equivalences[0]:
+                    new_equivalences = []
+                    for equivalence in equivalences:
+                        id1, id2 = equivalence.split("is")
+                        id1, id2 = id1.strip(), id2.strip()
+                        new_equivalences.append(f"Equivalence: {id1}, {id2}")
+                    data["semantic_memory"] = new_equivalences
             
-            with open(output_path, "a") as f:
-                f.write(json.dumps(data) + "\n")
-        except:
+            all_data.append(data)
+        except Exception as e:
+            print(e)
             continue
+    
+    # shuffle all_data
+    random.shuffle(all_data)
+    print(len(all_data))
+    with open(output_path, "w") as f:
+        for data in all_data:
+            f.write(json.dumps(data) + "\n")
 
 def generate_video_context(data):
     message_content = [
@@ -386,6 +397,7 @@ def preprocess_inputs(model, processor, input_path, output_dir, index):
     with open(input_path) as f:
         for line in f.readlines():
             conversations.append(json.loads(line)["messages"])
+    conversations = conversations[200:]
     if len(conversations) % 2 != 0:
         conversations.append(conversations[0])
         
@@ -424,7 +436,7 @@ def preprocess_inputs(model, processor, input_path, output_dir, index):
                 "inputs_embeds": final_input_embed.cpu(),
                 "position_id": position_id.cpu(),
                 "labels": input_id.cpu()
-            }, os.path.join(output_dir, f"{data_num}.pt"))
+            }, os.path.join(output_dir, f"{args.memory_type}-{data_num}.pt"))
 
 if __name__ == "__main__":
     data_path = args.data_path
@@ -442,4 +454,4 @@ if __name__ == "__main__":
             attn_implementation="flash_attention_2",
         ).eval()
         processor = Qwen2_5OmniProcessor.from_pretrained(model_path)
-        preprocess_inputs(model, processor, args.conversations_path, os.path.join(args.output_dir, args.memory_type), args.cuda_id)
+        preprocess_inputs(model, processor, args.conversations_path, os.path.join(args.output_dir, "memories"), args.cuda_id)

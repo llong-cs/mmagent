@@ -13,7 +13,7 @@ processing_config = json.load(open("configs/processing_config.json"))
 temp = processing_config["temperature"]
 MAX_RETRIES = processing_config["max_retries"]
 
-model = Qwen2_5OmniModel.from_pretrained(
+thinker = Qwen2_5OmniThinkerForConditionalGeneration.from_pretrained(
     processing_config["ckpt"],
     torch_dtype="auto",
     device_map="auto",
@@ -64,6 +64,8 @@ USE_AUDIO_IN_VIDEO = True
 # # Inference: Generation of the output text and audio
 # text_ids, audio = model.generate(**inputs, use_audio_in_video=USE_AUDIO_IN_VIDEO)
 
+# text = processor.batch_decode(text_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)
+
 def get_response(model, messages, timeout=30):
     """Get chat completion response from specified model.
 
@@ -74,18 +76,20 @@ def get_response(model, messages, timeout=30):
     Returns:
         tuple: (response content, total tokens used)
     """
+    global thinker
     text = processor.apply_chat_template(messages, add_generation_prompt=True, tokenize=False)
     audios, images, videos = process_mm_info(messages, use_audio_in_video=USE_AUDIO_IN_VIDEO)
-    inputs = processor(text=text, audio=audios, images=images, videos=videos, return_tensors="pt", padding=True, use_audio_in_video=USE_AUDIO_IN_VIDEO)
-    inputs = inputs.to(model.device).to(model.dtype)
+    inputs = processor(text=text, audios=audios, images=images, videos=videos, return_tensors="pt", padding=True, use_audio_in_video=USE_AUDIO_IN_VIDEO)
+    inputs = inputs.to(thinker.device).to(thinker.dtype)
 
     # Inference: Generation of the output text and audio
-    text_ids, _ = model.generate(**inputs, use_audio_in_video=USE_AUDIO_IN_VIDEO)
+    generation = thinker.generate(**inputs, use_audio_in_video=USE_AUDIO_IN_VIDEO, max_new_tokens=2048)
+    generate_ids = generation[:, inputs.input_ids.size(1):]
 
-    text = processor.batch_decode(text_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)
+    response = processor.batch_decode(generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
     
     # return answer and number of tokens
-    return text, len(inputs["input_ids"][0]) + len(text_ids[0])
+    return response, len(generation[0])
 
 def get_response_with_retry(model, messages, timeout=30):
     """Retry get_response up to MAX_RETRIES times with error handling.
