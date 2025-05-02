@@ -104,10 +104,11 @@ if __name__ == "__main__":
 
     # Initialize wandb if specified
     if training_args.report_to == "wandb":
-        wandb.login(key="214125030792bd6cfd84015505ed93487f714a59")
+        wandb.login(key="e98b0b586db22285bfc4596d03c654b0df0d59bd")
         if int(os.environ.get('LOCAL_RANK', 0)) == 0:
             wandb.init(
                 project="multimodal agent",
+                name="memory_generation_sft"
             )
 
     model.audio_tower = model.audio_tower.cpu()

@@ -390,53 +390,73 @@ def generate_semantic_conversations(data_path, output_path, sem_mem_types=["sema
             with open(output_path, "a") as f:
                 f.write(json.dumps(res) + "\n")
 
-def preprocess_inputs(model, processor, input_path, output_dir, index):
-    os.makedirs(output_dir, exist_ok=True)
+def preprocess_inputs(model, processor, input_dir, output_dir_prefix, index, val_num=100):
     
-    conversations = []
-    with open(input_path) as f:
-        for line in f.readlines():
-            conversations.append(json.loads(line)["messages"])
-    conversations = conversations[200:]
-    if len(conversations) % 2 != 0:
-        conversations.append(conversations[0])
+    train_conversations = []
+    val_conversations = []
+    
+    input_paths = os.listdir(input_dir)
+    input_paths = [os.path.join(input_dir, path) for path in input_paths]
+    for path in input_paths:
+        temp_conversations = []
+        with open(path) as f:
+            for line in f.readlines():
+                temp_conversations.append(json.loads(line)["messages"])
+        val_conversations.extend(temp_conversations[:val_num])
+        train_conversations.extend(temp_conversations[val_num:])
+        
+    if len(train_conversations) % 2 != 0:
+        train_conversations.append(train_conversations[0])
+        
+    if len(val_conversations) % 2 != 0:
+        val_conversations.append(val_conversations[0])
         
     # It must be in batch form, otherwise it will return embeddings one by one
-    for idx in tqdm(range(0, len(conversations), 2)):
-        if (idx // 2) % 8 != index:
-            continue
-        add_generation_prompt = False
-        text = processor.apply_chat_template(conversations[idx: idx + 2], add_generation_prompt=add_generation_prompt, tokenize=False)
-        audios, images, videos = process_mm_info(conversations[idx: idx + 2], use_audio_in_video=True)
-        inputs = processor(text=text, audios=audios, images=images, videos=videos, return_tensors="pt", padding=True, use_audio_in_video=True)
-        inputs = inputs.to(model.device).to(model.dtype)
-        generation_config = GenerationConfig(pad_token_id=151643, bos_token_id=151644, eos_token_id=151645)
-        text_ids = model.generate(**inputs, generation_config=generation_config, use_audio_in_video=True, max_new_tokens=1)
+    for set in ["train", "val"]:
+        if set == "train":
+            conversations = train_conversations
+            output_dir = os.path.join(output_dir_prefix, "train")
+            os.makedirs(output_dir, exist_ok=True)
+        else:
+            conversations = val_conversations
+            output_dir = os.path.join(output_dir_prefix, "val")
+            os.makedirs(output_dir, exist_ok=True)
 
-        for i in range(INPUT_EMBEDS.shape[0]):
-            ###################
-            # mask out the trainable tokens !!!
-            label_mask, mask = [], True
-            for j in range(INPUT_EMBEDS.shape[1]):
-                label_mask.append(mask)
-                if j >= 2 and inputs["input_ids"][i][j-2] == 151644 and inputs["input_ids"][i][j-1] == 77091 and inputs["input_ids"][i][j] == 198: # <|im_start|>assistant\n
-                    mask = False
-            ###################
-            
-            mask = torch.tensor(label_mask)
-            inputs["input_ids"][i][mask] = -100
-            input_id = inputs["input_ids"][i][INPUT_MASKS[i].shape[0] - torch.sum(INPUT_MASKS[i]):]
-            final_input_embed = INPUT_EMBEDS[i][INPUT_MASKS[i].shape[0] - torch.sum(INPUT_MASKS[i]):]
-            position_id = POSITION_IDS[:, i, INPUT_MASKS[i].shape[0] - torch.sum(INPUT_MASKS[i]):]
-            assert input_id.shape[0] == final_input_embed.shape[0]
-            data_num = idx + i
-            if input_id.shape[0] > 29000:
+        for idx in tqdm(range(0, len(conversations), 2)):
+            if (idx // 2) % 8 != index:
                 continue
-            torch.save({
-                "inputs_embeds": final_input_embed.cpu(),
-                "position_id": position_id.cpu(),
-                "labels": input_id.cpu()
-            }, os.path.join(output_dir, f"{args.memory_type}-{data_num}.pt"))
+            add_generation_prompt = False
+            text = processor.apply_chat_template(conversations[idx: idx + 2], add_generation_prompt=add_generation_prompt, tokenize=False)
+            audios, images, videos = process_mm_info(conversations[idx: idx + 2], use_audio_in_video=True)
+            inputs = processor(text=text, audios=audios, images=images, videos=videos, return_tensors="pt", padding=True, use_audio_in_video=True)
+            inputs = inputs.to(model.device).to(model.dtype)
+            generation_config = GenerationConfig(pad_token_id=151643, bos_token_id=151644, eos_token_id=151645)
+            text_ids = model.generate(**inputs, generation_config=generation_config, use_audio_in_video=True, max_new_tokens=1)
+
+            for i in range(INPUT_EMBEDS.shape[0]):
+                ###################
+                # mask out the trainable tokens !!!
+                label_mask, mask = [], True
+                for j in range(INPUT_EMBEDS.shape[1]):
+                    label_mask.append(mask)
+                    if j >= 2 and inputs["input_ids"][i][j-2] == 151644 and inputs["input_ids"][i][j-1] == 77091 and inputs["input_ids"][i][j] == 198: # <|im_start|>assistant\n
+                        mask = False
+                ###################
+                
+                mask = torch.tensor(label_mask)
+                inputs["input_ids"][i][mask] = -100
+                input_id = inputs["input_ids"][i][INPUT_MASKS[i].shape[0] - torch.sum(INPUT_MASKS[i]):]
+                final_input_embed = INPUT_EMBEDS[i][INPUT_MASKS[i].shape[0] - torch.sum(INPUT_MASKS[i]):]
+                position_id = POSITION_IDS[:, i, INPUT_MASKS[i].shape[0] - torch.sum(INPUT_MASKS[i]):]
+                assert input_id.shape[0] == final_input_embed.shape[0]
+                data_num = idx + i
+                if input_id.shape[0] > 29000:
+                    continue
+                torch.save({
+                    "inputs_embeds": final_input_embed.cpu(),
+                    "position_id": position_id.cpu(),
+                    "labels": input_id.cpu()
+                }, os.path.join(output_dir, f"{data_num}.pt"))
 
 if __name__ == "__main__":
     data_path = args.data_path

@@ -71,24 +71,22 @@ if __name__ == "__main__":
     #         args = [(video["path"], output_dir, interval) for video in videos if os.path.exists(video["path"])]
     #         list(tqdm(executor.map(verify_video_parallel, args), total=len(args), desc="Verifying videos"))
         
-    videos_paths = [
-        "/mnt/hdfs/foundation/longlin.kylin/mmagent/benchmarks/MLVU/MLVU/video/1_plotQA",
-        "/mnt/hdfs/foundation/longlin.kylin/mmagent/benchmarks/MLVU/MLVU/video/2_needle",
-        "/mnt/hdfs/foundation/longlin.kylin/mmagent/benchmarks/MLVU/MLVU/video/3_ego",
-        "/mnt/hdfs/foundation/longlin.kylin/mmagent/benchmarks/MLVU/MLVU/video/4_count",
-        "/mnt/hdfs/foundation/longlin.kylin/mmagent/benchmarks/MLVU/MLVU/video/5_order",
-        "/mnt/hdfs/foundation/longlin.kylin/mmagent/benchmarks/MLVU/MLVU/video/6_anomaly_reco",
-        "/mnt/hdfs/foundation/longlin.kylin/mmagent/benchmarks/MLVU/MLVU/video/7_topic_reasoning",
-        "/mnt/hdfs/foundation/longlin.kylin/mmagent/benchmarks/MLVU/MLVU/video/8_sub_scene",
-        "/mnt/hdfs/foundation/longlin.kylin/mmagent/benchmarks/MLVU/MLVU/video/9_summary"
-    ]
+    # 
+    
 
-    for videos_path in videos_paths:
-        marker = videos_path.split("/")[-1]
-        videos = os.listdir(videos_path)
-        videos = [os.path.join(videos_path, video) for video in videos]
-
-        output_dir = os.path.join("/mnt/hdfs/foundation/longlin.kylin/mmagent/data/video_clips/MLVU", marker)
+    base_dir = "/mnt/hdfs/foundation/longlin.kylin/mmagent/benchmarks/Video-MME/videos"
+    all_videos = os.listdir(base_dir)
+    all_videos = [os.path.join(base_dir, video) for video in all_videos]
+    nodes = 3
+    index = 0
+    batch_size = len(all_videos) // nodes
+    
+    for i in range(nodes):
+        if i != index:
+            continue
+        videos = all_videos[i*batch_size:(i+1)*batch_size]
+        
+        output_dir = "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/video_clips/Video-MME"
         os.makedirs(output_dir, exist_ok=True)
 
         # Check video paths in parallel
