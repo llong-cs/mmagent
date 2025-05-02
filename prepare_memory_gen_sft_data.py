@@ -8,7 +8,7 @@ from dataclasses import dataclass
 torch.set_printoptions(threshold=np.inf)
 import argparse
 
-from transformers import Qwen2_5OmniProcessor, Qwen2_5OmniThinkerForConditionalGeneration, Qwen2_5OmniThinkerConfig
+from transformers import Qwen2_5OmniProcessor, Qwen2_5OmniThinkerForConditionalGeneration, Qwen2_5OmniThinkerConfig, GenerationConfig
 from transformers.utils import ModelOutput
 from qwen_omni_utils import process_mm_info
 
@@ -149,7 +149,6 @@ class Qwen2_5OmniPreprocessor(Qwen2_5OmniThinkerForConditionalGeneration):
                 if attention_mask is not None:
                     attention_mask = attention_mask.to(inputs_embeds.device)
 
-        global INPUT_EMBEDS, INPUT_MASKS, POSITION_IDS
         INPUT_EMBEDS = inputs_embeds
         INPUT_MASKS = attention_mask
         POSITION_IDS = position_ids
@@ -391,13 +390,15 @@ def preprocess_inputs(input_path, output_dir, index):
         
     # It must be in batch form, otherwise it will return embeddings one by one
     for idx in tqdm(range(0, len(conversations), 2)):
-        if (idx // 2) % 16 != index:
+        if (idx // 2) % 8 != index:
             continue
         add_generation_prompt = False
         text = processor.apply_chat_template(conversations[idx: idx + 2], add_generation_prompt=add_generation_prompt, tokenize=False)
         audios, images, videos = process_mm_info(conversations[idx: idx + 2], use_audio_in_video=True)
         inputs = processor(text=text, audios=audios, images=images, videos=videos, return_tensors="pt", padding=True, use_audio_in_video=True)
         inputs = inputs.to(model.device).to(model.dtype)
+        generation_config = GenerationConfig(pad_token_id=151643, bos_token_id=151644, eos_token_id=151645)
+        text_ids = model.generate(**inputs, generation_config=generation_config, use_audio_in_video=True, max_new_tokens=1)
 
         for i in range(INPUT_EMBEDS.shape[0]):
             ###################
