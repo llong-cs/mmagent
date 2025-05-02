@@ -149,6 +149,7 @@ class Qwen2_5OmniPreprocessor(Qwen2_5OmniThinkerForConditionalGeneration):
                 if attention_mask is not None:
                     attention_mask = attention_mask.to(inputs_embeds.device)
 
+        global INPUT_EMBEDS, INPUT_MASKS, POSITION_IDS
         INPUT_EMBEDS = inputs_embeds
         INPUT_MASKS = attention_mask
         POSITION_IDS = position_ids
