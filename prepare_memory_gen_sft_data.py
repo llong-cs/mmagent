@@ -9,10 +9,6 @@ torch.set_printoptions(threshold=np.inf)
 import argparse
 import random
 
-from transformers import Qwen2_5OmniProcessor, Qwen2_5OmniThinkerForConditionalGeneration, Qwen2_5OmniThinkerConfig, GenerationConfig
-from transformers.utils import ModelOutput
-from qwen_omni_utils import process_mm_info
-
 from mmagent.prompts import prompt_generate_captions_with_ids_sft, prompt_generate_thinkings_with_ids_sft
 
 parser = argparse.ArgumentParser()
@@ -20,10 +16,14 @@ parser.add_argument("--data_path", type=str, default="data/sft/memgen/0429/train
 parser.add_argument("--samples_path", type=str, default="data/sft/memgen/0429/samples/training_samples.jsonl")
 parser.add_argument("--conversations_dir", type=str, default="data/sft/memgen/0429/conversations")
 parser.add_argument("--prepare_conversations", action="store_true")
-parser.add_argument("--memory_type", type=str, default="episodic")
 parser.add_argument("--output_dir", type=str, default="/mnt/hdfs/foundation/longlin.kylin/mmagent/data/memgen_sft/0429")
 parser.add_argument("--cuda_id", type=int, default=0)
 args = parser.parse_args()
+
+if not args.prepare_conversations:
+    from transformers import Qwen2_5OmniProcessor, Qwen2_5OmniThinkerForConditionalGeneration, Qwen2_5OmniThinkerConfig, GenerationConfig
+    from transformers.utils import ModelOutput
+    from qwen_omni_utils import process_mm_info
 
 INPUT_EMBEDS = None
 INPUT_MASKS = None
