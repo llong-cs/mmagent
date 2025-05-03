@@ -18,7 +18,7 @@ from mmagent.prompts import prompt_generate_captions_with_ids_sft, prompt_genera
 parser = argparse.ArgumentParser()
 parser.add_argument("--data_path", type=str, default="data/sft/memgen/0429/train_for_memory_5k.json")
 parser.add_argument("--samples_path", type=str, default="data/sft/memgen/0429/samples/training_samples.jsonl")
-parser.add_argument("--conversations_path", type=str, default="data/sft/memgen/0429/conversations/episodic_conversations.jsonl")
+parser.add_argument("--conversations_dir", type=str, default="data/sft/memgen/0429/conversations")
 parser.add_argument("--prepare_conversations", action="store_true")
 parser.add_argument("--memory_type", type=str, default="episodic")
 parser.add_argument("--output_dir", type=str, default="/mnt/hdfs/foundation/longlin.kylin/mmagent/data/memgen_sft/0429")
@@ -389,14 +389,14 @@ def generate_semantic_conversations(data_path, output_path, sem_mem_types=["sema
 
             with open(output_path, "a") as f:
                 f.write(json.dumps(res) + "\n")
-
-def preprocess_inputs(model, processor, input_dir, output_dir_prefix, index, val_num=100):
-    
+                
+def split_train_val(conversations_dir, val_num):
     train_conversations = []
     val_conversations = []
     
-    input_paths = os.listdir(input_dir)
-    input_paths = [os.path.join(input_dir, path) for path in input_paths]
+    input_paths = os.listdir(conversations_dir)
+    input_paths = [os.path.join(conversations_dir, path) for path in input_paths]
+    
     for path in input_paths:
         temp_conversations = []
         with open(path) as f:
@@ -404,7 +404,7 @@ def preprocess_inputs(model, processor, input_dir, output_dir_prefix, index, val
                 temp_conversations.append(json.loads(line)["messages"])
         val_conversations.extend(temp_conversations[:val_num])
         train_conversations.extend(temp_conversations[val_num:])
-        
+    
     if len(train_conversations) % 2 != 0:
         train_conversations.append(train_conversations[0])
     random.shuffle(train_conversations)
@@ -412,61 +412,75 @@ def preprocess_inputs(model, processor, input_dir, output_dir_prefix, index, val
     if len(val_conversations) % 2 != 0:
         val_conversations.append(val_conversations[0])
     random.shuffle(val_conversations)
+    
+    print(f"train_conversations: {len(train_conversations)}")
+    print(f"val_conversations: {len(val_conversations)}")
         
-    # It must be in batch form, otherwise it will return embeddings one by one
-    for set in ["train", "val"]:
-        if set == "train":
-            conversations = train_conversations
-            output_dir = os.path.join(output_dir_prefix, "train")
-            os.makedirs(output_dir, exist_ok=True)
-        else:
-            conversations = val_conversations
-            output_dir = os.path.join(output_dir_prefix, "val")
-            os.makedirs(output_dir, exist_ok=True)
+    with open(os.path.join(conversations_dir, "train.jsonl"), "w") as f:
+        for conversation in train_conversations:
+            f.write(json.dumps(conversation) + "\n")
+    with open(os.path.join(conversations_dir, "val.jsonl"), "w") as f:
+        for conversation in val_conversations:
+            f.write(json.dumps(conversation) + "\n")
 
-        for idx in tqdm(range(0, len(conversations), 2)):
-            if (idx // 2) % 8 != index:
+def preprocess_inputs(model, processor, input_path, output_dir_prefix, index, val_num=100, mode="train"):
+    if mode == "train":
+        output_dir = os.path.join(output_dir_prefix, "train")
+        os.makedirs(output_dir, exist_ok=True)
+    else:
+        output_dir = os.path.join(output_dir_prefix, "val")
+        os.makedirs(output_dir, exist_ok=True)
+
+    conversations = []
+    with open(input_path) as f:
+        for line in f.readlines():
+            conversations.append(json.loads(line)["messages"])
+
+    for idx in tqdm(range(0, len(conversations), 2)):
+        if (idx // 2) % 8 != index:
+            continue
+        add_generation_prompt = False
+        text = processor.apply_chat_template(conversations[idx: idx + 2], add_generation_prompt=add_generation_prompt, tokenize=False)
+        audios, images, videos = process_mm_info(conversations[idx: idx + 2], use_audio_in_video=True)
+        inputs = processor(text=text, audios=audios, images=images, videos=videos, return_tensors="pt", padding=True, use_audio_in_video=True)
+        inputs = inputs.to(model.device).to(model.dtype)
+        generation_config = GenerationConfig(pad_token_id=151643, bos_token_id=151644, eos_token_id=151645)
+        text_ids = model.generate(**inputs, generation_config=generation_config, use_audio_in_video=True, max_new_tokens=1)
+
+        for i in range(INPUT_EMBEDS.shape[0]):
+            ###################
+            # mask out the trainable tokens !!!
+            label_mask, mask = [], True
+            for j in range(INPUT_EMBEDS.shape[1]):
+                label_mask.append(mask)
+                if j >= 2 and inputs["input_ids"][i][j-2] == 151644 and inputs["input_ids"][i][j-1] == 77091 and inputs["input_ids"][i][j] == 198: # <|im_start|>assistant\n
+                    mask = False
+            ###################
+            
+            mask = torch.tensor(label_mask)
+            inputs["input_ids"][i][mask] = -100
+            input_id = inputs["input_ids"][i][INPUT_MASKS[i].shape[0] - torch.sum(INPUT_MASKS[i]):]
+            final_input_embed = INPUT_EMBEDS[i][INPUT_MASKS[i].shape[0] - torch.sum(INPUT_MASKS[i]):]
+            position_id = POSITION_IDS[:, i, INPUT_MASKS[i].shape[0] - torch.sum(INPUT_MASKS[i]):]
+            assert input_id.shape[0] == final_input_embed.shape[0]
+            data_num = idx + i
+            if input_id.shape[0] > 29000:
                 continue
-            add_generation_prompt = False
-            text = processor.apply_chat_template(conversations[idx: idx + 2], add_generation_prompt=add_generation_prompt, tokenize=False)
-            audios, images, videos = process_mm_info(conversations[idx: idx + 2], use_audio_in_video=True)
-            inputs = processor(text=text, audios=audios, images=images, videos=videos, return_tensors="pt", padding=True, use_audio_in_video=True)
-            inputs = inputs.to(model.device).to(model.dtype)
-            generation_config = GenerationConfig(pad_token_id=151643, bos_token_id=151644, eos_token_id=151645)
-            text_ids = model.generate(**inputs, generation_config=generation_config, use_audio_in_video=True, max_new_tokens=1)
-
-            for i in range(INPUT_EMBEDS.shape[0]):
-                ###################
-                # mask out the trainable tokens !!!
-                label_mask, mask = [], True
-                for j in range(INPUT_EMBEDS.shape[1]):
-                    label_mask.append(mask)
-                    if j >= 2 and inputs["input_ids"][i][j-2] == 151644 and inputs["input_ids"][i][j-1] == 77091 and inputs["input_ids"][i][j] == 198: # <|im_start|>assistant\n
-                        mask = False
-                ###################
-                
-                mask = torch.tensor(label_mask)
-                inputs["input_ids"][i][mask] = -100
-                input_id = inputs["input_ids"][i][INPUT_MASKS[i].shape[0] - torch.sum(INPUT_MASKS[i]):]
-                final_input_embed = INPUT_EMBEDS[i][INPUT_MASKS[i].shape[0] - torch.sum(INPUT_MASKS[i]):]
-                position_id = POSITION_IDS[:, i, INPUT_MASKS[i].shape[0] - torch.sum(INPUT_MASKS[i]):]
-                assert input_id.shape[0] == final_input_embed.shape[0]
-                data_num = idx + i
-                if input_id.shape[0] > 29000:
-                    continue
-                torch.save({
-                    "inputs_embeds": final_input_embed.cpu(),
-                    "position_id": position_id.cpu(),
-                    "labels": input_id.cpu()
-                }, os.path.join(output_dir, f"{data_num}.pt"))
+            torch.save({
+                "inputs_embeds": final_input_embed.cpu(),
+                "position_id": position_id.cpu(),
+                "labels": input_id.cpu()
+            }, os.path.join(output_dir, f"{data_num}.pt"))
 
 if __name__ == "__main__":
     data_path = args.data_path
     samples_path = args.samples_path
+    conversations_dir = args.conversations_dir
     if args.prepare_conversations:
         fix_and_transfer_data(data_path, samples_path)
-        generate_episodic_conversations(samples_path, "data/sft/memgen/0429/conversations/episodic_conversations.jsonl")
-        generate_semantic_conversations(samples_path, "data/sft/memgen/0429/conversations/semantic_conversations.jsonl")
+        generate_episodic_conversations(samples_path, os.path.join(conversations_dir, "episodic_conversations.jsonl"))
+        generate_semantic_conversations(samples_path, os.path.join(conversations_dir, "semantic_conversations.jsonl"))
+        split_train_val(conversations_dir, 100)
     else:
         model_path = "/mnt/hdfs/foundation/agent/heyc/ckpts/Qwen2.5-Omni-7B-thinker"
         model = Qwen2_5OmniPreprocessor.from_pretrained(
@@ -476,4 +490,4 @@ if __name__ == "__main__":
             attn_implementation="flash_attention_2",
         ).eval()
         processor = Qwen2_5OmniProcessor.from_pretrained(model_path)
-        preprocess_inputs(model, processor, args.conversations_path, os.path.join(args.output_dir, "memories"), args.cuda_id)
+        preprocess_inputs(model, processor, os.path.join(conversations_dir, "train.jsonl"), os.path.join(args.output_dir, "memories"), args.cuda_id)
