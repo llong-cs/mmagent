@@ -424,7 +424,7 @@ def split_train_val(conversations_dir, val_num):
         for conversation in val_conversations:
             f.write(json.dumps(conversation) + "\n")
 
-def preprocess_inputs(model, processor, input_path, output_dir_prefix, index, val_num=100, mode="train"):
+def preprocess_inputs(model, processor, input_path, output_dir_prefix, index, mode="train"):
     if mode == "train":
         output_dir = os.path.join(output_dir_prefix, "train")
         os.makedirs(output_dir, exist_ok=True)
@@ -435,7 +435,7 @@ def preprocess_inputs(model, processor, input_path, output_dir_prefix, index, va
     conversations = []
     with open(input_path) as f:
         for line in f.readlines():
-            conversations.append(json.loads(line)["messages"])
+            conversations.append(json.loads(line))
 
     for idx in tqdm(range(0, len(conversations), 2)):
         if (idx // 2) % 8 != index:
@@ -491,4 +491,5 @@ if __name__ == "__main__":
             attn_implementation="flash_attention_2",
         ).eval()
         processor = Qwen2_5OmniProcessor.from_pretrained(model_path)
-        preprocess_inputs(model, processor, os.path.join(conversations_dir, "train.jsonl"), os.path.join(args.output_dir, "memories"), args.cuda_id)
+        mode = "train"
+        preprocess_inputs(model, processor, os.path.join(conversations_dir, f"{mode}.jsonl"), os.path.join(args.output_dir, "memories"), args.cuda_id, mode)

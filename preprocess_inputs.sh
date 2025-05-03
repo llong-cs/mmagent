@@ -5,7 +5,7 @@ output_dir=${2:-"/mnt/hdfs/foundation/longlin.kylin/mmagent/data/memgen_sft/0429
 
 for i in $(seq 0 7); do
     CUDA_VISIBLE_DEVICES=$i python3 prepare_memory_gen_sft_data.py \
-        --conversations_path ${input_dir} \
+        --conversations_dir ${input_dir} \
         --output_dir ${output_dir} \
         --cuda_id $i &
 done
