@@ -21,9 +21,6 @@ thinker = Qwen2_5OmniThinkerForConditionalGeneration.from_pretrained(
 )
 processor = Qwen2_5OmniProcessor.from_pretrained(processing_config["ckpt"])
 
-# set use audio in video
-USE_AUDIO_IN_VIDEO = True
-
 # # default: Load the model on the available device(s)
 # model = Qwen2_5OmniForConditionalGeneration.from_pretrained("Qwen/Qwen2.5-Omni-7B", torch_dtype="auto", device_map="auto")
 
@@ -78,13 +75,24 @@ def get_response(model, messages, timeout=30):
     """
     global thinker
     text = processor.apply_chat_template(messages, add_generation_prompt=True, tokenize=False)
-    audios, images, videos = process_mm_info(messages, use_audio_in_video=USE_AUDIO_IN_VIDEO)
-    inputs = processor(text=text, audios=audios, images=images, videos=videos, return_tensors="pt", padding=True, use_audio_in_video=USE_AUDIO_IN_VIDEO)
-    inputs = inputs.to(thinker.device).to(thinker.dtype)
+    try:
+        USE_AUDIO_IN_VIDEO = True
+        audios, images, videos = process_mm_info(messages, use_audio_in_video=USE_AUDIO_IN_VIDEO)
+        inputs = processor(text=text, audios=audios, images=images, videos=videos, return_tensors="pt", padding=True, use_audio_in_video=USE_AUDIO_IN_VIDEO)
+        inputs = inputs.to(thinker.device).to(thinker.dtype)
 
-    # Inference: Generation of the output text and audio
-    generation = thinker.generate(**inputs, use_audio_in_video=USE_AUDIO_IN_VIDEO, max_new_tokens=2048)
-    generate_ids = generation[:, inputs.input_ids.size(1):]
+        # Inference: Generation of the output text and audio
+        generation = thinker.generate(**inputs, use_audio_in_video=USE_AUDIO_IN_VIDEO, max_new_tokens=2048)
+        generate_ids = generation[:, inputs.input_ids.size(1):]
+    except:
+        USE_AUDIO_IN_VIDEO = False
+        audios, images, videos = process_mm_info(messages, use_audio_in_video=USE_AUDIO_IN_VIDEO)
+        inputs = processor(text=text, audios=audios, images=images, videos=videos, return_tensors="pt", padding=True, use_audio_in_video=USE_AUDIO_IN_VIDEO)
+        inputs = inputs.to(thinker.device).to(thinker.dtype)
+
+        # Inference: Generation of the output text and audio
+        generation = thinker.generate(**inputs, use_audio_in_video=USE_AUDIO_IN_VIDEO, max_new_tokens=2048)
+        generate_ids = generation[:, inputs.input_ids.size(1):]
 
     response = processor.batch_decode(generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
     
