@@ -407,9 +407,11 @@ def preprocess_inputs(model, processor, input_dir, output_dir_prefix, index, val
         
     if len(train_conversations) % 2 != 0:
         train_conversations.append(train_conversations[0])
+    random.shuffle(train_conversations)
         
     if len(val_conversations) % 2 != 0:
         val_conversations.append(val_conversations[0])
+    random.shuffle(val_conversations)
         
     # It must be in batch form, otherwise it will return embeddings one by one
     for set in ["train", "val"]:

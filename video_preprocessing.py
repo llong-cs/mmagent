@@ -78,7 +78,7 @@ if __name__ == "__main__":
     all_videos = os.listdir(base_dir)
     all_videos = [os.path.join(base_dir, video) for video in all_videos]
     nodes = 3
-    index = 0
+    index = 2
     batch_size = len(all_videos) // nodes
     
     for i in range(nodes):
