@@ -304,7 +304,7 @@ def generate_video_context(data):
 def generate_episodic_conversations(samples_path, output_path):
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(samples_path, "r") as f:
-        for line in tqdm(f):
+        for line in f:
             data = json.loads(line)
             
             messages = [
@@ -341,7 +341,7 @@ def generate_episodic_conversations(samples_path, output_path):
 def generate_semantic_conversations(data_path, output_path, sem_mem_types=["semantic_memory", "semantic_memory_character", "semantic_memory_relation", "semantic_memory_video", "semantic_memory_general"]):
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(data_path, "r") as f:
-        for line in tqdm(f):
+        for line in f:
             data = json.loads(line)
             
             messages = [
@@ -402,6 +402,7 @@ def split_train_val(conversations_dir, val_num):
         with open(path) as f:
             for line in f.readlines():
                 temp_conversations.append(json.loads(line)["messages"])
+        print(f"{path}: {len(temp_conversations)}")
         val_conversations.extend(temp_conversations[:val_num])
         train_conversations.extend(temp_conversations[val_num:])
     
@@ -477,7 +478,7 @@ if __name__ == "__main__":
     samples_path = args.samples_path
     conversations_dir = args.conversations_dir
     if args.prepare_conversations:
-        fix_and_transfer_data(data_path, samples_path)
+        # fix_and_transfer_data(data_path, samples_path)
         generate_episodic_conversations(samples_path, os.path.join(conversations_dir, "episodic_conversations.jsonl"))
         generate_semantic_conversations(samples_path, os.path.join(conversations_dir, "semantic_conversations.jsonl"))
         split_train_val(conversations_dir, 100)
