@@ -492,4 +492,8 @@ if __name__ == "__main__":
         ).eval()
         processor = Qwen2_5OmniProcessor.from_pretrained(model_path)
         mode = "train"
-        preprocess_inputs(model, processor, os.path.join(conversations_dir, f"{mode}.jsonl"), os.path.join(args.output_dir, "memories"), args.cuda_id, mode)
+        try:
+            preprocess_inputs(model, processor, os.path.join(conversations_dir, f"{mode}.jsonl"), os.path.join(args.output_dir, "memories"), args.cuda_id, mode)
+        except Exception as e:
+            with open("logs/memory_gen_sft_preprocess_error.log", "a") as f:
+                f.write(f"Error detected on cuda {args.cuda_id}: {e}\n")
