@@ -170,10 +170,12 @@ def streaming_process_video(video_graph, video_path, save_dir, preprocessing=[])
     
 if __name__ == "__main__":
     # video paths can be paths to directories or paths to mp4 files
-    data_list = ["CZ_1", "CZ_2", "CZ_3", "ZZ_1", "ZZ_2", "ZZ_3","ZZ_4", "ZZ_5"]
+    # data_list = ["CZ_1", "CZ_2", "CZ_3", "ZZ_1", "ZZ_2", "ZZ_3","ZZ_4", "ZZ_5"]
+    data_list = ["MLVU/1_plotQA", "MLVU/2_needle", "MLVU/3_ego", "MLVU/4_count", "MLVU/5_order", "MLVU/6_anomaly_reco", "MLVU/7_topic_reasoning", "MLVU/8_sub_scene", "MLVU/9_summary"]
+    # data_list = ["Video-MME"]
     # data_list = ["CZ_2"]
-    # preprocessing = ['voice', 'face']
-    preprocessing = []
+    preprocessing = ['voice', 'face']
+    # preprocessing = []
     for data in data_list:
         input_dir = os.path.join(processing_config["input_dir"], data)
         video_files = os.listdir(input_dir)
