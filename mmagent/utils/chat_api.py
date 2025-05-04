@@ -41,7 +41,7 @@ def get_response(model, messages, timeout=30):
         tuple: (response content, total tokens used)
     """
     response = client[model].chat.completions.create(
-        model=model, messages=messages, temperature=temp, timeout=timeout
+        model=model, messages=messages, temperature=temp, timeout=timeout, max_tokens=8192
     )
     
     # return answer and number of tokens

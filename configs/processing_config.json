@@ -25,6 +25,6 @@
     "multiple_queries": false,
     "route_switch": true,
     "planning": true,
-    "train": true,
+    "train": false,
     "ckpt": "/mnt/hdfs/foundation/agent/heyc/ckpts/Qwen2.5-Omni-7B-thinker"
 }

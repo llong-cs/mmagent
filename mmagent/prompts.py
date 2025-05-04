@@ -953,7 +953,7 @@ Video description:
 Events:
 {events}
 
-DO NOT PROVIDE ANY OTHER OUTPUT TEXT OR EXPLANATION. Only output the JSON.
+DO NOT PROVIDE ANY OTHER OUTPUT TEXT OR EXPLANATION. Only output the JSON list in a **vliad format**.
 
 Output:"""
 

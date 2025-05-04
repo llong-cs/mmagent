@@ -45,10 +45,11 @@ def descriptions_comparison_for_autodq(video_description_1, video_description_2)
     model = "gpt-4o-2024-11-20"
     
     for _ in range(MAX_RETRIES):
-        response = get_response_with_retry(model, messages)[0]
+        response, token = get_response_with_retry(model, messages)
         result = validate_and_fix_python_list(response)
         if result is not None:
             return result
+        print(f"Failed at generating {token} tokens. Retrying...")
         
     raise Exception("Failed to generate autodq result")
 

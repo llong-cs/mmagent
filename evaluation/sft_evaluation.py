@@ -99,7 +99,7 @@ def generate_sft_data(model, processor, data_path, output_dir):
             generate_ids = generation[:, inputs.input_ids.size(1):]
 
         response = processor.batch_decode(generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
-        messages.append({"role": "assistant", "content": response})
+        messages.append({"role": "assistant", "content": [{"type": "text", "text": response}]})
         
         with open(os.path.join(output_dir, f"{i}.json"), "w") as f:
             json.dump(messages, f, indent=4, ensure_ascii=False)
@@ -107,18 +107,18 @@ def generate_sft_data(model, processor, data_path, output_dir):
 def evaluate_sft(gt_path, output_dir, val_num=10):
     gt_samples = []
     pred_samples = []
+    idx = 0
     with open(gt_path, "r") as f:
         for line in f:
             sample = json.loads(line)
-            gt_samples.append(validate_and_fix_python_list(sample[1]["content"][0]["text"]))
-    
-    pred_files = os.listdir(output_dir)
-    # order by number
-    pred_files = sorted(pred_files, key=lambda x: int(x.split(".")[0]))
-    for pred_file in pred_files:
-        with open(os.path.join(output_dir, pred_file), "r") as f:
-            sample = json.load(f)
-            pred_samples.append(validate_and_fix_python_list(sample[1]["content"][0]["text"]))
+            res = sample[1]["content"][0]["text"]
+            if "<speaker_" in res:
+                idx += 1
+                continue
+            gt_samples.append(validate_and_fix_python_list(res))
+            pred_sample = json.load(open(os.path.join(output_dir, f"{idx}.json")))
+            pred_samples.append(validate_and_fix_python_list(pred_sample[1]["content"][0]["text"]))
+            idx += 1
     
     assert len(gt_samples) == len(pred_samples)
 
@@ -131,7 +131,8 @@ def evaluate_sft(gt_path, output_dir, val_num=10):
     print(f"Precision: {precision}, Recall: {recall}, F1: {f1}")
     
     print("Evaluating VDCScore...")
-    precision, avg_score = eval_vdcscore(gt_samples, pred_samples)
+    eval_dir = "data/sft/memgen/0429/evaluation"
+    precision, avg_score = eval_vdcscore(gt_samples, pred_samples, os.path.join(eval_dir, f"vdcscore_evaluation_val_{val_num}.json"))
     print(f"VDCScore Evaluation:")
     print(f"Precision: {precision}, Avg Score: {avg_score}")
             
@@ -141,12 +142,14 @@ if __name__ == "__main__":
     val_path = args.val_path
     output_dir = args.output_dir
     os.makedirs(output_dir, exist_ok=True)
-    model = Qwen2_5OmniThinkerForConditionalGeneration.from_pretrained(ckpt_path, torch_dtype="auto", device_map="auto", attn_implementation="flash_attention_2")
-    processor = Qwen2_5OmniProcessor.from_pretrained(ckpt_path)
     if args.debug:
+        model = Qwen2_5OmniThinkerForConditionalGeneration.from_pretrained(ckpt_path, torch_dtype="auto", device_map="auto", attn_implementation="flash_attention_2")
+        processor = Qwen2_5OmniProcessor.from_pretrained(ckpt_path)
         evaluate_sft_compare(model, processor, val_path, val_num=args.val_num)
         exit()
     if args.generate:
+        model = Qwen2_5OmniThinkerForConditionalGeneration.from_pretrained(ckpt_path, torch_dtype="auto", device_map="auto", attn_implementation="flash_attention_2")
+        processor = Qwen2_5OmniProcessor.from_pretrained(ckpt_path)
         generate_sft_data(model, processor, val_path, output_dir)
     else:
         evaluate_sft(val_path, output_dir, val_num=args.val_num)
