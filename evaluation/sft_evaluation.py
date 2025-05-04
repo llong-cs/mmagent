@@ -63,6 +63,7 @@ def evaluate_sft_compare(model, processor, data_path, val_num=5):
                 break
 
 def generate_sft_data(model, processor, data_path, output_dir):
+    os.makedirs(output_dir, exist_ok=True)
     model.eval()
     samples = []
     node_num = args.node_num
@@ -104,20 +105,29 @@ def generate_sft_data(model, processor, data_path, output_dir):
         with open(os.path.join(output_dir, f"{i}.json"), "w") as f:
             json.dump(messages, f, indent=4, ensure_ascii=False)
 
-def evaluate_sft(gt_path, output_dir, val_num=10):
+def evaluate_sft(gt_path, output_dir, save_path, val_num=10):
+    os.makedirs(os.path.dirname(save_path), exist_ok=True)
     gt_samples = []
     pred_samples = []
     idx = 0
     with open(gt_path, "r") as f:
         for line in f:
-            sample = json.loads(line)
-            res = sample[1]["content"][0]["text"]
-            if "<speaker_" in res:
+            gt_res = json.loads(line)[1]["content"][0]["text"]
+            if "<speaker_" in gt_res:
                 idx += 1
                 continue
-            gt_samples.append(validate_and_fix_python_list(res))
-            pred_sample = json.load(open(os.path.join(output_dir, f"{idx}.json")))
-            pred_samples.append(validate_and_fix_python_list(pred_sample[1]["content"][0]["text"]))
+            gt_sample = validate_and_fix_python_list(gt_res)
+            
+            pred_res = json.load(open(os.path.join(output_dir, f"{idx}.json")))[1]["content"][0]["text"]
+            pred_sample = validate_and_fix_python_list(pred_res)
+
+            if gt_sample and pred_sample:
+                gt_samples.append(gt_sample)
+                pred_samples.append(pred_sample)
+            else:
+                with open(os.path.join(os.path.dirname(save_path), "error_outputs.log"), "a") as f:
+                    f.write(f"Error output: {idx}, gt: {gt_res}, pred: {pred_res}\n")
+
             idx += 1
     
     assert len(gt_samples) == len(pred_samples)
@@ -131,8 +141,7 @@ def evaluate_sft(gt_path, output_dir, val_num=10):
     print(f"Precision: {precision}, Recall: {recall}, F1: {f1}")
     
     print("Evaluating VDCScore...")
-    eval_dir = "data/sft/memgen/0429/evaluation"
-    precision, avg_score = eval_vdcscore(gt_samples, pred_samples, os.path.join(eval_dir, f"vdcscore_evaluation_val_{val_num}.json"))
+    precision, avg_score = eval_vdcscore(gt_samples, pred_samples, save_path)
     print(f"VDCScore Evaluation:")
     print(f"Precision: {precision}, Avg Score: {avg_score}")
             
@@ -141,7 +150,11 @@ if __name__ == "__main__":
     ckpt_path = args.ckpt_path
     val_path = args.val_path
     output_dir = args.output_dir
-    os.makedirs(output_dir, exist_ok=True)
+    ckpt_name = ckpt_path.split("/")[-1]
+    eval_dir = os.path.join(output_dir, ckpt_name)
+    response_dir = os.path.join(eval_dir, "val_gen")
+    val_num = args.val_num
+    
     if args.debug:
         model = Qwen2_5OmniThinkerForConditionalGeneration.from_pretrained(ckpt_path, torch_dtype="auto", device_map="auto", attn_implementation="flash_attention_2")
         processor = Qwen2_5OmniProcessor.from_pretrained(ckpt_path)
@@ -150,7 +163,7 @@ if __name__ == "__main__":
     if args.generate:
         model = Qwen2_5OmniThinkerForConditionalGeneration.from_pretrained(ckpt_path, torch_dtype="auto", device_map="auto", attn_implementation="flash_attention_2")
         processor = Qwen2_5OmniProcessor.from_pretrained(ckpt_path)
-        generate_sft_data(model, processor, val_path, output_dir)
+        generate_sft_data(model, processor, val_path, response_dir)
     else:
-        evaluate_sft(val_path, output_dir, val_num=args.val_num)
+        evaluate_sft(val_path, response_dir, os.path.join(eval_dir, f"vdcscore_evaluation_val_{val_num}.json"), val_num)
     

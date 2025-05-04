@@ -2627,5 +2627,1767 @@
                 "reasoning": "Hung会说越南语，跟孩子相聚的时候唱越南歌。"
             }
         ]
+    },
+    {
+        "video_id": "CZ_4_61",
+        "video_url": "https://www.youtube.com/watch?v=y9boocanisQ",
+        "video_duration": "27:54",
+        "video_type": "测评 - 展会",
+        "qa_list": [
+            {
+                "question": "What kind of people is NY NOW targeted at? ",
+                "answer": "Industry senior professionals and media members.",
+                "question_type": "通用知识推理",
+                "knowledge": "纽约礼品展（NY NOW）面向业内专业人士和媒体从业者开放",
+                "reasoning": "根据视频内容，博主提到NY NOW不对外开放，所推断该展会针对业内专业人士，同时知道作者非专业人士而是媒体从业者，故综合的出NY NOW面向业内专业人士和媒体从业者开放"
+            },
+            {
+                "question": "How many exhibition halls did Flavio Romeo visit in the video? ",
+                "answer": "Four.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "综合视频内容，总结展会信息得出Flavio Romeo去了四个展会。"
+            },
+            {
+                "question": "Is the Las Vegas Hardware Show open to everyone?",
+                "answer": "No.",
+                "question_type": "通用知识推理",
+                "knowledge": "拉斯维加斯五金展不对外开放",
+                "reasoning": "根据视频内容，总结拉斯维加斯五金展的信息"
+            },
+            {
+                "question": "Is Victoria's art style realistic or cartoonish? ",
+                "answer": "Victoria's art style is cartoonish. ",
+                "question_type": "人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "根据视频内容，知道Victoria是谁，在定位她的素描作品，综合得出Victoria的美术风格为卡通。"
+            },
+            {
+                "question": "Is Nick Padilla confident?",
+                "answer": "Yes.",
+                "question_type": "人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "从视频内容来看，Nick Padilla 表现得较为自信。在展示魔术技巧时，他动作熟练、神情专注且淡定从容。面对镜头和观众，他主动邀请观众参与魔术互动，将卡片插入牌堆等操作一气呵成，过程中没有丝毫紧张或犹豫。"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_62",
+        "video_url": "https://www.youtube.com/watch?v=BdP6MUzCmMw",
+        "video_duration": "23:52",
+        "video_type": "vlog - 旅行",
+        "qa_list": [
+            {
+                "question": "Where is Prince Christians Sound located?",
+                "answer": "Greenland.",
+                "question_type": "通用知识推理",
+                "knowledge": "克里斯蒂安王子峡湾位于哪里 ",
+                "reasoning": "根据博主一行人在格林兰岛旅行途中经过了克里斯蒂安王子峡湾可知这个峡湾在格林兰岛"
+            },
+            {
+                "question": "Is whale hunting allowed or prohibited in Greenland?",
+                "answer": "It is allowed.",
+                "question_type": "通用知识推理",
+                "knowledge": "格林兰岛是否可以捕猎鲸鱼",
+                "reasoning": "根据Luck在格林兰岛的鱼市发现有售卖鲸鱼肉并且有渔民说几天前捕过鲸鱼可以推出这里允许捕猎鲸鱼"
+            },
+            {
+                "question": "What did Luck taste after tasting the dried seal meat?",
+                "answer": "Seal fat.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "模型需要先定位到Luck尝试海豹肉干的时刻然后分析辨别他之后尝了什么"
+            },
+            {
+                "question": "What is the relationship between Chloe and Luke?",
+                "answer": "They are husband and wife.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "根据他们旅行过程中的亲密举动以及孩子Lennon可以推出他们是夫妻"
+            },
+            {
+                "question": "Is Luke a person who is brave enough to try new things or a timid person? ",
+                "answer": "He is a person who is brave enough to try new things.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "根据Luck敢于品尝海豹肉干和海豹脂肪以及敢于跳入格林兰岛冰冷的海水中可以看出他是一个勇于尝试的人"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_63",
+        "video_url": "https://www.youtube.com/watch?v=C4U8AZhWNQg",
+        "video_duration": "23:32",
+        "video_type": "vlog - 宠物",
+        "qa_list": [
+            {
+                "question": "What kind of company is Primal?",
+                "answer": "This is a company that produces pet food.",
+                "question_type": "通用知识推理",
+                "knowledge": "Primal是一家做什么的公司",
+                "reasoning": "根据博主说Prime知道博主的宠物狗过生日为其准备了他们的宠物零食产品作为礼物可以得出"
+            },
+            {
+                "question": "What is the principle of the silent squeaky toy?",
+                "answer": "The sound it makes can be heard by dogs but not by humans.",
+                "question_type": "多模态/多语言推理,通用知识推理",
+                "knowledge": " 无声吱吱叫玩具的原理",
+                "reasoning": "从博主介绍无声吱吱叫玩具时说它发出的声音只有她的宠物狗Cookie能听到可以推出"
+            },
+            {
+                "question": "After setting up the dog’s tent, did the blogger place it indoors or outdoors?",
+                "answer": "Placed outdoors",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "模型先定位到博主搭建好帐篷的时刻然后判断帐篷被博主放在了哪里"
+            },
+            {
+                "question": "Is the blogger responsible for Cookie or irresponsible?",
+                "answer": "She is responsible",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "博主为Cookie举办生日派对并且邀请很多朋友参加可以看出博主对Cookie很负责"
+            },
+            {
+                "question": "Is the blogger good at cooking?",
+                "answer": "Yes",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "从博主亲手为狗狗做红薯饼干可以看出她是会做饭的"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_64",
+        "video_url": "https://www.youtube.com/watch?v=WfzOuh7ZiJ0",
+        "video_duration": "30:22",
+        "video_type": "测评 - 其他",
+        "qa_list": [
+            {
+                "question": "Does Miss Mina like the taste of century eggs?",
+                "answer": "No.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "对Mina的饮食喜好提问，在品尝松花蛋味道时Mina的评价，她表示很欣赏尊重想到这个办法处理鸭蛋的人，但对于味道闭口不谈，之后要将它送给其他喜欢鸭蛋的人。"
+            },
+            {
+                "question": "What are the differences between the commodity pricing of T&T Supermarket and that of other ordinary supermarkets in the United States? ",
+                "answer": "The prices in T&T usually end with 88, while those in others end with 99.",
+                "question_type": "通用知识推理",
+                "knowledge": "商品的价格尾数都是88",
+                "reasoning": "Mina和Mommy表示很特别超市大部分商品的价格尾数都是88，而在美国她们常见的超市通常都是以99结尾。"
+            },
+            {
+                "question": "In addition to the traditional sales areas, what other areas are set up in T&T Supermarket?",
+                "answer": "The dining area and restrooms.",
+                "question_type": "通用知识推理",
+                "knowledge": "The facilities equipped in T&T Supermarket.",
+                "reasoning": "Mina和Mommy在超市逛了3个小时，认为这里像美食家的游乐园，设施齐全，还有就餐区和卫生间，可以在这里待一整天。"
+            },
+            {
+                "question": "Which area was Mina shopping in before she went to the frozen food and dry goods section?",
+                "answer": "Seafood section.",
+                "question_type": "多跳推理",
+                "knowledge": "The characteristics of commodity pricing in T&T Supermarket.",
+                "reasoning": "在来到冷冻及干货区之前，Mina和Mommy在海鲜区域，表示这里大部分都是活海鲜，有蛏子、活扇贝、珍宝蟹、生蚝等。"
+            },
+            {
+                "question": "Which Asian language does Mommy master the most?",
+                "answer": "Korean.",
+                "question_type": "多线索推理,人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "对Mommy的语言能力提问，听觉Mommy能说出零食上韩语的含义，视觉她拿着一袋韩语包装的盐并用韩语介绍，而对于中文仅讨论了某个食品名称韩语是怎样表达的，中文有点不同但没有说怎么不同，还要借助翻译器看中文。"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_65",
+        "video_url": "https://www.youtube.com/watch?v=AcNGapLAT5A",
+        "video_duration": "30:07",
+        "video_type": "vlog - 宠物",
+        "qa_list": [
+            {
+                "question": "What are the pet entry requirements for the Global Pet Expo?",
+                "answer": "Pets must be pre-registered and strictly managed.",
+                "question_type": "多线索推理,多模态/多语言推理,通用知识推理",
+                "knowledge": "为了确保展会的顺利进行，宠物展严格把握宠物的入场：登记每一只入场的动物并确认责任人。通过这种管理措施，可以确保每只宠物都能被识别，并且预防失控事件的发生，这是对展会现场秩序和安全的高度重视。",
+                "reasoning": "视频内容：Mai提到带宠物进入Global Pet Expo通常需要提前给宠物注册，拿到给专用标识、承诺会看管好自己的宠物（做好牵绳）等才可以入场。——>推理：Global Pet Expo 宠物入场的条件是提前宝贝并严格管理。"
+            },
+            {
+                "question": "What's attitude of  “Extended Stay“hotel to pets ?",
+                "answer": " Pet-friendly.",
+                "question_type": "通用知识推理",
+                "knowledge": "宠物友好酒店是指允许客人携带宠物入住的酒店。这类酒店通常会提供特定的设施和服务，以满足宠物及其主人的需求。",
+                "reasoning": "视频内容：Mai和Andy带着孩子和狗住进了 “Extended Stay“这家酒店/Mai提到酒店是Global Pet Expo的推荐酒店 ——>推理： “Extended Stay“对宠物态度友好。"
+            },
+            {
+                "question": " What is Mai's family atmosphere like?",
+                "answer": " It is harmonious.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "视频内容：Mai一家人带着狗一起自驾去参加宠物展，交流相处愉快。——>推理：Mai一家人的家庭氛围是和谐的。"
+            },
+            {
+                "question": "Is Mai a little bit careless ?",
+                "answer": "Yes, she is.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "视频内容：Mai在第二天参展时将badge忘在了家里，她不得不重新打印。 ——>推理：Mai有点粗心。"
+            },
+            {
+                "question": "How many days did Mai visit the Global Pet Expo ?",
+                "answer": "2 days.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "模型需要综合视频中参加Global Pet Expo的片段进行分析。"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_66",
+        "video_url": "https://www.youtube.com/watch?v=nXK6LQtLwUY",
+        "video_duration": "26:16",
+        "video_type": "综艺 - 纪实（真人秀）",
+        "qa_list": [
+            {
+                "question": "Who treated her husband emotionally?",
+                "answer": "Tamara.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "视频内容：Tamara提到自己在离开家之前，情感上就已经远离那里5英里了，同时她与Rayn保持着紧密的联系。——>推理：她在情感上背叛了自己的丈夫。"
+            },
+            {
+                "question": "Is Heather Dubrow a fan of series \"Friends\" ?",
+                "answer": "Yes, she is.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "视频内容：Heather向Tamara提问时，询问她当时的情感关系是不是像Rachel和Ross一样on a break——>推理：Rachel和Rossd \"We are on a break\"是经典电视剧《老友记》中的内容，所以Heather是一名《老友记》的粉丝。"
+            },
+            {
+                "question": "Is the Real Housewives a show full of conflict or not ?",
+                "answer": "It's a show full of conflict.",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "The drama in \"Real Housewives\" is driven by the conflicts that emerge from the women's relationships and their differing perspectives.",
+                "reasoning": "视频内容：从开头到结尾，整个视频充满了大量的争吵、谩骂和冲突——>Real Housewives是一个充满了冲突的节目。"
+            },
+            {
+                "question": "Are people who enjoy gossip and social drama the target audience for the Real Housewives or not?",
+                "answer": "People who enjoy gossip and social drama are the target audience .",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "The  \"Real Housewives\" is known for its focus on interpersonal conflicts, dramatic moments, and a lot of gossip, which attracts viewers who enjoy that kind of content.",
+                "reasoning": "视频内容：Real housewives节目中充满了富裕家庭女性的情感纠葛、人物冲突甚至当场翻脸的戏剧情节，充满八卦、戏剧性和人物争执。——>推理：Real housewives的目标观众是喜欢看八卦和任务冲突的人。"
+            },
+            {
+                "question": "How many women guests are there in this show?",
+                "answer": "7.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "模型需要综合分析视频中所出现的女嘉宾并计数。"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_67",
+        "video_url": "https://www.youtube.com/watch?v=m7WYT2bgTlo",
+        "video_duration": "27:52",
+        "video_type": "测评 - 电子产品",
+        "qa_list": [
+            {
+                "question": "How many lunches did the author win?",
+                "answer": "Two.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "找到视频中作者与朋友打赌午餐的画面，并根据线索推理出答案。"
+            },
+            {
+                "question": "Does the author prefer computers with high or low frame rates?",
+                "answer": "He prefers high-frame-rate PCs.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "找到对应比较两者电脑帧率的画面，并根据作者的体验得出答案。"
+            },
+            {
+                "question": "Why CPU performance is down on a $50,000 computer?",
+                "answer": "Performance loss due to data being read from different CPU cores.",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "使用多核CPU时会因为核心封装在不同地方导致性能下降。",
+                "reasoning": "找到相应测试50000美元电脑的片段，并根据画面与语音推理出答案。"
+            },
+            {
+                "question": "How can a computer write haiku more efficiently using AI software?",
+                "answer": "By upgrading to a more powerful GPU.",
+                "question_type": "通用知识推理",
+                "knowledge": "GPU是影响AI算力提升的关键。",
+                "reasoning": "找到相应使用不同类型的电脑写俳句的片段，根据它的作用并推理出答案。"
+            },
+            {
+                "question": "What does the author think of the recording function of a $50 computer?",
+                "answer": "He thought it actually looked pretty fine.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "找到测试相应录像功能的片段，并根据作者的反应得出答案。"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_68",
+        "video_url": "https://www.youtube.com/watch?v=aBG_R7JKWAs",
+        "video_duration": "21:12",
+        "video_type": "vlog - 亲子",
+        "qa_list": [
+            {
+                "question": "What is Bella's physical fitness like?",
+                "answer": "Very good",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "Bella能在有一定流速的河流里游到岸边，还能在准备不完全的情况下跑完半场马拉松，可见她身体素质很好"
+            },
+            {
+                "question": "What did the bloggers and their friends do after running one kilometer?",
+                "answer": "Play tennis",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "从视频片段可以看出，博主和朋友跑完一公里后打了网球"
+            },
+            {
+                "question": "Does Story have fear of water?",
+                "answer": "No",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "从视频中可以看出大人们游泳时Story也在泳池里玩，并且玩的很开心，之后大人在河里游泳她也去了，没有一丝害怕之情"
+            },
+            {
+                "question": "Can SOURCE only offer outdoor dining, or only indoor dining, or both?",
+                "answer": "Both",
+                "question_type": "多模态/多语言推理,通用知识推理",
+                "knowledge": "SOURCE既提供露天就餐又提供室内就餐",
+                "reasoning": "定位到博主在SOURCE吃饭的片段，利用视觉可得到答案"
+            },
+            {
+                "question": "What services does BetterHelp offer?",
+                "answer": "Psychological counseling",
+                "question_type": "通用知识推理",
+                "knowledge": "BetterHelp提供心理咨询服务",
+                "reasoning": "定位到博主讲述关于BetterHelp的片段，讲述不孕不育经历时博主提到”对我们帮助最大的就是和别人谈论它\"\"我知道和专业人士交谈真的很重要,治疗对我们来说非常重要，我知道有一个安全的空间谈论你心中正在发生的事，不管你的挣扎是什么，这都很重要，我很高兴我们找到了BetterHelp”，”BetterHelp是一个平台，治疗师和他们的客户可以在这里沟通“，可推断出"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_69",
+        "video_url": "https://www.youtube.com/watch?v=XjBTpmslLc8",
+        "video_duration": "20:33",
+        "video_type": "纪录片-历史纪实",
+        "qa_list": [
+            {
+                "question": "Before the 18th century, were cotton clothes  common or rare in American households?",
+                "answer": "Rare",
+                "question_type": "通用知识推理",
+                "knowledge": "18世纪前，棉质衣服对美国的家家户户来说是少见的",
+                "reasoning": "Abby提到18世纪末，美国棉花工业开始改变，奴役印度人并与英国棉花产业竞争，后者接管了美国棉花产业，采取了一些措施之后，棉花才变得廉价，棉质连衣裙成为人们能负担得起的东西，可推断出"
+            },
+            {
+                "question": "What kinds of accessories were popular in the United States in the 1850s?",
+                "answer": "Puff sleeves",
+                "question_type": "通用知识推理",
+                "knowledge": "褶边是美国19世纪五十年代的流行配饰",
+                "reasoning": "在谈到如果能带回19世纪五十年代的历史性配饰你会带什么的时候，Abby提到了褶边，可以推断出"
+            },
+            {
+                "question": "Is Abby's knowledge about the history of fashion extensive or meager?",
+                "answer": "Extensive",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "在回答关于时尚历史的问题的时候Abby念完问题就可以说出答案，可推断出"
+            },
+            {
+                "question": "Does Nichole enjoy drinking alcohol while chatting?",
+                "answer": "Yes",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "跟踪Nichole的行为可以发现Nichole说话的时候时不时喝口酒，她面前的酒换了三杯，说明她至少喝了三杯酒，是三人中喝的最多的，可推断出"
+            },
+            {
+                "question": "After Abby finished using the toilet, who else went next?",
+                "answer": "Chrissy",
+                "question_type": "多线索推理,多跳推理,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "定位到Abby上厕所的片段，跟踪其他人的行为，结合讨论Worth的片段可确认Chrissy的身份，从而得到答案"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_70",
+        "video_url": "https://www.youtube.com/watch?v=JWj4Hj6owqk",
+        "video_duration": "23:50",
+        "video_type": "测评 - 美妆产品",
+        "qa_list": [
+            {
+                "question": "How many beauty products did Zoella and Mark evaluate together?",
+                "answer": "There are a total of 11 products.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "结合整个视频我们可知Zoella和Mark一共测评了11件美妆产品。"
+            },
+            {
+                "question": "What type of sticker is \"lips sthlers\"?",
+                "answer": "Water transfer sticker.",
+                "question_type": "通用知识推理",
+                "knowledge": "\"lips sthlers\"是水转印贴。",
+                "reasoning": "根据Zoella使用lips sthlers时是将其用水打湿，底纸颜色变深后把带图案的那面贴在嘴唇上，然后用手顺着皮肤扯底纸，让它从图案上滑下来，可推断\"lips sthlers\"是水转印贴。"
+            },
+            {
+                "question": "Is Zoella a brave person to try?",
+                "answer": "She is someone who has the courage to try.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "Zoella敢于尝试各种奇怪的美妆产品，说明她是个勇于尝试的人。"
+            },
+            {
+                "question": "Is Mark a cheerful person?",
+                "answer": "Mark is a lively person.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "马克和Zoella在测评产品过程中一直是充满欢声笑语的，可知马克是个性格活泼的人。"
+            },
+            {
+                "question": "How does the tomato lip pump enlarge the lips?",
+                "answer": "Pressure.",
+                "question_type": "通用知识推理",
+                "knowledge": "番茄唇泵通过压力作用达到丰唇效果。",
+                "reasoning": "Zoella和马克测评番茄唇泵时，需要将唇泵内空气吸出，可推断出番茄唇泵通过压力作用达到丰唇效果。"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_71",
+        "video_url": "https://www.youtube.com/watch?v=2ZTznHGzqVQ",
+        "video_duration": "28:27",
+        "video_type": "教学 - 运动",
+        "qa_list": [
+            {
+                "question": "What do juvenile great white sharks generally feed on?",
+                "answer": "They generally eat rays and sand sharks.",
+                "question_type": "通用知识推理",
+                "knowledge": "幼年白鲨一般以鳐鱼和沙鲨为食。",
+                "reasoning": "通过sergeant rick strobel对米歇尔说的话，可以分析出这片海中有可能会有幼年白鲨，他们会以鳐鱼和沙鲨为食。"
+            },
+            {
+                "question": "What techniques can be used to cross the waves more easily? ",
+                "answer": "Surfboard.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "通过米歇尔在最后独自出海救援她的未婚夫的片段，可以看出，在越过海浪时，她使用了冲浪板，教练说这是一种轻松越过海浪的技巧。"
+            },
+            {
+                "question": "Is Michelle persevering or lazy?",
+                "answer": "Michelle is persevering.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "根据米歇尔即使在海里已经很累了，但通过大家的鼓励以及自己的毅力坚持了下来。"
+            },
+            {
+                "question": "Why is freestyle swimming said to be the most effective swimming style for lifeguards?",
+                "answer": "It is fast in speed and saves physical strength. ",
+                "question_type": "通用知识推理",
+                "knowledge": "自由泳速度快，而且节省体力，救生员的最有效泳姿。",
+                "reasoning": "根据米歇尔说，保证在不焦虑的情况下屏住呼吸，尽最快速度游泳，自由泳速度最快，所以自由泳是救生员的最有效泳姿。"
+            },
+            {
+                "question": "Is Maureen Hodges a person with a strong sense of responsibility?",
+                "answer": "Yes.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "通过米歇尔采访Maureen Hodges，还有她自己的描述得知她的责任心非常强。"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_72",
+        "video_url": "https://www.youtube.com/watch?v=st-xSFONWo4",
+        "video_duration": "36:31",
+        "video_type": "综艺 - 纪实（真人秀）",
+        "qa_list": [
+            {
+                "question": "In the LoveCommaNectar program, when one person gives an \"x\" response and the other person gives a signal of love, which one of the two people will leave? ",
+                "answer": "The person who gave the signal of love leaves.",
+                "question_type": "通用知识推理",
+                "knowledge": "两人决定不一样，给出”x”的人留下，爱心的人离开。",
+                "reasoning": "模型通过观察整期节目，可以得出问题答案。"
+            },
+            {
+                "question": "What does it mean when a man slides his hand to the right on the LoveCommaNectar program?",
+                "answer": "He is not interested in the lady in front of him.",
+                "question_type": "通用知识推理",
+                "knowledge": "LoveCommaNectar真人秀中，男士将手划向右侧代表他对眼前女士不感兴趣。",
+                "reasoning": "通过观察此真人秀节目，可以看出男士手滑向右侧，代表他对眼前女士不感兴趣，相反，滑向左侧，代表他对女士想进一步发展。"
+            },
+            {
+                "question": "Is Keala a cold-hearted person or a warm-hearted person? ",
+                "answer": "She is a warm-hearted person.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "通过真人秀节目组导演提问keala与marado的发展进度，keala自己叙述和她的表现可以看出她是一个热情的人。"
+            },
+            {
+                "question": "What is the theme of the reality show *Love Comma Nectar*? ",
+                "answer": "A reality show themed around blind dates.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "模型根据主持人介绍和观看视频可以看出是一档以相亲为主题的真人秀节目。"
+            },
+            {
+                "question": "Is Alex's hobby dancing?",
+                "answer": "Yes.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "根据Alex在视频中的表现，他展示了他的舞蹈技能，可以看出他热爱跳舞，他的爱好是跳舞。"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_73",
+        "video_url": "https://www.youtube.com/watch?v=Z8iStZbiLmI",
+        "video_duration": "39:42",
+        "video_type": "教学 - 运动",
+        "qa_list": [
+            {
+                "question": "What is the teaching style of the YMCA?",
+                "answer": "The teaching style takes teaching through fun as its core. ",
+                "question_type": "通用知识推理",
+                "knowledge": "YMCA的上课风格以寓教于乐为核心，通过游戏化设计、互动活动和主题课程让学习充满趣味，尤其适合儿童、家庭和注重社交的学员。",
+                "reasoning": "通过观看视频，视频中教练以游戏、鼓励等方式来教学儿童游泳，整体教学风格以寓教于乐为核心，课程氛围轻松。由此可知，YMCA的教学风格是以寓教于乐为核心，其充满了趣味性。"
+            },
+            {
+                "question": "What is the occupation of the lady dressed in black?",
+                "answer": "Swimming teacher.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "通过观察视频中，黑色衣服的女性的动作和言语，如讲解安全规则、教学漂浮技巧等可以知道她是一位游泳老师。"
+            },
+            {
+                "question": "How many students are there in total in this class?",
+                "answer": "Six.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "通过观察视频，从始到终视频中一直只出现了六位学生。"
+            },
+            {
+                "question": "Which word can better describe the swimming teacher, ”patient“ or ”impatient“?",
+                "answer": "Patient",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "通过观察视频,如女生的鼓励式教育、逐一介绍安全规则等，可以推理出，能用耐心一词来形容。"
+            },
+            {
+                "question": "Are the swimming courses of the YMCA suitable for children?",
+                "answer": "Yes.",
+                "question_type": "通用知识推理",
+                "knowledge": "YMCA（基督教青年会）的游泳课程通常非常适合小孩子，尤其是入门和初级阶段的儿童游泳教学。其游泳课程在安全性、趣味性和系统性上表现突出，尤其适合作为孩子的游泳启蒙选择。如果当地YMCA设施完善、教练专业，值得推荐。",
+                "reasoning": "通过观察，老师的教学风格、过程等细节，由此可知该课程非常适合小孩子学习游泳。"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_74",
+        "video_url": "https://www.youtube.com/watch?v=byJxQh170ms",
+        "video_duration": "20:20",
+        "video_type": "测评 - 服装",
+        "qa_list": [
+            {
+                "question": "Is the dressing style of Abby and Emily fixed?",
+                "answer": "No.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "通过观察视频里分享的衣服类型，如运动风、性感风、日常风等，由此可知，她们的穿衣风格不是固定的。"
+            },
+            {
+                "question": "How many long dresses were shared in total?",
+                "answer": "Three.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "通过细数在视频中推荐衣服为长裙的片段，可以观察到共有三条长裙，粉色、蓝色及黑色。"
+            },
+            {
+                "question": "Are Abby and Emily on good terms? ",
+                "answer": "They have a very good relationship.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "通过观察视频，可知Abby和Emily是一对双胞胎，俩人十分的默契和了解，由此可知俩人的关系十分要好。"
+            },
+            {
+                "question": "Why does the clock need to be set forward in Washington during the summer? ",
+                "answer": "Because of daylight saving time.",
+                "question_type": "通用知识推理",
+                "knowledge": "夏令时拨快时钟，能充分利用夏季日照时间。将时钟拨快一小时后，人们会早起早睡，减少傍晚时的照明用电，从而节约能源，还能让更多人参与户外活动，提高生活质量，也在一定程度上促进了经济活动。",
+                "reasoning": "通过定位到视频片段，博主说到，自己买了很多的春夏衣服很开心，马上就是夏令了，并且解释在夏令华盛顿的时钟会拨快，日照会多一小时，由此可知，时钟拨快是因为夏令即将到了。"
+            },
+            {
+                "question": "Who are the main target customers of the “White Fox Boutique”?",
+                "answer": "The group of young women.",
+                "question_type": "通用知识推理",
+                "knowledge": "White Fox Boutique 的适宜人群主要集中在 追求潮流、性价比较高 的年轻女性群体。",
+                "reasoning": "定位到视频分享White Fox Boutique的衣服风格较为多样，主打年轻潮流 和 季节性流行款，整体偏向 休闲性感 和 度假风，适合日常、聚会或旅行穿搭。由此可知该品牌定位的目标群体为年轻女性。"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_75",
+        "video_url": "https://www.youtube.com/watch?v=kHOfVbwSb5Y",
+        "video_duration": "33:25",
+        "video_type": "vlog - 园艺",
+        "qa_list": [
+            {
+                "question": "How about Chloe's farm management ability?",
+                "answer": " Pretty good.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "视频中在作者与Chloe的交流中可以了解到，Chloe在2014年就开始自己经营一家花卉农厂，并且在她的管理下农场也经营的非常好。"
+            },
+            {
+                "question": "What is the book \"Livre Floramama - copie signee!\" about?",
+                "answer": " It's about how to manage a flower farm.",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "关于Livre Floramama - copie signee!这本书的基本内容",
+                "reasoning": "作者介绍这一本书是由Chloe自己写的书，主要写她关于花卉农场的一些经验，这是一本对于花卉农场很不错的指南。"
+            },
+            {
+                "question": "What kind of work does the author mainly engage in? ",
+                "answer": "Farm management.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "在作者与Chole的交流中，Chole提到这个花卉农场是她参考作者的农场而建造的，并且作者也提到自己想为餐厅额外提供鲜花，可知他为餐厅提供材料。"
+            },
+            {
+                "question": "What are the main impacts of Dolycoris baccarum on crops?",
+                "answer": " It is harmful to crops.",
+                "question_type": "通用知识推理",
+                "knowledge": "斑蝽会导致作物生长受阻、果实发育不良、传播病害",
+                "reasoning": "视频中Chole在花的花蕾上套了透明袋子，提到这是为了躲避斑蝽的侵害，并且提到自己今年种植的很多品种的花被斑蝽损害过。"
+            },
+            {
+                "question": "What is the form of flower sales in Chole's farm?",
+                "answer": "Selling bouquets.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "视频中作者询问Chloe是不是会选择一枝一枝地卖花，Chloe提到自己更喜欢以花束的形式售卖，并且也会采取这样的售卖方案。"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_76",
+        "video_url": "https://www.youtube.com/watch?v=kjWF-l1lBfw",
+        "video_duration": "37:49",
+        "video_type": "纪录片-历史纪实",
+        "qa_list": [
+            {
+                "question": "Where is Oakham Castle Hall located?",
+                "answer": "It is located in Rutland, England.",
+                "question_type": "通用知识推理",
+                "knowledge": "奥克姆城堡大厅的位置",
+                "reasoning": "从Tony说欢迎来到拉特兰郡以及他说奥克姆城堡大厅是英国12世纪建筑可以推出"
+            },
+            {
+                "question": "How many years of history does the Great Hall of Oakham Castle have up to now? ",
+                "answer": "More than 800 years.",
+                "question_type": "通用知识推理",
+                "knowledge": "奥克姆城堡大厅存在时间",
+                "reasoning": "根据Marc所说奥克姆城堡大厅在大约1185年被建造可以得出"
+            },
+            {
+                "question": "How many unearthed cultural relics did Jane introduce to Tony?",
+                "answer": "Four.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "模型需要分析并统计Jane向Tony介绍的文物数量"
+            },
+            {
+                "question": "Is Jane fond of or tired of the work of dealing with cultural relics? ",
+                "answer": "She likes this job.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "从Jane处理文物时开心的表情语言可以看出她很喜欢这项工作"
+            },
+            {
+                "question": "Is Phil a person who clings stubbornly to his own opinions or someone who is open to good advice? ",
+                "answer": "He is a person who is open to good advice.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "从Phil刚开始不同意Stewart的观点,但是当斯图尔特有所发现后Phil高兴的接受了可以看出Phil并不是一个固执己见的人"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_77",
+        "video_url": "https://www.youtube.com/watch?v=Bltvt5OQKY4",
+        "video_duration": "32:44",
+        "video_type": "vlog - 旅行",
+        "qa_list": [
+            {
+                "question": "Which country is the Margaret River located in?",
+                "answer": "It is located in Australia.",
+                "question_type": "通用知识推理",
+                "knowledge": "玛格丽特河地理位置",
+                "reasoning": "根据博主从澳大利亚的珀斯开始公路旅行到玛格丽特河可以推出"
+            },
+            {
+                "question": "How many years of history does the Busselton Jetty have by 2025? ",
+                "answer": "One hundred and sixty years",
+                "question_type": "通用知识推理",
+                "knowledge": "巴瑟尔顿码头有多少年历史",
+                "reasoning": "根据Cody说巴瑟尔顿码头建造始于1865年，由此推出距今已经160年"
+            },
+            {
+                "question": "How many items did Joel and Cody order at Cafe Barco?",
+                "answer": "Five",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "模型需要分析并统计他们在Cafe Barco点了多少种食物"
+            },
+            {
+                "question": "What is the relationship between Joel and Cody?",
+                "answer": "They are lovers.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "根据Joel和Cody旅行中亲密的动作语言可以看出"
+            },
+            {
+                "question": "Are Joel and Cody enjoying traveling?",
+                "answer": "Yes",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "根据Joel和Cody旅行过程中喜悦的表情和激动的语言可以看出"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_78",
+        "video_url": "https://www.youtube.com/watch?v=iwOJGBVYFjc",
+        "video_duration": "20:12",
+        "video_type": "vlog - 特殊事件",
+        "qa_list": [
+            {
+                "question": "Is Oliver afraid of snakes?",
+                "answer": "No,he isn't.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "Oliver在水上市场时主动和蛇一起拍照，看出他并不怕蛇。"
+            },
+            {
+                "question": "Is Oliver a self - disciplined person?",
+                "answer": "Yes,he is.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "Oliver每天都要摄入计算好的热量来保持体重稳定，看出他是一个自律的人。"
+            },
+            {
+                "question": "What are the special scenic views of Maeklong Market? ",
+                "answer": "The train passes through the middle of the market.",
+                "question_type": "通用知识推理",
+                "knowledge": "泰国的美功铁道市场的火车直接从市场的密集区穿过",
+                "reasoning": "根据视频中Oliver在Maeklong Market参观时候的画面推断。"
+            },
+            {
+                "question": "What type of suit store is Patrick&Co?",
+                "answer": "Private customization",
+                "question_type": "通用知识推理",
+                "knowledge": "Patrick&Co是一家私人定制西装店",
+                "reasoning": "视频中Oliver前往Patrick&Co的原因是自己的身高和体重找不到合适的西装。"
+            },
+            {
+                "question": "What did Oliver do before going shopping at the supermarket?",
+                "answer": "Go to the hotel and check in.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "定位到Oliver前往超市的画面，在前往超市之前他先去酒店订了房间。"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_79",
+        "video_url": "https://www.youtube.com/watch?v=HXzhcfYlKFQ",
+        "video_duration": "21:49",
+        "video_type": "街头互动 - 社会观察",
+        "qa_list": [
+            {
+                "question": "Is the economic situation in Transnistria relatively wealthy or relatively poor?",
+                "answer": " Relatively poor.",
+                "question_type": "多模态/多语言推理,通用知识推理",
+                "knowledge": "关于Transnistria这个地区的经济发展水平。",
+                "reasoning": "视频中，作者在Transnistria地区，通过画面可以看到很多房屋都较矮且拥挤，缺乏高楼大厦，作者去往的游乐园几乎没有人，而且年久失修，人们大多慷概但收入很低。"
+            },
+            {
+                "question": "Where has Eric Tabach mainly lived after he turned fifteen?",
+                "answer": " In the United States.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "首先需要确定Eric Tabach15岁这个阶段，视频中提到他小时候大多生活在俄罗斯，展示了他生活在俄罗斯的照片，又提到这一次是他15岁以后再一次返回说俄语的地区，可以知道他15离开了俄罗斯，再结合作者提到他是美国人，可以得出结论。"
+            },
+            {
+                "question": "Which country's culture is the closest to that of Transnistria nowadays?",
+                "answer": " Russia.",
+                "question_type": "通用知识推理",
+                "knowledge": "关于Transnistria地区的历史以及文化",
+                "reasoning": "Transnistria由苏联解体而来，通过视频可以看到保留了大量苏联时期的元素，而俄罗斯作为苏联主要传承国，所以可以推断出Transnistria与俄罗斯相近最多。"
+            },
+            {
+                "question": "What is Eric Tabach's level of Russian? ",
+                "answer": "He is fluent in Russian.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "作者提到Eric Tabach会说俄语，并且通过他与本地人的俄语交流，可以判断出结果。"
+            },
+            {
+                "question": "Is Eric Tabach extroverted or introverted? ",
+                "answer": "Extroverted.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "观察视频中Eric Tabach会主动摆出开朗的动作，很主动地与陌生人交流打招呼，可以得出结论。"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_80",
+        "video_url": "https://www.youtube.com/watch?v=W1aPo3Q3TA0",
+        "video_duration": "25:12",
+        "video_type": "vlog - 学习",
+        "qa_list": [
+            {
+                "question": "Is Hades proficient or unskilled in driving a car?",
+                "answer": "Unskilled.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "视频中Hades提到自己只有30个小时的驾驶时长，并且通过她在后面驾驶过程中的表现，可以得出她驾驶汽车生疏的结果。"
+            },
+            {
+                "question": "Do the examiners of the driving test in the United States only allow communication with the examinees about the rules, or can the examiners also have conversations outside the rules?",
+                "answer": "The examiners can have conversations outside the rules.",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "关于美国的汽车驾驶考试具有的规则。",
+                "reasoning": "在视频中，考生经过一段时间的适应汽车后，教练模拟起考试时考官主动与考生进行交流的场景，包括考官会问的话和交流的内容。"
+            },
+            {
+                "question": "How many mistakes did Hads make in total during the driving process?",
+                "answer": " Nineteen.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "通过视频中可以观察到，总共有7个Driving Faults和12个Serious Faults。"
+            },
+            {
+                "question": "Is the author's teaching style strict or lenient?",
+                "answer": "Strict.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "作者在学员驾驶过程中，记录下了她的严重错误，并且在测试结束后，对所有问题进行了纠正，并要求学员要避免错误出现。"
+            },
+            {
+                "question": "Does an American car usually follow the rule of “right - side vehicle has the right of way” or “straight - ahead vehicle has the right of way” when driving on a complex road section？",
+                "answer": "Right - side vehicle has the right of way.",
+                "question_type": "通用知识推理",
+                "knowledge": "美国汽车行驶时，多道路路段汽车需要遵循的行驶规则。",
+                "reasoning": "通过视频中可以看到，在没有路灯的路口，多道路交汇时，左边的车辆停止，优先让最右边的车辆通过。"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_81",
+        "video_url": "https://www.youtube.com/watch?v=3JE-pIyGGU4",
+        "video_duration": "31:14",
+        "video_type": "vlog - 特殊事件",
+        "qa_list": [
+            {
+                "question": "How many cities is Love Park in Philadelphia connected to?",
+                "answer": "Three.",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "关于费城的Love Park艺术装置连接的地区",
+                "reasoning": "视频中，提到在这个装置上面可以看到爱尔兰的都柏林、立陶宛的一个城市以及波兰的一个城市。"
+            },
+            {
+                "question": "Is Mark enthusiastic or indifferent?",
+                "answer": "Enthusiastic.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "视频中Mark看到了作者的信息后主动添加了联系方式，并且邀请作者去爱尔兰，带作者参观爱尔兰的城市。"
+            },
+            {
+                "question": "What does \"Splitting the G\" of Guinness beer mean?",
+                "answer": "Take a sip to mid-\"G\" logo.",
+                "question_type": "通用知识推理",
+                "knowledge": "爱尔兰对于健力士啤酒的一项传统",
+                "reasoning": "视频中作者收到邀请前往爱尔兰遇见Mark，Mark请他们喝Guinness beer，并且给他们介绍了这里的一个名为分裂G的传统，即一口把啤酒喝到杯子的Guinness的logo的字母‘G’中间。"
+            },
+            {
+                "question": "Who is Stumpy?",
+                "answer": " It's another name for Mark.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "视频中，Mark的朋友在与作者的交流中，提到不太熟悉的人才会称Mark，而熟悉的人会称Mark为Stumpy。"
+            },
+            {
+                "question": "How is Liam's wrestling level?",
+                "answer": "Outstanding.",
+                "question_type": "人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "视频中Liam与Jason进行了几项竞技活动，掰手腕Liam输了，但在之后进行的摔跤中，通过画面可以看到，几次的对决都是由Liam占优势。"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_82",
+        "video_url": "https://www.youtube.com/watch?v=R40ejIie6XQ",
+        "video_duration": "32:19",
+        "video_type": "综艺 - 游戏",
+        "qa_list": [
+            {
+                "question": "What does it mean when a girl swipes left in Clout Chasers Tinder in Real Life ?",
+                "answer": "It means not wanting to match, which is equivalent to a rejection. ",
+                "question_type": "通用知识推理",
+                "knowledge": " Clout Chasers Tinder in Real Life的节目规则",
+                "reasoning": "根据视频内容总结，向右滑动（swipe right）表示对对方有兴趣、喜欢或认可，可能希望进一步交流、匹配成为好友或潜在的约会对象；向左滑动（swipe left）则表示对对方不感兴趣、不想匹配，相当于拒绝。"
+            },
+            {
+                "question": "What kind of show is \"Clout Chasers: Tinder in Real Life\"?  ",
+                "answer": "Dating variety show. ",
+                "question_type": "通用知识推理",
+                "knowledge": "“CLOUT CHASERS TINDER IN REAL LIFE”是交友综艺。",
+                "reasoning": "根据视频内容总结，男女嘉宾进行互动交友"
+            },
+            {
+                "question": "Who has been matched with by girls the most times? ",
+                "answer": "Harshit",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "要综合每轮女孩配对的结果，harshit与Amatchi、Anishka、Trupti、Andrina、Monisha、ramya配对成功，八位女生成功六位最多"
+            },
+            {
+                "question": "What is Karthik's speaking style like?",
+                "answer": " Bold and direct.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "Karthik 在对话中表现得比较大胆和直接，会说出一些露骨的话语，并在mansi的对话中引起了方案。"
+            },
+            {
+                "question": "Is Trupti open-minded in her personality? ",
+                "answer": "Yes",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "Trupti对新的活动表现出较高的热情，并亲吻了初见的Harshit表明Trupti性格开放"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_83",
+        "video_url": "https://www.youtube.com/watch?v=80xOsY0lfKU",
+        "video_duration": "20:14",
+        "video_type": "vlog - 派对",
+        "qa_list": [
+            {
+                "question": "What games did people play at the party?",
+                "answer": "Ring toss game, dice game, foosball, bocce ball ",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "投环游戏、掷骰子游戏、桌上足球，地掷球bocce balls"
+            },
+            {
+                "question": "What is the relationship between Katie and Mary?",
+                "answer": "Katie and Mary have the relationship between a coach and a trainee. ",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "根据视频内容提到 “Coach Mary”，表明 Mary 的身份是教练，同时 Mary 参加了 Katie 的毕业派对，还送了 Katie 贴心的礼物 “Mindful mornings”，并在派对上分享对 Katie 的祝福，由此可以推断出 Katie 曾是 Mary 指导的学员。可能 Katie 在高中期间参与了 Mary 所负责的某项活动或运动项目，接受了她的教导"
+            },
+            {
+                "question": "Does Coach Mary like her roommate's singing?",
+                "answer": "Yes",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "Coach Mary 提到舍友曾经在洗澡时唱歌，舍友有一副美妙的嗓音，并且她们会打开门缝坐着听舍友唱歌。由此可以推断出 Coach Mary 喜欢她舍友的歌声。"
+            },
+            {
+                "question": "What color is Katie's room?",
+                "answer": "Pink",
+                "question_type": "多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "“Coach Mary 送给 Katie 的礼物是一个叫‘mindful mornings’的东西，礼物的颜色和 Katie 房间的风格很搭”，结合视觉注意到礼物是粉色的，综合知道katie的房间是粉色的"
+            },
+            {
+                "question": "What is \"Mindful Mornings\" about?",
+                "answer": "\"Mindful Mornings\" is a movement aimed at promoting activities and communication.",
+                "question_type": "通用知识推理",
+                "knowledge": "Mindful Mornings是一个运动，旨在通过每天活动和与周围人交流，提升工作体验。 ",
+                "reasoning": "根据Coach Mary的描述， \"Mindful Mornings\"又例如淋浴时唱歌等引导放松身心的事，推断出\"Mindful Mornings\"的主旨目的"
+            },
+            {
+                "question": "What are the characteristics that make hot dogs suitable for parties? ",
+                "answer": "The production process is relatively simple and it is easy to carry",
+                "question_type": "通用知识推理",
+                "knowledge": "热狗可批量制作且制作过程相对简单，易于携带，非常适合派对食物",
+                "reasoning": "根据派对食物准备环节，和之后讨论热狗作为美国传统食物是派对卖点，总结出热狗作为派对食物的优势特点。"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_84",
+        "video_url": "https://www.youtube.com/watch?v=COCqoqVAjgw",
+        "video_duration": "23:39",
+        "video_type": "vlog - 特殊事件",
+        "qa_list": [
+            {
+                "question": "What about this author's ability to deal with disasters?",
+                "answer": "Strong.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "在飓风来临前，他提前做好了诸多准备工作，如拆除围栏、安装百叶窗等，显示出他的未雨绸缪和细心。在飓风期间，他积极记录和关注各种情况，及时与家人沟通并共同应对困难，如一起启动发电机、规划使用发电机满足生活需求等，体现了他的在应对灾难的能力很强"
+            },
+            {
+                "question": "What is the relationship between Mariah and the blogger?",
+                "answer": "Couple relationship",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "视频内容表明 Mariah 和博主一起生活，共同经历飓风期间的各种情况，如一起检查房屋、应对停电等；并且在交流中语气比较亲密随意，像是关系亲近的人之间的对话。所以，推断他们之间是伴侣关系"
+            },
+            {
+                "question": "What is the sustained wind speed of a Category 5 hurricane? ",
+                "answer": "150 miles per hour or more.",
+                "question_type": "通用知识推理",
+                "knowledge": "五级飓风的持续风速达到每小时 150 英里及以上。",
+                "reasoning": "需要根据对话，米尔顿飓风是五级飓风，而在对话中提到米尔顿的持续风速达到每小时 150 英里及以上。—>五级飓风的持续风速达到每小时 150 英里及以上。"
+            },
+            {
+                "question": "What is the moving speed of a hurricane over land?",
+                "answer": "It is about 15 miles per hour.",
+                "question_type": "通用知识推理",
+                "knowledge": "飓风在陆地上的移动速度可以到达15英里每小时。",
+                "reasoning": "需要根据对话，总结飓风移动的气象知识。"
+            },
+            {
+                "question": "What did the author test to verify after starting the engine?",
+                "answer": "The circuit breaker in the garage",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "要根据对话定位发动机启动的时间片段，再结合对话知道作者先测试了车库的断路器"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_85",
+        "video_url": "https://www.youtube.com/watch?v=f4OkSTbQlwU",
+        "video_duration": "20:05",
+        "video_type": "街头互动 - 采访",
+        "qa_list": [
+            {
+                "question": "Which of the three major migrant worker animations do people like the most?",
+                "answer": "One Piece.",
+                "question_type": "多线索推理,多跳推理",
+                "knowledge": "",
+                "reasoning": "需要找到所有博主提问到最喜欢的动漫的问题，并判断出三大民工动漫在受访人之中的受喜爱程度，最终综合所有线索判断出答案。"
+            },
+            {
+                "question": "Why didn't the blogger agree with the guy who said makima would most like to be his wife?",
+                "answer": "Makima is a bad woman.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "首先找到对应采访内容中出现玛琪玛的片段，再综合视频画面推理出原因。"
+            },
+            {
+                "question": "Why High School DxD is not suitable as an anime to start with?",
+                "answer": "Because it is an anime with mild nudity that is not suitable for teenagers.",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "As we all know, anime with mild nudity is not suitable for teenagers to watch.",
+                "reasoning": "找到对应采访内容，并根据博主对此的反应判断。"
+            },
+            {
+                "question": "Why does the boy want lokihi as his wife most?",
+                "answer": "He thinks the way she runs is very cute.",
+                "question_type": "多线索推理,人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "先根据线索找到具体位置，再结合画面与语言一同判断得出答案。"
+            },
+            {
+                "question": "Why are outdoor photo zones always set up in shaded or backlit areas?",
+                "answer": "To avoid strong light from overexposing the costumes.",
+                "question_type": "通用知识推理",
+                "knowledge": "资深摄影师会将摄影区设在树荫下或背光处，避免强光导致Cos服反光/过曝，更易出片。",
+                "reasoning": "找到漫展中出现摄影区的片段，并根据通用知识推理出答案。"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_86",
+        "video_url": "https://www.youtube.com/watch?v=YYCeOZvIAVw",
+        "video_duration": "42:37",
+        "video_type": "vlog - 旅行",
+        "qa_list": [
+            {
+                "question": "Is Alex someone who gets anxious easily or someone who finds it hard to get anxious?",
+                "answer": "He is someone gets anxious easily.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "视频内容：Alex在迪士尼还没开始营业时，因为看到大量其他游客已经前往迪士尼而感到焦虑。——>推理：Alex是一个容易感到焦虑的人。"
+            },
+            {
+                "question": "What's the first ride Alex and Max play after got down from the people mover(TTA blue Line)?",
+                "answer": "The Space Ranger.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "模型需要先定位到问题所提及的片段，结合前后内容（人物对话和语音广播)进行分析。"
+            },
+            {
+                "question": "Are Alex and Max satisfied with their photo which was snapped when the played Space Ranger?",
+                "answer": "No, they don't.",
+                "question_type": "多跳推理,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "模型需要定位到问题所提及的片段，然后根据视频画面（镜头展示了被抓拍的照片）和人物对话（人物说照片是awful的）"
+            },
+            {
+                "question": "Who are the two women occured when the 2 men had breakfast at the corner near the merry-go-round?",
+                "answer": "They are sisters of Cinderella.",
+                "question_type": "多线索推理,多跳推理,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "模型首先要确认视频所拍摄的场景属于迪士尼魔法世界，其次他需要判断目标人物是游客还是npc（目标人物穿着夸张的裙子且主动上前搭话所以非游客），然后模型需要根据目标人物所说的话（两人外形与迪士尼动画中相同、两个人话很多总是喜欢评价其他人或事物）具有故事中经典人物的特点最后分析出两人身份。"
+            },
+            {
+                "question": "Does Max like Stitch?",
+                "answer": "Yes,he does.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "视频内容：Max模仿Stitch说话，他游览美国的迪士尼乐园时在肩头放置自己在法国迪士尼所购买的Stitch坐肩公仔——>推理：Max喜欢Stitch。"
+            },
+            {
+                "question": "Who pets a dog between Alex and Max?",
+                "answer": "Max.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "视频内容：Alex提议Max可以为他的狗买一件衣服。——>推理：养狗的人是Max。"
+            },
+            {
+                "question": "Is the Disneyland a fairy-tale world with the fake reindeer head in the Grizzy Hall which could move and talk?",
+                "answer": "Yes. Disneyland is a fairy-tale world.",
+                "question_type": "多跳推理,多模态/多语言推理,通用知识推理",
+                "knowledge": "迪士尼乐园一直坚持在园区内为大家创造一个自然而完美的童话世界，这一点不仅体现在乐园里的众多符合人设的迪士尼动画角色，更体现在包括剧院中墙上的驯鹿头做的很逼真等细节上。",
+                "reasoning": "模型需要先找到问题所描述的片段（进入Grizzy Hall看表演），分析其中的画面（墙上的假驯鹿头不时左右摇摆）以及声音（乐园借驯鹿头向大家广播观看表演的各种注意事项），然后分析迪士尼乐园设置这样装置的原因和意图（为所有人营造美好的童话氛围，从细节上守护每个人的童话梦），最后判断（迪士尼确实是一个童话世界）。"
+            },
+            {
+                "question": "What's the \"Grizzly Hall\" ?",
+                "answer": "A theatre.",
+                "question_type": "多线索推理,多模态/多语言推理,通用知识推理",
+                "knowledge": "Grizzly Hall 是迪士尼乐园中的一个剧院，是 Country Bear Jamboree（乡村熊欢乐剧）经典表演的所在地。",
+                "reasoning": "视频内容：入场后幕布上出现Grizzly Hall的字样，随后幕布升起，开始表演舞台剧。——>推理：Grizzly Hall是一个剧院。"
+            },
+            {
+                "question": "How many times did Max and Alex play the tide \"Tiana\" ?",
+                "answer": "Twice.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "模型需要在视频中抓取与Tiana游乐项目相关的片段并进行计算。"
+            },
+            {
+                "question": "Who is the third princess to appear in the float parade segment shown in this video?",
+                "answer": "Moana.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "模型需要先搜索到与问题相关的片段，然后分析画面中所出现的人物是否符合要求（分析人物是公主还是其他人物）然后定位到第三位公主出现的片段，并对人物的外形进行分析（第三位公主皮肤颜色偏黑，身着绿色和白色的公主裙），最后得出结论（迪士尼公主中唯一一位黑人公主Moana）。"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_87",
+        "video_url": "https://www.youtube.com/watch?v=80JgqQJRTeM",
+        "video_duration": "31:37",
+        "video_type": "vlog - 亲子",
+        "qa_list": [
+            {
+                "question": "Does Karla like snacks?",
+                "answer": "Yes.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "根据karla在视频录制的前一晚还吃了巧克力棒和KB的描述得知karla更喜欢吃零食。"
+            },
+            {
+                "question": "Does Thrive Market deliver to your home or do you need to pick up the goods by yourself?",
+                "answer": "Deliver to your home.",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "",
+                "reasoning": "根据karla夫妇在视频中总结片段得知这个Thrive Market可以送货到家，而不用去自己取。"
+            },
+            {
+                "question": "Does Kylic like falling asleep while listening to music? ",
+                "answer": "Yes.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "根据KB在后面哄着孩子睡觉的时候，哼唱了舒缓的音乐，并且说kylic最近都喜欢这么睡，可以推出结论，kylic喜欢听着音乐入睡。"
+            },
+            {
+                "question": "What is Camilia used for?",
+                "answer": "     It is a teething reliever for babies.",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "camilia是法国的一款天然甘菊婴儿出牙滴剂，帮助缓解宝宝出牙时的疼痛、牙龈红肿、烦躁不安等症状。",
+                "reasoning": "根据karla拆他们在Thrive Market买的商品时，拆出的camilia并给镜头展示，得知这款产品是给宝宝缓解长出牙齿不适时用的。"
+            },
+            {
+                "question": "What is the relationship between KB and Karla?",
+                "answer": "Couple.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "模型根据 他们两人的表现以及他们有个孩子得知他们是情侣关系，而不是好朋友。"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_88",
+        "video_url": "https://www.youtube.com/watch?v=1rCBET74MoA",
+        "video_duration": "23:42",
+        "video_type": "教学 - 手工",
+        "qa_list": [
+            {
+                "question": "Is the type of handicraft in “Kmart Crafternoon” easy to operate or complex? ",
+                "answer": "Easy.",
+                "question_type": "通用知识推理",
+                "knowledge": "Kmart Crafternoon主打简单易上手的儿童手工项目，提供低成本材料和清晰教程，适合3岁以上孩子和家长轻松完成创意DIY。",
+                "reasoning": "通过观看视频，视频中所制作的手工艺品是简单易操作，不繁琐，由此可知该品牌推出的一项创意手工活动都是简单易操作的。"
+            },
+            {
+                "question": "Were Layla and Asher confident or timid as shown in the video?",
+                "answer": "Timid.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "通过观察视频Layla and Asher里的表现，如自信的介绍自己、轻松的完成自己的绘画等，由此可知能用自信来描述而不是胆怯。"
+            },
+            {
+                "question": "Why are paper cups more suitable than plastic cups as the handicraft materials?",
+                "answer": "Because the paper material is easier to draw on.",
+                "question_type": "通用知识推理",
+                "knowledge": "纸杯通常由纸浆制成，质地相对柔软，易于裁剪、折叠和塑形，便于制作各种手工造型。而且纸质材料具有一定的吸水性，在一些需要上色、粘贴等操作时，颜料、胶水等能更好地附着，不易出现滑落或不贴合的情况。",
+                "reasoning": "在视频中，Zara说到建议最好使用纸杯来制作，是因为能更好的着色，而塑料杯等需要将纸覆盖，才能更好的绘画着色。"
+            },
+            {
+                "question": "Does Zara get along well with Layla and Asher?",
+                "answer": "Yes.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "通过观察视频里，Zara和Layla and Asher的相处，如脸上开心的表情、鼓励的言语等，由此可以知道，她们的关系是融洽的。"
+            },
+            {
+                "question": "What needs to be done on the paper cup before cutting the materials?",
+                "answer": "Complete the painting part.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "通过定位视频里，Layla and Asher在完成纸杯上的图案绘画和着色后，才开始准备所需要的附加材料如小翅膀等。"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_89",
+        "video_url": "https://www.youtube.com/watch?v=2bkwLTMVLww",
+        "video_duration": "25:07",
+        "video_type": "教学 - 艺术",
+        "qa_list": [
+            {
+                "question": "What does \"Art for Kids Hub\" teach children?",
+                "answer": "Simple drawing tutorials.",
+                "question_type": "通用知识推理",
+                "knowledge": "Art for Kids Hub 是一个广受欢迎的 儿童艺术教学平台，主要通过 免费绘画教程视频 教孩子们轻松学习画画。该平台由美国艺术家 Rob Jensen 和他的家人共同运营，以趣味性强、步骤简单、适合亲子互动为特色，深受全球孩子和家长喜爱。",
+                "reasoning": "通过观看，视频主要讲解了“如何画海绵宝宝”，以逐步讲解、趣味绘画方式向儿童教学绘画技巧，由此可知该节目向儿童教学的是绘画技巧。"
+            },
+            {
+                "question": "Is the blogger's teaching patient or impatient?",
+                "answer": " Patient.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "通过观察视频里，博主的教学，一笔一画等细节的展示，由此可知，博主的教学过程是耐心细心的。"
+            },
+            {
+                "question": "How to avoid color blending when using markers?",
+                "answer": "Leave a little gap when coloring.",
+                "question_type": "通用知识推理",
+                "knowledge": "马克笔上色时留缝隙可避免混色。因马克笔颜料渗透扩散性强，贴近边缘易混色，留隙能减少接触；且涂色易有溢出等情况，留隙可为修正提供空间，不影响相邻区域。 ",
+                "reasoning": "定位到视频里给海绵宝宝上色的片段，博主说，使用马克笔上色有个棘手的问题就是会混色，因此自己有个小方法，即在上色时与黑色的边缘保持一点缝隙，能让上色又快有均匀。由此可知，留一点缝隙能有效避免混色。"
+            },
+            {
+                "question": "What is the next step after drawing SpongeBob SquarePants?",
+                "answer": "Give color to SpongeBob SquarePants.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "定位到视频里观察即可知道，再画完海绵宝宝后，便开始使用马克笔给海绵宝宝上色。"
+            },
+            {
+                "question": "What is the relationship between the two bloggers?",
+                "answer": "Harmonious.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "通过观看视频，从博主之间的鼓励认可、意见交流、协作配合、轻松幽默的互动等方面，可知他们之间的关系是和谐的。"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_90",
+        "video_url": "https://www.youtube.com/watch?v=zx1aLl67tuk",
+        "video_duration": "22:20",
+        "video_type": "测评 - 食品",
+        "qa_list": [
+            {
+                "question": "Which of these two can take more spicy food,Mike or Sethi?",
+                "answer": "Sethi.",
+                "question_type": "多线索推理,人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "首先视频一开始介绍了两人的名字，再结合两人吃过所有菜的画面表情语音判断出答案。"
+            },
+            {
+                "question": "Why is Guizhou Province the place where most chilies are grown in China?",
+                "answer": "Its high altitude is suitable for growing chillies.",
+                "question_type": "通用知识推理",
+                "knowledge": "Peppers are easy to grow at high altitudes.",
+                "reasoning": "找到对应相关的片段，并根据对话推理答案。"
+            },
+            {
+                "question": "Which region in India produces the most chili peppers?",
+                "answer": "Guntui.",
+                "question_type": "通用知识推理",
+                "knowledge": "Southern India is famous for its spicy food.",
+                "reasoning": "找到对应相关的片段，并根据对话推理答案。"
+            },
+            {
+                "question": "Sethi thinks who can eat spicy food better than him?",
+                "answer": "His wife.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "需要找到对应片段他提到如果自己老婆来的话会发生什么，以此推出答案。"
+            },
+            {
+                "question": "What about Sethi's Chinese level?",
+                "answer": "He doesn't speak Chinese well.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "通过相应片段两人分别用中文和印度语说一句话的流畅程度来推出答案。"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_91",
+        "video_url": "https://www.youtube.com/watch?v=oWLSLpcF0iY",
+        "video_duration": "26:54",
+        "video_type": "教学 - 运动",
+        "qa_list": [
+            {
+                "question": "Can the action of 'Triangle Pose' effectively cultivate children's sense of what?",
+                "answer": "Sense of balance.",
+                "question_type": "通用知识推理",
+                "knowledge": "\"Triangle Pose\" 即三角式,三角式对培养孩子平衡感效果良好，姿势要求孩子单腿支撑时调整重心，依靠多系统协同维持稳定，常练可提升平衡能力。",
+                "reasoning": "通过观察视频“Triangle Pose”的教学片段，如求孩子双脚打开，一侧手臂向上伸直，另一侧手臂向下触碰地面或小腿，身体向一侧弯曲成三角形。在这个过程中，孩子需要不断调整身体的重心，让身体在单腿支撑的情况下保持稳定。由此可知这个动作能有效培养孩子的平衡感。"
+            },
+            {
+                "question": "How many children are there learning yoga in total?",
+                "answer": "Five.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "通过观察视频里，总结归纳出一共出现的五个孩子学习瑜伽。"
+            },
+            {
+                "question": " What types of classes does the Lincoln Yoga Center offer?",
+                "answer": " Children's yoga.",
+                "question_type": "通用知识推理",
+                "knowledge": "该中心有专门的儿童瑜伽课程，适合 5-8 岁的孩子。课程通过瑜伽姿势、有趣的故事情节和放松练习，帮助孩子建立自信，培养积极的友谊。",
+                "reasoning": "通过观看视频细节，如瑜伽老师Sheila来自Lincoin Yoga Center，结合学生对象等，可知该中心提供的课程类型是儿童瑜伽。"
+            },
+            {
+                "question": "Which word can better describe Sheila, ”patient“ or ”impatient“?",
+                "answer": "Patient.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "通过观察视频，Sheila的教学对象是低龄儿童，在视频中，Sheila的教学语速较慢，且不断的重复，并给予孩子们适当鼓励，由此可知能耐心来形容Sheila。"
+            },
+            {
+                "question": "Is Sheila's teaching class interesting or uninteresting?",
+                "answer": "Interesting.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "通过观察视频，yoga对于低龄儿童来说，缺乏了一定的趣味性，但从视频中观察到，在Sheila的有趣的引导教学方式下，每个孩子都耐心学习。由此可知，Sheila的教学是有趣的。"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_92",
+        "video_url": "https://www.youtube.com/watch?v=izRCOGBa7Qs",
+        "video_duration": "25:23",
+        "video_type": "综艺 - 纪实（真人秀）",
+        "qa_list": [
+            {
+                "question": "What can one learn from “Hell's Kitchen”?",
+                "answer": "Cooking skills.",
+                "question_type": "通用知识推理",
+                "knowledge": "“地狱厨房” 助于学习烹饪技巧，优点有：呈现西餐经典及创意融合菜，拓展视野；专业人士讲解切配、调味、火候等实用技法；厨师创意菜品激发新食材搭配与做法灵感；强调摆盘与食材处理顺序，提升菜品品质卖相；节目竞争氛围促观众学厨热情、提升厨艺；介绍食材特点与搭配，方便挑选使用 。",
+                "reasoning": "通过观察视频，视频中拍摄了一些可以学习的技巧，如参赛者的融合菜思路、烹饪的小妙招等，由此可知“地狱厨房”在这个节目中能学到一些烹饪技巧。"
+            },
+            {
+                "question": "How confident is Jillian in her cooking skills?",
+                "answer": "Lack of confidence.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "通过定位视频，根据Jillian 面对挑战的焦虑、对自身表现的低预期、对菜品评价的担忧以及得到赞扬后的反应等方面，由此可知，她在厨艺上是缺乏自信的。"
+            },
+            {
+                "question": "What kind of show is “Hell's Kitchen”?",
+                "answer": "A high-pressure and highly competitive cooking reality show.",
+                "question_type": "通用知识推理",
+                "knowledge": "《Hell's Kitchen》是一档由戈登·拉姆齐（Gordon Ramsay）主持的烹饪真人秀节目，主要内容是让一群厨师在极具压力的环境下竞争，争夺成为高级餐厅主厨的机会。",
+                "reasoning": "定位到视频里，视频中的的整体氛围是紧张高压的，如快节奏的背景音乐、限时创意菜、淘汰制等，由此可知，“地狱厨房”是一个高压高压、竞争激烈的烹饪真人秀节目。"
+            },
+            {
+                "question": " After the fusion cuisine competition in groups, what method was adopted to select the new topic for the fusion cuisine? ",
+                "answer": "Spinning wheel.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "通过定位视频，在第二片段后即红蓝队比拼完后，采取了以转动转盘的方式来选取创意融合菜的题目。"
+            },
+            {
+                "question": " Is Rayn a creative person?",
+                "answer": "Yes.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "通过定位视频里Rayn的菜品，观察到rayn将日式羊排与法国i小扁豆融合在一起，并且得到了评委的肯定。由此可知，rayn是一个富有创造性的人"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_93",
+        "video_url": "https://www.youtube.com/watch?v=O-P_EO8VQOw",
+        "video_duration": "30:23",
+        "video_type": "教学 - 运动",
+        "qa_list": [
+            {
+                "question": "Is Harlow patient in teaching?",
+                "answer": "Yes, she is.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "视频内容：Harlow一边又一遍向Harlen重复知识点/她的教学方法循序渐进——>推理：她是教学很耐心。"
+            },
+            {
+                "question": "Is Harlen a little afraid of riding horse ?",
+                "answer": "Yes, he is.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "视频内容：在上马前Harlow牵动马头时，Harlen本能退了一步；当马跑起来时，Harlen在马上反复说“I'm gonna be sick.\"——>推理：Harlen对马有点害怕。"
+            },
+            {
+                "question": "What posture should be maintained with your upper body while riding a horse?",
+                "answer": "An upright upper body posture.",
+                "question_type": "通用知识推理",
+                "knowledge": "骑马时的上身姿势。",
+                "reasoning": "视频内容：Harlow反复提醒Harlen骑马时上身不能前倾。——>推理：骑马时上身要保持直立的姿势。"
+            },
+            {
+                "question": "What should be done while riding when turning the horse?",
+                "answer": "Tighten the inside rein and apply appropriate pressure with your legs to guide the horse.",
+                "question_type": "通用知识推理",
+                "knowledge": "骑马转弯时要拉紧内侧缰绳，同时用腿部施加适当的压力，引导马匹转向。",
+                "reasoning": "视频内容：Harlow教授Harlen骑马转弯时要收紧缰绳，不能让绳子变成松弛的“晾衣绳”。——>推理：骑马转弯时要收紧缰绳。"
+            },
+            {
+                "question": "What did Harlow and Harlen do after cleaning the stable ?",
+                "answer": "They went looking at the baby horse.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "模型需要在视频中找到与打扫马厩相关的内容然后结合前后内容进行分析。"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_94",
+        "video_url": "https://www.youtube.com/watch?v=DgklIQfVJRg",
+        "video_duration": "26:57",
+        "video_type": "测评 - 生活用品",
+        "qa_list": [
+            {
+                "question": "How is Chinese grape wine perceived abroad?",
+                "answer": "Not so good.",
+                "question_type": "通用知识推理",
+                "knowledge": "在国外，中国的葡萄酒一般评价不高。",
+                "reasoning": "根据视频中博主所说得出答案。"
+            },
+            {
+                "question": "Why are low-priced small items often displayed near the checkout counters?",
+                "answer": "To leverage customer psychology into picking up low-cost, high-margin goods.",
+                "question_type": "通用知识推理",
+                "knowledge": "收银台附近总陈列低价小件商品是利用了顾客的心理，使得顾客排队时易随手拿取低单价、高毛利商品。",
+                "reasoning": "找到相关收银台附近众多小件低价商品的片段，并根据通用知识推理出答案。"
+            },
+            {
+                "question": "Which supermarket do the author think is more affordable, China or the United States?",
+                "answer": "China.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "通过视频相应片段可以推理出作者想表达的意图。"
+            },
+            {
+                "question": "Does the blogger like to drink wine?",
+                "answer": "No, he doesn't like it.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "根据博主所说对酒类的评价可推出答案。"
+            },
+            {
+                "question": "How many eggs can buy at most for 100 yuan?",
+                "answer": "One hundred and twenty.",
+                "question_type": "多线索推理,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "找到对应盒装鸡蛋价格的画面，并根据不同类型选取最实惠的价格进行计算，可推出答案。"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_95",
+        "video_url": "https://www.youtube.com/watch?v=lw39eMIlpUI",
+        "video_duration": "20:03",
+        "video_type": "教学 - 烹饪",
+        "qa_list": [
+            {
+                "question": "Which one is cheaper, the tradtional can or the can with pull-off top ?",
+                "answer": "The tradtional can.",
+                "question_type": "通用知识推理",
+                "knowledge": "传统罐子与易拉盖设计的罐子在价格上的差异。",
+                "reasoning": "视频内容：Cab在超市选购罐头时，为了每个罐头能节省70美分，选择了传统罐头而不是易拉罐设计的罐头——>推理：传统罐子要比易拉盖罐子便宜。"
+            },
+            {
+                "question": " How to tell if the olive oil has reached the right cooking temperature?",
+                "answer": "Observe if the oil spreads.",
+                "question_type": "通用知识推理",
+                "knowledge": "当橄榄油加热时，它的流动性会增强。意味着橄榄油已经加热到了一定温度，通常当油开始扩散时，表示它已经足够热，可以用于烹饪了。",
+                "reasoning": "视频内容：Shiney做饭时提到食谱：“油扩散时，说明油被热好了.\"——>推理：可以通过观察橄榄油是否扩散来判断橄榄油是否达到了合适的温度。"
+            },
+            {
+                "question": "What did Cob do when Shiney was opening the can ?",
+                "answer": "She cut the shrimps.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "视频需要先定位到Shiney打开罐子的片段，再找到Cob做了什么。"
+            },
+            {
+                "question": "Is Shiney interested in cooking ？",
+                "answer": "No, she isn't.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "视频内容：Shiney对做饭几乎一窍不通，不知道该如何处理食材，此前完全没做过饭。——>推理：Shiney对烹饪并不感兴趣。"
+            },
+            {
+                "question": "Are Shiney and Cob really friends or not ?",
+                "answer": "They are really friend.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "视频内容：Cob说自己要教Shiney做饭，却一直给她设置难题（买不方便开启的罐头、不给测量工具、不教她开罐头），只有关系好的人才能这样相处。——>推理：Cob和Shiney是真正的朋友。"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_96",
+        "video_url": "https://www.youtube.com/watch?v=YfaWeDCrlww",
+        "video_duration": "25:32",
+        "video_type": "vlog - 出行",
+        "qa_list": [
+            {
+                "question": "Does Laeno like the hotel in Block L very much or think it's just average?",
+                "answer": "She likes the hotel in Block L very much.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "模型根据laeno所说得知她很喜欢在波多黎各预定的酒店，尤其是小阳台，她说这个房间住着很舒适，得知他很喜欢这次预定的酒店。"
+            },
+            {
+                "question": "What kind of animals are everywhere on the streets of Esperanza?",
+                "answer": "Pony.",
+                "question_type": "通用知识推理",
+                "knowledge": "埃斯帕兰萨的街道上到处都是小马。",
+                "reasoning": "根据laeno的镜头展示以及她的描述得知埃斯帕兰萨的街上到处都是小马。"
+            },
+            {
+                "question": "Is Toari a kind-hearted person or not?",
+                "answer": "Toari is a kind person.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "模型先定位到laeno遇到toari的片段，通过他们交谈得知toari在几年前tum建筑工地外，救了一只狗，并收养到现在已至将来，可以看出toari是一个有爱心的人。"
+            },
+            {
+                "question": "What promoting effects does the black sand beach have on the vegetation in Puerto Rico? ",
+                "answer": "Regulate temperature and humidity.",
+                "question_type": "通用知识推理",
+                "knowledge": "黑沙滩更加吸热，促进热带植物生长。",
+                "reasoning": "模型先定位到laeno他们穿过雨林后看到热带植物的片段，根据介绍得知这里热带植物茂盛主要跟黑沙滩有关。"
+            },
+            {
+                "question": "What is the relationship between Nicole and Laeno?",
+                "answer": "The relationship is mother and daughter.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "laeno给孩子爸爸录vlog视频的字幕（honeybear）和视频一开始的亲密画面可以看出他们两个人是夫妻关系，然后laeno和妮可在床上吃蛋糕时妮可喊得”爸爸“，可以得出结论。"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_97",
+        "video_url": "https://www.youtube.com/watch?v=mWSVB7FMmoE",
+        "video_duration": "38:37",
+        "video_type": "访谈 - 静态（对话密集型，少量视觉信息）",
+        "qa_list": [
+            {
+                "question": "How is the visual impact of The Vagina Monologues as a stage play?",
+                "answer": "It is quite powerful.",
+                "question_type": "通用知识推理",
+                "knowledge": "The Vagina Monologues 是美国剧作家 Eve Ensler于1996年创作的一部戏剧，基于对世界各地女性的采访，探讨了女性的性、身体、暴力、爱、羞耻、自我认同等话题。",
+                "reasoning": "视频内容：Emma小时候去看The Vagina Monologues这部戏剧，被里面的画面吓到了/Emma描述这部剧的女主角勇敢地用镐头挥向墙壁。——>推理：The Vagina Monologues这部作品的画面表现力是很有冲击性的。"
+            },
+            {
+                "question": "What is the core goal of feminism?",
+                "answer": "Gender equality.",
+                "question_type": "通用知识推理",
+                "knowledge": "女性主义的核心目标是争取全性别平等，消除性别歧视。",
+                "reasoning": "视频内容：EmmaWaston提到因为女性主义这个词中包含”女性“相关的字眼，所以常常被误会为强调女性更为重要，女性主义强调的是全性别平等。——>推理：女性主义的核心目标是全性别平等。/人们对女性主义最常产生的误会是女性主义只追求女性权益。"
+            },
+            {
+                "question": "Is the host good at asking question or not ?",
+                "answer": "He is good at asking questions.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "视频内容：主持人根据Emma的影视作品、日常活动不断引出新的问题，使得访谈对话内容流畅。——>推理：主持人擅长提问。"
+            },
+            {
+                "question": "Does the host care about problems about feminism?",
+                "answer": "Yes, he does.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "视频内容：主持人主动提起Emma参与的女性权益运动、主动询问男性在女性主义上的误区和解决方法。——>推理：主持人关心女性主义。"
+            },
+            {
+                "question": "What did the host ask before Emma Watson talking about \"The Vagina Monologues\" ?",
+                "answer": "He asked Emma what book she had read recently.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "模型需要定位到Emma谈论\"The Vagina Monologues\"这部作品的片段然后结合前后内容进行分析。"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_98",
+        "video_url": "https://www.youtube.com/watch?v=y-34-bAKgU8",
+        "video_duration": "22:26",
+        "video_type": "vlog - 出行",
+        "qa_list": [
+            {
+                "question": "Why didn't the author take the Pikachu-themed train?",
+                "answer": "Because the appointment is scheduled for several months later.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "作者一开始提到过皮卡丘列车线上购票已经预约到几个月之后，并且在之后到了目的地尝试线下购票时仍然失败，结合这两段推理出答案。"
+            },
+            {
+                "question": "Does the author love his father? ",
+                "answer": "Deeply.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "结合整段视频，博主为了给父亲准备惊喜策划了此次旅行，结合以上画面片段得出答案。"
+            },
+            {
+                "question": "How is the customer service on Japan's  bullet trains?",
+                "answer": "The service is exceptionally good.",
+                "question_type": "通用知识推理",
+                "knowledge": "呼叫乘务员可以立刻满足乘客的即时需求的列车一般都具有良好的服务态度。",
+                "reasoning": "找到作者乘坐子弹列车时的片段， 并根据呼叫服务员后的片段推理出答案。"
+            },
+            {
+                "question": "Does the author like Pikachu?",
+                "answer": "He likes it very much.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "找到相应皮卡丘火车的片段，并根据作者的反应推理出答案。"
+            },
+            {
+                "question": "Why does the upside-down train look like it's floating? ",
+                "answer": "Its tracks are mounted overhead.",
+                "question_type": "多模态/多语言推理,通用知识推理",
+                "knowledge": "倒置列车的轨道位于顶部，这会使得它在运行时看起来像悬浮一样。",
+                "reasoning": "找到乘坐倒置列车的片段，并结合画面与语音推理出答案。"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_99",
+        "video_url": "https://www.youtube.com/watch?v=erLbbextvlY",
+        "video_duration": "22:25",
+        "video_type": "探索 - 旅行探险",
+        "qa_list": [
+            {
+                "question": "Where can one catch fish on an island in the sea?",
+                "answer": "In the deep water area far from the coast.",
+                "question_type": "通用知识推理",
+                "knowledge": "在海岸捉鱼的方法，鱼多在深蓝色水，狩猎位置选在深蓝色海域。",
+                "reasoning": "依据视频中一行人特意远离海岸来钓鱼，鱼多在深蓝色水域->在远离海岸的地方，深蓝色水域更容易捕鱼。"
+            },
+            {
+                "question": "What is Nolan's attitude towards insects?",
+                "answer": "Fear and aersion.",
+                "question_type": "人物属性建模,多模态/多语言推理",
+                "knowledge": "",
+                "reasoning": "依据Nolan在见到沙滩边上的渔网时候的表现和语言推断。"
+            },
+            {
+                "question": "How to make \"S'more\"?",
+                "answer": "Two cookies sandwich a piece of chocolate and a toasted marshmallow. ",
+                "question_type": "通用知识推理",
+                "knowledge": "\"S'more\"的制作方法是烤棉花糖加巧克力加饼干。",
+                "reasoning": "根据视频中一行人在篝火旁边制作的过程推断。"
+            },
+            {
+                "question": "Is Shawn someone who has skills in survival in the wild?",
+                "answer": "Yes,he is.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "依据视频中Shawn的行为推断。"
+            },
+            {
+                "question": "What did Jimmy do after meeting the goat?",
+                "answer": "Scare it away.",
+                "question_type": "多跳推理",
+                "knowledge": "",
+                "reasoning": "先找到遇到山羊的片段，识别Jimmy做的事。"
+            }
+        ]
+    },
+    {
+        "video_id": "CZ_4_100",
+        "video_url": "https://www.youtube.com/watch?v=25N0R1KnXVs",
+        "video_duration": "25:37",
+        "video_type": "教学 - 科技",
+        "qa_list": [
+            {
+                "question": "What kind of clothes does Kevin like to wear to show himself off?",
+                "answer": "Hawaiian shirt.",
+                "question_type": "人物属性建模",
+                "knowledge": "",
+                "reasoning": "在比赛出场时，对Kevin的自我介绍中着重介绍那个男人又穿着夏威夷衬衫回来了，由此可知穿着夏威夷衬衫时他的标志性属性了。"
+            },
+            {
+                "question": "What is the delivery frequency of the CrunchLabs Build box during the summer camp every year?",
+                "answer": "Once a week.",
+                "question_type": "多线索推理,通用知识推理",
+                "knowledge": "基于视频Mark讲述今年CrunchLabs camp的不同之处时，他介绍为了能够进行线上夏令营活动，他们还是会按照每年惯例将CrunchLabs Build box的发货频率从日常的每月一次改成每周一次。",
+                "reasoning": "基于视频Mark讲述今年CrunchLabs camp的不同之处时，他介绍为了能够进行线上夏令营活动，他们还是会按照每年惯例将CrunchLabs Build box的发货频率从日常的每月一次改成每周一次，用于夏令营举办，由此可推出。"
+            },
+            {
+                "question": "How many times did Kevin try to throw the magma before he successfully threw it onto the boat?",
+                "answer": "Five times.",
+                "question_type": "多线索推理",
+                "knowledge": "",
+                "reasoning": "最后环节比拼，Kevin多次投掷岩浆到船只上，模型需要通过画面数在第五次时才投掷成功。"
+            },
+            {
+                "question": "Is Mark's niece a girl who cries easily?",
+                "answer": "Yes.",
+                "question_type": "多线索推理,人物属性建模",
+                "knowledge": "",
+                "reasoning": "在让weilian评判这一轮谁会赢得比赛之前，Mark着重强调了，我的侄女凯莉是会经常哭的，由此可以得出结论。"
+            },
+            {
+                "question": "Is Crunchlabs a laboratory with a relatively high safety factor or a relatively low safety factor?",
+                "answer": "Crunchlabs has a relatively high safety factor.",
+                "question_type": "通用知识推理",
+                "knowledge": "视频中在每一轮实验中，基于画面防护措施都非常到位。Mark曾表示这个实验室Crunchabs发生或很多次爆炸实验了，由此可以推出。",
+                "reasoning": "依据视频中每次危险实验的防护措施，以及最终所有人都安然无恙。同时Mark的表示在这间实验室中曾发生过多次爆炸实验。"
+            }
+        ]
     }
 ]
