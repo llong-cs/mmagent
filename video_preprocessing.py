@@ -77,8 +77,8 @@ if __name__ == "__main__":
     base_dir = "/mnt/hdfs/foundation/longlin.kylin/mmagent/benchmarks/Video-MME/videos"
     all_videos = os.listdir(base_dir)
     all_videos = [os.path.join(base_dir, video) for video in all_videos]
-    nodes = 3
-    index = 2
+    nodes = 2
+    index = 1
     batch_size = len(all_videos) // nodes
     
     for i in range(nodes):
