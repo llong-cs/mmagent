@@ -5,6 +5,8 @@ from mmagent.utils.chat_api import *
 from mmagent.prompts import prompt_autodq, prompt_vdcscore_generate_qas, prompt_vdcscore_answer, prompt_vdcscore_verify
 from mmagent.utils.general import *
 
+logger = logging.getLogger(__name__)
+
 processing_config = json.load(open("configs/processing_config.json"))
 MAX_RETRIES = processing_config["max_retries"]
 
@@ -49,7 +51,7 @@ def descriptions_comparison_for_autodq(video_description_1, video_description_2)
         result = validate_and_fix_python_list(response)
         if result is not None:
             return result
-        print(f"Failed at generating {token} tokens. Retrying...")
+        logger.error(f"Failed at generating {token} tokens. Retrying...")
         
     raise Exception("Failed to generate autodq result")
 
