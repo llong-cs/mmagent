@@ -100,9 +100,7 @@ def eval_vdcscore(gt_desciptions, generated_descriptions, qa_file=None):
             model = "gpt-4o-2024-11-20"
             for _ in range(MAX_RETRIES):
                 evaluations = parallel_get_response(model, messages)[0]
-                print(evaluations)
-                evaluations = [validate_and_fix_json(evaluation) for evaluation in evaluations]
-                print(evaluations)
+                evaluations = [validate_and_fix_json(evaluation.replace("'", "\"")) for evaluation in evaluations]
                 
                 if None not in evaluations:
                     break
