@@ -30,7 +30,7 @@ logging.getLogger("httpcore").setLevel(logging.CRITICAL)
 from . import retrieve
 from . import face_processing
 from . import memory_processing
-from . import generate_memory_qwen
+from . import memory_processing_qwen
 from . import prompts
 from . import videograph
 from . import voice_processing
@@ -41,7 +41,7 @@ __all__ = [
     "retrieve",
     "face_processing",
     "memory_processing",
-    "generate_memory_qwen",
+    "memory_processing_qwen",
     "prompts",
     "videograph",
     "voice_processing",

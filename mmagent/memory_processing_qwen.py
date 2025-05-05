@@ -212,7 +212,6 @@ def generate_thinkings_with_ids(video_context, video_description):
         thinkings = validate_and_fix_python_list(thinkings_string)
         if thinkings is not None:
             break
-        logger.info(thinkings_string)
     if thinkings is None:
         raise Exception("Failed to generate thinkings")
     return thinkings
@@ -273,11 +272,12 @@ def generate_captions_and_thinkings_with_ids(
         captions = validate_and_fix_python_list(captions_string)
         if captions is not None:
             break
-        logger.info(captions_string)
     if captions is None:
         raise Exception("Failed to generate captions")
 
     thinkings = generate_thinkings_with_ids(video_context, captions)
+
+    print(captions, thinkings)
 
     return captions, thinkings
 

@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Define variables
-node_num=16
+machine_idx=${1:-0}
+node_num=32
 node_per_machine=8
-machine_idx=0
 
 for cuda_id in $(seq 0 $((node_per_machine - 1))); do
     CUDA_VISIBLE_DEVICES=$cuda_id python3 generate_memory_qwen.py \

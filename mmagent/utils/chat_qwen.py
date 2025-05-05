@@ -18,7 +18,7 @@ thinker = Qwen2_5OmniThinkerForConditionalGeneration.from_pretrained(
     torch_dtype="auto",
     device_map="auto",
     attn_implementation="flash_attention_2",
-)
+).eval()
 processor = Qwen2_5OmniProcessor.from_pretrained(processing_config["ckpt"])
 
 def get_response(model, messages, timeout=30):

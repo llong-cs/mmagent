@@ -222,10 +222,10 @@ if __name__ == "__main__":
     with open("data/annotations/small_test_qwen.jsonl", "r") as f:
         for line in f:
             sample = json.loads(line)
-        if not os.path.exists(sample["mem_path"]):
-            save_dir = os.path.dirname(sample["mem_path"])
-            os.makedirs(save_dir, exist_ok=True)
-            video_inputs.append((sample["clip_path"], save_dir))
+            if not os.path.exists(sample["mem_path"]):
+                save_dir = os.path.dirname(sample["mem_path"])
+                os.makedirs(save_dir, exist_ok=True)
+                video_inputs.append((sample["clip_path"], save_dir))
     video_inputs = list(set(video_inputs))
     
     logger.info(f"Total video inputs: {len(video_inputs)}")
