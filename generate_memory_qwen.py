@@ -230,11 +230,16 @@ if __name__ == "__main__":
     
     logger.info(f"Total video inputs: {len(video_inputs)}")
     
-    for i, video_input in enumerate(tqdm(video_inputs)):
+    args = []
+    
+    for i, video_input in enumerate(video_inputs):
         if i % node_num != cuda_id:
             continue
         
         video_path = video_input[0]
         save_dir = video_input[1]
+        args.append((video_path, save_dir))
 
-        process_single_video((video_path, save_dir))
+    max_workers = 2
+    with ProcessPoolExecutor(max_workers=max_workers) as executor:
+        list(tqdm(executor.map(process_single_video, args), total=len(args), desc="Processing videos"))
