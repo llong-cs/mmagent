@@ -26,5 +26,6 @@
     "route_switch": true,
     "planning": true,
     "train": true,
-    "ckpt": "/mnt/hdfs/foundation/agent/heyc/ckpts/Qwen2.5-Omni-7B-thinker"
+    "ckpt": "/mnt/hdfs/foundation/agent/heyc/ckpts/Qwen2.5-Omni-7B-thinker",
+    "model": "openai"
 }

@@ -278,6 +278,9 @@ def process_voices(video_graph, base64_audio, base64_video, save_path, preproces
 
         return id2audios
 
+    if not base64_audio:
+        return {}
+
     # Check if intermediate results exist
     try:
         with open(save_path, "r") as f:

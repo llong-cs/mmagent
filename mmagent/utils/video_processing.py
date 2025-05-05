@@ -111,19 +111,23 @@ def process_video_clip(video_path, start_time, interval=None, fps=10, video_form
         # Create temporary audio file using context manager
         with tempfile.NamedTemporaryFile(dir="data/temp", suffix=f".{audio_format}") as temp_audio:
         # with tempfile.NamedTemporaryFile(dir="data/audios", suffix=f".{audio_format}") as temp_audio:
-            # Write audio without logging, using specified fps for audio sampling
-            if audio_format == "mp3":
-                audio_codec = "libmp3lame"
-            elif audio_format == "wav":
-                audio_codec = "pcm_s16le"
+            # Check if audio exists
+            if clip.audio is None:
+                base64_data["audio"] = None
             else:
-                audio_codec = "libmp3lame"  # Default to mp3
-            
-            clip.audio.write_audiofile(temp_audio.name, codec=audio_codec, fps=audio_fps, logger=None)
+                # Write audio without logging, using specified fps for audio sampling
+                if audio_format == "mp3":
+                    audio_codec = "libmp3lame"
+                elif audio_format == "wav":
+                    audio_codec = "pcm_s16le"
+                else:
+                    audio_codec = "libmp3lame"  # Default to mp3
+                
+                clip.audio.write_audiofile(temp_audio.name, codec=audio_codec, fps=audio_fps, logger=None)
 
-            # Read audio file and convert to Base64
-            temp_audio.seek(0)
-            base64_data["audio"] = base64.b64encode(temp_audio.read())
+                # Read audio file and convert to Base64
+                temp_audio.seek(0)
+                base64_data["audio"] = base64.b64encode(temp_audio.read())
 
         # Extract frames using adjusted interval
         if interval is None:
