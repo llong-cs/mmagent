@@ -13,7 +13,7 @@ from mmagent.utils.video_processing import *
 
 from mmagent.face_processing import process_faces
 from mmagent.voice_processing import process_voices
-from mmagent.memory_processing import (
+from mmagent.memory_processing_qwen import (
     process_captions,
     generate_captions_and_thinkings_with_ids,
 )
@@ -39,6 +39,7 @@ def process_segment(
     clip_id,
     video_path,
     preprocessing=[],
+    full_path=None
 ):
     save_path = os.path.join(
         processing_config["intermediate_save_dir"], generate_file_name(video_path)
@@ -74,6 +75,7 @@ def process_segment(
         id2faces,
         id2voices,
         clip_id,
+        full_path
     )
 
     process_captions(video_graph, episodic_captions, clip_id, type="episodic")
@@ -161,6 +163,7 @@ def streaming_process_video(video_graph, video_path, save_dir, preprocessing=[])
                     clip_id,
                     video_path,
                     preprocessing,
+                    full_path
                 )
     
     if preprocessing:

@@ -12,9 +12,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from PIL import Image, ImageDraw
 
-from .utils.chat_api import parallel_get_embedding, generate_messages, get_response_with_retry
+from .utils.chat_api import parallel_get_embedding
+from .utils.chat_qwen import generate_messages, get_response_with_retry
 from .utils.general import validate_and_fix_python_list
-from .prompts import prompt_generate_captions_with_ids, prompt_generate_thinkings_with_ids
+from .prompts import prompt_generate_captions_with_ids_sft, prompt_generate_thinkings_with_ids_sft
 
 processing_config = json.load(open("configs/processing_config.json"))
 logging_level = processing_config["logging"]
@@ -67,7 +68,7 @@ def parse_video_caption(video_graph, video_caption):
     # return entities
 
 def generate_video_context(
-    base64_video, base64_frames, faces_list, voices_list
+    base64_video, base64_frames, faces_list, voices_list, video_path=None
 ):
     face_frames = []
 
@@ -130,7 +131,7 @@ def generate_video_context(
         voices_input[f"<voice_{id}>"] = [{
             "start_time": voice["start_time"],
             "end_time": voice["end_time"],
-            "content": voice["asr"]
+            "asr": voice["asr"]
         } for voice in voices]
     
     num_voices = len(voices_input)
@@ -143,11 +144,19 @@ def generate_video_context(
     video_context = [
         {
             "type": "video_base64/mp4",
-            "content": base64_video.decode("utf-8"),
+            "content": video_path,
+        },
+        {
+            "type": "text",
+            "content": "Face features:"
         },
         {
             "type": "images/jpeg",
             "content": face_frames,
+        },
+        {
+            "type": "text",
+            "content": "Voice features:"
         },
         {
             "type": "text",
@@ -175,15 +184,20 @@ def generate_thinkings_with_ids(video_context, video_description):
     4. Returns the model's response with thinking descriptions
     """
     
-    input = video_context + [
+    input = [
         {
             "type": "text",
-            "content": f"Video descriptions: {video_description}",
+            "content": prompt_generate_thinkings_with_ids_sft,
+        },
+    ] + video_context + [
+        {
+            "type": "text",
+            "content": "Video descriptions:",
         },
         {
             "type": "text",
-            "content": prompt_generate_thinkings_with_ids,
-        },
+            "content": json.dumps(video_description),
+        }
     ]
     messages = generate_messages(input)
     # print_messages(messages)
@@ -198,7 +212,7 @@ def generate_thinkings_with_ids(video_context, video_description):
         thinkings = validate_and_fix_python_list(thinkings_string)
         if thinkings is not None:
             break
-        print(thinkings_string)
+        logger.info(thinkings_string)
     if thinkings is None:
         raise Exception("Failed to generate thinkings")
     return thinkings
@@ -229,7 +243,7 @@ def generate_captions_and_thinkings_with_ids(
     5. Generates thinking descriptions based on the captions
     """
     video_context = generate_video_context(
-        base64_video, base64_frames, faces_list, voices_list
+        base64_video, base64_frames, faces_list, voices_list, video_path
     )
     
     # get the last history_length texts
@@ -238,20 +252,13 @@ def generate_captions_and_thinkings_with_ids(
     for i in range(max(0, clip_id - history_length), clip_id):
         history_nodes.extend(video_graph.event_sequence_by_clip[i])
     history_texts = [video_graph.nodes[node_id].metadata['contents'][0] for node_id in history_nodes]
-    
-    previous_clip_descriptions = [
-        {
-            "type": "text",
-            "content": f"Previous clip descriptions: {history_texts}",
-        }
-    ]
 
-    input = video_context + [
+    input = [
         {
             "type": "text",
-            "content": prompt_generate_captions_with_ids,
+            "content": prompt_generate_captions_with_ids_sft,
         }
-    ]
+    ] + video_context
 
     messages = generate_messages(input)
     # print_messages(messages)
@@ -266,7 +273,7 @@ def generate_captions_and_thinkings_with_ids(
         captions = validate_and_fix_python_list(captions_string)
         if captions is not None:
             break
-        print(captions_string)
+        logger.info(captions_string)
     if captions is None:
         raise Exception("Failed to generate captions")
 
