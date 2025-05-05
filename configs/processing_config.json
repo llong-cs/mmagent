@@ -21,11 +21,11 @@
     "input_dir": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/video_clips",
     "max_parallel_videos": 32,
     "log_dir": "logs",
-    "temperature": 0,
+    "temperature": 0.1,
     "multiple_queries": false,
     "route_switch": true,
     "planning": true,
     "train": true,
-    "ckpt": "/mnt/hdfs/foundation/agent/heyc/ckpts/Qwen2.5-Omni-7B-thinker",
-    "model": "openai"
+    "ckpt": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/memgen_sft/0429/ckpts/checkpoint-3065",
+    "model": "qwen"
 }

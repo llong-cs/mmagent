@@ -173,6 +173,18 @@ def streaming_process_video(video_graph, video_path, save_dir, preprocessing=[])
         video_path, 
         save_dir
     )
+
+def process_single_video(args):
+    video_path, save_dir = args
+    video_graph = VideoGraph(**memory_config)
+    try:
+        streaming_process_video(video_graph, video_path, save_dir, preprocessing=preprocessing)
+    except Exception as e:
+        log_dir = processing_config["log_dir"]
+        os.makedirs(log_dir, exist_ok=True)
+        with open(os.path.join(log_dir, f"generate_memory_qwen_error.log"), "a") as f:
+            f.write(f"Error processing video {video_path}: {e}\n")
+        logger.error(f"Error processing video {video_path}: {e}")
     
 if __name__ == "__main__":
     # video paths can be paths to directories or paths to mp4 files
@@ -183,24 +195,26 @@ if __name__ == "__main__":
     # preprocessing = []
     data_list = args.data_list.split(",")
     preprocessing = args.preprocessing.split(",")
+    if len(preprocessing) == 1 and preprocessing[0] == "":
+        preprocessing = []
     cuda_id = args.cuda_id
     node_num = args.node_num
     
     video_inputs = []
     
-    for data in data_list:
-        input_dir = os.path.join(processing_config["input_dir"], data)
-        video_files = os.listdir(input_dir)
-        video_paths = [os.path.join(input_dir, video_file) for video_file in video_files]
+    # for data in data_list:
+    #     input_dir = os.path.join(processing_config["input_dir"], data)
+    #     video_files = os.listdir(input_dir)
+    #     video_paths = [os.path.join(input_dir, video_file) for video_file in video_files]
 
-        save_dir = os.path.join(processing_config["save_dir"], data)
-        os.makedirs(save_dir, exist_ok=True)
+    #     save_dir = os.path.join(processing_config["save_dir"], data)
+    #     os.makedirs(save_dir, exist_ok=True)
         
-        generated_memories = os.listdir(save_dir)
-        generated_memories = [generated_memory for generated_memory in generated_memories if generated_memory.endswith(".pkl")]
-        video_paths = [video_path for video_path in video_paths if generate_file_name(video_path)+".pkl" not in generated_memories]
+    #     generated_memories = os.listdir(save_dir)
+    #     generated_memories = [generated_memory for generated_memory in generated_memories if generated_memory.endswith(".pkl")]
+    #     video_paths = [video_path for video_path in video_paths if generate_file_name(video_path)+".pkl" not in generated_memories]
         
-        video_inputs.extend([(video_path, save_dir) for video_path in video_paths])
+    #     video_inputs.extend([(video_path, save_dir) for video_path in video_paths])
         
     with open("data/annotations/small_test_qwen.jsonl", "r") as f:
         for line in f:
@@ -219,17 +233,5 @@ if __name__ == "__main__":
         
         video_path = video_input[0]
         save_dir = video_input[1]
-
-        def process_single_video(args):
-            video_path, save_dir = args
-            video_graph = VideoGraph(**memory_config)
-            try:
-                streaming_process_video(video_graph, video_path, save_dir, preprocessing=preprocessing)
-            except Exception as e:
-                log_dir = processing_config["log_dir"]
-                os.makedirs(log_dir, exist_ok=True)
-                with open(os.path.join(log_dir, f"generate_memory_error.log"), "a") as f:
-                    f.write(f"Error processing video {video_path}: {e}\n")
-                logger.error(f"Error processing video {video_path}: {e}")
 
         process_single_video((video_path, save_dir))
