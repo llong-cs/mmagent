@@ -242,7 +242,7 @@ for idx in tqdm(range(0, len(conversations), 2)):
                 mask = True
             else:
                 label_mask.append(mask)
-        label_mask[-1] = label_mask[-2] = False
+        label_mask[-1] = label_mask[-2] = False # <|im_end|> \n
         ###################
         
         mask = torch.tensor(label_mask)
