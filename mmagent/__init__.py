@@ -5,6 +5,7 @@ import os
 # Load processing config
 processing_config = json.load(open("configs/processing_config.json"))
 logging_level = processing_config["logging"]
+model = processing_config["model"]
 
 # Configure root logger
 if processing_config.get("train", False):
@@ -30,7 +31,8 @@ logging.getLogger("httpcore").setLevel(logging.CRITICAL)
 from . import retrieve
 from . import face_processing
 from . import memory_processing
-from . import memory_processing_qwen
+if model == "qwen2.5-omni":
+    from . import memory_processing_qwen
 from . import prompts
 from . import videograph
 from . import voice_processing
@@ -41,7 +43,7 @@ __all__ = [
     "retrieve",
     "face_processing",
     "memory_processing",
-    "memory_processing_qwen",
+    "memory_processing_qwen" if model == "qwen2.5-omni" else None,
     "prompts",
     "videograph",
     "voice_processing",

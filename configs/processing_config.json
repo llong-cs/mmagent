@@ -27,5 +27,5 @@
     "planning": true,
     "train": true,
     "ckpt": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/memgen_sft/0429/ckpts/checkpoint-3065",
-    "model": "qwen"
+    "model": "qwen2.5-omni"
 }
