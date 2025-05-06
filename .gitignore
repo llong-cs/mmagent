@@ -77,3 +77,6 @@ cookies/
 
 # SFT data
 data/sft/
+
+# vllm
+vllm/

@@ -185,12 +185,12 @@ if __name__ == "__main__":
     
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dataset", type=str, default="data/annotations/small_test.jsonl")
-    parser.add_argument("--sample_rounds", type=int, default=3)
+    parser.add_argument("--dataset", type=str, default="data/annotations/small_test_qwen.jsonl")
+    parser.add_argument("--sample_rounds", type=int, default=1)
     parser.add_argument("--output_dir", type=str, default="data/annotations/results")
     
     exp_settings = {
-        "gpt4o_answer_wo_planning": {
+        "gpt4o_answer_w_qwen_mem_wo_planning": {
             "max_retrieval_steps": 10,
             "planning": False,
         },
