@@ -2,7 +2,7 @@
 
 # Define variables
 machine_idx=${1:-0}
-node_num=16
+node_num=24
 node_per_machine=8
 
 for cuda_id in $(seq 0 $((node_per_machine - 1))); do

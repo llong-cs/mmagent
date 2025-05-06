@@ -2,6 +2,7 @@ import json
 from concurrent.futures import ThreadPoolExecutor
 from time import sleep
 import logging
+import torch
 from transformers import Qwen2_5OmniModel, Qwen2_5OmniProcessor, Qwen2_5OmniThinkerForConditionalGeneration, Qwen2_5OmniThinkerConfig, GenerationConfig
 from transformers.utils import ModelOutput
 from qwen_omni_utils import process_mm_info
@@ -13,13 +14,15 @@ processing_config = json.load(open("configs/processing_config.json"))
 temp = processing_config["temperature"]
 MAX_RETRIES = processing_config["max_retries"]
 
-thinker = Qwen2_5OmniThinkerForConditionalGeneration.from_pretrained(
-    processing_config["ckpt"],
-    torch_dtype="auto",
-    device_map="auto",
-    attn_implementation="flash_attention_2",
-).eval()
-processor = Qwen2_5OmniProcessor.from_pretrained(processing_config["ckpt"])
+if torch.cuda.is_available():
+    thinker = Qwen2_5OmniThinkerForConditionalGeneration.from_pretrained(
+        processing_config["ckpt"],
+        torch_dtype="auto",
+        device_map="auto",
+        attn_implementation="flash_attention_2",
+    )
+    thinker.eval()
+    processor = Qwen2_5OmniProcessor.from_pretrained(processing_config["ckpt"])
 
 def get_response(model, messages, timeout=30):
     """Get chat completion response from specified model.
@@ -75,7 +78,7 @@ def get_response_with_retry(model, messages, timeout=30):
         try:
             return get_response(model, messages, timeout)
         except Exception as e:
-            sleep(30)
+            sleep(5)
             logger.warning(f"Retry {i} times, exception: {e}")
             continue
     raise Exception(f"Failed to get response after {MAX_RETRIES} retries")
