@@ -139,19 +139,22 @@ def eval_autodq(gt_desciptions, generated_descriptions):
     recall = 0
     
     for gt_description, generated_description in zip(gt_desciptions, generated_descriptions):
-        precison_bases = descriptions_comparison_for_autodq(generated_description, gt_description)
-        correct = 0
-        for base in precison_bases:
-            if base["relationship"] == "entailment":
-                precision += 1
-        total_precision += len(precison_bases)
-        
-        recall_bases = descriptions_comparison_for_autodq(gt_description, generated_description)
-        correct = 0
-        for base in recall_bases:
-            if base["relationship"] == "entailment":
-                recall += 1
-        total_recall += len(recall_bases)
+        try:
+            precison_bases = descriptions_comparison_for_autodq(generated_description, gt_description)
+            correct = 0
+            for base in precison_bases:
+                if base["relationship"] == "entailment":
+                    precision += 1
+            total_precision += len(precison_bases)
+            
+            recall_bases = descriptions_comparison_for_autodq(gt_description, generated_description)
+            correct = 0
+            for base in recall_bases:
+                if base["relationship"] == "entailment":
+                    recall += 1
+            total_recall += len(recall_bases)
+        except:
+            continue
         
     precision = precision / total_precision
     recall = recall / total_recall
