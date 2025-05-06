@@ -1,5 +1,7 @@
 import json
 import os
+from concurrent.futures import ThreadPoolExecutor
+from tqdm import tqdm
 
 from mmagent.utils.chat_api import *
 from mmagent.prompts import prompt_autodq, prompt_vdcscore_generate_qas, prompt_vdcscore_answer, prompt_vdcscore_verify
@@ -36,7 +38,8 @@ def generate_qas_for_vdcscore(video_description):
         
     raise Exception("Failed to generate qas")
 
-def descriptions_comparison_for_autodq(video_description_1, video_description_2):
+def descriptions_comparison_for_autodq(descriptions_pair):
+    video_description_1, video_description_2 = descriptions_pair
     input = [
         {
             "type": "text",
@@ -45,21 +48,21 @@ def descriptions_comparison_for_autodq(video_description_1, video_description_2)
     ]
     messages = generate_messages(input)
     model = "gpt-4o-2024-11-20"
-    
-    for _ in range(MAX_RETRIES):
-        response, token = get_response_with_retry(model, messages)
-        result = validate_and_fix_python_list(response)
-        if result is not None:
-            return result
-        logger.error(f"Failed at generating {token} tokens. Retrying...")
-        
-    raise Exception("Failed to generate autodq result")
+    try:
+        for _ in range(MAX_RETRIES):
+            response, token = get_response_with_retry(model, messages)
+            result = validate_and_fix_python_list(response)
+            if result is not None:
+                return result
+            logger.error(f"Failed at generating {token} tokens. Retrying...")
+    except:
+        return []
 
 
 def eval_vdcscore(gt_desciptions, generated_descriptions, qa_file=None):
     if not os.path.exists(qa_file):
         qas = []
-        for gt_description in gt_desciptions:
+        for gt_description in tqdm(gt_desciptions, desc="Generating qas"):
             qas.append(generate_qas_for_vdcscore(gt_description))
         with open(qa_file, "w") as f:
             json.dump(qas, f)
@@ -68,7 +71,7 @@ def eval_vdcscore(gt_desciptions, generated_descriptions, qa_file=None):
             qas = json.load(f)
 
     if "predicted_answer" not in qas[0][0].keys():
-        for qa_list, generated_description in zip(qas, generated_descriptions):
+        for qa_list, generated_description in tqdm(zip(qas, generated_descriptions), total=len(qas), desc="Generating predicted answers"):
             inputs = [
                 [
                     {
@@ -89,7 +92,7 @@ def eval_vdcscore(gt_desciptions, generated_descriptions, qa_file=None):
             json.dump(qas, f)
     
     if "evaluation" not in qas[0][0].keys():
-        for qa_list in qas:
+        for qa_list in tqdm(qas, desc="Evaluating vdcscore"):
             inputs = [
                 [
                     {
@@ -137,24 +140,25 @@ def eval_autodq(gt_desciptions, generated_descriptions):
     total_recall = 0
     precision = 0
     recall = 0
+    max_workers = 32
     
-    for gt_description, generated_description in zip(gt_desciptions, generated_descriptions):
-        try:
-            precison_bases = descriptions_comparison_for_autodq(generated_description, gt_description)
-            correct = 0
-            for base in precison_bases:
-                if base["relationship"] == "entailment":
-                    precision += 1
-            total_precision += len(precison_bases)
-            
-            recall_bases = descriptions_comparison_for_autodq(gt_description, generated_description)
-            correct = 0
-            for base in recall_bases:
-                if base["relationship"] == "entailment":
-                    recall += 1
-            total_recall += len(recall_bases)
-        except:
-            continue
+    precision_inputs = [(generated_description, gt_description) for generated_description, gt_description in zip(generated_descriptions, gt_desciptions)]
+    recall_inputs = [(gt_description, generated_description) for gt_description, generated_description in zip(gt_desciptions, generated_descriptions)]
+    
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        precision_results = list(tqdm(executor.map(descriptions_comparison_for_autodq, precision_inputs), total=len(precision_inputs), desc="Calculating precision"))
+        recall_results = list(tqdm(executor.map(descriptions_comparison_for_autodq, recall_inputs), total=len(recall_inputs), desc="Calculating recall"))
+    
+    for precision_result, recall_result in zip(precision_results, recall_results):
+        for base in precision_result:
+            if base["relationship"] == "entailment":
+                precision += 1
+        total_precision += len(precision_result)
+        
+        for base in recall_result:
+            if base["relationship"] == "entailment":
+                recall += 1
+        total_recall += len(recall_result)
         
     precision = precision / total_precision
     recall = recall / total_recall
