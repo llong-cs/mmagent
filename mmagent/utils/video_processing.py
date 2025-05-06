@@ -89,7 +89,7 @@ def process_video_clip(video_path, start_time, interval=None, fps=10, video_form
             clip = video.subclipped(start_time, end_time)
             
             # Create temporary video file using context manager
-            with tempfile.NamedTemporaryFile(dir="data/temp", suffix=f".{video_format}") as temp_video:
+            with tempfile.NamedTemporaryFile(dir="/mnt/bn/videonasi18n/longlin.kylin/temp", suffix=f".{video_format}") as temp_video:
             # with tempfile.NamedTemporaryFile(dir="data/videos", suffix=f".{video_format}") as temp_video:
                 # Determine codecs based on format
                 if video_format in ['mp4', 'mov']:
@@ -109,7 +109,7 @@ def process_video_clip(video_path, start_time, interval=None, fps=10, video_form
                 base64_data["video"] = base64.b64encode(temp_video.read())
 
         # Create temporary audio file using context manager
-        with tempfile.NamedTemporaryFile(dir="data/temp", suffix=f".{audio_format}") as temp_audio:
+        with tempfile.NamedTemporaryFile(dir="/mnt/bn/videonasi18n/longlin.kylin/temp", suffix=f".{audio_format}") as temp_audio:
         # with tempfile.NamedTemporaryFile(dir="data/audios", suffix=f".{audio_format}") as temp_audio:
             # Check if audio exists
             if clip.audio is None:
@@ -187,7 +187,7 @@ def split_video_into_clips(video_path, interval, output_dir, output_format='mp4'
             i, start_time, end_time = clip_info
             try:
                 # 创建临时文件
-                with tempfile.NamedTemporaryFile(dir="data/temp", suffix=f".{output_format}", delete=False) as temp_file:
+                with tempfile.NamedTemporaryFile(dir="/mnt/bn/videonasi18n/longlin.kylin/temp", suffix=f".{output_format}", delete=False) as temp_file:
                     temp_path = temp_file.name
                 
                 # 创建子片段
