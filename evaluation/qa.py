@@ -52,7 +52,8 @@ def process_qa(qa):
             topk=processing_config["topk"], 
             multiple_queries=processing_config["multiple_queries"], 
             max_retrieval_steps=processing_config["max_retrieval_steps"], 
-            route_switch=processing_config["route_switch"]
+            route_switch=processing_config["route_switch"],
+            threshold=processing_config["retrieval_threshold"],
         )
         
         qa["agent_answer"] = agent_answer
@@ -182,41 +183,41 @@ def verify_qa_list_with_reasoning(qa_list, dataset_with_agent_answer_verified):
             raise RuntimeError(f"Error processing qa_list_batch: {i}") from e
                 
 if __name__ == "__main__":
-    
-
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dataset", type=str, default="data/annotations/small_test_qwen.jsonl")
+    parser.add_argument("--dataset", type=str, default="data/annotations/small_test.jsonl")
     parser.add_argument("--sample_rounds", type=int, default=1)
     parser.add_argument("--output_dir", type=str, default="data/annotations/results")
-    
-    exp_settings = {
-        "gpt4o_answer_w_qwen_mem_wo_planning": {
-            "max_retrieval_steps": 10,
-            "planning": False,
-        },
-        # "5_rounds_unify_ids": {
-        #     "max_retrieval_steps": 5
-        # }
-        # "full_retrieval": {
-        #     "topk": 1000,
-        #     "multiple_queries": True,
-        #     "max_retrieval_steps": 2
-        # },
-        # "large_retrieval": {
-        #     "topk": 30,
-        #     "multiple_queries": True,
-        #     "max_retrieval_steps": 3
-        # },
-        # "multiple_queries": {
-        #     "topk": 5,
-        #     "multiple_queries": True,
-        #     "max_retrieval_steps": 20
-        # }
-    }
 
     args = parser.parse_args()
     args.dataset_with_agent_answer = os.path.basename(args.dataset).replace(".jsonl", "_with_agent_answer.jsonl")
     args.dataset_with_agent_answer_verified = os.path.basename(args.dataset_with_agent_answer).replace("_with_agent_answer", "_with_agent_answer_verified")
+
+    if "qwen" in args.dataset:
+        exp_settings = {
+            "5_rounds_threshold_0_5_no_planning_qwen": {
+                "max_retrieval_steps": 5,
+                "threshold": 0.5,
+                "planning": False,
+            },
+            "5_rounds_threshold_0_5_do_planning_qwen": {
+                "max_retrieval_steps": 5,
+                "threshold": 0.5,
+                "planning": True,
+            },
+        }
+    else:
+        exp_settings = {
+            "5_rounds_threshold_0_5_no_planning": {
+                "max_retrieval_steps": 5,
+                "threshold": 0.5,
+                "planning": False,
+            },
+            "5_rounds_threshold_0_5_do_planning": {
+                "max_retrieval_steps": 5,
+                "threshold": 0.5,
+                "planning": True,
+            },
+        }
 
     # # idx = 0
     # # qa_list_with_agent_answer = process_qa_list(qa_list[idx:idx+1])

@@ -14,7 +14,7 @@ ckpt_paths=(
 # Loop through each checkpoint path
 for ckpt_path in "${ckpt_paths[@]}"; do
     for i in $(seq 0 $((node_num - 1))); do
-        CUDA_VISIBLE_DEVICES=$i python3 evaluation/sft_evaluation.py \
+        CUDA_VISIBLE_DEVICES=$i python3 evaluation/mem_gen_sft_evaluation.py \
             --ckpt_path ${ckpt_path} \
             --val_path ${val_path} \
             --output_dir ${output_dir} \
@@ -23,7 +23,7 @@ for ckpt_path in "${ckpt_paths[@]}"; do
     done
     wait
 
-    python3 evaluation/sft_evaluation.py \
+    python3 evaluation/mem_gen_sft_evaluation.py \
         --ckpt_path ${ckpt_path} \
         --val_path ${val_path} \
         --output_dir ${output_dir} \

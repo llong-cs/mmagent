@@ -50,7 +50,7 @@ def descriptions_comparison_for_autodq(descriptions_pair):
     model = "gpt-4o-2024-11-20"
     try:
         for _ in range(MAX_RETRIES):
-            response, token = get_response_with_retry(model, messages)
+            response, token = get_response_with_retry(model, messages, timeout=30)
             result = validate_and_fix_python_list(response)
             if result is not None:
                 return result
@@ -140,7 +140,7 @@ def eval_autodq(gt_desciptions, generated_descriptions):
     total_recall = 0
     precision = 0
     recall = 0
-    max_workers = 32
+    max_workers = 4
     
     precision_inputs = [(generated_description, gt_description) for generated_description, gt_description in zip(generated_descriptions, gt_desciptions)]
     recall_inputs = [(gt_description, generated_description) for gt_description, generated_description in zip(gt_desciptions, generated_descriptions)]

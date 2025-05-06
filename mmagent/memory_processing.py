@@ -190,7 +190,7 @@ def generate_thinkings_with_ids(video_context, video_description):
     model = "gemini-1.5-pro-002"
     thinkings = None
     for i in range(MAX_RETRIES):
-        thinkings_string = get_response_with_retry(model, messages)[0]
+        thinkings_string = get_response_with_retry(model, messages, timeout=30)[0]
         if not thinkings_string:
             thinkings_string = "[]"
             with open("logs/filtered_contents.txt", "a") as f:
@@ -259,7 +259,7 @@ def generate_captions_and_thinkings_with_ids(
     model = "gemini-1.5-pro-002"
     captions = None
     for i in range(MAX_RETRIES):
-        captions_string = get_response_with_retry(model, messages)[0]
+        captions_string = get_response_with_retry(model, messages, timeout=30)[0]
         if not captions_string:
             captions_string = "[]"
             with open("logs/filtered_contents.txt", "a") as f:

@@ -210,7 +210,7 @@ def search(video_graph, query, current_clips, topk=5, mode='argmax', threshold=0
     
     return new_memories, current_clips, clip_scores
 
-def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5, auto_refresh=False, mode='argmax', multiple_queries=False, max_retrieval_steps=10, route_switch=True):
+def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5, auto_refresh=False, mode='argmax', multiple_queries=False, max_retrieval_steps=10, route_switch=True, threshold=0):
     if auto_refresh:
         video_graph.refresh_equivalences()
         
@@ -280,7 +280,7 @@ def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5,
                 logger.info(f"Forced answer: {final_answer}")
                 break
             
-            new_memories, related_clips, _ = search(video_graph, action_content, related_clips, topk, mode, threshold=0)
+            new_memories, related_clips, _ = search(video_graph, action_content, related_clips, topk, mode, threshold=threshold)
             
             if len(new_memories.items()) == 0 and route_switch:
                 switch = True
