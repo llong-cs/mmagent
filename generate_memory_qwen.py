@@ -238,16 +238,22 @@ if __name__ == "__main__":
 
     print(f"cuda_id: {cuda_id}, node_num: {node_num}")
     
-    # 计算当前机器应该处理的视频范围
-    total_videos = len(video_inputs)
-    videos_per_node = total_videos // node_num
-    start_idx = cuda_id * videos_per_node
-    end_idx = start_idx + videos_per_node if cuda_id < node_num - 1 else total_videos
+    # total_videos = len(video_inputs)
+    # videos_per_node = total_videos // node_num
+    # start_idx = cuda_id * videos_per_node
+    # end_idx = start_idx + videos_per_node if cuda_id < node_num - 1 else total_videos
     
-    # 只处理分配给当前节点的视频
-    for i in range(start_idx, end_idx):
-        video_path = video_inputs[i][0]
-        save_dir = video_inputs[i][1]
+    # for i in range(start_idx, end_idx):
+    #     video_path = video_inputs[i][0]
+    #     save_dir = video_inputs[i][1]
+    #     process_single_video((video_path, save_dir))
+    #     args.append((video_path, save_dir))
+
+    for i, video_input in enumerate(tqdm(video_inputs)):
+        if i % node_num!= cuda_id:
+            continue
+        video_path = video_input[0]
+        save_dir = video_input[1]
         process_single_video((video_path, save_dir))
         args.append((video_path, save_dir))
 
