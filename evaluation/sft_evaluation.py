@@ -2,11 +2,15 @@ import json
 import os
 import argparse
 from tqdm import tqdm
+import torch
 
 from transformers import Qwen2_5OmniProcessor, Qwen2_5OmniThinkerForConditionalGeneration, Qwen2_5OmniThinkerConfig, GenerationConfig
 from qwen_omni_utils import process_mm_info
 from evaluation.memory_evaluation import eval_vdcscore, eval_autodq
 from mmagent.utils.general import validate_and_fix_python_list
+
+import logging
+logger = logging.getLogger(__name__)
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--ckpt_path", type=str, default="/mnt/hdfs/foundation/longlin.kylin/mmagent/data/memgen_sft/0429/ckpts")
@@ -80,6 +84,7 @@ def generate_sft_data(model, processor, data_path, output_dir):
         messages = sample[:1]
         text = processor.apply_chat_template(messages, add_generation_prompt=True, tokenize=False)
         generation_config = GenerationConfig(pad_token_id=151643, bos_token_id=151644, eos_token_id=151645)
+        
         try:
             USE_AUDIO_IN_VIDEO = True
             audios, images, videos = process_mm_info(messages, use_audio_in_video=USE_AUDIO_IN_VIDEO)
@@ -87,19 +92,41 @@ def generate_sft_data(model, processor, data_path, output_dir):
             inputs = inputs.to(model.device).to(model.dtype)
 
             # Inference: Generation of the output text and audio
-            generation = model.generate(**inputs, generation_config=generation_config, use_audio_in_video=USE_AUDIO_IN_VIDEO, max_new_tokens=2048)
-            generate_ids = generation[:, inputs.input_ids.size(1):]
-        except:
-            USE_AUDIO_IN_VIDEO = False
-            audios, images, videos = process_mm_info(messages, use_audio_in_video=USE_AUDIO_IN_VIDEO)
-            inputs = processor(text=text, audios=audios, images=images, videos=videos, return_tensors="pt", padding=True, use_audio_in_video=USE_AUDIO_IN_VIDEO)
-            inputs = inputs.to(model.device).to(model.dtype)
+            with torch.no_grad():
+                generation = model.generate(**inputs, generation_config=generation_config, use_audio_in_video=USE_AUDIO_IN_VIDEO, max_new_tokens=2048)
+                generate_ids = generation[:, inputs.input_ids.size(1):]
+                response = processor.batch_decode(generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
+            
+            # Clean up
+            del generation
+            del generate_ids
+            del inputs
+            torch.cuda.empty_cache()
+            
+        except Exception as e:
+            logger.warning(f"First attempt failed with audio in video: {e}")
+            try:
+                USE_AUDIO_IN_VIDEO = False
+                audios, images, videos = process_mm_info(messages, use_audio_in_video=USE_AUDIO_IN_VIDEO)
+                inputs = processor(text=text, audios=audios, images=images, videos=videos, return_tensors="pt", padding=True, use_audio_in_video=USE_AUDIO_IN_VIDEO)
+                inputs = inputs.to(model.device).to(model.dtype)
 
-            # Inference: Generation of the output text and audio
-            generation = model.generate(**inputs, generation_config=generation_config, use_audio_in_video=USE_AUDIO_IN_VIDEO, max_new_tokens=2048)
-            generate_ids = generation[:, inputs.input_ids.size(1):]
+                # Inference: Generation of the output text and audio
+                with torch.no_grad():
+                    generation = model.generate(**inputs, generation_config=generation_config, use_audio_in_video=USE_AUDIO_IN_VIDEO, max_new_tokens=2048)
+                    generate_ids = generation[:, inputs.input_ids.size(1):]
+                    response = processor.batch_decode(generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
+                
+                # Clean up
+                del generation
+                del generate_ids
+                del inputs
+                torch.cuda.empty_cache()
+                
+            except Exception as e:
+                logger.error(f"Second attempt failed without audio in video: {e}")
+                raise
 
-        response = processor.batch_decode(generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
         messages.append({"role": "assistant", "content": [{"type": "text", "text": response}]})
         
         with open(os.path.join(output_dir, f"{i}.json"), "w") as f:

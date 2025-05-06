@@ -37,6 +37,7 @@ def get_response(model, messages, timeout=30):
     global thinker
     text = processor.apply_chat_template(messages, add_generation_prompt=True, tokenize=False)
     generation_config = GenerationConfig(pad_token_id=151643, bos_token_id=151644, eos_token_id=151645)
+    
     try:
         USE_AUDIO_IN_VIDEO = True
         audios, images, videos = process_mm_info(messages, use_audio_in_video=USE_AUDIO_IN_VIDEO)
@@ -44,22 +45,46 @@ def get_response(model, messages, timeout=30):
         inputs = inputs.to(thinker.device).to(thinker.dtype)
 
         # Inference: Generation of the output text and audio
-        generation = thinker.generate(**inputs, generation_config=generation_config, use_audio_in_video=USE_AUDIO_IN_VIDEO, max_new_tokens=4096, do_sample=True, temperature=temp)
-        generate_ids = generation[:, inputs.input_ids.size(1):]
-    except:
-        USE_AUDIO_IN_VIDEO = False
-        audios, images, videos = process_mm_info(messages, use_audio_in_video=USE_AUDIO_IN_VIDEO)
-        inputs = processor(text=text, audios=audios, images=images, videos=videos, return_tensors="pt", padding=True, use_audio_in_video=USE_AUDIO_IN_VIDEO)
-        inputs = inputs.to(thinker.device).to(thinker.dtype)
+        with torch.no_grad():
+            generation = thinker.generate(**inputs, generation_config=generation_config, use_audio_in_video=USE_AUDIO_IN_VIDEO, max_new_tokens=4096, do_sample=True, temperature=temp)
+            generate_ids = generation[:, inputs.input_ids.size(1):]
+            response = processor.batch_decode(generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
+            token_count = len(generation[0])
+            
+        # Clean up
+        del generation
+        del generate_ids
+        del inputs
+        torch.cuda.empty_cache()
+        
+        return response, token_count
+        
+    except Exception as e:
+        logger.warning(f"First attempt failed with audio in video: {e}")
+        try:
+            USE_AUDIO_IN_VIDEO = False
+            audios, images, videos = process_mm_info(messages, use_audio_in_video=USE_AUDIO_IN_VIDEO)
+            inputs = processor(text=text, audios=audios, images=images, videos=videos, return_tensors="pt", padding=True, use_audio_in_video=USE_AUDIO_IN_VIDEO)
+            inputs = inputs.to(thinker.device).to(thinker.dtype)
 
-        # Inference: Generation of the output text and audio
-        generation = thinker.generate(**inputs, generation_config=generation_config, use_audio_in_video=USE_AUDIO_IN_VIDEO, max_new_tokens=4096, do_sample=True, temperature=temp)
-        generate_ids = generation[:, inputs.input_ids.size(1):]
-
-    response = processor.batch_decode(generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
-    
-    # return answer and number of tokens
-    return response, len(generation[0])
+            # Inference: Generation of the output text and audio
+            with torch.no_grad():
+                generation = thinker.generate(**inputs, generation_config=generation_config, use_audio_in_video=USE_AUDIO_IN_VIDEO, max_new_tokens=4096, do_sample=True, temperature=temp)
+                generate_ids = generation[:, inputs.input_ids.size(1):]
+                response = processor.batch_decode(generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
+                token_count = len(generation[0])
+                
+            # Clean up
+            del generation
+            del generate_ids
+            del inputs
+            torch.cuda.empty_cache()
+            
+            return response, token_count
+            
+        except Exception as e:
+            logger.error(f"Second attempt failed without audio in video: {e}")
+            raise
 
 def get_response_with_retry(model, messages, timeout=30):
     """Retry get_response up to MAX_RETRIES times with error handling.

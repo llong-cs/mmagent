@@ -6,6 +6,7 @@ from concurrent.futures import ProcessPoolExecutor
 import multiprocessing
 import logging
 import argparse
+import fcntl
 
 from mmagent.videograph import VideoGraph
 from mmagent.utils.general import *
@@ -218,7 +219,7 @@ if __name__ == "__main__":
     #     video_paths = [video_path for video_path in video_paths if generate_file_name(video_path)+".pkl" not in generated_memories]
         
     #     video_inputs.extend([(video_path, save_dir) for video_path in video_paths])
-        
+    
     with open("data/annotations/small_test_qwen.jsonl", "r") as f:
         for line in f:
             sample = json.loads(line)
@@ -226,20 +227,27 @@ if __name__ == "__main__":
                 save_dir = os.path.dirname(sample["mem_path"])
                 os.makedirs(save_dir, exist_ok=True)
                 video_inputs.append((sample["clip_path"], save_dir))
-    video_inputs = list(set(video_inputs))
+    
+    # 先用set去重，再按clip_path排序
+    video_inputs = sorted(set(video_inputs), key=lambda x: x[0])
     
     logger.info(f"Total video inputs: {len(video_inputs)}")
+    logger.info(f"First few video inputs: {video_inputs[:5]}")
     
     args = []
 
     print(f"cuda_id: {cuda_id}, node_num: {node_num}")
     
-    for i, video_input in enumerate(tqdm(video_inputs)):
-        if i % node_num != cuda_id:
-            continue
-        
-        video_path = video_input[0]
-        save_dir = video_input[1]
+    # 计算当前机器应该处理的视频范围
+    total_videos = len(video_inputs)
+    videos_per_node = total_videos // node_num
+    start_idx = cuda_id * videos_per_node
+    end_idx = start_idx + videos_per_node if cuda_id < node_num - 1 else total_videos
+    
+    # 只处理分配给当前节点的视频
+    for i in range(start_idx, end_idx):
+        video_path = video_inputs[i][0]
+        save_dir = video_inputs[i][1]
         process_single_video((video_path, save_dir))
         args.append((video_path, save_dir))
 
