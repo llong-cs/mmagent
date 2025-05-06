@@ -33,11 +33,11 @@ def generate_data(model, data_path, output_dir):
     inputs = []
 
     for i, sample in enumerate(tqdm(samples)):
-        messages = sample[:1]
+        messages = sample[0]
         content = messages["content"]
         input = []
         sem = False
-        for c in tqdm(content[1:]):
+        for c in content[1:]:
             if c["type"] == "text":
                 if c["text"] == "Video descriptions:":
                     sem = True
@@ -69,8 +69,8 @@ def generate_data(model, data_path, output_dir):
         
         inputs.append(input)
         
-    messages = [generate_messages(inputs)]
-    responses = parallel_get_response(model, messages)[0]
+    messages = [generate_messages(input) for input in inputs]
+    responses = parallel_get_response(model, messages, timeout=30)[0]
     
     for i, sample, response in zip(range(len(samples)), samples, responses):
         messages = sample[:1]

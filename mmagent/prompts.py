@@ -1023,7 +1023,7 @@ Output the answer in the format:
 Action: [Answer] or [Search]
 Content: {{content}}
 
-If the answer can be derived from the provided knowledge, the {{content}} is the specific answer to the question
+If the answer can be derived from the provided knowledge, the {{content}} is the specific answer to the question, do not use ID tags like <character_1> or <face_1>.
 If the answer cannot be derived yet, the {{content}} should be a single search query that would help retrieve the missing information.
 You need to provide an answer within 5 rounds.
 
