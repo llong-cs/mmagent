@@ -31,8 +31,11 @@ logging.getLogger("httpcore").setLevel(logging.CRITICAL)
 from . import retrieve
 from . import face_processing
 from . import memory_processing
-if model == "qwen2.5-omni":
-    from . import memory_processing_qwen
+try:
+    if model == "qwen2.5-omni":
+        from . import memory_processing_qwen
+except:
+    pass
 from . import prompts
 from . import videograph
 from . import voice_processing

@@ -3,8 +3,11 @@ processing_config = json.load(open("configs/processing_config.json"))
 model = processing_config["model"]
 
 from . import chat_api
-if model == "qwen2.5-omni":
-    from . import chat_qwen
+try:
+    if model == "qwen2.5-omni":
+        from . import chat_qwen
+except:
+    pass
 from . import general
 from . import tos
 from . import video_processing
