@@ -190,8 +190,9 @@ if __name__ == "__main__":
     parser.add_argument("--output_dir", type=str, default="data/annotations/results")
     
     exp_settings = {
-        "gemini_agent": {
-            "max_retrieval_steps": 10
+        "gpt4o_answer_wo_planning": {
+            "max_retrieval_steps": 10,
+            "planning": False,
         },
         # "5_rounds_unify_ids": {
         #     "max_retrieval_steps": 5
