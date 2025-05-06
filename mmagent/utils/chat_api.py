@@ -30,7 +30,7 @@ for model_name in config.keys():
 
 MAX_RETRIES = 10
 
-def get_response(model, messages, timeout=30):
+def get_response(model, messages, timeout=10):
     """Get chat completion response from specified model.
 
     Args:
@@ -47,7 +47,7 @@ def get_response(model, messages, timeout=30):
     # return answer and number of tokens
     return response.choices[0].message.content, response.usage.total_tokens
 
-def get_response_with_retry(model, messages, timeout=30):
+def get_response_with_retry(model, messages, timeout=10):
     """Retry get_response up to MAX_RETRIES times with error handling.
 
     Args:
@@ -69,7 +69,7 @@ def get_response_with_retry(model, messages, timeout=30):
             continue
     raise Exception(f"Failed to get response after {MAX_RETRIES} retries")
 
-def parallel_get_response(model, messages, timeout=30):
+def parallel_get_response(model, messages, timeout=10):
     """Process multiple messages in parallel using ThreadPoolExecutor.
     Messages are processed in batches, with each batch completing before starting the next.
 
