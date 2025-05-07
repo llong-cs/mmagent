@@ -13,11 +13,7 @@ from io import BytesIO
 from PIL import Image
 import numpy as np
 import json
-from tqdm import tqdm
-from .memory_processing import process_captions, parse_video_caption
-from .prompts import prompt_extract_entities
-from .utils.chat_api import generate_messages, get_response_with_retry
-from .utils.general import validate_and_fix_python_list
+from .memory_processing import parse_video_caption
 
 processing_config = json.load(open("configs/processing_config.json"))
 MAX_RETRIES = processing_config["max_retries"]
@@ -727,3 +723,31 @@ class VideoGraph:
         """Visualize the video graph."""
         self.print_img_nodes()
         self.print_voice_nodes()
+    
+    def expand_route(self, route):
+        if len(route) == 0:
+            while True:
+                # sample a random node
+                node_id = random.choice(list(self.nodes.keys()))
+                # if node_id is an an img or voice node, or an isolated text node, then continue
+                if self.nodes[node_id].type in ['episodic', 'semantic']:
+                    entities = parse_video_caption(self.nodes[node_id].metadata['contents'])
+                    if len(entities) > 0:
+                        return [node_id]
+        # select a random node from the route
+        node_id = random.choice(route)
+        entities = parse_video_caption(self.nodes[node_id].metadata['contents'])
+        anchor_entity = random.choice(entities)
+        anchor_node_id = anchor_entity[1]
+        new_node_ids = self.get_connected_nodes(anchor_node_id, type=['episodic', 'semantic'])
+        new_node_ids = [node_id for node_id in new_node_ids if node_id not in route]
+        new_node_id = random.choice(new_node_ids)
+        return route + [new_node_id]
+        
+    
+    def sample_a_route(self, length=3):
+        route = []
+        for i in range(length):
+            route = self.expand_route(route)
+        route_contents = [self.nodes[node_id].metadata['contents'] for node_id in route]
+        return route, route_contents
