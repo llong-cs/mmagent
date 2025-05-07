@@ -5,6 +5,7 @@ from .utils.chat_api import (
     generate_messages,
     get_response_with_retry,
     parallel_get_embedding,
+    get_embedding_with_retry,
 )
 from .utils.general import validate_and_fix_python_list
 from .prompts import *
@@ -334,6 +335,14 @@ def verify_qa(question, gt, pred):
         logger.error(str(e))
         return None
     return result
+
+def calculate_similarity(mem, query, related_nodes):
+    def cosine_similarity(a, b):
+        return sum(a*b for a,b in zip(a, b)) / (sum(a*a for a in a) ** 0.5 * sum(b*b for b in b) ** 0.5)
+    related_nodes_embeddings = [mem.nodes[node_id].embeddings[0] for node_id in related_nodes]
+    query_embedding = get_embedding_with_retry("text-embedding-3-large", query)[0]
+    similarities = [cosine_similarity(query_embedding, embedding) for embedding in related_nodes_embeddings]
+    return similarities
 
 if __name__ == "__main__":
     from utils.general import load_video_graph
