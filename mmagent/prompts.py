@@ -1150,3 +1150,18 @@ Only return the number of the best option, not the option text.
 
 Answer:"""
 
+prompt_generate_qa_from_route = """You are given a sequence of events extracted from a video. Your task is to design a single question-answer (QA) pair that incorporates as much information from the events as possible. The goal is to test comprehension of the overall situation represented by the events. Neither the question nor the answer should include character identifiers like <character_1>, <character_2>, etc. Instead, refer to individuals using descriptive roles or inferred identities from context. Return the QA pair in the following JSON format:
+
+{{
+	"question": "Your generated question here.",
+	"answer": "Your comprehensive answer here."
+}}
+
+Here is the list of events:
+
+{events}
+
+Make sure the QA pair is informative, natural-sounding, and grounded in the content of the events. And do not include any explanation or other text except the JSON.
+
+Answer:"""
+
