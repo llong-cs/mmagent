@@ -741,6 +741,8 @@ class VideoGraph:
         anchor_node_id = anchor_entity[1]
         new_node_ids = self.get_connected_nodes(anchor_node_id, type=['episodic', 'semantic'])
         new_node_ids = [node_id for node_id in new_node_ids if node_id not in route]
+        if len(new_node_ids) == 0:
+            return route
         new_node_id = random.choice(new_node_ids)
         return route + [new_node_id]
         
