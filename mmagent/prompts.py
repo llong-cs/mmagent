@@ -1150,26 +1150,28 @@ Only return the number of the best option, not the option text.
 
 Answer:"""
 
-prompt_generate_qa_from_route = """You are given a sequence of events extracted from a video. Your task is to design a single question-answer (QA) pair that incorporates as much information from the events as possible. The goal is to test comprehension of the overall situation represented by the events. Follow these requirements strictly:
-	1.	Do not use character identifiers such as <character_1>, <character_2>, etc., in either the question or the answer.
-	2.	Refer to individuals with specific and contextually meaningful descriptions (e.g., their names or appearences) — avoid vague terms like "the person" or "the man". Use roles, actions, appearance, relationships, or positions to make the references unambiguous.
-	3.	Refer to events or actions with sufficient specificity so the question makes sense and remains unambiguous even if asked within the context of the entire video — avoid vague references like "what happened next" or "that event".
-	4.	The question must be atomic — it should focus on one clearly defined aspect of the events, not multiple sub-questions combined.
-	5.	The answer must be as concise as possible while still covering the necessary details for correctness and verifiability.
-	6.	The QA pair must be fully grounded in the provided events.
+prompt_generate_qa_from_route = """You are given a list of events extracted from a video. Each event is associated with a unique integer ID. Your task is to generate a single question-answer (QA) pair that reflects as much relevant information from the events as possible, while adhering to the following strict requirements:
+	1.	Do not use character identifiers like <character_1>, <character_2>, etc.
+	2.	Refer to individuals using specific and contextually meaningful descriptions (e.g., their names or appearance), rather than vague terms like "the man" or "someone".
+	3.	Refer to actions, locations, and events with enough specificity that your question remains unambiguous even within the broader context of the entire video. Avoid vague phrases like "that event" or "what happened there".
+	4.	The question must be atomic — focused on a single clear, answerable point, not a mixture of sub-questions.
+	5.	The answer must be concise, factually accurate, and easy to verify based on the provided events.
+	6.	Include as much relevant information from the events as possible, as long as it fits naturally into a single atomic question and concise answer.
+	7.	Additionally, return a field called related_ids — a list of the integer IDs of all events necessary to answer the question accurately.
 
-Return the result in the following JSON format:
+Return your result in the following JSON format:
 
 {{
 	"question": "Your generated question here.",
-	"answer": "Your comprehensive answer here."
+	"answer": "Your concise and verifiable answer here.",
+	"related_ids": [list of relevant event IDs]
 }}
 
 Here is the list of events:
 
 {events}
 
-Make sure the QA pair is informative, natural-sounding, and grounded in the content of the events. And do not include any explanation or other text except the JSON.
+Make sure the QA pair is informative, natural-sounding, and grounded in the content of the events. The related_ids field must reflect exactly the subset of events needed to understand and answer the question. Do not include any explanation or other text except the JSON.
 
 Answer:"""
 
