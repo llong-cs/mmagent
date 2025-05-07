@@ -47,6 +47,16 @@ def generate_qa_from_mem(mem_path, length=10):
     res = generate_qa_from_route(route, route_contents)
     return res
 
+def process_mem(args):
+    mem_path, length = args
+    res = generate_qa_from_mem(mem_path, length)
+    return {
+        "mem_path": mem_path,
+        "question": res["question"],
+        "answer": res["answer"], 
+        "related_ids": res["related_ids"]
+    }
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--mem_path", type=str, help="The path to the memory file", default="/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems_qwen/CZ_1/EMpaw46kr2w_30_5_-1_10_20_0.3_0.6.pkl")
@@ -63,21 +73,14 @@ def main():
                 mem_paths.append(data["mem_path"])
     mem_paths = mem_paths + mem_paths
 
-    qas_from_mems = []
+    # 创建参数列表
+    process_args = [(mem_path, length) for mem_path in mem_paths]
     
-    def process_mem(mem_path):
-        res = generate_qa_from_mem(mem_path, length)
-        return {
-            "mem_path": mem_path,
-            "question": res["question"],
-            "answer": res["answer"], 
-            "related_ids": res["related_ids"]
-        }
-
+    qas_from_mems = []
     with ProcessPoolExecutor(max_workers=8) as executor:
         qas_from_mems = list(tqdm(
-            executor.map(process_mem, mem_paths),
-            total=len(mem_paths),
+            executor.map(process_mem, process_args),
+            total=len(process_args),
             desc="Generating QAs from memories"
         ))
     
