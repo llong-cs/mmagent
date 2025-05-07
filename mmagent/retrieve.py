@@ -10,6 +10,8 @@ from .utils.chat_api import (
 from .utils.general import validate_and_fix_python_list
 from .prompts import *
 from .memory_processing import parse_video_caption
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
 
 processing_config = json.load(open("configs/processing_config.json"))
 MAX_RETRIES = processing_config["max_retries"]
@@ -337,12 +339,10 @@ def verify_qa(question, gt, pred):
     return result
 
 def calculate_similarity(mem, query, related_nodes):
-    def cosine_similarity(a, b):
-        return sum(a*b for a,b in zip(a, b)) / (sum(a*a for a in a) ** 0.5 * sum(b*b for b in b) ** 0.5)
-    related_nodes_embeddings = [mem.nodes[node_id].embeddings[0] for node_id in related_nodes]
-    query_embedding = get_embedding_with_retry("text-embedding-3-large", query)[0]
-    similarities = [cosine_similarity(query_embedding, embedding) for embedding in related_nodes_embeddings]
-    return similarities
+    related_nodes_embeddings = np.array([mem.nodes[node_id].embeddings[0] for node_id in related_nodes])
+    query_embedding = np.array(get_embedding_with_retry("text-embedding-3-large", query)[0]).reshape(1, -1)
+    similarities = cosine_similarity(query_embedding, related_nodes_embeddings)[0]
+    return similarities.tolist()
 
 if __name__ == "__main__":
     from utils.general import load_video_graph
