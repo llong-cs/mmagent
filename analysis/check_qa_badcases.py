@@ -37,10 +37,17 @@ def check_diff(ours, baseline, output_dir):
             baseline_clip.sort(key=lambda x: int(x.split("_")[1]))
         except:
             baseline_clip = []
+            
+        ours_baseline_coverage = set(ours_clip) & set(baseline_clip)
+        intersection_ours_ratio = len(ours_baseline_coverage) / len(ours_clip)
+        intersection_baseline_ratio = len(ours_baseline_coverage) / len(baseline_clip)
 
         data_pair = {
             "question": ours_data["question"],
             "gt": ours_data["answer"],
+            "intersection_clips": list(ours_baseline_coverage),
+            "intersection_ours_ratio": intersection_ours_ratio,
+            "intersection_baseline_ratio": intersection_baseline_ratio,
             "ours_clips": ours_clip,
             "ours_answer": ours_data["agent_answer"],
             "baseline_clips": baseline_clip,
