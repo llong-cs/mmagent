@@ -1150,7 +1150,15 @@ Only return the number of the best option, not the option text.
 
 Answer:"""
 
-prompt_generate_qa_from_route = """You are given a sequence of events extracted from a video. Your task is to design a single question-answer (QA) pair that incorporates as much information from the events as possible. The goal is to test comprehension of the overall situation represented by the events. Neither the question nor the answer should include character identifiers like <character_1>, <character_2>, etc. Instead, refer to individuals using descriptive roles or inferred identities from context. Return the QA pair in the following JSON format:
+prompt_generate_qa_from_route = """You are given a sequence of events extracted from a video. Your task is to design a single question-answer (QA) pair that incorporates as much information from the events as possible. The goal is to test comprehension of the overall situation represented by the events. Follow these requirements strictly:
+	1.	Do not use character identifiers such as <character_1>, <character_2>, etc., in either the question or the answer.
+	2.	Refer to individuals with specific and contextually meaningful descriptions (e.g., their names or appearences) — avoid vague terms like "the person" or "the man". Use roles, actions, appearance, relationships, or positions to make the references unambiguous.
+	3.	Refer to events or actions with sufficient specificity so the question makes sense and remains unambiguous even if asked within the context of the entire video — avoid vague references like "what happened next" or "that event".
+	4.	The question must be atomic — it should focus on one clearly defined aspect of the events, not multiple sub-questions combined.
+	5.	The answer must be as concise as possible while still covering the necessary details for correctness and verifiability.
+	6.	The QA pair must be fully grounded in the provided events.
+
+Return the result in the following JSON format:
 
 {{
 	"question": "Your generated question here.",

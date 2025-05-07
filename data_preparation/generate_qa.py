@@ -10,7 +10,7 @@ import sys
 
 sys.modules["videograph"] = mmagent.videograph
 
-processing_config = json.load(open("config/processing_config.json", "r"))
+processing_config = json.load(open("configs/processing_config.json", "r"))
 MAX_RETRIES = processing_config["max_retries"]
 
 def get_route_from_mem(mem_path, length=10):
@@ -19,7 +19,7 @@ def get_route_from_mem(mem_path, length=10):
     route_contents = translate(mem, route_contents)
     return route, route_contents
 
-def generate_qa_from_route(route, route_contents):
+def generate_qa_from_route(route_contents):
     input = [
         {
             "type": "text",
@@ -30,22 +30,30 @@ def generate_qa_from_route(route, route_contents):
     model = "gpt-4o-2024-11-20"
     qa = None
     for i in range(MAX_RETRIES):
-        response = get_response_with_retry(model, message)
+        response = get_response_with_retry(model, message)[0]
         qa = validate_and_fix_json(response)
         if qa is not None:
             break
     return qa
+
+def generate_qa_from_mem(mem_path, length=10):
+    route, route_contents = get_route_from_mem(mem_path, length)
+    qa = generate_qa_from_route(route_contents)
+    return route, route_contents, qa
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--mem_path", type=str, help="The path to the memory file", default="/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems_qwen/CZ_1/EMpaw46kr2w_30_5_-1_10_20_0.3_0.6.pkl")
     args = parser.parse_args()
 
-    route, route_contents = get_route_from_mem(args.mem_path, length=10)
-    print(route_contents)
-    
-    qa = generate_qa_from_route(route, route_contents)
-    print(qa)
+    lengths = [5, 10, 15, 20, 25, 30]
+
+    for length in lengths:
+        print(f"length: {length}")
+        route, route_contents, qa = generate_qa_from_mem(args.mem_path, length)
+        print(qa)
+        print(f"related nodes: {route}")
+        print("-"*20)
     
 if __name__ == "__main__":
     main()
