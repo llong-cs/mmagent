@@ -62,12 +62,10 @@ def main():
             if data["mem_path"] not in mem_paths:
                 mem_paths.append(data["mem_path"])
     mem_paths = mem_paths + mem_paths
-    
-    print(f"number of mems: {len(mem_paths)}")
-    
+
     qas_from_mems = []
     
-    def process_mem(mem_path, length):
+    def process_mem(mem_path):
         res = generate_qa_from_mem(mem_path, length)
         return {
             "mem_path": mem_path,
@@ -78,7 +76,7 @@ def main():
 
     with ProcessPoolExecutor(max_workers=8) as executor:
         qas_from_mems = list(tqdm(
-            executor.map(lambda x: process_mem(x, length), mem_paths),
+            executor.map(process_mem, mem_paths),
             total=len(mem_paths),
             desc="Generating QAs from memories"
         ))
