@@ -14,7 +14,7 @@
     "max_retries": 10,
     "query_num": 10,
     "topk": 5,
-    "max_retrieval_steps": 10,
+    "max_retrieval_steps": 5,
     "multiple_queries": false,
     "route_switch": true,
     "planning": true,
@@ -27,6 +27,6 @@
     "log_dir": "logs",
     "temperature": 0.1,
     "train": true,
-    "ckpt": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/memgen_sft/0429/ckpts/checkpoint-3065",
-    "model": "qwen2.5-omni"
+    "ckpt": "/mnt/hdfs/foundation/agent/heyc/ckpts/Qwen2.5-Omni-7B-thinker",
+    "model": "api"
 }

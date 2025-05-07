@@ -194,12 +194,12 @@ if __name__ == "__main__":
 
     if "qwen" in args.dataset:
         exp_settings = {
-            "5_rounds_threshold_0_5_no_planning_qwen": {
+            "5_rounds_threshold_0_5_no_planning_qwen_original": {
                 "max_retrieval_steps": 5,
                 "threshold": 0.5,
                 "planning": False,
             },
-            "5_rounds_threshold_0_5_do_planning_qwen": {
+            "5_rounds_threshold_0_5_do_planning_qwen_original": {
                 "max_retrieval_steps": 5,
                 "threshold": 0.5,
                 "planning": True,

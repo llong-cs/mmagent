@@ -731,12 +731,12 @@ class VideoGraph:
                 node_id = random.choice(list(self.nodes.keys()))
                 # if node_id is an an img or voice node, or an isolated text node, then continue
                 if self.nodes[node_id].type in ['episodic', 'semantic']:
-                    entities = parse_video_caption(self.nodes[node_id].metadata['contents'])
+                    entities = parse_video_caption(self, self.nodes[node_id].metadata['contents'][0])
                     if len(entities) > 0:
                         return [node_id]
         # select a random node from the route
         node_id = random.choice(route)
-        entities = parse_video_caption(self.nodes[node_id].metadata['contents'])
+        entities = parse_video_caption(self, self.nodes[node_id].metadata['contents'][0])
         anchor_entity = random.choice(entities)
         anchor_node_id = anchor_entity[1]
         new_node_ids = self.get_connected_nodes(anchor_node_id, type=['episodic', 'semantic'])
@@ -749,5 +749,5 @@ class VideoGraph:
         route = []
         for i in range(length):
             route = self.expand_route(route)
-        route_contents = [self.nodes[node_id].metadata['contents'] for node_id in route]
+        route_contents = [self.nodes[node_id].metadata['contents'][0] for node_id in route]
         return route, route_contents

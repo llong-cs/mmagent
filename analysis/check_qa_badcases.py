@@ -39,8 +39,14 @@ def check_diff(ours, baseline, output_dir):
             baseline_clip = []
             
         ours_baseline_coverage = set(ours_clip) & set(baseline_clip)
-        intersection_ours_ratio = len(ours_baseline_coverage) / len(ours_clip)
-        intersection_baseline_ratio = len(ours_baseline_coverage) / len(baseline_clip)
+        if len(ours_clip):
+            intersection_ours_ratio = len(ours_baseline_coverage) / len(ours_clip)
+        else:
+            intersection_ours_ratio = 0
+        if len(baseline_clip):
+            intersection_baseline_ratio = len(ours_baseline_coverage) / len(baseline_clip)
+        else:
+            intersection_baseline_ratio = 0
 
         data_pair = {
             "question": ours_data["question"],
