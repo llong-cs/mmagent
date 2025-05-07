@@ -65,6 +65,7 @@ temp*
 data/videos/
 data/audios/
 data/mems/
+data/analysis/
 
 # Models checkpoints
 audio_embedding_deploy/pretrained_eres2netv2.ckpt

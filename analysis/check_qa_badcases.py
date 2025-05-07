@@ -1,6 +1,7 @@
 import json
 import os
 import argparse
+from tqdm import tqdm
 
 def check_diff(ours, baseline, output_dir):
     ours_file = open(ours, "r")
@@ -14,6 +15,39 @@ def check_diff(ours, baseline, output_dir):
     for ours_line, baseline_line in zip(ours_file, baseline_file):
         ours_data = json.loads(ours_line)
         baseline_data = json.loads(baseline_line)
+
+        ours_session = ours_data["session"]
+        baseline_session = baseline_data["session"]
+        ours_clip = []
+        baseline_clip = []
+
+        try:
+            for turn in ours_session[0]:
+                for clip in turn:
+                    ours_clip.append(clip["clip_id"])
+            # sort ours_clip
+            ours_clip.sort(key=lambda x: int(x.split("_")[1]))
+        except:
+            ours_clip = []
+        try:
+            for turn in baseline_session[0]:
+                for clip in turn:
+                    baseline_clip.append(clip["clip_id"])
+            # sort baseline_clip
+            baseline_clip.sort(key=lambda x: int(x.split("_")[1]))
+        except:
+            baseline_clip = []
+
+        data_pair = {
+            "question": ours_data["question"],
+            "gt": ours_data["answer"],
+            "ours_clips": ours_clip,
+            "ours_answer": ours_data["agent_answer"],
+            "baseline_clips": baseline_clip,
+            "baseline_answer": baseline_data["agent_answer"],
+            "ours_session": ours_session,
+            "baseline_session": baseline_session,
+        }
         
         assert ours_data["question"] == baseline_data["question"]
         
@@ -21,14 +55,16 @@ def check_diff(ours, baseline, output_dir):
         baseline_correct = baseline_data["verify_result"].lower().startswith("yes")
         
         if not baseline_correct and ours_correct:
-            turn_correct.append(ours_data)
+            turn_correct.append(data_pair)
         elif baseline_correct and not ours_correct:
-            turn_incorrect.append(ours_data)
+            turn_incorrect.append(data_pair)
         elif baseline_correct and ours_correct:
-            both_correct.append(ours_data)
+            both_correct.append(data_pair)
         else:
-            both_incorrect.append(ours_data)
-            
+            both_incorrect.append(data_pair)
+    
+    print(f"turn_correct: {len(turn_correct)}, turn_incorrect: {len(turn_incorrect)}, both_correct: {len(both_correct)}, both_incorrect: {len(both_incorrect)}")
+
     with open(os.path.join(output_dir, "turn_correct.json"), "w") as f:
         json.dump(turn_correct, f, indent=4)
         
@@ -49,4 +85,7 @@ def main():
     args = parser.parse_args()
     
     check_diff(args.ours, args.baseline, args.output_dir)
+
+if __name__ == "__main__":
+    main()
     
