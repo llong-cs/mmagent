@@ -82,6 +82,7 @@ def retrieve_from_videograph(video_graph, query, topk=5, mode='argmax', threshol
 
     for query_embedding in query_embeddings:
         nodes = video_graph.search_text_nodes([query_embedding])
+        top_nodes = nodes[:topk]
         for node in nodes:
             node_id = node[0]
             node_score = node[1] if node[1] >= threshold else 0
@@ -100,13 +101,15 @@ def retrieve_from_videograph(video_graph, query, topk=5, mode='argmax', threshol
 
                 
         # Sort clips by score and get top k clips
-        sorted_clips = sorted(clip_scores.items(), key=lambda x: x[1], reverse=True)[:topk]
-        top_clips.extend([clip_id for clip_id, _ in sorted_clips])
+        sorted_clips = sorted(clip_scores.items(), key=lambda x: x[1], reverse=True)
+        # Filter out clips that have 0 socre
+        sorted_clips = [clip_id for clip_id, score in sorted_clips if score > 0][:topk]
+        top_clips.extend(sorted_clips)
 
     top_clips = list(set(top_clips))
     
-    return top_clips, clip_scores
-
+    return top_clips, clip_scores, top_nodes
+    
 def generate_action(question, knowledge, retrieval_plan=None, multiple_queries=False, responses=[], switch=False):
     # select prompt
     if not switch:
@@ -194,9 +197,21 @@ def select_queries(action_content, responses):
     min_similarity_idx = avg_similarities.index(min(avg_similarities))
     return queries[min_similarity_idx]
 
-def search(video_graph, query, current_clips, topk=5, mode='argmax', threshold=0):
-    new_clips, clip_scores = retrieve_from_videograph(video_graph, query, topk, mode, threshold)
-    new_clips = [new_clip for new_clip in new_clips if new_clip not in current_clips]
+def search(video_graph, query, current_clips, topk=5, mode='argmax', threshold=0, single_mem=False):
+    top_clips, clip_scores, top_nodes = retrieve_from_videograph(video_graph, query, topk, mode, threshold, single_mem)
+    
+    if single_mem:
+        new_memories = {}
+        for top_node in top_nodes:
+            clip_id = video_graph.nodes[top_node].metadata['timestamp']
+            if clip_id not in new_memories:
+                new_memories[clip_id] = []
+            new_memories[clip_id].append(video_graph.nodes[top_node].metadata['contents'][0])
+        new_memories = dict(sorted(new_memories.items(), key=lambda x: x[0]))
+        new_memories = {f"CLIP_{k}": translate(video_graph, v) for k, v in new_memories.items()}
+        return new_memories, current_clips, clip_scores
+    
+    new_clips = [top_clip for top_clip in top_clips if top_clip not in current_clips]
     new_memories = {}
     current_clips.extend(new_clips)
     
