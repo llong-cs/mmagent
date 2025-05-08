@@ -197,10 +197,10 @@ def select_queries(action_content, responses):
     min_similarity_idx = avg_similarities.index(min(avg_similarities))
     return queries[min_similarity_idx]
 
-def search(video_graph, query, current_clips, topk=5, mode='argmax', threshold=0, single_mem=False):
-    top_clips, clip_scores, top_nodes = retrieve_from_videograph(video_graph, query, topk, mode, threshold, single_mem)
+def search(video_graph, query, current_clips, topk=5, mode='argmax', threshold=0, mem_wise=False):
+    top_clips, clip_scores, top_nodes = retrieve_from_videograph(video_graph, query, topk, mode, threshold)
     
-    if single_mem:
+    if mem_wise:
         new_memories = {}
         for top_node in top_nodes:
             clip_id = video_graph.nodes[top_node].metadata['timestamp']
