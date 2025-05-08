@@ -82,7 +82,7 @@ def retrieve_from_videograph(video_graph, query, topk=5, mode='argmax', threshol
 
     for query_embedding in query_embeddings:
         nodes = video_graph.search_text_nodes([query_embedding])
-        top_nodes = nodes[:topk]
+        top_nodes = [node_id for node_id, node_score in nodes if node_score >= threshold][:topk]
         for node in nodes:
             node_id = node[0]
             node_score = node[1] if node[1] >= threshold else 0
