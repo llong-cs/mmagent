@@ -65,9 +65,12 @@ def get_baseline_data(file_path):
     with open(file_path, 'r') as f:
         for line in tqdm(f, total=sample_num, desc="Loading baseline data"):
             data = json.loads(line)
-            for action in data['session'][1]:
-                if action['action_type'] == 'search':
-                    all_queries.append(action['action_content'])
+            try:
+                for action in data['session'][1]:
+                    if action['action_type'] == 'search':
+                        all_queries.append(action['action_content'])
+            except:
+                continue
     
     return all_queries
 
