@@ -7,6 +7,7 @@ import mmagent.videograph
 import sys
 import os
 from tqdm import tqdm
+import numpy as np
 from sklearn.decomposition import PCA
 sys.modules["videograph"] = mmagent.videograph
 
@@ -50,13 +51,21 @@ def get_data(file_path):
     return all_mems, all_queries, all_mem_embs
 
 def plot_distribution(file_path, embs_path):
-    if not embs_path:
+    if not os.path.exists(embs_path):
         mems, queries, mem_embs = get_data(file_path)
         
         assert len(mem_embs) == len(mems)
         
         query_embs = parallel_get_embedding("text-embedding-3-large", queries)
-
+        
+        mems_embs, query_embs = np.array(mem_embs), np.array(query_embs)
+        
+        np.save(embs_path, {"mems_embs": mems_embs, "query_embs": query_embs})
+    else:
+        data = np.load(embs_path, allow_pickle=True)
+        mems_embs, query_embs = data["mems_embs"], data["query_embs"]
+    
+    print(mems_embs.shape, query_embs.shape)
 
     
     # Perform dimensionality reduction using PCA
@@ -86,5 +95,5 @@ def plot_distribution(file_path, embs_path):
     
 
 if __name__ == "__main__":
-    plot_distribution("/mnt/hdfs/foundation/agent/heyc/ckpts/Qwen3-8B/output/3.jsonl")
+    plot_distribution("/mnt/hdfs/foundation/agent/heyc/ckpts/Qwen3-8B/output/3.jsonl", "data/analysis/Qwen3-8B_3.npy")
     
