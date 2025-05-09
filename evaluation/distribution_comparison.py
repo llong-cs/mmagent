@@ -22,7 +22,7 @@ def get_data(file_path):
             sample_num += 1
 
     with open(file_path, 'r') as f:
-        for line in tqdm(f, total=sample_num, desc="Loading data"):
+        for line in tqdm(f, total=sample_num, desc="Loading ours data"):
             data = json.loads(line)
             if data['mem_path'] not in mem_paths:
                 mem = load_video_graph(data['mem_path'])
@@ -57,8 +57,13 @@ def get_data(file_path):
 def get_baseline_data(file_path):
     all_queries = []
     
+    sample_num = 0
     with open(file_path, 'r') as f:
         for line in f:
+            sample_num += 1
+    
+    with open(file_path, 'r') as f:
+        for line in tqdm(f, total=sample_num, desc="Loading baseline data"):
             data = json.loads(line)
             for action in data['session'][1]:
                 if action['action_type'] == 'search':
