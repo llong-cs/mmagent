@@ -53,7 +53,6 @@ def get_data(file_path):
     print(f"Found {len(all_mems)} memories and {len(all_queries)} queries")
     
     return all_mems, all_queries, all_mem_embs
-
 def plot_distribution(file_path, embs_path):
     if not os.path.exists(embs_path):
         mems, queries, mem_embs = get_data(file_path)
@@ -77,13 +76,13 @@ def plot_distribution(file_path, embs_path):
     pca = PCA(n_components=2)
     
     # Fit PCA on memory embeddings and transform both memory and query embeddings
-    mem_embs_2d = pca.fit_transform(mem_embs)
+    mem_embs_2d = pca.fit_transform(mems_embs)
     query_embs_2d = pca.transform(query_embs)
     
     # Create scatter plot
     plt.figure(figsize=(10, 8))
-    plt.scatter(mem_embs_2d[:, 0], mem_embs_2d[:, 1], c='blue', alpha=0.5, label='Memories')
-    plt.scatter(query_embs_2d[:, 0], query_embs_2d[:, 1], c='red', alpha=0.5, label='Queries')
+    plt.scatter(mem_embs_2d[:, 0], mem_embs_2d[:, 1], c='lightblue', alpha=0.8, label='Memories')
+    plt.scatter(query_embs_2d[:, 0], query_embs_2d[:, 1], c='deeppink', alpha=0.5, label='Queries')
     
     plt.xlabel('First Principal Component')
     plt.ylabel('Second Principal Component') 
