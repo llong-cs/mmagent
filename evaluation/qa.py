@@ -195,24 +195,38 @@ if __name__ == "__main__":
     if "qwen" in args.dataset:
         exp_settings = {
             "full_retrieval_threshold_0_no_planning_qwen": {
-                "max_retrieval_steps": 2,
-                "threshold": 0,
+                "max_retrieval_steps": 5,
+                "threshold": 0.4,
                 "planning": False,
-                "topk": 10000
+                "topk": 5
             },
         }
     else:
         exp_settings = {
+            # "5_rounds_threshold_0_3_no_planning": {
+            #     "max_retrieval_steps": 5,
+            #     "retrieval_threshold": 0.3,
+            #     "planning": False,
+            #     "topk": 5
+            # },
+            # "5_rounds_threshold_0_4_no_planning": {
+            #     "max_retrieval_steps": 5,
+            #     "retrieval_threshold": 0.4,
+            #     "planning": False,
+            #     "topk": 5
+            # },
             "5_rounds_threshold_0_5_no_planning": {
                 "max_retrieval_steps": 5,
-                "threshold": 0.5,
+                "retrieval_threshold": 0.5,
                 "planning": False,
+                "topk": 5
             },
-            "5_rounds_threshold_0_5_do_planning": {
-                "max_retrieval_steps": 5,
-                "threshold": 0.5,
-                "planning": True,
-            },
+            # "5_rounds_threshold_0_6_no_planning": {
+            #     "max_retrieval_steps": 5,
+            #     "retrieval_threshold": 0.6,
+            #     "planning": False,
+            #     "topk": 5
+            # }
         }
 
     # # idx = 0
