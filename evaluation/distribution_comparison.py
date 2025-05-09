@@ -60,7 +60,7 @@ def plot_distribution(file_path, embs_path):
         
         assert len(mem_embs) == len(mems)
         
-        query_embs = parallel_get_embedding("text-embedding-3-large", queries)
+        query_embs = parallel_get_embedding("text-embedding-3-large", queries)[0]
         
         mems_embs, query_embs = np.array(mem_embs), np.array(query_embs)
         
