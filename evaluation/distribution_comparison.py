@@ -9,6 +9,8 @@ import os
 from tqdm import tqdm
 import numpy as np
 from sklearn.decomposition import PCA
+import argparse
+from sklearn.cluster import KMeans
 sys.modules["videograph"] = mmagent.videograph
 
 def get_data(file_path):
@@ -74,7 +76,13 @@ def get_baseline_data(file_path):
     
     return all_queries
 
-def plot_distribution(file_path, baseline_path, embs_path):
+def plot_distribution(file_path, baseline_path, output_dir, num_samples=20):
+    # Create output directory if it doesn't exist
+    os.makedirs(output_dir, exist_ok=True)
+    
+    # Set embeddings path within output directory
+    embs_path = os.path.join(output_dir, "embeddings.npz")
+    
     if not os.path.exists(embs_path):
         print("Embeddings not found, generating...")
         mems, ours_queries, mem_embs = get_data(file_path)
@@ -86,20 +94,17 @@ def plot_distribution(file_path, baseline_path, embs_path):
         
         mems_embs, ours_query_embs, baseline_query_embs = np.array(mem_embs), np.array(ours_query_embs), np.array(baseline_query_embs)
         
-        np.savez(embs_path, mems_embs=mems_embs, ours_query_embs=ours_query_embs, baseline_query_embs=baseline_query_embs)
+        np.savez(embs_path, mems=mems, mems_embs=mems_embs, ours_query_embs=ours_query_embs, baseline_query_embs=baseline_query_embs)
     else:
         print("Embeddings found, loading...")
-        mems, ours_queries, mem_embs = get_data(file_path)
         data = np.load(embs_path)
-        mems_embs, ours_query_embs, baseline_query_embs = data['mems_embs'], data['ours_query_embs'], data['baseline_query_embs']
+        mems, mems_embs, ours_query_embs, baseline_query_embs = data['mems'], data['mems_embs'], data['ours_query_embs'], data['baseline_query_embs']
     
-    assert len(mem_embs) == len(mems)
+    assert len(mems_embs) == len(mems)
     
     print(mems_embs.shape, ours_query_embs.shape, baseline_query_embs.shape)
-
     
     # Perform dimensionality reduction using PCA
-    # Initialize PCA to reduce to 2 dimensions
     pca = PCA(n_components=2)
     
     # Fit PCA on memory embeddings and transform both memory and query embeddings
@@ -113,10 +118,19 @@ def plot_distribution(file_path, baseline_path, embs_path):
     plt.scatter(ours_query_embs_2d[:, 0], ours_query_embs_2d[:, 1], c='lightpink', alpha=0.8, label='Ours Queries')
     plt.scatter(baseline_query_embs_2d[:, 0], baseline_query_embs_2d[:, 1], c='lightgreen', alpha=0.8, label='Baseline Queries')
     
-    # Randomly sample and annotate some memory points
-    num_samples = min(20, len(mems))  # Adjust the number of samples as needed
-    sampled_indices = np.random.choice(len(mems), num_samples, replace=False)
+    # Use K-means to sample evenly distributed points
+    num_samples = min(num_samples, len(mems))
+    kmeans = KMeans(n_clusters=num_samples, random_state=42)
+    kmeans.fit(mem_embs_2d)
     
+    # Find the closest point to each cluster center
+    sampled_indices = []
+    for center in kmeans.cluster_centers_:
+        distances = np.linalg.norm(mem_embs_2d - center, axis=1)
+        closest_idx = np.argmin(distances)
+        sampled_indices.append(closest_idx)
+    
+    # Annotate the sampled points
     for idx in sampled_indices:
         x, y = mem_embs_2d[idx]
         plt.annotate(mems[idx][:50] + "...", (x, y), xytext=(5, 5), textcoords='offset points', fontsize=4, alpha=0.7)
@@ -128,13 +142,25 @@ def plot_distribution(file_path, baseline_path, embs_path):
     plt.legend()
     plt.grid(True)
     
-    save_path = f"data/analysis/distribution_comparison_{file_path.split('/')[-1].split('.')[0]}.png"
-    os.makedirs(os.path.dirname(save_path), exist_ok=True)
-    
+    # Save plot in output directory
+    save_path = os.path.join(output_dir, f"distribution_comparison.png")
     plt.savefig(save_path, dpi=300, bbox_inches='tight')
     plt.close()
-    
+
+def parse_args():
+    parser = argparse.ArgumentParser(description='Plot distribution of memory and query embeddings')
+    parser.add_argument('--input_file', type=str, help='Path to the input JSONL file', default="/mnt/hdfs/foundation/agent/heyc/ckpts/Qwen3-8B/output/3.jsonl")
+    parser.add_argument('--baseline_file', type=str, help='Path to the baseline JSONL file', default="data/annotations/results/5_rounds_threshold_0_3_no_planning/small_test_with_agent_answer_0.jsonl")
+    parser.add_argument('--output_dir', type=str, help='Directory to save the output files', default="data/analysis/distribution_comparison")
+    parser.add_argument('--num_samples', type=int, default=20, help='Number of samples to annotate (default: 20)')
+    return parser.parse_args()
 
 if __name__ == "__main__":
-    plot_distribution("/mnt/hdfs/foundation/agent/heyc/ckpts/Qwen3-8B/output/3.jsonl", "data/annotations/results/5_rounds_threshold_0_3_no_planning/small_test_with_agent_answer_0.jsonl", "data/analysis/Qwen3-8B_3.npz")
+    args = parse_args()
+    plot_distribution(
+        file_path=args.input_file,
+        baseline_path=args.baseline_file,
+        output_dir=args.output_dir,
+        num_samples=args.num_samples
+    )
     
