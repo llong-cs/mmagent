@@ -53,22 +53,38 @@ def get_data(file_path):
     print(f"Found {len(all_mems)} memories and {len(all_queries)} queries")
     
     return all_mems, all_queries, all_mem_embs
-def plot_distribution(file_path, embs_path):
+
+def get_baseline_data(file_path):
+    all_queries = []
+    
+    with open(file_path, 'r') as f:
+        for line in f:
+            data = json.loads(line)
+            for action in data['session'][1]:
+                if action['action_type'] == 'search':
+                    all_queries.append(action['action_content'])
+    
+    return all_queries
+
+def plot_distribution(file_path, baseline_path, embs_path):
     if not os.path.exists(embs_path):
-        mems, queries, mem_embs = get_data(file_path)
+        mems, ours_queries, mem_embs = get_data(file_path)
         
         assert len(mem_embs) == len(mems)
         
-        query_embs = parallel_get_embedding("text-embedding-3-large", queries)[0]
+        ours_query_embs = parallel_get_embedding("text-embedding-3-large", ours_queries)[0]
         
-        mems_embs, query_embs = np.array(mem_embs), np.array(query_embs)
+        baseline_queries = get_baseline_data(baseline_path)
+        baseline_query_embs = parallel_get_embedding("text-embedding-3-large", baseline_queries)[0]
         
-        np.savez(embs_path, mems_embs=mems_embs, query_embs=query_embs)
+        mems_embs, ours_query_embs, baseline_query_embs = np.array(mem_embs), np.array(ours_query_embs), np.array(baseline_query_embs)
+        
+        np.savez(embs_path, mems_embs=mems_embs, ours_query_embs=ours_query_embs, baseline_query_embs=baseline_query_embs)
     else:
         data = np.load(embs_path)
-        mems_embs, query_embs = data['mems_embs'], data['query_embs']
+        mems_embs, ours_query_embs, baseline_query_embs = data['mems_embs'], data['ours_query_embs'], data['baseline_query_embs']
     
-    print(mems_embs.shape, query_embs.shape)
+    print(mems_embs.shape, ours_query_embs.shape, baseline_query_embs.shape)
 
     
     # Perform dimensionality reduction using PCA
@@ -77,12 +93,14 @@ def plot_distribution(file_path, embs_path):
     
     # Fit PCA on memory embeddings and transform both memory and query embeddings
     mem_embs_2d = pca.fit_transform(mems_embs)
-    query_embs_2d = pca.transform(query_embs)
+    ours_query_embs_2d = pca.transform(ours_query_embs)
+    baseline_query_embs_2d = pca.transform(baseline_query_embs)
     
     # Create scatter plot
     plt.figure(figsize=(10, 8))
-    plt.scatter(mem_embs_2d[:, 0], mem_embs_2d[:, 1], c='lightblue', alpha=0.5, label='Memories')
-    plt.scatter(query_embs_2d[:, 0], query_embs_2d[:, 1], c='lightpink', alpha=0.8, label='Queries')
+    plt.scatter(mem_embs_2d[:, 0], mem_embs_2d[:, 1], c='lightblue', alpha=0.3, label='Memories')
+    plt.scatter(ours_query_embs_2d[:, 0], ours_query_embs_2d[:, 1], c='lightpink', alpha=0.8, label='Ours Queries')
+    plt.scatter(baseline_query_embs_2d[:, 0], baseline_query_embs_2d[:, 1], c='lightgreen', alpha=0.8, label='Baseline Queries')
     
     plt.xlabel('First Principal Component')
     plt.ylabel('Second Principal Component') 
@@ -98,5 +116,5 @@ def plot_distribution(file_path, embs_path):
     
 
 if __name__ == "__main__":
-    plot_distribution("/mnt/hdfs/foundation/agent/heyc/ckpts/Qwen3-8B/output/3.jsonl", "data/analysis/Qwen3-8B_3.npz")
+    plot_distribution("/mnt/hdfs/foundation/agent/heyc/ckpts/Qwen3-8B/output/3.jsonl", "data/annotations/results/5_rounds_threshold_0_3_no_planning/small_test_with_agent_answer_0.jsonl", "data/analysis/Qwen3-8B_3.npz")
     
