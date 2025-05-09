@@ -63,10 +63,10 @@ def plot_distribution(file_path, embs_path):
         
         mems_embs, query_embs = np.array(mem_embs), np.array(query_embs)
         
-        np.save(embs_path, {"mems_embs": mems_embs, "query_embs": query_embs})
+        np.savez(embs_path, mems_embs=mems_embs, query_embs=query_embs)
     else:
-        data = np.load(embs_path, allow_pickle=True)
-        mems_embs, query_embs = data["mems_embs"], data["query_embs"]
+        data = np.load(embs_path)
+        mems_embs, query_embs = data['mems_embs'], data['query_embs']
     
     print(mems_embs.shape, query_embs.shape)
 
@@ -98,5 +98,5 @@ def plot_distribution(file_path, embs_path):
     
 
 if __name__ == "__main__":
-    plot_distribution("/mnt/hdfs/foundation/agent/heyc/ckpts/Qwen3-8B/output/3.jsonl", "data/analysis/Qwen3-8B_3.npy")
+    plot_distribution("/mnt/hdfs/foundation/agent/heyc/ckpts/Qwen3-8B/output/3.jsonl", "data/analysis/Qwen3-8B_3.npz")
     
