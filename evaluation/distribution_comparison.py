@@ -6,6 +6,7 @@ from mmagent.retrieve import translate
 import mmagent.videograph
 import sys
 import os
+from tqdm import tqdm
 from sklearn.decomposition import PCA
 sys.modules["videograph"] = mmagent.videograph
 
@@ -13,8 +14,13 @@ def get_data(file_path):
     all_mems = []
     all_mem_embs = []
     all_queries = []
+    sample_num = 0
     with open(file_path, 'r') as f:
         for line in f:
+            sample_num += 1
+
+    with open(file_path, 'r') as f:
+        for line in tqdm(f, total=sample_num, desc="Loading data"):
             data = json.loads(line)
             mem = load_video_graph(data['mem_path'])
             mem.refresh_equivalences()
@@ -22,28 +28,36 @@ def get_data(file_path):
             mems = translate(mem, mems)
             all_mems.extend(mems)
             
-            mem_embs = [mem.nodes[node].metadata['embedding'] for node in mem.text_nodes]
+            mem_embs = [mem.nodes[node].embeddings[0] for node in mem.text_nodes if not mem.nodes[node].metadata['contents'][0].lower().startswith("equivalence: ")]
             all_mem_embs.extend(mem_embs)
+
+            # print(len(all_mems), len(all_mem_embs))
             
             for turn in data['session']:
                 if turn['role'] == 'user':
                     continue
-                action = turn['content'].split("</think>")[-1].strip()
-                type, content = action.split("Content:")
-                type, content = type.strip(), content.strip()
-                if "[Search]" in type:
-                    all_queries.append(content)
+                try:
+                    action = turn['content'].split("</think>")[-1].strip()
+                    type, content = action.split("Content:")
+                    type, content = type.strip(), content.strip()
+                    if "[Search]" in type:
+                        all_queries.append(content)
+                except:
+                    continue
     
     print(f"Found {len(all_mems)} memories and {len(all_queries)} queries")
     
     return all_mems, all_queries, all_mem_embs
 
-def plot_distribution(file_path):
-    mems, queries, mem_embs = get_data(file_path)
-    
-    assert len(mem_embs) == len(mems)
-    
-    query_embs = parallel_get_embedding("text-embedding-3-large", queries)
+def plot_distribution(file_path, embs_path):
+    if not embs_path:
+        mems, queries, mem_embs = get_data(file_path)
+        
+        assert len(mem_embs) == len(mems)
+        
+        query_embs = parallel_get_embedding("text-embedding-3-large", queries)
+
+
     
     # Perform dimensionality reduction using PCA
     # Initialize PCA to reduce to 2 dimensions
