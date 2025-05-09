@@ -114,12 +114,12 @@ def plot_distribution(file_path, baseline_path, embs_path):
     plt.scatter(baseline_query_embs_2d[:, 0], baseline_query_embs_2d[:, 1], c='lightgreen', alpha=0.8, label='Baseline Queries')
     
     # Randomly sample and annotate some memory points
-    num_samples = min(10, len(mems))  # Adjust the number of samples as needed
+    num_samples = min(20, len(mems))  # Adjust the number of samples as needed
     sampled_indices = np.random.choice(len(mems), num_samples, replace=False)
     
     for idx in sampled_indices:
         x, y = mem_embs_2d[idx]
-        plt.annotate(mems[idx][:30] + "...", (x, y), xytext=(5, 5), textcoords='offset points', fontsize=4, alpha=0.7)
+        plt.annotate(mems[idx][:50] + "...", (x, y), xytext=(5, 5), textcoords='offset points', fontsize=4, alpha=0.7)
         plt.plot(x, y, 'ro', markersize=5)  # Highlight the sampled points
     
     plt.xlabel('First Principal Component')
