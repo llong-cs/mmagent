@@ -76,9 +76,8 @@ def get_baseline_data(file_path):
 
 def plot_distribution(file_path, baseline_path, embs_path):
     if not os.path.exists(embs_path):
+        print("Embeddings not found, generating...")
         mems, ours_queries, mem_embs = get_data(file_path)
-        
-        assert len(mem_embs) == len(mems)
         
         ours_query_embs = parallel_get_embedding("text-embedding-3-large", ours_queries)[0]
         
@@ -89,8 +88,12 @@ def plot_distribution(file_path, baseline_path, embs_path):
         
         np.savez(embs_path, mems_embs=mems_embs, ours_query_embs=ours_query_embs, baseline_query_embs=baseline_query_embs)
     else:
+        print("Embeddings found, loading...")
+        mems, ours_queries, mem_embs = get_data(file_path)
         data = np.load(embs_path)
         mems_embs, ours_query_embs, baseline_query_embs = data['mems_embs'], data['ours_query_embs'], data['baseline_query_embs']
+    
+    assert len(mem_embs) == len(mems)
     
     print(mems_embs.shape, ours_query_embs.shape, baseline_query_embs.shape)
 
@@ -105,10 +108,19 @@ def plot_distribution(file_path, baseline_path, embs_path):
     baseline_query_embs_2d = pca.transform(baseline_query_embs)
     
     # Create scatter plot
-    plt.figure(figsize=(10, 8))
+    plt.figure(figsize=(12, 10))
     plt.scatter(mem_embs_2d[:, 0], mem_embs_2d[:, 1], c='lightblue', alpha=0.3, label='Memories')
     plt.scatter(ours_query_embs_2d[:, 0], ours_query_embs_2d[:, 1], c='lightpink', alpha=0.8, label='Ours Queries')
     plt.scatter(baseline_query_embs_2d[:, 0], baseline_query_embs_2d[:, 1], c='lightgreen', alpha=0.8, label='Baseline Queries')
+    
+    # Randomly sample and annotate some memory points
+    num_samples = min(10, len(mems))  # Adjust the number of samples as needed
+    sampled_indices = np.random.choice(len(mems), num_samples, replace=False)
+    
+    for idx in sampled_indices:
+        x, y = mem_embs_2d[idx]
+        plt.annotate(mems[idx][:30] + "...", (x, y), xytext=(5, 5), textcoords='offset points', fontsize=4, alpha=0.7)
+        plt.plot(x, y, 'ro', markersize=5)  # Highlight the sampled points
     
     plt.xlabel('First Principal Component')
     plt.ylabel('Second Principal Component') 
@@ -119,7 +131,7 @@ def plot_distribution(file_path, baseline_path, embs_path):
     save_path = f"data/analysis/distribution_comparison_{file_path.split('/')[-1].split('.')[0]}.png"
     os.makedirs(os.path.dirname(save_path), exist_ok=True)
     
-    plt.savefig(save_path)
+    plt.savefig(save_path, dpi=300, bbox_inches='tight')
     plt.close()
     
 
