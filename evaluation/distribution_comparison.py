@@ -15,6 +15,7 @@ def get_data(file_path):
     all_mems = []
     all_mem_embs = []
     all_queries = []
+    mem_paths = []
     sample_num = 0
     with open(file_path, 'r') as f:
         for line in f:
@@ -23,14 +24,17 @@ def get_data(file_path):
     with open(file_path, 'r') as f:
         for line in tqdm(f, total=sample_num, desc="Loading data"):
             data = json.loads(line)
-            mem = load_video_graph(data['mem_path'])
-            mem.refresh_equivalences()
-            mems = [mem.nodes[node].metadata['contents'][0] for node in mem.text_nodes]
-            mems = translate(mem, mems)
-            all_mems.extend(mems)
-            
-            mem_embs = [mem.nodes[node].embeddings[0] for node in mem.text_nodes if not mem.nodes[node].metadata['contents'][0].lower().startswith("equivalence: ")]
-            all_mem_embs.extend(mem_embs)
+            if data['mem_path'] not in mem_paths:
+                mem = load_video_graph(data['mem_path'])
+                mem.refresh_equivalences()
+                mems = [mem.nodes[node].metadata['contents'][0] for node in mem.text_nodes]
+                mems = translate(mem, mems)
+                all_mems.extend(mems)
+                
+                mem_embs = [mem.nodes[node].embeddings[0] for node in mem.text_nodes if not mem.nodes[node].metadata['contents'][0].lower().startswith("equivalence: ")]
+                all_mem_embs.extend(mem_embs)
+
+                mem_paths.append(data['mem_path'])
 
             # print(len(all_mems), len(all_mem_embs))
             
