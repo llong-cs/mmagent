@@ -81,8 +81,8 @@ def plot_distribution(file_path, embs_path):
     
     # Create scatter plot
     plt.figure(figsize=(10, 8))
-    plt.scatter(mem_embs_2d[:, 0], mem_embs_2d[:, 1], c='lightblue', alpha=0.8, label='Memories')
-    plt.scatter(query_embs_2d[:, 0], query_embs_2d[:, 1], c='deeppink', alpha=0.5, label='Queries')
+    plt.scatter(mem_embs_2d[:, 0], mem_embs_2d[:, 1], c='lightblue', alpha=0.5, label='Memories')
+    plt.scatter(query_embs_2d[:, 0], query_embs_2d[:, 1], c='lightpink', alpha=0.8, label='Queries')
     
     plt.xlabel('First Principal Component')
     plt.ylabel('Second Principal Component') 
