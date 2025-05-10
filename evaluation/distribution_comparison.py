@@ -133,8 +133,19 @@ def plot_distribution(file_path, baseline_path, output_dir, num_samples=20):
     # Annotate the sampled points
     for idx in sampled_indices:
         x, y = mem_embs_2d[idx]
-        plt.annotate(mems[idx][:50] + "...", (x, y), xytext=(5, 5), textcoords='offset points', fontsize=4, alpha=0.7)
-        plt.plot(x, y, 'ro', markersize=5)  # Highlight the sampled points
+        text = mems[idx][:50] + "..."
+        # Add white background and black border
+        plt.annotate(text, (x, y), 
+                    xytext=(5, 5), 
+                    textcoords='offset points', 
+                    fontsize=4, 
+                    alpha=0.7,
+                    bbox=dict(facecolor='white', 
+                             edgecolor='black',
+                             linewidth=0.2,
+                             alpha=0.7,
+                             boxstyle='round,pad=0.3'))
+        plt.plot(x, y, 'ro', markersize=3)  # Highlight the sampled points
     
     plt.xlabel('First Principal Component')
     plt.ylabel('Second Principal Component') 
@@ -149,7 +160,7 @@ def plot_distribution(file_path, baseline_path, output_dir, num_samples=20):
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Plot distribution of memory and query embeddings')
-    parser.add_argument('--input_file', type=str, help='Path to the input JSONL file', default="/mnt/hdfs/foundation/agent/heyc/ckpts/Qwen3-8B/output/3.jsonl")
+    parser.add_argument('--ours_file', type=str, help='Path to the ours JSONL file', default="/mnt/hdfs/foundation/agent/heyc/ckpts/Qwen3-8B/output/3.jsonl")
     parser.add_argument('--baseline_file', type=str, help='Path to the baseline JSONL file', default="data/annotations/results/5_rounds_threshold_0_3_no_planning/small_test_with_agent_answer_0.jsonl")
     parser.add_argument('--output_dir', type=str, help='Directory to save the output files', default="data/analysis/distribution_comparison")
     parser.add_argument('--num_samples', type=int, default=20, help='Number of samples to annotate (default: 20)')
@@ -158,7 +169,7 @@ def parse_args():
 if __name__ == "__main__":
     args = parse_args()
     plot_distribution(
-        file_path=args.input_file,
+        file_path=args.ours_file,
         baseline_path=args.baseline_file,
         output_dir=args.output_dir,
         num_samples=args.num_samples
