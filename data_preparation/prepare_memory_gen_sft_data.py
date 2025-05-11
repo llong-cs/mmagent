@@ -12,11 +12,11 @@ import random
 from mmagent.prompts import prompt_generate_captions_with_ids_sft, prompt_generate_thinkings_with_ids_sft
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--data_path", type=str, default="data/sft/memgen/0429/train_for_memory_5k.json")
-parser.add_argument("--samples_path", type=str, default="data/sft/memgen/0429/samples/training_samples.jsonl")
-parser.add_argument("--conversations_dir", type=str, default="data/sft/memgen/0429/conversations")
+parser.add_argument("--data_path", type=str, default="data/sft/memgen/0511/train_for_memory_6k.json")
+parser.add_argument("--samples_path", type=str, default="data/sft/memgen/0511/samples/training_samples.jsonl")
+parser.add_argument("--conversations_dir", type=str, default="data/sft/memgen/0511/conversations")
 parser.add_argument("--prepare_conversations", action="store_true")
-parser.add_argument("--output_dir", type=str, default="/mnt/hdfs/foundation/longlin.kylin/mmagent/data/memgen_sft/0429")
+parser.add_argument("--output_dir", type=str, default="/mnt/hdfs/foundation/longlin.kylin/mmagent/data/memgen_sft/0511")
 parser.add_argument("--cuda_id", type=int, default=0)
 args = parser.parse_args()
 
@@ -222,11 +222,36 @@ def fix_and_transfer_data(data_path, output_path):
     samples = []
     with open(data_path, "r") as f:
         data = json.load(f)
-    for _, item in data.items():
-        samples.extend(item["clips"])
+        
+    # for _, item in data.items():
+    #     samples.extend(item["clips"])
+    
+    samples = data
 
     all_data = []
     
+    # for sample in tqdm(samples):
+    #     try:
+    #         with open(sample, "r") as f:
+    #             data = json.load(f)
+                
+    #         data["original_path"] = sample
+                
+    #         equivalences = data["semantic_memory"]
+    #         if len(equivalences):
+    #             if "is" in equivalences[0]:
+    #                 new_equivalences = []
+    #                 for equivalence in equivalences:
+    #                     id1, id2 = equivalence.split("is")
+    #                     id1, id2 = id1.strip(), id2.strip()
+    #                     new_equivalences.append(f"Equivalence: {id1}, {id2}")
+    #                 data["semantic_memory"] = new_equivalences
+            
+    #         all_data.append(data)
+    #     except Exception as e:
+    #         print(e)
+    #         continue
+        
     for sample in tqdm(samples):
         try:
             with open(sample, "r") as f:
@@ -234,7 +259,7 @@ def fix_and_transfer_data(data_path, output_path):
                 
             data["original_path"] = sample
                 
-            equivalences = data["semantic_memory"]
+            equivalences = data["semantic_memory_equivalance"]
             if len(equivalences):
                 if "is" in equivalences[0]:
                     new_equivalences = []
@@ -338,7 +363,7 @@ def generate_episodic_conversations(samples_path, output_path):
             with open(output_path, "a") as f:
                 f.write(json.dumps(res) + "\n")
 
-def generate_semantic_conversations(data_path, output_path, sem_mem_types=["semantic_memory", "semantic_memory_character", "semantic_memory_relation", "semantic_memory_video", "semantic_memory_general"]):
+def generate_semantic_conversations(data_path, output_path, sem_mem_types=["semantic_memory_equivalance", "semantic_memory_character", "semantic_memory_relation", "semantic_memory_video", "semantic_memory_general"]):
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(data_path, "r") as f:
         for line in f:

@@ -1,0 +1,164 @@
+Date : 2025-05-09 20:36:37
+Directory : /Users/bytedance/Documents/code/mmagent
+Total : 114 files,  216416 codes, 1472 comments, 2739 blanks, all 220627 lines
+
+Languages
++------------------+------------+------------+------------+------------+------------+
+| language         | files      | code       | comment    | blank      | total      |
++------------------+------------+------------+------------+------------+------------+
+| JSON             |         36 |    186,539 |          0 |          5 |    186,544 |
+| Python           |         48 |     14,006 |      1,436 |      2,661 |     18,103 |
+| JSON Lines       |          7 |     10,138 |          0 |          7 |     10,145 |
+| CSV              |         11 |      5,467 |          0 |         10 |      5,477 |
+| Shell Script     |          8 |        149 |         35 |         34 |        218 |
+| Markdown         |          1 |         62 |          0 |         21 |         83 |
+| YAML             |          2 |         43 |          0 |          0 |         43 |
+| pip requirements |          1 |         12 |          1 |          1 |         14 |
++------------------+------------+------------+------------+------------+------------+
+
+Directories
++-----------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                    | files      | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                       |        114 |    216,416 |      1,472 |      2,739 |    220,627 |
+| . (Files)                                                                               |          8 |      2,370 |          8 |         35 |      2,413 |
+| analysis                                                                                |          1 |         83 |          2 |         19 |        104 |
+| baselines                                                                               |          2 |        271 |          0 |          6 |        277 |
+| configs                                                                                 |          3 |         38 |          0 |          1 |         39 |
+| data                                                                                    |         45 |    199,595 |          0 |         17 |    199,612 |
+| data/annotations                                                                        |         45 |    199,595 |          0 |         17 |    199,612 |
+| data/annotations (Files)                                                                |          8 |     61,794 |          0 |          5 |     61,799 |
+| data/annotations/archived                                                               |          4 |     33,102 |          0 |          2 |     33,104 |
+| data/annotations/raw                                                                    |         33 |    104,699 |          0 |         10 |    104,709 |
+| data_preparation                                                                        |          8 |        994 |        102 |        201 |      1,297 |
+| evaluation                                                                              |          9 |        812 |         63 |        170 |      1,045 |
+| mmagent                                                                                 |         17 |      3,935 |        433 |      1,011 |      5,379 |
+| mmagent (Files)                                                                         |          8 |      2,627 |        296 |        743 |      3,666 |
+| mmagent/idl                                                                             |          1 |          0 |          0 |          1 |          1 |
+| mmagent/utils                                                                           |          8 |      1,308 |        137 |        267 |      1,712 |
+| training                                                                                |         21 |      8,318 |        864 |      1,279 |     10,461 |
+| training (Files)                                                                        |         17 |      8,243 |        864 |      1,279 |     10,386 |
+| training/configs                                                                        |          2 |         32 |          0 |          0 |         32 |
+| training/deepspeed_config                                                               |          2 |         43 |          0 |          0 |         43 |
++-----------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-----------------------------------------------------------------------------------------+------------------+------------+------------+------------+------------+
+| filename                                                                                | language         | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------+------------------+------------+------------+------------+------------+
+| /Users/bytedance/Documents/code/mmagent/README.md                                       | Markdown         |         62 |          0 |         21 |         83 |
+| /Users/bytedance/Documents/code/mmagent/analysis/check_qa_badcases.py                   | Python           |         83 |          2 |         19 |        104 |
+| /Users/bytedance/Documents/code/mmagent/annotation_processing.ipynb                     | JSON             |        582 |          0 |          1 |        583 |
+| /Users/bytedance/Documents/code/mmagent/baselines/baseline_answer_clipwise.ipynb        | JSON             |        242 |          0 |          1 |        243 |
+| /Users/bytedance/Documents/code/mmagent/baselines/baseline_blind.py                     | Python           |         29 |          0 |          5 |         34 |
+| /Users/bytedance/Documents/code/mmagent/configs/__init__.py                             | Python           |          0 |          0 |          1 |          1 |
+| /Users/bytedance/Documents/code/mmagent/configs/memory_config.json                      | JSON             |          6 |          0 |          0 |          6 |
+| /Users/bytedance/Documents/code/mmagent/configs/processing_config.json                  | JSON             |         32 |          0 |          0 |         32 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/archived/small_test.json       | JSON             |      4,630 |          0 |          0 |      4,630 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/archived/small_test.jsonl      | JSON Lines       |        504 |          0 |          1 |        505 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/archived/small_train.json      | JSON             |     25,201 |          0 |          0 |     25,201 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/archived/small_train.jsonl     | JSON Lines       |      2,767 |          0 |          1 |      2,768 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/raw/CZ_1.csv                   | CSV              |        508 |          0 |          0 |        508 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/raw/CZ_1.json                  | JSON             |      4,337 |          0 |          0 |      4,337 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/raw/CZ_1_refined.json          | JSON             |      4,437 |          0 |          0 |      4,437 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/raw/CZ_2.csv                   | CSV              |        505 |          0 |          2 |        507 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/raw/CZ_2.json                  | JSON             |      4,309 |          0 |          0 |      4,309 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/raw/CZ_2_refined.json          | JSON             |      4,409 |          0 |          0 |      4,409 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/raw/CZ_3.csv                   | CSV              |        513 |          0 |          0 |        513 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/raw/CZ_3.json                  | JSON             |      4,358 |          0 |          0 |      4,358 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/raw/CZ_3_refined.json          | JSON             |      4,458 |          0 |          0 |      4,458 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/raw/CZ_4.csv                   | CSV              |        310 |          0 |          0 |        310 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/raw/CZ_4.json                  | JSON             |      4,393 |          0 |          0 |      4,393 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/raw/CZ_4_refined.json          | JSON             |      4,493 |          0 |          0 |      4,493 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/raw/CZ_5.csv                   | CSV              |        520 |          0 |          0 |        520 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/raw/CZ_5.json                  | JSON             |      4,421 |          0 |          0 |      4,421 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/raw/CZ_5_refined.json          | JSON             |      4,521 |          0 |          0 |      4,521 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/raw/ZZ_1.csv                   | CSV              |        537 |          0 |          4 |        541 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/raw/ZZ_1.json                  | JSON             |      4,428 |          0 |          0 |      4,428 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/raw/ZZ_1_refined.json          | JSON             |      4,528 |          0 |          0 |      4,528 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/raw/ZZ_2.csv                   | CSV              |        538 |          0 |          0 |        538 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/raw/ZZ_2.json                  | JSON             |      4,540 |          0 |          0 |      4,540 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/raw/ZZ_2_refined.json          | JSON             |      4,640 |          0 |          0 |      4,640 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/raw/ZZ_3.csv                   | CSV              |        542 |          0 |          0 |        542 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/raw/ZZ_3.json                  | JSON             |      4,582 |          0 |          0 |      4,582 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/raw/ZZ_3_refined.json          | JSON             |      4,682 |          0 |          0 |      4,682 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/raw/ZZ_4.csv                   | CSV              |        381 |          0 |          0 |        381 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/raw/ZZ_4.json                  | JSON             |      4,570 |          0 |          0 |      4,570 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/raw/ZZ_4_refined.json          | JSON             |      4,570 |          0 |          0 |      4,570 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/raw/ZZ_5.csv                   | CSV              |        564 |          0 |          3 |        567 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/raw/ZZ_5.json                  | JSON             |      4,652 |          0 |          0 |      4,652 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/raw/ZZ_5_refined.json          | JSON             |      4,752 |          0 |          0 |      4,752 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/raw/ZZ_6.csv                   | CSV              |        549 |          0 |          1 |        550 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/raw/ZZ_6.json                  | JSON             |      4,526 |          0 |          0 |      4,526 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/raw/ZZ_6_refined.json          | JSON             |      4,626 |          0 |          0 |      4,626 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/small_test.json                | JSON             |      4,630 |          0 |          0 |      4,630 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/small_test.jsonl               | JSON Lines       |        504 |          0 |          1 |        505 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/small_test_hard.jsonl          | JSON Lines       |        340 |          0 |          1 |        341 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/small_test_qwen.jsonl          | JSON Lines       |        504 |          0 |          1 |        505 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/small_train.json               | JSON             |     26,588 |          0 |          0 |     26,588 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/small_train.jsonl              | JSON Lines       |      2,918 |          0 |          1 |      2,919 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/train_500.json                 | JSON             |     23,709 |          0 |          0 |     23,709 |
+| /Users/bytedance/Documents/code/mmagent/data/annotations/train_500.jsonl                | JSON Lines       |      2,601 |          0 |          1 |      2,602 |
+| /Users/bytedance/Documents/code/mmagent/data_preparation/generate_memory.py             | Python           |        163 |         11 |         35 |        209 |
+| /Users/bytedance/Documents/code/mmagent/data_preparation/generate_memory_qwen.py        | Python           |        181 |         35 |         47 |        263 |
+| /Users/bytedance/Documents/code/mmagent/data_preparation/generate_memory_qwen.sh        | Shell Script     |         12 |          3 |          4 |         19 |
+| /Users/bytedance/Documents/code/mmagent/data_preparation/generate_qa.py                 | Python           |         79 |          8 |         13 |        100 |
+| /Users/bytedance/Documents/code/mmagent/data_preparation/prepare_action_gen_sft_data.py | Python           |         54 |          8 |         12 |         74 |
+| /Users/bytedance/Documents/code/mmagent/data_preparation/prepare_memory_gen_sft_data.py | Python           |        438 |          9 |         67 |        514 |
+| /Users/bytedance/Documents/code/mmagent/data_preparation/preprocess_inputs.sh           | Shell Script     |          9 |          1 |          2 |         12 |
+| /Users/bytedance/Documents/code/mmagent/data_preparation/video_preprocessing.py         | Python           |         58 |         27 |         21 |        106 |
+| /Users/bytedance/Documents/code/mmagent/demo.ipynb                                      | JSON             |        239 |          0 |          1 |        240 |
+| /Users/bytedance/Documents/code/mmagent/download_videos.ipynb                           | JSON             |        690 |          0 |          1 |        691 |
+| /Users/bytedance/Documents/code/mmagent/evaluation/agent_mem_gen_evaluate.sh            | Shell Script     |          9 |          2 |          3 |         14 |
+| /Users/bytedance/Documents/code/mmagent/evaluation/agent_qa_evaluate.sh                 | Shell Script     |          4 |          3 |          4 |         11 |
+| /Users/bytedance/Documents/code/mmagent/evaluation/baseline_memory_evaluation.py        | Python           |        111 |          0 |         25 |        136 |
+| /Users/bytedance/Documents/code/mmagent/evaluation/distribution_comparison.py           | Python           |        124 |         10 |         32 |        166 |
+| /Users/bytedance/Documents/code/mmagent/evaluation/mem_gen_sft_evaluate.sh              | Shell Script     |         23 |          4 |          4 |         31 |
+| /Users/bytedance/Documents/code/mmagent/evaluation/mem_gen_sft_evaluation.py            | Python           |        155 |          6 |         36 |        197 |
+| /Users/bytedance/Documents/code/mmagent/evaluation/memory_comparison.py                 | Python           |         25 |          0 |          7 |         32 |
+| /Users/bytedance/Documents/code/mmagent/evaluation/memory_evaluation.py                 | Python           |        151 |          0 |         32 |        183 |
+| /Users/bytedance/Documents/code/mmagent/evaluation/qa.py                                | Python           |        210 |         38 |         27 |        275 |
+| /Users/bytedance/Documents/code/mmagent/mmagent/__init__.py                             | Python           |         47 |          3 |          5 |         55 |
+| /Users/bytedance/Documents/code/mmagent/mmagent/face_processing.py                      | Python           |        178 |          6 |         35 |        219 |
+| /Users/bytedance/Documents/code/mmagent/mmagent/idl/__init__.py                         | Python           |          0 |          0 |          1 |          1 |
+| /Users/bytedance/Documents/code/mmagent/mmagent/memory_processing.py                    | Python           |        259 |         50 |         57 |        366 |
+| /Users/bytedance/Documents/code/mmagent/mmagent/memory_processing_qwen.py               | Python           |        266 |         50 |         57 |        373 |
+| /Users/bytedance/Documents/code/mmagent/mmagent/prompts.py                              | Python           |        863 |          6 |        310 |      1,179 |
+| /Users/bytedance/Documents/code/mmagent/mmagent/retrieve.py                             | Python           |        308 |         20 |         51 |        379 |
+| /Users/bytedance/Documents/code/mmagent/mmagent/utils/__init__.py                       | Python           |         21 |          0 |          2 |         23 |
+| /Users/bytedance/Documents/code/mmagent/mmagent/utils/bin.py                            | Python           |        213 |         32 |         27 |        272 |
+| /Users/bytedance/Documents/code/mmagent/mmagent/utils/chat_api.py                       | Python           |        266 |          9 |         57 |        332 |
+| /Users/bytedance/Documents/code/mmagent/mmagent/utils/chat_qwen.py                      | Python           |        175 |          6 |         29 |        210 |
+| /Users/bytedance/Documents/code/mmagent/mmagent/utils/general.py                        | Python           |        228 |         48 |         61 |        337 |
+| /Users/bytedance/Documents/code/mmagent/mmagent/utils/tos.py                            | Python           |         90 |          5 |         13 |        108 |
+| /Users/bytedance/Documents/code/mmagent/mmagent/utils/video_processing.py               | Python           |        246 |         37 |         62 |        345 |
+| /Users/bytedance/Documents/code/mmagent/mmagent/utils/video_verification.py             | Python           |         69 |          0 |         16 |         85 |
+| /Users/bytedance/Documents/code/mmagent/mmagent/videograph.py                           | Python           |        493 |        107 |        155 |        755 |
+| /Users/bytedance/Documents/code/mmagent/mmagent/voice_processing.py                     | Python           |        213 |         54 |         73 |        340 |
+| /Users/bytedance/Documents/code/mmagent/requirements.txt                                | pip requirements |         12 |          1 |          1 |         14 |
+| /Users/bytedance/Documents/code/mmagent/result_analysis.ipynb                           | JSON             |        726 |          0 |          1 |        727 |
+| /Users/bytedance/Documents/code/mmagent/setup.py                                        | Python           |         28 |          1 |          5 |         34 |
+| /Users/bytedance/Documents/code/mmagent/setup.sh                                        | Shell Script     |         31 |          6 |          4 |         41 |
+| /Users/bytedance/Documents/code/mmagent/training/bootstrap.sh                           | Shell Script     |         35 |          1 |          7 |         43 |
+| /Users/bytedance/Documents/code/mmagent/training/configs/memory_config.json             | JSON             |          6 |          0 |          0 |          6 |
+| /Users/bytedance/Documents/code/mmagent/training/configs/processing_config.json         | JSON             |         26 |          0 |          0 |         26 |
+| /Users/bytedance/Documents/code/mmagent/training/deepspeed_config/deepspeed_zero2.yaml  | YAML             |         21 |          0 |          0 |         21 |
+| /Users/bytedance/Documents/code/mmagent/training/deepspeed_config/deepspeed_zero3.yaml  | YAML             |         22 |          0 |          0 |         22 |
+| /Users/bytedance/Documents/code/mmagent/training/eval_agent.py                          | Python           |        127 |          2 |          9 |        138 |
+| /Users/bytedance/Documents/code/mmagent/training/gpt_eval.py                            | Python           |         49 |         80 |          6 |        135 |
+| /Users/bytedance/Documents/code/mmagent/training/grpo_omni_llm.py                       | Python           |        254 |         15 |         10 |        279 |
+| /Users/bytedance/Documents/code/mmagent/training/grpo_trainer.py                        | Python           |        811 |        214 |        140 |      1,165 |
+| /Users/bytedance/Documents/code/mmagent/training/inference.py                           | Python           |         29 |         15 |          8 |         52 |
+| /Users/bytedance/Documents/code/mmagent/training/inference_qwen3.py                     | Python           |        106 |          6 |         15 |        127 |
+| /Users/bytedance/Documents/code/mmagent/training/modeling_qwen2_5_omni.py               | Python           |      3,948 |        228 |        720 |      4,896 |
+| /Users/bytedance/Documents/code/mmagent/training/ppo_omni_llm.py                        | Python           |        343 |         23 |         50 |        416 |
+| /Users/bytedance/Documents/code/mmagent/training/ppo_omni_llm_bak.py                    | Python           |        323 |         18 |         42 |        383 |
+| /Users/bytedance/Documents/code/mmagent/training/ppo_trainer.py                         | Python           |        916 |         91 |         97 |      1,104 |
+| /Users/bytedance/Documents/code/mmagent/training/ppo_trainer_bak.py                     | Python           |        828 |         80 |         94 |      1,002 |
+| /Users/bytedance/Documents/code/mmagent/training/prepare_data.py                        | Python           |         52 |         14 |          7 |         73 |
+| /Users/bytedance/Documents/code/mmagent/training/preprocess_video_audio.py              | Python           |        226 |          8 |         27 |        261 |
+| /Users/bytedance/Documents/code/mmagent/training/setup.sh                               | Shell Script     |         26 |         15 |          6 |         47 |
+| /Users/bytedance/Documents/code/mmagent/training/sft_omni_llm.py                        | Python           |         92 |         25 |         19 |        136 |
+| /Users/bytedance/Documents/code/mmagent/training/sft_omni_llm_all.py                    | Python           |         78 |         29 |         22 |        129 |
+| Total                                                                                   |                  |    216,416 |      1,472 |      2,739 |    220,627 |
++-----------------------------------------------------------------------------------------+------------------+------------+------------+------------+------------+
