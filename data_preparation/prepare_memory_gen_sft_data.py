@@ -20,10 +20,9 @@ parser.add_argument("--output_dir", type=str, default="/mnt/hdfs/foundation/long
 parser.add_argument("--cuda_id", type=int, default=0)
 args = parser.parse_args()
 
-if not args.prepare_conversations:
-    from transformers import Qwen2_5OmniProcessor, Qwen2_5OmniThinkerForConditionalGeneration, Qwen2_5OmniThinkerConfig, GenerationConfig
-    from transformers.utils import ModelOutput
-    from qwen_omni_utils import process_mm_info
+from transformers import Qwen2_5OmniProcessor, Qwen2_5OmniThinkerForConditionalGeneration, Qwen2_5OmniThinkerConfig, GenerationConfig
+from transformers.utils import ModelOutput
+from qwen_omni_utils import process_mm_info
 
 INPUT_EMBEDS = None
 INPUT_MASKS = None
@@ -285,7 +284,7 @@ def generate_video_context(data):
     message_content = [
         {
             "type": "video",
-            "video": data["video"]
+            "video": data["video"].replace(".json", ".mp4")
         }
     ]
 
@@ -326,10 +325,15 @@ def generate_video_context(data):
 
     return message_content
 
-def generate_episodic_conversations(samples_path, output_path):
+def generate_episodic_conversations(data_path, output_path):
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
-    with open(samples_path, "r") as f:
+    sample_num = 0
+    with open(data_path, "r") as f:
         for line in f:
+            sample_num += 1
+
+    with open(data_path, "r") as f:
+        for line in tqdm(f, total=sample_num, desc="Generating episodic conversations"):
             data = json.loads(line)
             
             messages = [
@@ -365,8 +369,13 @@ def generate_episodic_conversations(samples_path, output_path):
 
 def generate_semantic_conversations(data_path, output_path, sem_mem_types=["semantic_memory_equivalance", "semantic_memory_character", "semantic_memory_relation", "semantic_memory_video", "semantic_memory_general"]):
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    sample_num = 0
     with open(data_path, "r") as f:
         for line in f:
+            sample_num += 1
+
+    with open(data_path, "r") as f:
+        for line in tqdm(f, total=sample_num, desc="Generating semantic conversations"):
             data = json.loads(line)
             
             messages = [
@@ -521,7 +530,7 @@ if __name__ == "__main__":
     samples_path = args.samples_path
     conversations_dir = args.conversations_dir
     if args.prepare_conversations:
-        # fix_and_transfer_data(data_path, samples_path)
+        fix_and_transfer_data(data_path, samples_path)
         generate_episodic_conversations(samples_path, os.path.join(conversations_dir, "episodic_conversations.jsonl"))
         generate_semantic_conversations(samples_path, os.path.join(conversations_dir, "semantic_conversations.jsonl"))
         split_train_val(conversations_dir, 100)

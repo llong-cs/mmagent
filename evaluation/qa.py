@@ -203,30 +203,42 @@ if __name__ == "__main__":
         }
     else:
         exp_settings = {
-            # "5_rounds_threshold_0_3_no_planning": {
-            #     "max_retrieval_steps": 5,
-            #     "retrieval_threshold": 0.3,
-            #     "planning": False,
-            #     "topk": 5
-            # },
-            # "5_rounds_threshold_0_4_no_planning": {
-            #     "max_retrieval_steps": 5,
-            #     "retrieval_threshold": 0.4,
-            #     "planning": False,
-            #     "topk": 5
-            # },
-            "5_rounds_threshold_0_5_no_planning": {
+            "5_rounds_threshold_0_2_top1_no_planning": {
                 "max_retrieval_steps": 5,
-                "retrieval_threshold": 0.5,
+                "retrieval_threshold": 0.2,
                 "planning": False,
-                "topk": 5
+                "topk": 2
             },
-            # "5_rounds_threshold_0_6_no_planning": {
-            #     "max_retrieval_steps": 5,
-            #     "retrieval_threshold": 0.6,
-            #     "planning": False,
-            #     "topk": 5
-            # }
+            "5_rounds_threshold_0_2_top2_no_planning": {
+                "max_retrieval_steps": 5,
+                "retrieval_threshold": 0.2,
+                "planning": False,
+                "topk": 2
+            },
+            "5_rounds_threshold_0_2_top3_no_planning": {
+                "max_retrieval_steps": 5,
+                "retrieval_threshold": 0.2,
+                "planning": False,
+                "topk": 2
+            },
+            "5_rounds_threshold_0_2_top1_no_planning": {
+                "max_retrieval_steps": 5,
+                "retrieval_threshold": 0.2,
+                "planning": False,
+                "topk": 2
+            },
+            "5_rounds_threshold_0_2_top2_no_planning": {
+                "max_retrieval_steps": 5,
+                "retrieval_threshold": 0.2,
+                "planning": False,
+                "topk": 2
+            },
+            "5_rounds_threshold_0_2_top3_no_planning": {
+                "max_retrieval_steps": 5,
+                "retrieval_threshold": 0.2,
+                "planning": False,
+                "topk": 2
+            },
         }
 
     # # idx = 0
