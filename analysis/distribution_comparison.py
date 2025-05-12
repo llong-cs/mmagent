@@ -1,6 +1,6 @@
 import json
 import matplotlib.pyplot as plt
-from mmagent.utils.general import load_video_graph, plot_cosine_similarity_distribution
+from mmagent.utils.general import load_video_graph
 from mmagent.utils.chat_api import parallel_get_embedding
 from mmagent.retrieve import translate
 import mmagent.videograph
@@ -12,6 +12,7 @@ from sklearn.decomposition import PCA
 import argparse
 from sklearn.cluster import KMeans
 import shutil
+from sklearn.metrics.pairwise import cosine_similarity
 sys.modules["videograph"] = mmagent.videograph
 
 TEMP_DIR = "/mnt/bn/videonasi18n/longlin.kylin/temp"
@@ -136,6 +137,41 @@ def plot_distribution(mems, mems_embs, ours_query_embs, baseline_query_embs, sav
         plt.close()
         
         # Move plot to final destination
+        shutil.move(temp_path, save_path)
+    else:
+        plt.show()
+        
+def plot_cosine_similarity_distribution(embeddings1, embeddings2, save_path=None, max_num=2000):
+    # Randomly sample max_num embeddings from each group if needed
+    embeddings1 = embeddings1[np.random.choice(len(embeddings1), min(max_num, len(embeddings1)), replace=False)]
+    embeddings2 = embeddings2[np.random.choice(len(embeddings2), min(max_num, len(embeddings2)), replace=False)]
+
+    # 计算两组embeddings间的所有相似度组合
+    sim_scores = cosine_similarity(embeddings1, embeddings2)
+    # Transpose similarity matrix to get shape (len(embeddings1), len(embeddings2))
+    sim_scores = sim_scores.T
+    
+    # Sort each row (along embeddings2 direction)
+    sorted_scores = np.sort(sim_scores, axis=1)
+    
+    # Calculate mean for each column (position)
+    mean_scores = np.mean(sorted_scores, axis=0)
+    
+    # Flatten for histogram plotting
+    sim_scores = mean_scores.flatten()
+
+    # 绘制直方图
+    plt.figure(figsize=(8, 5))
+    plt.hist(sim_scores, bins=30, color='skyblue', edgecolor='black')
+    plt.title('Cross-Group Cosine Similarity Distribution')
+    plt.xlabel('Cosine Similarity')
+    plt.ylabel('Frequency')
+    plt.grid(True, linestyle='--', alpha=0.5)
+    plt.tight_layout()
+    if save_path:
+        temp_path = os.path.join(TEMP_DIR, os.path.basename(save_path))
+        plt.savefig(temp_path, dpi=300, bbox_inches='tight')
+        plt.close()
         shutil.move(temp_path, save_path)
     else:
         plt.show()
