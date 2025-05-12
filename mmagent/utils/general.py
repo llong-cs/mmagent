@@ -273,15 +273,12 @@ def validate_and_fix_python_list(invalid_list_string):
         return None
     
 def plot_cosine_similarity_distribution(embeddings1, embeddings2, save_path=None, max_num=2000):
-    embeddings1 = np.random.choice(embeddings1, min(max_num, len(embeddings1)), replace=False)
-    embeddings2 = np.random.choice(embeddings2, min(max_num, len(embeddings2)), replace=False)
+    # Randomly sample max_num embeddings from each group if needed
+    embeddings1 = embeddings1[np.random.choice(len(embeddings1), min(max_num, len(embeddings1)), replace=False)]
+    embeddings2 = embeddings2[np.random.choice(len(embeddings2), min(max_num, len(embeddings2)), replace=False)]
 
     # 计算两组embeddings间的所有相似度组合
-    sim_scores = []
-    for emb1 in tqdm(embeddings1):
-        for emb2 in embeddings2:
-            sim = cosine_similarity(emb1.reshape(1, -1), emb2.reshape(1, -1))[0][0]
-            sim_scores.append(sim)
+    sim_scores = cosine_similarity(embeddings1, embeddings2).flatten()
 
     # 绘制直方图
     plt.figure(figsize=(8, 5))
