@@ -1,6 +1,6 @@
 import json
 import matplotlib.pyplot as plt
-from mmagent.utils.general import load_video_graph
+from mmagent.utils.general import load_video_graph, plot_cosine_similarity_distribution
 from mmagent.utils.chat_api import parallel_get_embedding
 from mmagent.retrieve import translate
 import mmagent.videograph
@@ -76,34 +76,7 @@ def get_baseline_data(file_path):
     
     return all_queries
 
-def plot_distribution(file_path, baseline_path, output_dir, num_samples=20):
-    # Create output directory if it doesn't exist
-    os.makedirs(output_dir, exist_ok=True)
-    
-    # Set embeddings path within output directory
-    embs_path = os.path.join(output_dir, "embeddings.npz")
-    
-    if not os.path.exists(embs_path):
-        print("Embeddings not found, generating...")
-        mems, ours_queries, mem_embs = get_data(file_path)
-        
-        ours_query_embs = parallel_get_embedding("text-embedding-3-large", ours_queries)[0]
-        
-        baseline_queries = get_baseline_data(baseline_path)
-        baseline_query_embs = parallel_get_embedding("text-embedding-3-large", baseline_queries)[0]
-        
-        mems_embs, ours_query_embs, baseline_query_embs = np.array(mem_embs), np.array(ours_query_embs), np.array(baseline_query_embs)
-        
-        np.savez(embs_path, mems=mems, mems_embs=mems_embs, ours_query_embs=ours_query_embs, baseline_query_embs=baseline_query_embs)
-    else:
-        print("Embeddings found, loading...")
-        data = np.load(embs_path)
-        mems, mems_embs, ours_query_embs, baseline_query_embs = data['mems'], data['mems_embs'], data['ours_query_embs'], data['baseline_query_embs']
-    
-    assert len(mems_embs) == len(mems)
-    
-    print(mems_embs.shape, ours_query_embs.shape, baseline_query_embs.shape)
-    
+def plot_distribution(mems, mems_embs, ours_query_embs, baseline_query_embs, save_path=None, num_samples=20):
     # Perform dimensionality reduction using PCA
     pca = PCA(n_components=2)
     
@@ -153,25 +126,60 @@ def plot_distribution(file_path, baseline_path, output_dir, num_samples=20):
     plt.legend()
     plt.grid(True)
     
-    # Save plot in output directory
-    save_path = os.path.join(output_dir, f"distribution_comparison.png")
-    plt.savefig(save_path, dpi=300, bbox_inches='tight')
-    plt.close()
+    if save_path:
+        # Save plot in output directory
+        plt.savefig(save_path, dpi=300, bbox_inches='tight')
+        plt.close()
+    else:
+        plt.show()
+    
+def main():
+    args = parse_args()
+    file_path=args.ours_file
+    baseline_path=args.baseline_file
+    output_dir=args.output_dir
+    num_samples = args.num_samples
+    
+    # Create output directory if it doesn't exist
+    os.makedirs(output_dir, exist_ok=True)
+    
+    # Set embeddings path within output directory
+    embs_path = os.path.join(output_dir, "embeddings.npz")
+    
+    if not os.path.exists(embs_path):
+        print("Embeddings not found, generating...")
+        mems, ours_queries, mem_embs = get_data(file_path)
+        
+        ours_query_embs = parallel_get_embedding("text-embedding-3-large", ours_queries)[0]
+        
+        baseline_queries = get_baseline_data(baseline_path)
+        baseline_query_embs = parallel_get_embedding("text-embedding-3-large", baseline_queries)[0]
+        
+        mems_embs, ours_query_embs, baseline_query_embs = np.array(mem_embs), np.array(ours_query_embs), np.array(baseline_query_embs)
+        
+        np.savez(embs_path, mems=mems, mems_embs=mems_embs, ours_query_embs=ours_query_embs, baseline_query_embs=baseline_query_embs)
+    else:
+        print("Embeddings found, loading...")
+        data = np.load(embs_path)
+        mems, mems_embs, ours_query_embs, baseline_query_embs = data['mems'], data['mems_embs'], data['ours_query_embs'], data['baseline_query_embs']
+    
+    assert len(mems_embs) == len(mems)
+    
+    print(mems_embs.shape, ours_query_embs.shape, baseline_query_embs.shape)
+    
+    plot_cosine_similarity_distribution(mems_embs, ours_query_embs, os.path.join(output_dir, f"ours_cosine_similarity_distribution.png"))
+    plot_cosine_similarity_distribution(mems_embs, baseline_query_embs, os.path.join(output_dir, f"baseline_cosine_similarity_distribution.png"))
+    
+    plot_distribution(mems, mems_embs, ours_query_embs, baseline_query_embs, os.path.join(output_dir, f"distribution_comparison.png"), num_samples)
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Plot distribution of memory and query embeddings')
     parser.add_argument('--ours_file', type=str, help='Path to the ours JSONL file', default="/mnt/hdfs/foundation/agent/heyc/ckpts/Qwen3-8B/output/3.jsonl")
     parser.add_argument('--baseline_file', type=str, help='Path to the baseline JSONL file', default="data/annotations/results/5_rounds_threshold_0_3_no_planning/small_test_with_agent_answer_0.jsonl")
-    parser.add_argument('--output_dir', type=str, help='Directory to save the output files', default="data/analysis/distribution_comparison")
+    parser.add_argument('--output_dir', type=str, help='Directory to save the output files', default="/mnt/hdfs/foundation/longlin.kylin/mmagent/analysis/distribution")
     parser.add_argument('--num_samples', type=int, default=20, help='Number of samples to annotate (default: 20)')
     return parser.parse_args()
 
 if __name__ == "__main__":
-    args = parse_args()
-    plot_distribution(
-        file_path=args.ours_file,
-        baseline_path=args.baseline_file,
-        output_dir=args.output_dir,
-        num_samples=args.num_samples
-    )
+    main()
     

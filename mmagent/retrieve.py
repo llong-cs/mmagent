@@ -85,7 +85,7 @@ def retrieve_from_videograph(video_graph, query, topk=5, mode='argmax', threshol
         top_nodes = [node_id for node_id, node_score in nodes if node_score >= threshold][:topk]
         for node in nodes:
             node_id = node[0]
-            node_score = node[1] if node[1] >= threshold else 0
+            node_score = node[1] if abs(node[1]) >= threshold else 0
             clip_id = video_graph.nodes[node_id].metadata['timestamp']
             if mode == 'accumulate':
                 if clip_id not in clip_scores:

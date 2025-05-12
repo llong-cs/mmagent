@@ -270,7 +270,7 @@ def validate_and_fix_python_list(invalid_list_string):
         logger.error(invalid_list_string)
         return None
     
-def plot_cosine_similarity_distribution(embeddings1, embeddings2):
+def plot_cosine_similarity_distribution(embeddings1, embeddings2, save_path=None):
     # 转换为 numpy 数组
     embeddings1 = np.array(embeddings1)
     embeddings2 = np.array(embeddings2)
@@ -290,7 +290,10 @@ def plot_cosine_similarity_distribution(embeddings1, embeddings2):
     plt.ylabel('Frequency')
     plt.grid(True, linestyle='--', alpha=0.5)
     plt.tight_layout()
-    plt.show()
+    if save_path:
+        plt.savefig(save_path, dpi=300, bbox_inches='tight')
+    else:
+        plt.show()
 
 def normalize_embedding(embedding):
     """Normalize embedding to unit length."""
