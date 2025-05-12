@@ -11,7 +11,10 @@ import numpy as np
 from sklearn.decomposition import PCA
 import argparse
 from sklearn.cluster import KMeans
+import shutil
 sys.modules["videograph"] = mmagent.videograph
+
+TEMP_DIR = "/mnt/bn/videonasi18n/longlin.kylin/temp"
 
 def get_data(file_path):
     all_mems = []
@@ -127,9 +130,13 @@ def plot_distribution(mems, mems_embs, ours_query_embs, baseline_query_embs, sav
     plt.grid(True)
     
     if save_path:
-        # Save plot in output directory
-        plt.savefig(save_path, dpi=300, bbox_inches='tight')
+        # Save plot to temporary location first
+        temp_path = os.path.join(TEMP_DIR, os.path.basename(save_path))
+        plt.savefig(temp_path, dpi=300, bbox_inches='tight')
         plt.close()
+        
+        # Move plot to final destination
+        shutil.move(temp_path, save_path)
     else:
         plt.show()
     
@@ -157,7 +164,12 @@ def main():
         
         mems_embs, ours_query_embs, baseline_query_embs = np.array(mem_embs), np.array(ours_query_embs), np.array(baseline_query_embs)
         
-        np.savez(embs_path, mems=mems, mems_embs=mems_embs, ours_query_embs=ours_query_embs, baseline_query_embs=baseline_query_embs)
+        # Save embeddings to temporary file first
+        temp_path = os.path.join(TEMP_DIR, os.path.basename(embs_path))
+        np.savez(temp_path, mems=mems, mems_embs=mems_embs, ours_query_embs=ours_query_embs, baseline_query_embs=baseline_query_embs)
+        
+        # Move embeddings to final destination
+        shutil.move(temp_path, embs_path)
     else:
         print("Embeddings found, loading...")
         data = np.load(embs_path)

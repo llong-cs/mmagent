@@ -20,6 +20,7 @@ logger = logging.getLogger(__name__)
 
 processing_config = json.load(open("configs/processing_config.json"))
 memory_config = json.load(open("configs/memory_config.json"))
+TEMP_DIR = "/mnt/bn/videonasi18n/longlin.kylin/temp"
 
 # file processing
 def get_video_paths(video_url, task):
@@ -291,7 +292,10 @@ def plot_cosine_similarity_distribution(embeddings1, embeddings2, save_path=None
     plt.grid(True, linestyle='--', alpha=0.5)
     plt.tight_layout()
     if save_path:
-        plt.savefig(save_path, dpi=300, bbox_inches='tight')
+        temp_path = os.path.join(TEMP_DIR, os.path.basename(save_path))
+        plt.savefig(temp_path, dpi=300, bbox_inches='tight')
+        plt.close()
+        shutil.move(temp_path, save_path)
     else:
         plt.show()
 
