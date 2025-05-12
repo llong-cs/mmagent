@@ -9,6 +9,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics.pairwise import cosine_similarity
 from itertools import combinations
+from tqdm import tqdm
 import struct
 import pickle
 import shutil
@@ -271,14 +272,13 @@ def validate_and_fix_python_list(invalid_list_string):
         logger.error(invalid_list_string)
         return None
     
-def plot_cosine_similarity_distribution(embeddings1, embeddings2, save_path=None):
-    # 转换为 numpy 数组
-    embeddings1 = np.array(embeddings1)
-    embeddings2 = np.array(embeddings2)
-    
+def plot_cosine_similarity_distribution(embeddings1, embeddings2, save_path=None, max_num=2000):
+    embeddings1 = np.random.choice(embeddings1, min(max_num, len(embeddings1)), replace=False)
+    embeddings2 = np.random.choice(embeddings2, min(max_num, len(embeddings2)), replace=False)
+
     # 计算两组embeddings间的所有相似度组合
     sim_scores = []
-    for emb1 in embeddings1:
+    for emb1 in tqdm(embeddings1):
         for emb2 in embeddings2:
             sim = cosine_similarity(emb1.reshape(1, -1), emb2.reshape(1, -1))[0][0]
             sim_scores.append(sim)
