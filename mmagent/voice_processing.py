@@ -13,8 +13,8 @@ from .utils.video_processing import process_video_clip
 import io
 
 # Configure logging
-# laplace = Client("tcp://10.124.106.228:9473", timeout=500)
-laplace = Client("tcp://[fdbd:dccd:cdc2:12c8:0:320::]:9473", timeout=500)
+laplace = Client("tcp://10.124.138.170:9460", timeout=500)
+# laplace = Client("tcp://[fdbd:dccd:cdc2:12c8:0:320::]:9473", timeout=500)
 
 processing_config = json.load(open("configs/processing_config.json"))
 

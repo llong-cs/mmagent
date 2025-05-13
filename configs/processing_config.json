@@ -28,5 +28,5 @@
     "temperature": 0,
     "train": true,
     "ckpt": "/mnt/hdfs/foundation/agent/heyc/ckpts/Qwen2.5-Omni-7B-thinker",
-    "model": "qwen2.5-omni"
+    "model": "api"
 }

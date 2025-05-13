@@ -13,15 +13,15 @@ if __name__ == "__main__":
         idx = 0
         for line in f:
             sample = json.loads(line)
-            gt = sample[1]["content"]
+            gt = sample[1]["content"][0]["text"]
             with open(os.path.join(baseline_dir, f"{idx}.json"), "r") as f:
-                baseline_result = json.load(f)[1]["content"]
+                baseline_result = json.load(f)[1]["content"][0]["text"]
             with open(os.path.join(mmagent_dir, f"{idx}.json"), "r") as f:
-                mmagent_result = json.load(f)[1]["content"]
+                mmagent_result = json.load(f)[1]["content"][0]["text"]
             
             comparisons.append({
                 "gt": gt,
-                "baseline": baseline_result,
+                # "baseline": baseline_result,
                 "mmagent": mmagent_result
             })
                         
