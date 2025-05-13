@@ -135,7 +135,7 @@ def eval_vdcscore(gt_desciptions, generated_descriptions, qa_file=None):
 
     return precision, avg_score
 
-def eval_autodq(gt_desciptions, generated_descriptions):
+def eval_autodq(gt_desciptions, generated_descriptions, save_file=None):
     total_precision = 0
     total_recall = 0
     precision = 0
@@ -145,9 +145,21 @@ def eval_autodq(gt_desciptions, generated_descriptions):
     precision_inputs = [(generated_description, gt_description) for generated_description, gt_description in zip(generated_descriptions, gt_desciptions)]
     recall_inputs = [(gt_description, generated_description) for gt_description, generated_description in zip(gt_desciptions, generated_descriptions)]
     
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        precision_results = list(tqdm(executor.map(descriptions_comparison_for_autodq, precision_inputs), total=len(precision_inputs), desc="Calculating precision"))
-        recall_results = list(tqdm(executor.map(descriptions_comparison_for_autodq, recall_inputs), total=len(recall_inputs), desc="Calculating recall"))
+    if os.path.exists(save_file):
+        with open(save_file, "r") as f:
+            precision_results = json.load(f)
+            recall_results = json.load(f)
+    else:
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            precision_results = list(tqdm(executor.map(descriptions_comparison_for_autodq, precision_inputs), total=len(precision_inputs), desc="Calculating precision"))
+            recall_results = list(tqdm(executor.map(descriptions_comparison_for_autodq, recall_inputs), total=len(recall_inputs), desc="Calculating recall"))
+        
+        with open(save_file, "w") as f:
+            json.dump({
+                "precision_results": precision_results,
+                "recall_results": recall_results
+            }, f)
+    
     
     for precision_result, recall_result in zip(precision_results, recall_results):
         for base in precision_result:
