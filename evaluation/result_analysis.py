@@ -14,7 +14,7 @@ def get_filtered_questions(test_file):
 
 def analyze_agent_results(result_dir):
     agent_results = os.listdir(result_dir)
-    agent_results = [os.path.join(result_dir, f) for f in agent_results if f.endswith('.jsonl')]
+    agent_results = [os.path.join(result_dir, f) for f in agent_results if "verified" in f]
     agent_result_files = [open(result, "r") for result in agent_results]
     
     print(f"Found {len(agent_results)} agent results in {result_dir}")
@@ -63,7 +63,7 @@ def analyze_agent_results(result_dir):
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Result analysis')
-    parser.add_argument('--result', type=str, help='Path to the result directory or file', default="data/annotations/results/5_rounds_threshold_0_3_no_planning/small_test_with_agent_answer_0.jsonl")
+    parser.add_argument('--result', type=str, help='Path to the result directory or file', default="data/annotations/results/5_rounds_threshold_0_top3_no_planning")
     parser.add_argument('--model', type=str, help='Model name', default="agent")
     parser.add_argument('--test_file', type=str, help='Path to the test file', default="data/annotations/small_test.jsonl")
     return parser.parse_args()
