@@ -6,7 +6,7 @@ import torch
 
 from transformers import Qwen2_5OmniProcessor, Qwen2_5OmniThinkerForConditionalGeneration, Qwen2_5OmniThinkerConfig, GenerationConfig
 from qwen_omni_utils import process_mm_info
-from evaluation.memory_evaluation import eval_vdcscore, eval_autodq
+from evaluation.memory_evaluation import eval_vdcscore, eval_autodq, eval_equivalence
 from mmagent.utils.general import validate_and_fix_python_list
 
 import logging
@@ -172,6 +172,11 @@ def evaluate_sft(gt_path, output_dir, save_path_autodq, save_path_vdcscore, val_
     precision, avg_score = eval_vdcscore(gt_samples, pred_samples, save_path_vdcscore)
     print(f"VDCScore Evaluation:")
     print(f"Precision: {precision}, Avg Score: {avg_score}")
+    
+    print("Evaluating Equivalence...")
+    precision, recall, f1 = eval_equivalence(gt_samples, pred_samples)
+    print(f"Equivalence Evaluation:")
+    print(f"Precision: {precision}, Recall: {recall}, F1: {f1}")
             
             
 if __name__ == "__main__":

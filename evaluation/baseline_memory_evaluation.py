@@ -7,7 +7,7 @@ import torch
 
 from mmagent.utils.chat_api import *
 from mmagent.prompts import prompt_generate_captions_with_ids, prompt_generate_thinkings_with_ids
-from evaluation.memory_evaluation import eval_vdcscore, eval_autodq
+from evaluation.memory_evaluation import eval_vdcscore, eval_autodq, eval_equivalence
 from mmagent.utils.general import validate_and_fix_python_list
 
 import logging
@@ -79,8 +79,9 @@ def generate_data(model, data_path, output_dir):
         with open(os.path.join(output_dir, f"{i}.json"), "w") as f:
             json.dump(messages, f, indent=4, ensure_ascii=False)
 
-def evaluate_sft(gt_path, output_dir, save_path, val_num=10):
-    os.makedirs(os.path.dirname(save_path), exist_ok=True)
+def evaluate_sft(gt_path, output_dir, save_path_autodq, save_path_vdcscore, val_num=10):
+    os.makedirs(os.path.dirname(save_path_autodq), exist_ok=True)
+    os.makedirs(os.path.dirname(save_path_vdcscore), exist_ok=True)
     gt_samples = []
     pred_samples = []
     idx = 0
@@ -99,7 +100,7 @@ def evaluate_sft(gt_path, output_dir, save_path, val_num=10):
                 gt_samples.append(gt_sample)
                 pred_samples.append(pred_sample)
             else:
-                with open(os.path.join(os.path.dirname(save_path), "error_outputs.log"), "a") as f:
+                with open(os.path.join(os.path.dirname(save_path_autodq), "error_outputs.log"), "a") as f:
                     f.write(f"Error output: {idx}, gt: {gt_res}, pred: {pred_res}\n")
 
             idx += 1
@@ -110,14 +111,19 @@ def evaluate_sft(gt_path, output_dir, save_path, val_num=10):
     pred_samples = pred_samples[:val_num]
     
     print("Evaluating AutoDQ...")
-    precision, recall, f1 = eval_autodq(gt_samples, pred_samples)
+    precision, recall, f1 = eval_autodq(gt_samples, pred_samples, save_path_autodq)
     print("AutoDQ Evaluation:")
     print(f"Precision: {precision}, Recall: {recall}, F1: {f1}")
     
     print("Evaluating VDCScore...")
-    precision, avg_score = eval_vdcscore(gt_samples, pred_samples, save_path)
+    precision, avg_score = eval_vdcscore(gt_samples, pred_samples, save_path_vdcscore)
     print(f"VDCScore Evaluation:")
     print(f"Precision: {precision}, Avg Score: {avg_score}")
+    
+    print("Evaluating Equivalence...")
+    precision, recall, f1 = eval_equivalence(gt_samples, pred_samples)
+    print(f"Equivalence Evaluation:")
+    print(f"Precision: {precision}, Recall: {recall}, F1: {f1}")
             
             
 if __name__ == "__main__":
@@ -131,5 +137,5 @@ if __name__ == "__main__":
     if args.generate:
         generate_data(model, val_path, response_dir)
     else:
-        evaluate_sft(val_path, response_dir, os.path.join(eval_dir, f"vdcscore_evaluation_val_{val_num}.json"), val_num)
+        evaluate_sft(val_path, response_dir, os.path.join(eval_dir, f"autodq_evaluation_val_{val_num}.json"), os.path.join(eval_dir, f"vdcscore_evaluation_val_{val_num}.json"), val_num)
     

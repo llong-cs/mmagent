@@ -2,6 +2,7 @@ import json
 import os
 from concurrent.futures import ThreadPoolExecutor
 from tqdm import tqdm
+import re
 
 from mmagent.utils.chat_api import *
 from mmagent.prompts import prompt_autodq, prompt_vdcscore_generate_qas, prompt_vdcscore_answer, prompt_vdcscore_verify
@@ -178,6 +179,39 @@ def eval_autodq(gt_desciptions, generated_descriptions, save_file=None):
     
     return precision, recall, f1
 
+def eval_equivalence(gt_desciptions, generated_descriptions):
+    total_precision = 0
+    total_recall = 0
+    precision = 0
+    recall = 0
+    
+    for gt, pred in zip(gt_desciptions, generated_descriptions):
+        pattern = r'<([^<>]*_[^<>]*)>'
+        gt_eq = [re.findall(pattern, e) for e in gt if e.lower().startswith("equivalence: ")]
+        pred_eq = [re.findall(pattern, e) for e in pred if e.lower().startswith("equivalence: ")]
+        
+        for gt_eq_item in gt_eq:
+            # Convert to set to make order irrelevant
+            gt_pair = set(gt_eq_item)
+            # Check if any pred_eq_item matches when converted to set
+            if any(set(pred_eq_item) == gt_pair for pred_eq_item in pred_eq):
+                recall += 1
+        total_recall += len(gt_eq)
+        
+        for pred_eq_item in pred_eq:
+            # Convert to set to make order irrelevant
+            pred_pair = set(pred_eq_item)
+            # Check if any gt_eq_item matches when converted to set
+            if any(set(gt_eq_item) == pred_pair for gt_eq_item in gt_eq):
+                precision += 1
+        total_precision += len(pred_eq)
+    
+    precision = precision / total_precision
+    recall = recall / total_recall
+    f1 = 2 * precision * recall / (precision + recall)
+    
+    return precision, recall, f1
+    
 
 if __name__ == "__main__":
     gt_desciptions = [
