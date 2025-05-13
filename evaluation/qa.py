@@ -207,7 +207,7 @@ if __name__ == "__main__":
                 "max_retrieval_steps": 5,
                 "retrieval_threshold": 0.2,
                 "planning": False,
-                "topk": 2
+                "topk": 1
             },
             "5_rounds_threshold_0_2_top2_no_planning": {
                 "max_retrieval_steps": 5,
@@ -219,25 +219,25 @@ if __name__ == "__main__":
                 "max_retrieval_steps": 5,
                 "retrieval_threshold": 0.2,
                 "planning": False,
-                "topk": 2
+                "topk": 3
             },
-            "5_rounds_threshold_0_2_top1_no_planning": {
+            "5_rounds_threshold_0_top1_no_planning": {
                 "max_retrieval_steps": 5,
-                "retrieval_threshold": 0.2,
+                "retrieval_threshold": 0,
+                "planning": False,
+                "topk": 1
+            },
+            "5_rounds_threshold_0_top2_no_planning": {
+                "max_retrieval_steps": 5,
+                "retrieval_threshold": 0,
                 "planning": False,
                 "topk": 2
             },
-            "5_rounds_threshold_0_2_top2_no_planning": {
+            "5_rounds_threshold_0_top3_no_planning": {
                 "max_retrieval_steps": 5,
-                "retrieval_threshold": 0.2,
+                "retrieval_threshold": 0,
                 "planning": False,
-                "topk": 2
-            },
-            "5_rounds_threshold_0_2_top3_no_planning": {
-                "max_retrieval_steps": 5,
-                "retrieval_threshold": 0.2,
-                "planning": False,
-                "topk": 2
+                "topk": 3
             },
         }
 

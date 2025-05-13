@@ -160,6 +160,8 @@ def plot_cosine_similarity_distribution(embeddings1, embeddings2, save_path=None
     # Flatten for histogram plotting
     sim_scores = mean_scores.flatten()
 
+    print(sim_scores.shape)
+
     # 绘制直方图
     plt.figure(figsize=(8, 5))
     plt.hist(sim_scores, bins=30, color='skyblue', edgecolor='black')
