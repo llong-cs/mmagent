@@ -30,6 +30,7 @@ parser.add_argument("--cuda_id", type=int, default=0)
 parser.add_argument("--node_num", type=int, default=8)
 parser.add_argument("--data_list", type=str, default="MLVU/1_plotQA,MLVU/2_needle,MLVU/3_ego,MLVU/4_count,MLVU/5_order,MLVU/6_anomaly_reco,MLVU/7_topic_reasoning,MLVU/8_sub_scene,MLVU/9_summary")
 parser.add_argument("--preprocessing", type=str, default="voice,face")
+parser.add_argument("--version", type=str, default="test")
 args = parser.parse_args()
 
 def process_segment(
@@ -223,6 +224,7 @@ if __name__ == "__main__":
     with open("data/annotations/small_test_qwen.jsonl", "r") as f:
         for line in f:
             sample = json.loads(line)
+            sample["mem_path"] = sample["mem_path"].replace("mems_qwen", f"mems_qwen_{args.version}")
             if not os.path.exists(sample["mem_path"]):
                 save_dir = os.path.dirname(sample["mem_path"])
                 os.makedirs(save_dir, exist_ok=True)

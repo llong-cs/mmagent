@@ -11,7 +11,7 @@
     "max_faces_per_character": 3,
     "min_duration_for_audio": 2,
     "history_length": 0,
-    "max_retries": 10,
+    "max_retries": 20,
     "query_num": 10,
     "topk": 5,
     "max_retrieval_steps": 5,
@@ -27,6 +27,6 @@
     "log_dir": "logs",
     "temperature": 0,
     "train": true,
-    "ckpt": "/mnt/hdfs/foundation/agent/heyc/ckpts/Qwen2.5-Omni-7B-thinker",
-    "model": "api"
+    "ckpt": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/memgen_sft/0511/ckpts/checkpoint-2214",
+    "model": "qwen2.5-omni"
 }

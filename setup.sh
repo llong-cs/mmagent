@@ -7,12 +7,12 @@ pip3 install qwen-omni-utils==0.0.4
 sudo pip3 install ninja
 sudo apt-get -y install ninja-build
 
-git clone -b qwen2_omni_public https://github.com/fyabc/vllm.git
-cd vllm
-git checkout de8f43fbe9428b14d31ac5ec45d065cd3e5c3ee0
-sudo pip3 install -r requirements/cuda.txt
-sudo pip3 install --upgrade setuptools wheel
-sudo pip3 install .
+# git clone -b qwen2_omni_public https://github.com/fyabc/vllm.git
+# cd vllm
+# git checkout de8f43fbe9428b14d31ac5ec45d065cd3e5c3ee0
+# sudo pip3 install -r requirements/cuda.txt
+# sudo pip3 install --upgrade setuptools wheel
+# sudo pip3 install .
 
 sudo pip3 install jupyter
 sudo pip3 uninstall -y transformers

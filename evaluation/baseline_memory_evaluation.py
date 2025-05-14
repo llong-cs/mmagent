@@ -109,6 +109,11 @@ def evaluate_sft(gt_path, output_dir, save_path_autodq, save_path_vdcscore, val_
 
     gt_samples = gt_samples[:val_num]
     pred_samples = pred_samples[:val_num]
+
+    print("Evaluating Equivalence...")
+    precision, recall, f1 = eval_equivalence(gt_samples, pred_samples)
+    print(f"Equivalence Evaluation:")
+    print(f"Precision: {precision}, Recall: {recall}, F1: {f1}")
     
     print("Evaluating AutoDQ...")
     precision, recall, f1 = eval_autodq(gt_samples, pred_samples, save_path_autodq)
@@ -119,11 +124,6 @@ def evaluate_sft(gt_path, output_dir, save_path_autodq, save_path_vdcscore, val_
     precision, avg_score = eval_vdcscore(gt_samples, pred_samples, save_path_vdcscore)
     print(f"VDCScore Evaluation:")
     print(f"Precision: {precision}, Avg Score: {avg_score}")
-    
-    print("Evaluating Equivalence...")
-    precision, recall, f1 = eval_equivalence(gt_samples, pred_samples)
-    print(f"Equivalence Evaluation:")
-    print(f"Precision: {precision}, Recall: {recall}, F1: {f1}")
             
             
 if __name__ == "__main__":

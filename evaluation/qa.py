@@ -28,7 +28,10 @@ def video_to_base64(video_path):
 
 def process_qa(qa):
     try:
-        mem = load_video_graph(qa["mem_path"])
+        if "qwen" in args.dataset:
+            mem = load_video_graph(qa["mem_path"].replace("mems_qwen", "mems_qwen_0511"))
+        else:
+            mem = load_video_graph(qa["mem_path"])
         
         # refresh equivalences
         mem.refresh_equivalences()
@@ -194,7 +197,13 @@ if __name__ == "__main__":
 
     if "qwen" in args.dataset:
         exp_settings = {
-            "full_retrieval_threshold_0_no_planning_qwen": {
+            "5_rounds_threshold_0_2_top1_no_planning_qwen_0511": {
+                "max_retrieval_steps": 5,
+                "threshold": 0.2,
+                "planning": False,
+                "topk": 1
+            },
+            "5_rounds_threshold_0_4_top5_no_planning_qwen_0511": {
                 "max_retrieval_steps": 5,
                 "threshold": 0.4,
                 "planning": False,

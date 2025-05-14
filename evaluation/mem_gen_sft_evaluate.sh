@@ -8,11 +8,11 @@ val_num=200
 
 # Define an array of checkpoint paths
 ckpt_paths=(
-    "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/memgen_sft/0511/ckpts/checkpoint-738"
-    "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/memgen_sft/0511/ckpts/checkpoint-1476"
+    # "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/memgen_sft/0511/ckpts/checkpoint-738"
+    # "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/memgen_sft/0511/ckpts/checkpoint-1476"
     "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/memgen_sft/0511/ckpts/checkpoint-2214"
-    "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/memgen_sft/0511/ckpts/checkpoint-2952"
-    "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/memgen_sft/0511/ckpts/checkpoint-3690"
+    # "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/memgen_sft/0511/ckpts/checkpoint-2952"
+    # "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/memgen_sft/0511/ckpts/checkpoint-3690"
 )
 
 # Loop through each checkpoint path
