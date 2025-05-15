@@ -3,7 +3,7 @@ import os
 import argparse
 from tqdm import tqdm
 
-def check_diff(ours, baseline, output_dir):
+def check_diff(ours, baseline, output_dir, answers_only=False):
     ours_file = open(ours, "r")
     baseline_file = open(baseline, "r")
     
@@ -48,19 +48,27 @@ def check_diff(ours, baseline, output_dir):
         else:
             intersection_baseline_ratio = 0
 
-        data_pair = {
-            "question": ours_data["question"],
-            "gt": ours_data["answer"],
-            "intersection_clips": list(ours_baseline_coverage),
-            "intersection_ours_ratio": intersection_ours_ratio,
-            "intersection_baseline_ratio": intersection_baseline_ratio,
-            "ours_clips": ours_clip,
-            "ours_answer": ours_data["agent_answer"],
-            "baseline_clips": baseline_clip,
-            "baseline_answer": baseline_data["agent_answer"],
-            "ours_session": ours_session,
-            "baseline_session": baseline_session,
-        }
+        if answers_only:
+            data_pair = {
+                "question": ours_data["question"],
+                "gt": ours_data["answer"],
+                "ours_answer": ours_data["agent_answer"],
+                "baseline_answer": baseline_data["agent_answer"],
+            }
+        else:
+            data_pair = {
+                "question": ours_data["question"],
+                "gt": ours_data["answer"],
+                "intersection_clips": list(ours_baseline_coverage),
+                "intersection_ours_ratio": intersection_ours_ratio,
+                "intersection_baseline_ratio": intersection_baseline_ratio,
+                "ours_clips": ours_clip,
+                "ours_answer": ours_data["agent_answer"],
+                "baseline_clips": baseline_clip,
+                "baseline_answer": baseline_data["agent_answer"],
+                "ours_session": ours_session,
+                "baseline_session": baseline_session,
+            }
         
         assert ours_data["question"] == baseline_data["question"]
         
@@ -95,9 +103,10 @@ def main():
     parser.add_argument("--ours", type=str, required=True)
     parser.add_argument("--baseline", type=str, required=True)
     parser.add_argument("--output_dir", type=str, required=True)
+    parser.add_argument('--answers_only', action='store_true', help='Only print answers')
     args = parser.parse_args()
     
-    check_diff(args.ours, args.baseline, args.output_dir)
+    check_diff(args.ours, args.baseline, args.output_dir, args.answers_only)
 
 if __name__ == "__main__":
     main()

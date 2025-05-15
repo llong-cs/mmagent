@@ -28,5 +28,5 @@
     "temperature": 0,
     "train": true,
     "ckpt": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/memgen_sft/0511/ckpts/checkpoint-2214",
-    "model": "qwen2.5-omni"
+    "model": "api"
 }

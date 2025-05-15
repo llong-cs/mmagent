@@ -29,7 +29,7 @@ def video_to_base64(video_path):
 def process_qa(qa):
     try:
         if "qwen" in args.dataset:
-            mem = load_video_graph(qa["mem_path"].replace("mems_qwen", "mems_qwen_0511"))
+            mem = load_video_graph(qa["mem_path"].replace("mems_qwen", f"mems_qwen_{args.version}"))
         else:
             mem = load_video_graph(qa["mem_path"])
         
@@ -190,6 +190,7 @@ if __name__ == "__main__":
     parser.add_argument("--dataset", type=str, default="data/annotations/small_test.jsonl")
     parser.add_argument("--sample_rounds", type=int, default=1)
     parser.add_argument("--output_dir", type=str, default="data/annotations/results")
+    parser.add_argument("--version", type=str, default="0511")
 
     args = parser.parse_args()
     args.dataset_with_agent_answer = os.path.basename(args.dataset).replace(".jsonl", "_with_agent_answer.jsonl")
@@ -197,56 +198,98 @@ if __name__ == "__main__":
 
     if "qwen" in args.dataset:
         exp_settings = {
-            "5_rounds_threshold_0_2_top1_no_planning_qwen_0511": {
+            # "10_rounds_threshold_0_2_top1_no_planning_qwen_0511": {
+            #     "max_retrieval_steps": 10,
+            #     "threshold": 0.2,
+            #     "planning": False,
+            #     "topk": 1
+            # },
+            # "10_rounds_threshold_0_2_top2_no_planning_qwen_0511": {
+            #     "max_retrieval_steps": 10,
+            #     "threshold": 0.2,
+            #     "planning": False,
+            #     "topk": 2
+            # },
+            "full_retrieval_threshold_0_qwen_0511": {
+                "max_retrieval_steps": 2,
+                "threshold": 0,
+                "planning": False,
+                "topk": 100000
+            },
+            "full_retrieval_threshold_0_2_qwen_0511": {
+                "max_retrieval_steps": 2,
+                "threshold": 0.2,
+                "planning": False,
+                "topk": 100000
+            },
+            "full_retrieval_threshold_0_4_qwen_0511": {
+                "max_retrieval_steps": 2,
+                "threshold": 0.4,
+                "planning": False,
+                "topk": 100000
+            },
+            "5_rounds_threshold_0_2_top2_no_planning_qwen_0511": {
                 "max_retrieval_steps": 5,
                 "threshold": 0.2,
                 "planning": False,
-                "topk": 1
-            },
-            "5_rounds_threshold_0_4_top5_no_planning_qwen_0511": {
-                "max_retrieval_steps": 5,
-                "threshold": 0.4,
-                "planning": False,
-                "topk": 5
+                "topk": 2
             },
         }
     else:
         exp_settings = {
-            "5_rounds_threshold_0_2_top1_no_planning": {
-                "max_retrieval_steps": 5,
-                "retrieval_threshold": 0.2,
+            # "5_rounds_threshold_0_2_top1_no_planning": {
+            #     "max_retrieval_steps": 5,
+            #     "retrieval_threshold": 0.2,
+            #     "planning": False,
+            #     "topk": 1
+            # },
+            # "5_rounds_threshold_0_2_top2_no_planning": {
+            #     "max_retrieval_steps": 5,
+            #     "retrieval_threshold": 0.2,
+            #     "planning": False,
+            #     "topk": 2
+            # },
+            # "5_rounds_threshold_0_2_top3_no_planning": {
+            #     "max_retrieval_steps": 5,
+            #     "retrieval_threshold": 0.2,
+            #     "planning": False,
+            #     "topk": 3
+            # },
+            # "5_rounds_threshold_0_top1_no_planning": {
+            #     "max_retrieval_steps": 5,
+            #     "retrieval_threshold": 0,
+            #     "planning": False,
+            #     "topk": 1
+            # },
+            # "5_rounds_threshold_0_top2_no_planning": {
+            #     "max_retrieval_steps": 5,
+            #     "retrieval_threshold": 0,
+            #     "planning": False,
+            #     "topk": 2
+            # },
+            # "5_rounds_threshold_0_top3_no_planning": {
+            #     "max_retrieval_steps": 5,
+            #     "retrieval_threshold": 0,
+            #     "planning": False,
+            #     "topk": 3
+            # },
+            "full_retrieval_threshold_0_gpt4o": {
+                "max_retrieval_steps": 2,
+                "threshold": 0,
                 "planning": False,
-                "topk": 1
+                "topk": 100000
             },
-            "5_rounds_threshold_0_2_top2_no_planning": {
-                "max_retrieval_steps": 5,
-                "retrieval_threshold": 0.2,
+            "full_retrieval_threshold_0_2_gpt4o": {
+                "max_retrieval_steps": 2,
+                "threshold": 0.2,
                 "planning": False,
-                "topk": 2
+                "topk": 100000
             },
-            "5_rounds_threshold_0_2_top3_no_planning": {
-                "max_retrieval_steps": 5,
-                "retrieval_threshold": 0.2,
+            "full_retrieval_threshold_0_4_gpt4o": {
+                "max_retrieval_steps": 2,
+                "threshold": 0.4,
                 "planning": False,
-                "topk": 3
-            },
-            "5_rounds_threshold_0_top1_no_planning": {
-                "max_retrieval_steps": 5,
-                "retrieval_threshold": 0,
-                "planning": False,
-                "topk": 1
-            },
-            "5_rounds_threshold_0_top2_no_planning": {
-                "max_retrieval_steps": 5,
-                "retrieval_threshold": 0,
-                "planning": False,
-                "topk": 2
-            },
-            "5_rounds_threshold_0_top3_no_planning": {
-                "max_retrieval_steps": 5,
-                "retrieval_threshold": 0,
-                "planning": False,
-                "topk": 3
+                "topk": 100000
             },
         }
 

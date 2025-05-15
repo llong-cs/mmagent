@@ -58,14 +58,14 @@ def analyze_agent_results(result_dir):
             f.close()
 
         print(f"Pass@{k}: {correct / total}")
-        print(filtered_count)
         
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Result analysis')
-    parser.add_argument('--result', type=str, help='Path to the result directory or file', default="data/annotations/results/5_rounds_threshold_0_top3_no_planning")
+    parser.add_argument('--result', type=str, help='Path to the result directory or file', default="data/annotations/results/full_retrieval_threshold_0_4_gpt4o")
     parser.add_argument('--model', type=str, help='Model name', default="agent")
     parser.add_argument('--test_file', type=str, help='Path to the test file', default="data/annotations/small_test.jsonl")
+    
     return parser.parse_args()
 
 def main():
