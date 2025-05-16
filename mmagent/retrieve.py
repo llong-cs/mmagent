@@ -69,8 +69,9 @@ def retrieve_from_videograph(video_graph, query, topk=5, mode='argmax', threshol
             top_clips.append(clip_id)
         except ValueError:
             continue
-        
+    
     queries = back_translate(video_graph, [query])
+    related_nodes = get_related_nodes(video_graph, query)
 
     model = "text-embedding-3-large"
     query_embeddings = parallel_get_embedding(model, queries)[0]
@@ -81,7 +82,7 @@ def retrieve_from_videograph(video_graph, query, topk=5, mode='argmax', threshol
         raise ValueError(f"Unknown mode: {mode}")
 
     for query_embedding in query_embeddings:
-        nodes = video_graph.search_text_nodes([query_embedding])
+        nodes = video_graph.search_text_nodes([query_embedding], related_nodes)
         top_nodes = [node_id for node_id, node_score in nodes if node_score >= threshold][:topk]
         for node in nodes:
             node_id = node[0]
@@ -109,7 +110,19 @@ def retrieve_from_videograph(video_graph, query, topk=5, mode='argmax', threshol
     top_clips = list(set(top_clips))
     
     return top_clips, clip_scores, top_nodes
-    
+
+def get_related_nodes(video_graph, query):
+    related_nodes = []
+    entities = parse_video_caption(video_graph, query)
+    for entity in entities:
+        type = entity[0]
+        node_id = entity[1]
+        if type == "character":
+            related_nodes.extend([int(node.split("_")[1]) for node in video_graph.reverse_character_mappings[f"{type}_{node_id}"]])
+        else:
+            related_nodes.append(node_id)
+    return related_nodes
+
 def generate_action(question, knowledge, retrieval_plan=None, multiple_queries=False, responses=[], switch=False):
     # select prompt
     if not switch:

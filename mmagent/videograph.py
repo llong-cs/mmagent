@@ -612,10 +612,17 @@ class VideoGraph:
             
         return info_nodes
     
-    def search_text_nodes(self, query_embeddings):
-        
+    def search_text_nodes(self, query_embeddings, range_nodes=None):
+        if range_nodes:
+            text_nodes = []
+            for node_id in range_nodes:
+                text_nodes.extend(self.get_connected_nodes(node_id, type=['episodic', 'semantic']))
+            text_nodes = list(set(text_nodes))
+        else:
+            text_nodes = self.text_nodes
+            
         matched_text_nodes = []
-        for node_id in self.text_nodes:
+        for node_id in text_nodes:
             node = self.nodes[node_id]
             similarity = self._average_similarity(query_embeddings, node.embeddings)
             matched_text_nodes.append((node_id, similarity))
