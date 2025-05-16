@@ -19,7 +19,7 @@ logging.getLogger("httpcore").setLevel(logging.CRITICAL)
 processing_config = json.load(open("configs/processing_config.json"))
 temp = processing_config["temperature"]
 
-config = json.load(open("api_config.json"))
+config = json.load(open("/mnt/bn/videonasi18n/longlin.kylin/mmagent/api_config.json"))
 client = {}
 for model_name in config.keys():
     client[model_name] = openai.AzureOpenAI(

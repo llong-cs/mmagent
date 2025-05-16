@@ -9,7 +9,7 @@ import json
 # os.environ['CONSUL_HTTP_PORT'] = 2280
 # PSM、Cluster、Idc、Accesskey 和 Bucket 可在 TOS 用户平台 > Bucket 详情 > 概览页中查找。具体查询方式详见方式二：通过 “psm+idc” 访问 TOS 桶 。
 
-tos_config = json.load(open("tos_config.json"))
+tos_config = json.load(open("/mnt/bn/videonasi18n/longlin.kylin/mmagent/tos_config.json"))
 
 server = "va"
 if server not in ["cn", "va"]:
