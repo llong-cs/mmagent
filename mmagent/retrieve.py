@@ -331,7 +331,7 @@ def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5,
             
     return final_answer, (memories, responses)
 
-def verify_qa(question, gt, pred):
+def verify_qa(question, gt, pred, model="gpt-4o-2024-11-20"):
     try:
         input = [
             {
@@ -344,7 +344,6 @@ def verify_qa(question, gt, pred):
             }   
         ]
         messages = generate_messages(input)
-        model = "gpt-4o-2024-11-20"
         response = get_response_with_retry(model, messages)
         result = response[0]
     except Exception as e:

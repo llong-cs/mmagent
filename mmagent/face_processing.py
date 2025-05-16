@@ -15,7 +15,7 @@ from .idl.face_processing_thrift import *
 test_client = euler.Client(
     FaceService,
     "sd://lab.agent.face_processing_test?idc=maliva&cluster=default",
-    timeout=300,
+    timeout=600,
     transport="buffered",
 )
 

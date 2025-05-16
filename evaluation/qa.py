@@ -198,96 +198,102 @@ if __name__ == "__main__":
 
     if "qwen" in args.dataset:
         exp_settings = {
-            # "10_rounds_threshold_0_2_top1_no_planning_qwen_0511": {
-            #     "max_retrieval_steps": 10,
-            #     "threshold": 0.2,
-            #     "planning": False,
-            #     "topk": 1
-            # },
-            # "10_rounds_threshold_0_2_top2_no_planning_qwen_0511": {
-            #     "max_retrieval_steps": 10,
-            #     "threshold": 0.2,
-            #     "planning": False,
-            #     "topk": 2
-            # },
+            "5_rounds_threshold_0_2_top1_no_planning_qwen_0511": {
+                "max_retrieval_steps": 5,
+                "retrieval_threshold": 0.2,
+                "planning": False,
+                "topk": 1
+            },
+            "5_rounds_threshold_0_2_top2_no_planning_qwen_0511": {
+                "max_retrieval_steps": 5,
+                "retrieval_threshold": 0.2,
+                "planning": False,
+                "topk": 2
+            },
+            "5_rounds_threshold_0_4_top5_no_planning_qwen_0511": {
+                "max_retrieval_steps": 5,
+                "retrieval_threshold": 0.2,
+                "planning": False,
+                "topk": 2
+            },
+            "10_rounds_threshold_0_2_top1_no_planning_qwen_0511": {
+                "max_retrieval_steps": 10,
+                "retrieval_threshold": 0.2,
+                "planning": False,
+                "topk": 1
+            },
+            "10_rounds_threshold_0_2_top2_no_planning_qwen_0511": {
+                "max_retrieval_steps": 10,
+                "retrieval_threshold": 0.2,
+                "planning": False,
+                "topk": 2
+            },
             "full_retrieval_threshold_0_qwen_0511": {
                 "max_retrieval_steps": 2,
-                "threshold": 0,
+                "retrieval_threshold": 0,
                 "planning": False,
                 "topk": 100000
             },
             "full_retrieval_threshold_0_2_qwen_0511": {
                 "max_retrieval_steps": 2,
-                "threshold": 0.2,
+                "retrieval_threshold": 0.2,
                 "planning": False,
                 "topk": 100000
             },
             "full_retrieval_threshold_0_4_qwen_0511": {
                 "max_retrieval_steps": 2,
-                "threshold": 0.4,
+                "retrieval_threshold": 0.4,
                 "planning": False,
                 "topk": 100000
-            },
-            "5_rounds_threshold_0_2_top2_no_planning_qwen_0511": {
-                "max_retrieval_steps": 5,
-                "threshold": 0.2,
-                "planning": False,
-                "topk": 2
             },
         }
     else:
         exp_settings = {
-            # "5_rounds_threshold_0_2_top1_no_planning": {
-            #     "max_retrieval_steps": 5,
-            #     "retrieval_threshold": 0.2,
-            #     "planning": False,
-            #     "topk": 1
-            # },
-            # "5_rounds_threshold_0_2_top2_no_planning": {
-            #     "max_retrieval_steps": 5,
-            #     "retrieval_threshold": 0.2,
-            #     "planning": False,
-            #     "topk": 2
-            # },
-            # "5_rounds_threshold_0_2_top3_no_planning": {
-            #     "max_retrieval_steps": 5,
-            #     "retrieval_threshold": 0.2,
-            #     "planning": False,
-            #     "topk": 3
-            # },
-            # "5_rounds_threshold_0_top1_no_planning": {
-            #     "max_retrieval_steps": 5,
-            #     "retrieval_threshold": 0,
-            #     "planning": False,
-            #     "topk": 1
-            # },
-            # "5_rounds_threshold_0_top2_no_planning": {
-            #     "max_retrieval_steps": 5,
-            #     "retrieval_threshold": 0,
-            #     "planning": False,
-            #     "topk": 2
-            # },
-            # "5_rounds_threshold_0_top3_no_planning": {
-            #     "max_retrieval_steps": 5,
-            #     "retrieval_threshold": 0,
-            #     "planning": False,
-            #     "topk": 3
-            # },
-            "full_retrieval_threshold_0_gpt4o": {
+            "5_rounds_threshold_0_2_top1_no_planning_gemini": {
+                "max_retrieval_steps": 5,
+                "retrieval_threshold": 0.2,
+                "planning": False,
+                "topk": 1
+            },
+            "5_rounds_threshold_0_2_top2_no_planning_gemini": {
+                "max_retrieval_steps": 5,
+                "retrieval_threshold": 0.2,
+                "planning": False,
+                "topk": 2
+            },
+            "5_rounds_threshold_0_4_top5_no_planning_gemini": {
+                "max_retrieval_steps": 5,
+                "retrieval_threshold": 0.2,
+                "planning": False,
+                "topk": 2
+            },
+            "10_rounds_threshold_0_2_top1_no_planning_gemini": {
+                "max_retrieval_steps": 10,
+                "retrieval_threshold": 0.2,
+                "planning": False,
+                "topk": 1
+            },
+            "10_rounds_threshold_0_2_top2_no_planning_gemini": {
+                "max_retrieval_steps": 10,
+                "retrieval_threshold": 0.2,
+                "planning": False,
+                "topk": 2
+            },
+            "full_retrieval_threshold_0_gemini": {
                 "max_retrieval_steps": 2,
-                "threshold": 0,
+                "retrieval_threshold": 0,
                 "planning": False,
                 "topk": 100000
             },
-            "full_retrieval_threshold_0_2_gpt4o": {
+            "full_retrieval_threshold_0_2_gemini": {
                 "max_retrieval_steps": 2,
-                "threshold": 0.2,
+                "retrieval_threshold": 0.2,
                 "planning": False,
                 "topk": 100000
             },
-            "full_retrieval_threshold_0_4_gpt4o": {
+            "full_retrieval_threshold_0_4_gemini": {
                 "max_retrieval_steps": 2,
-                "threshold": 0.4,
+                "retrieval_threshold": 0.4,
                 "planning": False,
                 "topk": 100000
             },

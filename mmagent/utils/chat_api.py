@@ -28,9 +28,9 @@ for model_name in config.keys():
         api_key=config[model_name]["api_key"],
     )
 
-MAX_RETRIES = 10
+MAX_RETRIES = 5
 
-def get_response(model, messages, timeout=10):
+def get_response(model, messages, timeout=30):
     """Get chat completion response from specified model.
 
     Args:
@@ -41,13 +41,13 @@ def get_response(model, messages, timeout=10):
         tuple: (response content, total tokens used)
     """
     response = client[model].chat.completions.create(
-        model=model, messages=messages, temperature=temp, timeout=timeout, max_tokens=8192
+        model=model, messages=messages, temperature=temp, timeout=timeout, max_tokens=2048
     )
     
     # return answer and number of tokens
     return response.choices[0].message.content, response.usage.total_tokens
 
-def get_response_with_retry(model, messages, timeout=10):
+def get_response_with_retry(model, messages, timeout=30):
     """Retry get_response up to MAX_RETRIES times with error handling.
 
     Args:
@@ -64,12 +64,12 @@ def get_response_with_retry(model, messages, timeout=10):
         try:
             return get_response(model, messages, timeout)
         except Exception as e:
-            sleep(30)
+            sleep(60)
             logger.warning(f"Retry {i} times, exception: {e}")
             continue
     raise Exception(f"Failed to get response after {MAX_RETRIES} retries")
 
-def parallel_get_response(model, messages, timeout=10):
+def parallel_get_response(model, messages, timeout=30):
     """Process multiple messages in parallel using ThreadPoolExecutor.
     Messages are processed in batches, with each batch completing before starting the next.
 
@@ -99,7 +99,7 @@ def parallel_get_response(model, messages, timeout=10):
     return responses, total_tokens
 
 
-def get_embedding(model, text, timeout=10):
+def get_embedding(model, text, timeout=30):
     """Get embedding for text using specified model.
 
     Args:
@@ -113,7 +113,7 @@ def get_embedding(model, text, timeout=10):
     return response.data[0].embedding, response.usage.total_tokens
 
 
-def get_embedding_with_retry(model, text, timeout=10):
+def get_embedding_with_retry(model, text, timeout=30):
     """Retry get_embedding up to MAX_RETRIES times with error handling.
 
     Args:
@@ -130,12 +130,12 @@ def get_embedding_with_retry(model, text, timeout=10):
         try:
             return get_embedding(model, text, timeout)
         except Exception as e:
-            sleep(30)
+            sleep(60)
             logger.warning(f"Retry {i} times, exception: {e}")
             continue
     raise Exception(f"Failed to get embedding after {MAX_RETRIES} retries")
 
-def parallel_get_embedding(model, texts, timeout=10):
+def parallel_get_embedding(model, texts, timeout=30):
     """Process multiple texts in parallel to get embeddings.
 
     Args:
