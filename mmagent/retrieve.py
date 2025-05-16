@@ -73,6 +73,8 @@ def retrieve_from_videograph(video_graph, query, topk=5, mode='argmax', threshol
     queries = back_translate(video_graph, [query])
     related_nodes = get_related_nodes(video_graph, query)
 
+    print("related nodes: ", related_nodes)
+
     model = "text-embedding-3-large"
     query_embeddings = parallel_get_embedding(model, queries)[0]
 
@@ -117,8 +119,9 @@ def get_related_nodes(video_graph, query):
     for entity in entities:
         type = entity[0]
         node_id = entity[1]
+        print(entity)
         if type == "character":
-            related_nodes.extend([int(node.split("_")[1]) for node in video_graph.reverse_character_mappings[f"{type}_{node_id}"]])
+            related_nodes.extend([int(node.split("_")[1]) for node in video_graph.character_mappings[f"{type}_{node_id}"]])
         else:
             related_nodes.append(node_id)
     return related_nodes
