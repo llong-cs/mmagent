@@ -9,7 +9,7 @@ torch.set_printoptions(threshold=np.inf)
 import argparse
 import random
 
-from mmagent.prompts import prompt_generate_captions_with_ids_sft, prompt_generate_thinkings_with_ids_sft
+from mmagent.prompts import prompt_generate_captions_with_ids_sft, prompt_generate_thinkings_with_ids_sft, prompt_generate_memory_with_ids_sft
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--data_path", type=str, default="data/sft/memgen/0511/train_for_memory_6k.json")
@@ -423,13 +423,62 @@ def generate_semantic_conversations(data_path, output_path, sem_mem_types=["sema
 
             with open(output_path, "a") as f:
                 f.write(json.dumps(res) + "\n")
+
+def generate_full_memory_conversations(data_path, output_path, sem_mem_types=["semantic_memory_equivalance", "semantic_memory_character", "semantic_memory_relation", "semantic_memory_video", "semantic_memory_general"]):
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    sample_num = 0
+    with open(data_path, "r") as f:
+        for line in f:
+            sample_num += 1
+
+    with open(data_path, "r") as f:
+        for line in tqdm(f, total=sample_num, desc="Generating full memory conversations"):
+            data = json.loads(line)
+            
+            messages = [
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": prompt_generate_memory_with_ids_sft
+                        }
+                    ]
+                }
+            ]
+            
+            messages[0]["content"].extend(generate_video_context(data))
+            
+            sem_mems = []
+            for sem_mem_type in sem_mem_types:
+                sem_mems.extend(data[sem_mem_type])
+            
+            messages.append({
+                "role": "assistant",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": json.dumps({
+                            "video_descriptions": data["episodic_memory"],
+                            "high_level_conclusions": sem_mems
+                        })
+                    }
+                ]
+            })
+
+            res = {
+                "messages": messages
+            }
+
+            with open(output_path, "a") as f:
+                f.write(json.dumps(res) + "\n")
                 
-def split_train_val(conversations_dir, val_num):
+def split_train_val(conversations_dir, val_num, conversation_types=["episodic", "semantic", "full_memory"]):
     train_conversations = []
     val_conversations = []
     
     input_paths = os.listdir(conversations_dir)
-    input_paths = [os.path.join(conversations_dir, path) for path in input_paths]
+    input_paths = [os.path.join(conversations_dir, path) for path in input_paths if path.endswith(".jsonl") and any(conversation_type in path for conversation_type in conversation_types)]
     
     for path in input_paths:
         temp_conversations = []
@@ -533,7 +582,8 @@ if __name__ == "__main__":
         fix_and_transfer_data(data_path, samples_path)
         generate_episodic_conversations(samples_path, os.path.join(conversations_dir, "episodic_conversations.jsonl"))
         generate_semantic_conversations(samples_path, os.path.join(conversations_dir, "semantic_conversations.jsonl"))
-        split_train_val(conversations_dir, 100)
+        generate_full_memory_conversations(samples_path, os.path.join(conversations_dir, "full_memory_conversations.jsonl"))
+        split_train_val(conversations_dir, 100, ["full_memory"])
     else:
         model_path = "/mnt/hdfs/foundation/agent/heyc/ckpts/Qwen2.5-Omni-7B-thinker"
         model = Qwen2_5OmniPreprocessor.from_pretrained(

@@ -15,7 +15,7 @@ from PIL import Image, ImageDraw
 from .utils.chat_api import parallel_get_embedding
 from .utils.chat_qwen import generate_messages, get_response_with_retry
 from .utils.general import validate_and_fix_python_list
-from .prompts import prompt_generate_captions_with_ids_sft, prompt_generate_thinkings_with_ids_sft
+from .prompts import prompt_generate_captions_with_ids_sft, prompt_generate_thinkings_with_ids_sft, prompt_generate_memory_with_ids_sft
 
 processing_config = json.load(open("configs/processing_config.json"))
 logging_level = processing_config["logging"]
@@ -253,31 +253,62 @@ def generate_captions_and_thinkings_with_ids(
         history_nodes.extend(video_graph.event_sequence_by_clip[i])
     history_texts = [video_graph.nodes[node_id].metadata['contents'][0] for node_id in history_nodes]
 
+    # input = [
+    #     {
+    #         "type": "text",
+    #         "content": prompt_generate_captions_with_ids_sft,
+    #     }
+    # ] + video_context
+
+    # messages = generate_messages(input)
+    # # print_messages(messages)
+    # model = "gemini-1.5-pro-002"
+    
+    # captions = None
+    # for i in range(MAX_RETRIES):
+    #     captions_string = get_response_with_retry(model, messages)[0]
+    #     if not captions_string:
+    #         captions_string = "[]"
+    #         with open("logs/filtered_contents.txt", "a") as f:
+    #             f.write(f"Filtered generated contents detected\n")
+    #     captions = validate_and_fix_python_list(captions_string)
+    #     if captions is not None:
+    #         break
+    # if captions is None:
+    #     captions = []
+    #     # raise Exception("Failed to generate captions")
+
+    # thinkings = generate_thinkings_with_ids(video_context, captions)
+    
     input = [
         {
             "type": "text",
-            "content": prompt_generate_captions_with_ids_sft,
-        }
+            "content": prompt_generate_memory_with_ids_sft,
+        },
     ] + video_context
-
+    
     messages = generate_messages(input)
-    # print_messages(messages)
-    model = "gemini-1.5-pro-002"
-    captions = None
+    model = ""
+    
+    memories = None
     for i in range(MAX_RETRIES):
-        captions_string = get_response_with_retry(model, messages)[0]
-        if not captions_string:
-            captions_string = "[]"
+        memories_string = get_response_with_retry(model, messages)[0]
+        if not memories_string:
+            memories_string = "[]"
             with open("logs/filtered_contents.txt", "a") as f:
                 f.write(f"Filtered generated contents detected\n")
-        captions = validate_and_fix_python_list(captions_string)
-        if captions is not None:
+        memories = validate_and_fix_python_list(memories_string)
+        if memories is not None:
             break
-    if captions is None:
-        captions = []
-        # raise Exception("Failed to generate captions")
-
-    thinkings = generate_thinkings_with_ids(video_context, captions)
+    if memories is None:
+        memories = {
+            "video_description": [],
+            "high_level_conclusions": []
+        }
+        # raise Exception("Failed to generate memories")
+    
+    captions = memories["video_description"]
+    thinkings = memories["high_level_conclusions"]
 
     print(captions, thinkings)
 
