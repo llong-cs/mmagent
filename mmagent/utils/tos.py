@@ -3,28 +3,25 @@ import hashlib
 import random
 import string
 import os
+import json
 
 # os.environ['CONSUL_HTTP_HOST'] = "10.54.129.29"
 # os.environ['CONSUL_HTTP_PORT'] = 2280
 # PSM、Cluster、Idc、Accesskey 和 Bucket 可在 TOS 用户平台 > Bucket 详情 > 概览页中查找。具体查询方式详见方式二：通过 “psm+idc” 访问 TOS 桶 。
 
+tos_config = json.load(open("tos_config.json"))
+
 server = "va"
-if server == "cn":
-    ak = "YFPD6L54IEAAU421YMSG"
-    bucket_name = "vlm-agent"
-    tos_psm = "toutiao.tos.tosapi"
-    tos_cluster = "default"
-    tos_idc = "hl"
-    base_url = "https://tosv.byted.org/obj/vlm-agent/"
-elif server == "va":
-    ak = "BX2M82TQJ7UVTYXYO19Z"
-    bucket_name = "vlm-agent-benchmarking-us"
-    tos_psm = "toutiao.tos.tosapi"
-    tos_cluster = "default"
-    tos_idc = "maliva"
-    base_url = "https://tosv-va.tiktok-row.org/obj/vlm-agent-benchmarking-us/"
-else:
+if server not in ["cn", "va"]:
     raise ValueError(f"Invalid server: {server}")
+
+tos_config = tos_config[server]
+ak = tos_config["ak"]
+bucket_name = tos_config["bucket_name"]
+tos_psm = tos_config["tos_psm"]
+tos_cluster = tos_config["tos_cluster"]
+tos_idc = tos_config["tos_idc"]
+base_url = tos_config["base_url"]
 
 tos_client = bytedtos.Client(
     bucket_name, ak, service=tos_psm, cluster=tos_cluster, idc=tos_idc

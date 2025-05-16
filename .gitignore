@@ -66,6 +66,8 @@ data/videos/
 data/audios/
 data/mems/
 data/analysis/
+data/annotations/archived
+data/annotations/raw
 
 # Models checkpoints
 audio_embedding_deploy/pretrained_eres2netv2.ckpt
@@ -81,3 +83,11 @@ data/sft/
 
 # vllm
 vllm/
+
+# private files
+setup.sh
+download_videos.ipynb
+annotation_processing.ipynb
+tos_config.json
+cookies/
+result_analysis.ipynb

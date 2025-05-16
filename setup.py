@@ -26,9 +26,3 @@ import sys
 import mmagent.videograph
 
 sys.modules["videograph"] = mmagent.videograph
-
-video_graph_path = "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1/-UhacNNM_HU_30_5_-1_10_20_0.3_0.6.pkl"
-video_graph = load_video_graph(video_graph_path)
-
-question = "Do Hannahlei's parents support her dancing?"
-answer = answer_with_retrieval(video_graph, question)
