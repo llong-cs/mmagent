@@ -16,6 +16,7 @@ from .utils.chat_api import parallel_get_embedding
 from .utils.chat_qwen import generate_messages, get_response_with_retry
 from .utils.general import validate_and_fix_python_list
 from .prompts import prompt_generate_captions_with_ids_sft, prompt_generate_thinkings_with_ids_sft, prompt_generate_memory_with_ids_sft
+from .memory_processing import parse_video_caption
 
 processing_config = json.load(open("configs/processing_config.json"))
 logging_level = processing_config["logging"]
@@ -23,26 +24,6 @@ logging_level = processing_config["logging"]
 MAX_RETRIES = processing_config["max_retries"]
 # Configure logging
 logger = logging.getLogger(__name__)
-    
-
-def parse_video_caption(video_graph, video_caption):
-        # video_caption is a string like this: <char_1> xxx <char_2> xxx
-        # extract all the elements wrapped by < and >
-    pattern = r'<([^<>]*_[^<>]*)>'
-    entity_strs = re.findall(pattern, video_caption)
-    entities = []
-    for entity_str in entity_strs:
-        try:
-            node_type, node_id = entity_str.split("_")
-            node_type = node_type.strip().lower()
-            assert node_type in ["face", "voice", "character"]
-            node_id = int(node_id)
-            entities.append((node_type, node_id))
-        except Exception as e:
-            logger.error(f"Entities parsing error: {e}")
-            continue
-    entities = [entity for entity in entities if entity[1] in video_graph.nodes and ((video_graph.nodes[entity[1]].type == 'img' and entity[0] == 'face') or (video_graph.nodes[entity[1]].type == 'voice' and entity[0] == 'voice') or (video_graph.nodes[entity[1]].type in ['episodic', 'semantic'] and entity[0] == 'text'))]
-    return entities
 
     # entities = []
     # current_entity = ""

@@ -27,20 +27,23 @@ logger = logging.getLogger(__name__)
 def parse_video_caption(video_graph, video_caption):
         # video_caption is a string like this: <char_1> xxx <char_2> xxx
         # extract all the elements wrapped by < and >
-    pattern = r'<([^<>]*_[^<>]*)>'
-    entity_strs = re.findall(pattern, video_caption)
-    entities = []
-    for entity_str in entity_strs:
+    def verify_entity(video_graph, entity_str):
         try:
             node_type, node_id = entity_str.split("_")
             node_type = node_type.strip().lower()
             assert node_type in ["face", "voice", "character"]
             node_id = int(node_id)
-            entities.append((node_type, node_id))
+            if entity_str in video_graph.character_mapping.keys() or entity_str in video_graph.reverse_character_mapping.keys():
+                return (node_type, node_id)
+            else:
+                return None
         except Exception as e:
             logger.error(f"Entities parsing error: {e}")
-            continue
-    entities = [entity for entity in entities if entity[1] in video_graph.nodes and ((video_graph.nodes[entity[1]].type == 'img' and entity[0] == 'face') or (video_graph.nodes[entity[1]].type == 'voice' and entity[0] == 'voice') or (video_graph.nodes[entity[1]].type in ['episodic', 'semantic'] and entity[0] == 'text'))]
+            return None
+
+    pattern = r'<([^<>]*_[^<>]*)>'
+    entity_strs = re.findall(pattern, video_caption)
+    entities = [verify_entity(video_graph, entity_str) for entity_str in entity_strs if verify_entity(video_graph, entity_str) is not None]
     return entities
 
     # entities = []
