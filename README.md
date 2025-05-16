@@ -4,10 +4,18 @@
 
 ### Environment
 
-Make sure your python version is **below 3.10**.
-
 ```bash
-pip install -r requirements.txt
+pip3 install -r requirements.txt
+pip3 install -e .
+
+pip3 install accelerate==0.34.2 # https://github.com/huggingface/trl/issues/2377
+pip3 install qwen-omni-utils==0.0.4
+
+sudo pip3 uninstall -y transformers
+sudo pip3 install git+https://github.com/huggingface/transformers@f742a644ca32e65758c3adb36225aef1731bd2a8
+pip3 install flash-attn==2.6.3 --no-build-isolation
+
+sudo apt-get -y install ffmpeg # load audio in video(mp4)
 ```
 
 ### Data
@@ -19,49 +27,77 @@ Video path can be
 1. **path to a .mp4 file**, or
 2. **path to a directory** that contains preprocessed video clips.
 
-For video preprocessing, you can follow `utils/video_processing.py` for end-to-end video segmentation.
+For video preprocessing, you can follow `mmagent/utils/video_processing.py` for end-to-end video segmentation.
 
 ### Configuration
 
-`configs/processing_config.json`
+For `configs/processing_config.json`:
 
-```json
-{
-    "video_paths": [
-        "data/videos/clipped/5 Poor People vs 1 Secret Millionaire"
-    ], // videos to be processed
-    "interval_seconds": 30, // clip length (in seconds)
-    "fps": 5, // frame rate used for face detection
-    "segment_limit": -1, // number of clips to be processed (e.g., 3 means processing the first 3 clips of the video, -1 means processing the entire video)
-    "cluster_size": 100, // scale of face detection service
-    "face_detection_score_threshold": 0.85,
-    "face_quality_score_threshold": 22, // a face is considered qualified if its quality score >= face_quality_score_threshold and its quality score >= face_quality_score_threshold
-    "max_faces_per_character": 3, // number of faces used to define an individual detected in the clip
-    "min_duration_for_audio": 2, // a voice segmentation is considered qualified if its duration >= min_duration_for_audio
-    "history_length": 1, // when generating episodic and semantic memories, the model can see episodic memories generated from the last history_length clips
-    "max_retries": 3,
-    "query_num": 10, // number of queries generated per retrieval
-    "topk": 5, // (maximum) number of clips can be retrieved by each query
-    "max_retrieval_steps": 3, // maximum number of retrieval steps
-    "logging": "INFO",
-    "save_dir": "data/mems", // saving directory of the generated memory graphs
-    "intermediate_save_dir": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/intermediate_outputs", // saving directory of the intermediate outputs
-    "input_dir": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/video_clips", 
-    "max_parallel_videos": 16,
-    "log_dir": "logs"
-}
-```
+- `video_paths`: List of videos to be processed.
 
-`configs/memory_config.json`
+- `interval_seconds`: Length of each clip in seconds.
 
-```json
-{
-    "max_img_embeddings": 10, // maximum number of faces that can be stored in the memroy per character
-    "max_audio_embeddings": 20, // maximum number of voices that can be stored in the memroy per character
-    "img_matching_threshold": 0.3, // two faces are considered belonging to the same individual if the cosine simlarity of their embeddings >= face_detection_score_threshold
-    "audio_matching_threshold": 0.6 // two voices are considered belonging to the same individual if the cosine simlarity of their embeddings >= audio_matching_threshold
-}
-```
+- `fps`: Frame rate used for face detection.
+
+- `segment_limit`: Number of clips to process (-1 for entire video).
+
+- `cluster_size`: Scale of face detection service.
+
+- `face_detection_score_threshold`: Threshold for face detection score.
+
+- `face_quality_score_threshold`: Minimum score for a face to be considered qualified.
+
+- `max_faces_per_character`: Number of faces used to define an individual in a clip.
+
+- `min_duration_for_audio`: Minimum duration for a voice segment to be qualified.
+
+- `history_length`: Number of previous clips' episodic memories visible when generating new memories.
+
+- `max_retries`: Maximum number of retry attempts.
+
+- `query_num`: Number of queries generated per retrieval.
+
+- `topk`: Maximum number of clips retrievable per query.
+
+- `max_retrieval_steps`: Maximum number of retrieval steps.
+
+- `multiple_queries`: Whether to use multiple queries.
+
+- `route_switch`: Whether to switch routes if no new clips are retrieved in the last step.
+
+- `planning`: Whether to plan before retrieval.
+
+- `retrieval_threshold`: Threshold for retrieval.
+
+- `logging`: Logging level.
+
+- `save_dir`: Directory for saving generated memory graphs.
+
+- `intermediate_save_dir`: Directory for saving intermediate outputs.
+
+- `input_dir`: Input directory.
+
+- `max_parallel_videos`: Maximum number of videos to process in parallel.
+
+- `log_dir`: Directory for logs.
+
+- `temperature`: Inference temperature.
+
+- `train`: Whether to train.
+
+- `ckpt`: Path to checkpoint.
+
+- `model`: Model to use.
+
+For `configs/memory_config.json`:
+
+- `max_img_embeddings`: Maximum number of faces storable per character in memory.
+
+- `max_audio_embeddings`: Maximum number of voice samples storable per character in memory.
+
+- `img_matching_threshold`: Cosine similarity threshold for considering two faces as belonging to the same individual.
+
+- `audio_matching_threshold`: Cosine similarity threshold for considering two voice samples as belonging to the same individual.
 
 ## Running
 
