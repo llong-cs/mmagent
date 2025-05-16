@@ -612,7 +612,7 @@ class VideoGraph:
             
         return info_nodes
     
-    def search_text_nodes(self, query_embeddings, range_nodes=None):
+    def search_text_nodes(self, query_embeddings, range_nodes=[]):
         if range_nodes:
             text_nodes = []
             for node_id in range_nodes:
