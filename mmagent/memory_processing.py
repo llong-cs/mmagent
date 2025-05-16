@@ -33,7 +33,7 @@ def parse_video_caption(video_graph, video_caption):
             node_type = node_type.strip().lower()
             assert node_type in ["face", "voice", "character"]
             node_id = int(node_id)
-            if entity_str in video_graph.character_mapping.keys() or entity_str in video_graph.reverse_character_mapping.keys():
+            if entity_str in video_graph.reverse_character_mappings.keys() or entity_str in video_graph.character_mappings.keys() or (node_type == 'face' and node_id in video_graph.nodes and video_graph.nodes[node_id].type == 'img') or (node_type == 'voice' and node_id in video_graph.nodes and video_graph.nodes[node_id].type == 'voice'):
                 return (node_type, node_id)
             else:
                 return None

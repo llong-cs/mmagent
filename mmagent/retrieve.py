@@ -71,6 +71,7 @@ def retrieve_from_videograph(video_graph, query, topk=5, mode='argmax', threshol
             continue
     
     queries = back_translate(video_graph, [query])
+    print(queries)
     related_nodes = get_related_nodes(video_graph, query)
 
     print("related nodes: ", related_nodes)
@@ -119,7 +120,6 @@ def get_related_nodes(video_graph, query):
     for entity in entities:
         type = entity[0]
         node_id = entity[1]
-        print(entity)
         if type == "character":
             related_nodes.extend([int(node.split("_")[1]) for node in video_graph.character_mappings[f"{type}_{node_id}"]])
         else:
