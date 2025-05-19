@@ -9,6 +9,8 @@ euler.install_thrift_import_hook()
 from .idl.base_thrift import *
 from .idl.face_processing_thrift import *
 
+from mmagent.utils.video_processing import process_video_clip
+
 
 # Build client
 # test_client = euler.Client(FaceService, 'tcp://127.0.0.1:8910', timeout=300, transport='buffered')
@@ -216,3 +218,12 @@ def process_faces(video_graph, base64_frames, save_path, preprocessing=[]):
     id2faces = update_videograph(video_graph, tempid2faces)
 
     return id2faces
+
+def main():
+    _, frames, _ = process_video_clip(
+        "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/video_clips/CZ_2/-OCrS_r5GHc/11.mp4"
+    )
+    process_faces(None, frames, "data/temp/face_detection_results.json", preprocessing=["face"])
+
+if __name__ == "__main__":
+    main()
