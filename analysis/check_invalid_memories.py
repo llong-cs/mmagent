@@ -24,8 +24,10 @@ def check_invalid_memories(video_graph, mode):
                 num += 1
                 if "<face_" in translated_mem:
                     invalid_face_num += 1
+                    print(translated_mem)
                 if "<voice_" in translated_mem:
                     invalid_voice_num += 1
+                    print(translated_mem)
     elif mode == "clip":
         for _, clip_nodes in video_graph.text_nodes_by_clip.items():
             mems = [video_graph.nodes[node_id].metadata['contents'][0] for node_id in clip_nodes]
