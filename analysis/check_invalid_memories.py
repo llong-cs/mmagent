@@ -2,35 +2,75 @@ import json
 import sys
 import os
 import argparse
+from tqdm import tqdm
+import re
 from mmagent.utils.general import load_video_graph
 from mmagent.retrieve import translate
 import mmagent.videograph
 sys.modules["videograph"] = mmagent.videograph
 
-def check_invalid_memories(video_graph):
+def check_invalid_memories(video_graph, mode):
     video_graph.refresh_equivalences()
     invalid_num = 0
-    mems = [video_graph.nodes[node_id].metadata['contents'][0] for node_id in video_graph.text_nodes]
-    translated_mems = translate(video_graph, mems)
-    for translated_mem in translated_mems:
-        if "<face_" in translated_mem or "<voice_" in translated_mem:
-            invalid_num += 1
-    return invalid_num, len(translated_mems)
+    num = 0
+    if mode == "node":
+        mems = [video_graph.nodes[node_id].metadata['contents'][0] for node_id in video_graph.text_nodes]
+        translated_mems = translate(video_graph, mems)
+        for translated_mem in translated_mems:
+            pattern = r'<([^<>]*_[^<>]*)>'
+            entity_strs = re.findall(pattern, translated_mem)
+            if len(entity_strs) > 0:
+                num += 1
+                if "<face_" in translated_mem or "<voice_" in translated_mem:
+                    invalid_num += 1
+    elif mode == "clip":
+        for _, clip_nodes in video_graph.text_nodes_by_clip.items():
+            mems = [video_graph.nodes[node_id].metadata['contents'][0] for node_id in clip_nodes]
+            translated_mems = translate(video_graph, mems)
+            translated_mems = " ".join(translated_mems)
+            pattern = r'<([^<>]*_[^<>]*)>'
+            entity_strs = re.findall(pattern, translated_mems)
+            if len(entity_strs) > 0:
+                num += 1
+                if "<face_" in translated_mems or "<voice_" in translated_mems:
+                    invalid_num += 1
+    elif mode == "perclip":
+        for _, clip_nodes in video_graph.text_nodes_by_clip.items():
+            mems = [video_graph.nodes[node_id].metadata['contents'][0] for node_id in clip_nodes]
+            translated_mems = translate(video_graph, mems)
+            pattern = r'<([^<>]*_[^<>]*)>'
+            invalid_num = 0
+            num = 0
+            for translated_mem in translated_mems:
+                entity_strs = re.findall(pattern, translated_mem)
+                if len(entity_strs) > 0:
+                    num += 1
+                    if "<face_" in translated_mem or "<voice_" in translated_mem:
+                        invalid_num += 1
+            if invalid_num > 0 and num > 0:
+                print(f"Invalid memories ratio: {invalid_num / num}")
+    else:
+        raise ValueError(f"Invalid mode: {mode}")
+    # print(invalid_num, len(translated_mems))
+    return invalid_num, num
         
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--mems_dir", type=str, default="/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems/CZ_1")
+    parser.add_argument("--mems_dir", type=str, default="/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems_qwen_0511/CZ_1")
+    parser.add_argument("--mode", type=str, default="perclip")
     args = parser.parse_args()
     
     mems_dir = args.mems_dir
     mems_paths = [os.path.join(mems_dir, f) for f in os.listdir(mems_dir) if f.endswith(".pkl")]
     total_invalid_num = 0
     total_num = 0
-    for mems_path in mems_paths:
+    for mems_path in tqdm(mems_paths):
         video_graph = load_video_graph(mems_path)
-        invalid_num, total_num = check_invalid_memories(video_graph)
+        invalid_num, num = check_invalid_memories(video_graph, args.mode)
         total_invalid_num += invalid_num
-        total_num += total_num
+        total_num += num
+    print(total_invalid_num)
+    print(total_num)
     print(f"Invalid memories ratio: {total_invalid_num / total_num}")
 
 if __name__ == "__main__":
