@@ -121,7 +121,7 @@ def get_related_nodes(video_graph, query):
             related_nodes.extend([int(node.split("_")[1]) for node in video_graph.character_mappings[f"{type}_{node_id}"]])
         else:
             related_nodes.append(node_id)
-    return related_nodes
+    return list(set(related_nodes))
 
 def generate_action(question, knowledge, retrieval_plan=None, multiple_queries=False, responses=[], switch=False):
     # select prompt

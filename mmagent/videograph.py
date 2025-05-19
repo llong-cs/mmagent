@@ -692,37 +692,37 @@ class VideoGraph:
         for node_id, node in self.nodes.items():
             if node.type != 'voice':
                 continue
-            logger.info("-"*50 + f"Voice Node {node_id}" + "-"*50)
-            logger.info(f"Contents: {node.metadata['contents']}")
+            print("-"*50 + f"Voice Node {node_id}" + "-"*50)
+            print(f"Contents: {node.metadata['contents']}")
             
             connected_text_nodes = self.get_connected_nodes(node_id, type=['episodic', 'semantic'])
-            logger.info(f"Connected Nodes: {connected_text_nodes}")
+            print(f"Connected Nodes: {connected_text_nodes}")
             connected_texts = [self.nodes[text_id].metadata['contents'] for text_id in connected_text_nodes]
-            logger.info(f"Connected Nodes Contents: {connected_texts}")
+            print(f"Connected Nodes Contents: {connected_texts}")
     
     def print_img_nodes(self, node_id=None):
         if node_id is not None:
             if self.nodes[node_id].type!= 'img':
                 return
 
-            logger.info("-"*50 + f"Image Node {node_id}" + "-"*50)
+            print("-"*50 + f"Image Node {node_id}" + "-"*50)
 
             connected_text_nodes = self.get_connected_nodes(node_id, type=['episodic', 'semantic'])
-            logger.info(f"Connected Nodes: {connected_text_nodes}")
+            print(f"Connected Nodes: {connected_text_nodes}")
             connected_texts = [self.nodes[text_id].metadata['contents'] for text_id in connected_text_nodes]
-            logger.info(f"Connected Nodes Contents: {connected_texts}")
+            print(f"Connected Nodes Contents: {connected_texts}")
 
             self.print_faces([node_id])
         else:
             for node_id, node in self.nodes.items():
                 if node.type != 'img':
                     continue
-                logger.info("-"*50 + f"Image Node {node_id}" + "-"*50)
+                print("-"*50 + f"Image Node {node_id}" + "-"*50)
 
                 connected_text_nodes = self.get_connected_nodes(node_id, type=['episodic', 'semantic'])
-                logger.info(f"Connected Nodes: {connected_text_nodes}")
+                print(f"Connected Nodes: {connected_text_nodes}")
                 connected_texts = [self.nodes[text_id].metadata['contents'] for text_id in connected_text_nodes]
-                logger.info(f"Connected Nodes Contents: {connected_texts}")
+                print(f"Connected Nodes Contents: {connected_texts}")
 
                 self.print_faces([node_id])
             
