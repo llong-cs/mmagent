@@ -25,6 +25,7 @@ def translate(video_graph, memories):
             continue
         new_memory = memory
         entities = parse_video_caption(video_graph, memory)
+        entities = list(set(entities))
         for entity in entities:
             entity_str = f"{entity[0]}_{entity[1]}"
             if entity_str in video_graph.reverse_character_mappings.keys():
@@ -36,6 +37,7 @@ def back_translate(video_graph, queries):
     translated_queries = []
     for i, query in enumerate(queries):
         entities = parse_video_caption(video_graph, query)
+        entities = list(set(entities))
         to_be_translated = [query]
         for entity in entities:
             entity_str = f"{entity[0]}_{entity[1]}"
