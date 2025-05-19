@@ -17,7 +17,7 @@ from mmagent.utils.video_processing import process_video_clip
 test_client = euler.Client(
     FaceService,
     "sd://lab.agent.face_processing_test?idc=maliva&cluster=default",
-    timeout=600,
+    timeout=1200,
     transport="buffered",
 )
 
