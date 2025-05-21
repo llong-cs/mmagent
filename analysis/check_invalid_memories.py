@@ -9,7 +9,8 @@ from mmagent.retrieve import translate
 import mmagent.videograph
 sys.modules["videograph"] = mmagent.videograph
 
-def check_invalid_memories(video_graph, mode):
+def check_invalid_memories(mems_path, mode):
+    video_graph = load_video_graph(mems_path)
     video_graph.refresh_equivalences()
     invalid_face_num = 0
     invalid_voice_num = 0
@@ -29,7 +30,7 @@ def check_invalid_memories(video_graph, mode):
                     invalid_voice_num += 1
                     print(translated_mem)
     elif mode == "clip":
-        for _, clip_nodes in video_graph.text_nodes_by_clip.items():
+        for clip_id, clip_nodes in video_graph.text_nodes_by_clip.items():
             mems = [video_graph.nodes[node_id].metadata['contents'][0] for node_id in clip_nodes]
             translated_mems = translate(video_graph, mems)
             translated_mems = " ".join(translated_mems)
@@ -41,6 +42,9 @@ def check_invalid_memories(video_graph, mode):
                     invalid_face_num += 1
                 if "<voice_" in translated_mems:
                     invalid_voice_num += 1
+                if "<face_" in translated_mems or "<voice_" in translated_mems:
+                    print(translated_mems)
+                    print(mems_path, clip_id)
     else:
         raise ValueError(f"Invalid mode: {mode}")
     # print(invalid_num, len(translated_mems))
@@ -69,7 +73,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--mems_dir", type=str, default="/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems_qwen_0511/CZ_1")
     parser.add_argument("--outputs_dir", type=str, default="/mnt/bn/videonasi18n/longlin.kylin/mmagent/data/sft/memgen/0511/evaluation/checkpoint-2214/val_gen")
-    parser.add_argument("--mode", type=str, default="node")
+    parser.add_argument("--mode", type=str, default="clip")
     args = parser.parse_args()
     
     mems_dir = args.mems_dir
@@ -78,8 +82,7 @@ def main():
     total_invalid_voice_num = 0
     total_num = 0
     for mems_path in tqdm(mems_paths):
-        video_graph = load_video_graph(mems_path)
-        invalid_face_num, invalid_voice_num, num = check_invalid_memories(video_graph, args.mode)
+        invalid_face_num, invalid_voice_num, num = check_invalid_memories(mems_path, args.mode)
         total_invalid_face_num += invalid_face_num
         total_invalid_voice_num += invalid_voice_num
         total_num += num

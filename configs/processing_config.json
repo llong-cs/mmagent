@@ -19,7 +19,7 @@
     "route_switch": true,
     "planning": true,
     "retrieval_threshold": 0,
-    "logging": "INFO",
+    "logging": "DETAIL",
     "save_dir": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/mems",
     "intermediate_save_dir": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/intermediate_outputs",
     "input_dir": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/video_clips",
