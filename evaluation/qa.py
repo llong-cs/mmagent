@@ -195,93 +195,29 @@ if __name__ == "__main__":
     args = parser.parse_args()
     args.dataset_with_agent_answer = os.path.basename(args.dataset).replace(".jsonl", "_with_agent_answer.jsonl")
     args.dataset_with_agent_answer_verified = os.path.basename(args.dataset_with_agent_answer).replace("_with_agent_answer", "_with_agent_answer_verified")
+    
+    def get_exp_name():
+        return f"{processing_config['max_retrieval_steps']}_rounds_threshold_{processing_config['retrieval_threshold']}_top{processing_config['topk']}_{"no_planning" if not processing_config['planning'] else "planning"}_{"qwen_" + args.version if "qwen" in args.dataset else "gemini"}"
 
-    if "qwen" in args.dataset:
-        exp_settings = {
-            # "5_rounds_threshold_0_2_top1_no_planning_qwen_0511": {
-            #     "max_retrieval_steps": 5,
-            #     "retrieval_threshold": 0.2,
-            #     "planning": False,
-            #     "topk": 1
-            # },
-            # "5_rounds_threshold_0_2_top2_no_planning_qwen_0511": {
-            #     "max_retrieval_steps": 5,
-            #     "retrieval_threshold": 0.2,
-            #     "planning": False,
-            #     "topk": 2
-            # },
-            # "5_rounds_threshold_0_4_top5_no_planning_qwen_0511": {
-            #     "max_retrieval_steps": 5,
-            #     "retrieval_threshold": 0.2,
-            #     "planning": False,
-            #     "topk": 2
-            # },
-            # "10_rounds_threshold_0_2_top1_no_planning_qwen_0511": {
-            #     "max_retrieval_steps": 10,
-            #     "retrieval_threshold": 0.2,
-            #     "planning": False,
-            #     "topk": 1
-            # },
-            # "10_rounds_threshold_0_2_top2_no_planning_qwen_0511": {
-            #     "max_retrieval_steps": 10,
-            #     "retrieval_threshold": 0.2,
-            #     "planning": False,
-            #     "topk": 2
-            # },
-            # "full_retrieval_threshold_0_qwen_0511": {
-            #     "max_retrieval_steps": 2,
-            #     "retrieval_threshold": 0,
-            #     "planning": False,
-            #     "topk": 100000
-            # },
-            # "full_retrieval_threshold_0_2_qwen_0511": {
-            #     "max_retrieval_steps": 2,
-            #     "retrieval_threshold": 0.2,
-            #     "planning": False,
-            #     "topk": 100000
-            # },
-            # "full_retrieval_threshold_0_4_qwen_0511": {
-            #     "max_retrieval_steps": 2,
-            #     "retrieval_threshold": 0.4,
-            #     "planning": False,
-            #     "topk": 100000
-            # },
-            "5_rounds_threshold_0_5_top5_no_planning_qwen_0511": {
-                "max_retrieval_steps": 5,
-                "retrieval_threshold": 0.5,
-                "planning": False,
-                "topk": 5
-            },
-            "5_rounds_threshold_0_5_top2_no_planning_qwen_0511": {
-                "max_retrieval_steps": 5,
-                "retrieval_threshold": 0.5,
-                "planning": False,
-                "topk": 2
-            },
-        }
-    else:
-        exp_settings = {
-            "5_rounds_threshold_0_5_top5_no_planning_gemini": {
-                "max_retrieval_steps": 5,
-                "retrieval_threshold": 0.5,
-                "planning": False,
-                "topk": 5
-            },
-            "5_rounds_threshold_0_5_top2_no_planning_gemini": {
-                "max_retrieval_steps": 5,
-                "retrieval_threshold": 0.5,
-                "planning": False,
-                "topk": 2
-            },
-        }
+    exp_settings = [
+        {
+            "max_retrieval_steps": 5,
+            "retrieval_threshold": 0.5,
+            "planning": False,
+            "topk": 5
+        },
+        {
+            "max_retrieval_steps": 5,
+            "retrieval_threshold": 0.5,
+            "planning": False,
+            "topk": 2
+        },
+    ]
 
-    # # idx = 0
-    # # qa_list_with_agent_answer = process_qa_list(qa_list[idx:idx+1])
     sample_rounds = args.sample_rounds
-    for exp, exp_setting in exp_settings.items():
+    for exp_setting in exp_settings:
         for param, value in exp_setting.items():
             processing_config[param] = value
-        logger.info(f"Processing {exp} with {exp_setting}")
         for i in range(sample_rounds):
             qa_list = []
             dataset = args.dataset
@@ -293,11 +229,11 @@ if __name__ == "__main__":
             logger.info(f"Processing {len(qa_list)} samples")
 
             dataset_with_agent_answer = args.dataset_with_agent_answer.replace("_with_agent_answer", f"_with_agent_answer_{i}")
-            dataset_with_agent_answer = os.path.join(args.output_dir, exp, dataset_with_agent_answer)
+            dataset_with_agent_answer = os.path.join(args.output_dir, get_exp_name(), dataset_with_agent_answer)
             os.makedirs(os.path.dirname(dataset_with_agent_answer), exist_ok=True)
 
             dataset_with_agent_answer_verified = args.dataset_with_agent_answer_verified.replace("_with_agent_answer_verified", f"_with_agent_answer_verified_{i}")
-            dataset_with_agent_answer_verified = os.path.join(args.output_dir, exp, dataset_with_agent_answer_verified)
+            dataset_with_agent_answer_verified = os.path.join(args.output_dir, get_exp_name(), dataset_with_agent_answer_verified)
             os.makedirs(os.path.dirname(dataset_with_agent_answer_verified), exist_ok=True)
 
             # clear the file
