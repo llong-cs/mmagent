@@ -5,6 +5,7 @@ import json
 from concurrent.futures import ProcessPoolExecutor
 import multiprocessing
 import logging
+import argparse
 
 from mmagent.videograph import VideoGraph
 from mmagent.utils.general import *
@@ -169,13 +170,18 @@ def streaming_process_video(video_graph, video_path, save_dir, preprocessing=[])
     )
     
 if __name__ == "__main__":
-    # video paths can be paths to directories or paths to mp4 files
-    # data_list = ["CZ_1", "CZ_2", "CZ_3", "ZZ_1", "ZZ_2", "ZZ_3","ZZ_4", "ZZ_5"]
-    # data_list = ["MLVU/1_plotQA", "MLVU/2_needle", "MLVU/3_ego", "MLVU/4_count", "MLVU/5_order", "MLVU/6_anomaly_reco", "MLVU/7_topic_reasoning", "MLVU/8_sub_scene", "MLVU/9_summary"]
-    data_list = ["Video-MME"]
-    # data_list = ["CZ_2"]
-    preprocessing = ['voice', 'face']
-    # preprocessing = []
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--preprocessing", type=str, default="voice,face")
+    parser.add_argument("--data_list", type=str, help="Comma-separated list of data names, can be paths to directories or paths to mp4 files", default="MLVU/1_plotQA,MLVU/2_needle,MLVU/3_ego,MLVU/4_count,MLVU/5_order,MLVU/6_anomaly_reco,MLVU/7_topic_reasoning,MLVU/8_sub_scene,MLVU/9_summary")
+    # parser.add_argument("--data_list", type=str, default="Video-MME")
+    # parser.add_argument("--data_list", type=str, default="CZ_1,CZ_2,CZ_3,ZZ_1,ZZ_2,ZZ_3,ZZ_4,ZZ_5")
+    args = parser.parse_args()
+        
+    preprocessing = args.preprocessing.split(',')
+    if len(preprocessing) == 0:
+        preprocessing = []
+    data_list = args.data_list.split(',')
+    
     for data in data_list:
         input_dir = os.path.join(processing_config["input_dir"], data)
         video_files = os.listdir(input_dir)
