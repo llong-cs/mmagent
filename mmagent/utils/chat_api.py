@@ -67,7 +67,7 @@ def get_response_with_retry(model, messages, timeout=30):
         try:
             return get_response(model, messages, timeout)
         except Exception as e:
-            sleep(60)
+            sleep(20)
             logger.warning(f"Retry {i} times, exception: {e} from message {messages}")
             continue
     raise Exception(f"Failed to get response after {MAX_RETRIES} retries")
@@ -133,7 +133,7 @@ def get_embedding_with_retry(model, text, timeout=30):
         try:
             return get_embedding(model, text, timeout)
         except Exception as e:
-            sleep(60)
+            sleep(20)
             logger.warning(f"Retry {i} times, exception: {e} from get embedding")
             continue
     raise Exception(f"Failed to get embedding after {MAX_RETRIES} retries")
@@ -199,7 +199,7 @@ def get_whisper_with_retry(model, file_path):
         try:
             return get_whisper(model, file_path)
         except Exception as e:
-            sleep(30)
+            sleep(20)
             logger.warning(f"Retry {i} times, exception: {e}")
     raise Exception(f"Failed to get response after {MAX_RETRIES} retries")
 
