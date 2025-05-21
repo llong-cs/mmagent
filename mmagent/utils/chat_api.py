@@ -134,9 +134,9 @@ def get_embedding_with_retry(model, text, timeout=30):
             return get_embedding(model, text, timeout)
         except Exception as e:
             sleep(60)
-            logger.warning(f"Retry {i} times, exception: {e}")
+            logger.warning(f"Retry {i} times, exception: {e} from get embedding")
             continue
-    raise Exception(f"Failed to get embedding after {MAX_RETRIES} retries from get embedding")
+    raise Exception(f"Failed to get embedding after {MAX_RETRIES} retries")
 
 def parallel_get_embedding(model, texts, timeout=30):
     """Process multiple texts in parallel to get embeddings.
