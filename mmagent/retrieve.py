@@ -223,7 +223,8 @@ def search(video_graph, query, current_clips, topk=5, mode='argmax', threshold=0
                 new_memories[clip_id] = []
             new_memories[clip_id].append(video_graph.nodes[top_node].metadata['contents'][0])
         new_memories = dict(sorted(new_memories.items(), key=lambda x: x[0]))
-        new_memories = {f"CLIP_{k}": translate(video_graph, v) for k, v in new_memories.items()}
+        new_memories = {f"CLIP_{k}": translate(video_graph, v) for k, v in new_memories.items() if len(translate(video_graph, v)) > 0}
+        # new_memories = {f"CLIP_{k}": v for k, v in new_memories.items()}
         return new_memories, current_clips, clip_scores
     
     new_clips = [top_clip for top_clip in top_clips if top_clip not in current_clips]
