@@ -240,14 +240,14 @@ if __name__ == "__main__":
             # with open(dataset_with_agent_answer, "w") as f:
             #     f.truncate(0)
             qa_list = process_qa_list(qa_list, dataset_with_agent_answer)
-            # qa_list = []
-            # with open(dataset_with_agent_answer, "r") as f:
-            #     for line in f:
-            #         try:
-            #             qa_list.append(json.loads(line))
-            #         except Exception as e:
-            #             logger.error(f"Error loading qa: {line}")
-            #             raise e
+            qa_list = []
+            with open(dataset_with_agent_answer, "r") as f:
+                for line in f:
+                    try:
+                        qa_list.append(json.loads(line))
+                    except Exception as e:
+                        logger.error(f"Error loading qa: {line}")
+                        raise e
 
             # clear the file
             # with open(dataset_with_agent_answer_verified, "w") as f:
