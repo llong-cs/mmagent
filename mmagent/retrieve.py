@@ -125,7 +125,7 @@ def get_related_nodes(video_graph, query):
             related_nodes.append(node_id)
     return list(set(related_nodes))
 
-def generate_action(question, knowledge, retrieval_plan=None, multiple_queries=False, responses=[], switch=False):
+def generate_action(question, knowledge, retrieval_plan=None, multiple_queries=False, responses=[], switch=False, model="gpt-4o-2024-11-20"):
     # select prompt
     if not switch:
         if multiple_queries:
@@ -152,8 +152,6 @@ def generate_action(question, knowledge, retrieval_plan=None, multiple_queries=F
         }
     ]
     messages = generate_messages(input)
-    model = "gpt-4o-2024-11-20"
-    # model = "gemini-1.5-pro-002"
     action_type = None
     action_content = None
     for i in range(MAX_RETRIES):
@@ -244,7 +242,7 @@ def search(video_graph, query, current_clips, topk=5, mode='argmax', threshold=0
     
     return new_memories, current_clips, clip_scores
 
-def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5, auto_refresh=False, mode='argmax', multiple_queries=False, max_retrieval_steps=10, route_switch=True, threshold=0):
+def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5, auto_refresh=False, mode='argmax', multiple_queries=False, max_retrieval_steps=10, route_switch=True, threshold=0, model="gpt-4o-2024-11-20"):
     if auto_refresh:
         video_graph.refresh_equivalences()
         
@@ -269,8 +267,8 @@ def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5,
         ]
 
         messages = generate_messages(input)
-        model = "gemini-1.5-pro-002"
-        retrieval_plan = get_response_with_retry(model, messages)[0]
+        plan_model = "gemini-1.5-pro-002"
+        retrieval_plan = get_response_with_retry(plan_model, messages)[0]
         logger.info(f"Retrieval plan: {retrieval_plan}")
     else:
         retrieval_plan = None
@@ -278,7 +276,7 @@ def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5,
     switch = False
     for i in range(max_retrieval_steps):
         # reasoning, action_type, action_content = generate_action(question, context, retrieval_plan)
-        reasoning, action_type, action_content = generate_action(question, context, retrieval_plan, multiple_queries=multiple_queries, responses=responses, switch=switch)
+        reasoning, action_type, action_content = generate_action(question, context, retrieval_plan, multiple_queries=multiple_queries, responses=responses, switch=switch, model=model)
         reasoning = reasoning.strip("### Reasoning:").strip("### Answer or Search:").strip("Reasoning:").strip()
         if action_type == "answer":
             final_answer = action_content
@@ -301,8 +299,6 @@ def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5,
                     }
                 ]
                 messages = generate_messages(input)
-                model = "gpt-4o-2024-11-20"
-                # model = "gemini-1.5-pro-002"
                 resp = get_response_with_retry(model, messages)[0]
                 reasoning = resp.split("[ANSWER]")[0].strip()
                 final_answer = resp.split("[ANSWER]")[1].strip()

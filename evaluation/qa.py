@@ -189,6 +189,7 @@ if __name__ == "__main__":
     parser.add_argument("--output_dir", type=str, default="data/annotations/results")
     parser.add_argument("--version", type=str, default="0511")
     parser.add_argument("--model", type=str, default="qwen")
+    parser.add_argument("--retrieval_model", type=str, default="gpt-4o-2024-11-20")
 
     args = parser.parse_args()
     args.dataset_with_agent_answer = os.path.basename(args.dataset).replace(".jsonl", "_with_agent_answer.jsonl")
@@ -229,11 +230,11 @@ if __name__ == "__main__":
             logger.info(f"Processing {len(qa_list)} samples")
 
             dataset_with_agent_answer = args.dataset_with_agent_answer.replace("_with_agent_answer", f"_with_agent_answer_{i}")
-            dataset_with_agent_answer = os.path.join(args.output_dir, get_exp_name(), dataset_with_agent_answer)
+            dataset_with_agent_answer = os.path.join(args.output_dir, args.retrieval_model, get_exp_name(), dataset_with_agent_answer)
             os.makedirs(os.path.dirname(dataset_with_agent_answer), exist_ok=True)
 
             dataset_with_agent_answer_verified = args.dataset_with_agent_answer_verified.replace("_with_agent_answer_verified", f"_with_agent_answer_verified_{i}")
-            dataset_with_agent_answer_verified = os.path.join(args.output_dir, get_exp_name(), dataset_with_agent_answer_verified)
+            dataset_with_agent_answer_verified = os.path.join(args.output_dir, args.retrieval_model, get_exp_name(), dataset_with_agent_answer_verified)
             os.makedirs(os.path.dirname(dataset_with_agent_answer_verified), exist_ok=True)
 
             # clear the file
