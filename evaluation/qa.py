@@ -28,11 +28,8 @@ def video_to_base64(video_path):
 
 def process_qa(qa):
     try:
-        if "qwen" in args.dataset:
-            mem = load_video_graph(qa["mem_path"].replace("mems_qwen", f"mems_qwen_{args.version}"))
-        else:
-            mem = load_video_graph(qa["mem_path"])
-        
+        mem = load_video_graph(qa["mem_path"])
+
         # refresh equivalences
         mem.refresh_equivalences()
 
@@ -191,13 +188,14 @@ if __name__ == "__main__":
     parser.add_argument("--sample_rounds", type=int, default=1)
     parser.add_argument("--output_dir", type=str, default="data/annotations/results")
     parser.add_argument("--version", type=str, default="0511")
+    parser.add_argument("--model", type=str, default="qwen")
 
     args = parser.parse_args()
     args.dataset_with_agent_answer = os.path.basename(args.dataset).replace(".jsonl", "_with_agent_answer.jsonl")
     args.dataset_with_agent_answer_verified = os.path.basename(args.dataset_with_agent_answer).replace("_with_agent_answer", "_with_agent_answer_verified")
     
     def get_exp_name():
-        return f"{processing_config['max_retrieval_steps']}_rounds_threshold_{processing_config['retrieval_threshold']}_top{processing_config['topk']}_{"no_planning" if not processing_config['planning'] else "planning"}_{"qwen_" + args.version if "qwen" in args.dataset else "gemini"}"
+        return f"{processing_config['max_retrieval_steps']}_rounds_threshold_{processing_config['retrieval_threshold']}_top{processing_config['topk']}_{'no_planning' if not processing_config['planning'] else 'planning'}_{args.model}_{args.version if args.model=='qwen' else ''}"
 
     exp_settings = [
         {
@@ -224,6 +222,8 @@ if __name__ == "__main__":
             with open(dataset, "r") as f:
                 for line in f:
                     qa = json.loads(line)
+                    if args.model == "qwen":
+                        qa["mem_path"] = qa["mem_path"].replace("mems", f"mems_qwen_{args.version}")
                     if os.path.exists(qa["mem_path"]):
                         qa_list.append(qa)
             logger.info(f"Processing {len(qa_list)} samples")
