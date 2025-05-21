@@ -68,7 +68,7 @@ def get_response_with_retry(model, messages, timeout=30):
             return get_response(model, messages, timeout)
         except Exception as e:
             sleep(60)
-            logger.warning(f"Retry {i} times, exception: {e}")
+            logger.warning(f"Retry {i} times, exception: {e} from message {messages}")
             continue
     raise Exception(f"Failed to get response after {MAX_RETRIES} retries")
 
@@ -136,7 +136,7 @@ def get_embedding_with_retry(model, text, timeout=30):
             sleep(60)
             logger.warning(f"Retry {i} times, exception: {e}")
             continue
-    raise Exception(f"Failed to get embedding after {MAX_RETRIES} retries")
+    raise Exception(f"Failed to get embedding after {MAX_RETRIES} retries from get embedding")
 
 def parallel_get_embedding(model, texts, timeout=30):
     """Process multiple texts in parallel to get embeddings.
