@@ -73,6 +73,7 @@ def retrieve_from_videograph(video_graph, query, topk=5, mode='argmax', threshol
             continue
     
     queries = back_translate(video_graph, [query])
+    
     related_nodes = get_related_nodes(video_graph, query)
 
     model = "text-embedding-3-large"
