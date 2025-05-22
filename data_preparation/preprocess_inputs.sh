@@ -12,11 +12,11 @@ CUDA_VISIBLE_DEVICES=0 python3 data_preparation/prepare_memory_gen_sft_data.py \
     --prepare_conversations \
     --cuda_id 0
 
-for i in $(seq 0 7); do
-    CUDA_VISIBLE_DEVICES=$i python3 data_preparation/prepare_memory_gen_sft_data.py \
-        --data_path ${data_path} \
-        --conversations_type ${conversations_type} \
-        --output_dir ${output_dir} \
-        --cuda_id $i &
-done
-wait
+# for i in $(seq 0 7); do
+#     CUDA_VISIBLE_DEVICES=$i python3 data_preparation/prepare_memory_gen_sft_data.py \
+#         --data_path ${data_path} \
+#         --conversations_type ${conversations_type} \
+#         --output_dir ${output_dir} \
+#         --cuda_id $i &
+# done
+# wait
