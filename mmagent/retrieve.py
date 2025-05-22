@@ -1,6 +1,7 @@
 import json
 import re
 import logging
+import random
 from .utils.chat_api import (
     generate_messages,
     get_response_with_retry,
@@ -73,6 +74,9 @@ def retrieve_from_videograph(video_graph, query, topk=5, mode='argmax', threshol
             continue
     
     queries = back_translate(video_graph, [query])
+    if len(queries) > 100:
+        logger.error(f"Anomaly detected from query: {query}, randomly sample 100 translatedqueries")
+        queries = random.sample(queries, 100)
     
     related_nodes = get_related_nodes(video_graph, query)
 
