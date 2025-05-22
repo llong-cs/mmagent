@@ -196,7 +196,7 @@ if __name__ == "__main__":
     args.dataset_with_agent_answer_verified = os.path.basename(args.dataset_with_agent_answer).replace("_with_agent_answer", "_with_agent_answer_verified")
     
     def get_exp_name():
-        return f"{processing_config['max_retrieval_steps']}_rounds_threshold_{processing_config['retrieval_threshold']}_top{processing_config['topk']}_{'no_planning' if not processing_config['planning'] else 'planning'}_{args.model}_{args.version if args.model=='qwen' else ''}"
+        return f"{processing_config['max_retrieval_steps']}_rounds_threshold_{processing_config['retrieval_threshold']}_top{processing_config['topk']}_{'no_planning' if not processing_config['planning'] else 'planning'}_{args.model}{'_'+args.version if args.model=='qwen' else ''}"
 
     exp_settings = [
         {

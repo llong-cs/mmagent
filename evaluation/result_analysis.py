@@ -62,7 +62,7 @@ def analyze_agent_results(result_dir):
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Result analysis')
-    parser.add_argument('--result', type=str, help='Path to the result directory or file', default="data/annotations/results/5_rounds_threshold_0.5_top5_no_planning_qwen_0511")
+    parser.add_argument('--result', type=str, help='Path to the result directory or file', default="data/annotations/results/gpt-4o-2024-11-20/5_rounds_threshold_0.5_top5_no_planning_qwen_0511")
     parser.add_argument('--model', type=str, help='Model name', default="agent")
     parser.add_argument('--test_file', type=str, help='Path to the test file', default="data/annotations/small_test.jsonl")
     
