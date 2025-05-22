@@ -638,9 +638,10 @@ if __name__ == "__main__":
     base_dir = os.path.dirname(data_path)
     samples_path = os.path.join(base_dir, "samples/training_samples.jsonl")
     conversations_type = args.conversations_type
-    conversations_dir = os.path.join(base_dir, "conversations", conversations_type)    
+    conversations_dir = os.path.join(base_dir, conversations_type, "conversations")    
     if args.prepare_conversations:
-        fix_and_transfer_data(data_path, samples_path)
+        if not os.path.exists(samples_path):
+            fix_and_transfer_data(data_path, samples_path)
         if conversations_type == "epi_then_sem":
             generate_episodic_conversations(samples_path, os.path.join(conversations_dir, "episodic_conversations.jsonl"))
             generate_semantic_conversations(samples_path, os.path.join(conversations_dir, "semantic_conversations.jsonl"))
