@@ -176,11 +176,47 @@ Your task is using the provided feature IDs as the reference to characters (if a
 
 Your output should be a list of strings, with each string representing exactly one atomic event or description."""
 
-prompt_generate_thinkings_with_ids_sft = """You will be given a video and a set of character features. Each feature is either a face (represented by a video frame with a bounding box) or a voice (represented by speech segments with MM:SS timestamps and transcripts). Each feature has a unique ID in angle brackets (e.g., <face_1>, <voice_2>). You will also be given a list of video descriptions.
+prompt_generate_thinkings_with_ids_sft = """You will be given a video and a set of character features. Each feature is either a face (represented by a video frame with a bounding box) or a voice (represented by speech segments with MM:SS timestamps and transcripts). Each feature has a unique ID in angle brackets. You will also be given a list of video descriptions.
 
 Your task is using the provided feature IDs as the reference to characters (if available) in the video and generating a list of high-level reasoning-based conclusions about the video, going beyond surface-level observations. Particularly, in your output, you should identify which face and voice features refer to the same character, using the exact format: Equivalence: <face_x>, <voice_y>.
 
 Your output should be a list of strings, with each string representing exactly one high-level conclusion."""
+
+prompt_generate_semantic_memory_with_ids_sft_equivalence = """You will be given a video and a set of character features. Each feature is either a face (represented by a video frame with a bounding box) or a voice (represented by speech segments with MM:SS timestamps and transcripts). Each feature has a unique ID in angle brackets. You will also be given a list of video descriptions.
+
+Your task is to identify which face and voice features refer to the same character. Use high-level reasoning based on timing alignment, contextual cues, and audiovisual consistency.
+
+Your output should be a list of exact matches in the following format:
+[
+	"Equivalence: <face_x>, <voice_y>",
+	"Equivalence: <face_a>, <voice_b>",
+	...
+]"""
+
+prompt_generate_semantic_memory_with_ids_sft_character = """You will be given a video and a set of character features. Each feature is either a face (represented by a video frame with a bounding box) or a voice (represented by speech segments with MM:SS timestamps and transcripts). Each feature has a unique ID in angle brackets. You will also be given a list of video descriptions.
+
+Your task is to infer high-level character names, traits, intentions, emotional states, and behavioral patterns from the available features. Go beyond surface-level observations to draw psychologically meaningful conclusions.
+
+Refer to each character by their feature ID."""
+
+prompt_generate_semantic_memory_with_ids_sft_relation = """You will be given a video and a set of character features. Each feature is either a face (represented by a video frame with a bounding box) or a voice (represented by speech segments with MM:SS timestamps and transcripts). Each feature has a unique ID in angle brackets. You will also be given a list of video descriptions.
+
+Your task is to analyze the social relationships between characters based on the features and any video descriptions. Infer dynamics such as cooperation, conflict, status hierarchy, trust, or emotional connection.
+
+Use feature IDs to refer to the characters involved in each relationship."""
+
+prompt_generate_semantic_memory_with_ids_sft_plot = """You will be given a video and a set of character features. Each feature is either a face (represented by a video frame with a bounding box) or a voice (represented by speech segments with MM:SS timestamps and transcripts). Each feature has a unique ID in angle brackets. You will also be given a list of video descriptions.
+
+Your task is to infer high-level conclusions about the narrative or events in the video. Go beyond descriptive content and identify key developments, cause-effect patterns, and narrative structure.
+
+Present each reasoning-based conclusion as a separate statement. Use feature IDs to refer to the characters involved."""
+
+prompt_generate_semantic_memory_with_ids_sft_general_knowledge = """You will be given a video and a set of character features. Each feature is either a face (represented by a video frame with a bounding box) or a voice (represented by speech segments with MM:SS timestamps and transcripts). Each feature has a unique ID in angle brackets. You will also be given a list of video descriptions.
+
+Your task is to generate high-level, abstract conclusions that demonstrate deep understanding of the video. This may include inferred themes, implications, non-obvious insights, or some general knowledge that can be learned from the video.
+
+Output a list of such reasoning-based insights, using feature IDs to refer to the characters involved."""
+
 
 prompt_generate_memory_with_ids_sft = """You will be given a video and a set of character features. Each feature is either a face (represented by a video frame with a bounding box) or a voice (represented by one or more speech segments, each with MM:SS start and end times, and transcript content). Each feature has a unique ID enclosed in angle brackets. Some features may belong to the same character.
 

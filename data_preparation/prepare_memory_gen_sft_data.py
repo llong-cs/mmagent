@@ -9,12 +9,11 @@ torch.set_printoptions(threshold=np.inf)
 import argparse
 import random
 
-from mmagent.prompts import prompt_generate_captions_with_ids_sft, prompt_generate_thinkings_with_ids_sft, prompt_generate_memory_with_ids_sft
+from mmagent.prompts import prompt_generate_captions_with_ids_sft, prompt_generate_thinkings_with_ids_sft, prompt_generate_memory_with_ids_sft, prompt_generate_semantic_memory_with_ids_sft_equivalence, prompt_generate_semantic_memory_with_ids_sft_character, prompt_generate_semantic_memory_with_ids_sft_relation, prompt_generate_semantic_memory_with_ids_sft_plot, prompt_generate_semantic_memory_with_ids_sft_general_knowledge
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--data_path", type=str, default="data/sft/memgen/0511/train_for_memory_6k.json")
-parser.add_argument("--samples_path", type=str, default="data/sft/memgen/0511/samples/training_samples.jsonl")
-parser.add_argument("--conversations_dir", type=str, default="data/sft/memgen/0511/conversations")
+parser.add_argument("--conversations_type", type=str, default="epi_then_sem", choices=["epi_then_sem", "epi_then_sem_by_type", "all_at_once"])
 parser.add_argument("--prepare_conversations", action="store_true")
 parser.add_argument("--output_dir", type=str, default="/mnt/hdfs/foundation/longlin.kylin/mmagent/data/memgen_sft/0511")
 parser.add_argument("--cuda_id", type=int, default=0)
@@ -473,12 +472,72 @@ def generate_full_memory_conversations(data_path, output_path, sem_mem_types=["s
             with open(output_path, "a") as f:
                 f.write(json.dumps(res) + "\n")
                 
-def split_train_val(conversations_dir, val_num, conversation_types=["episodic", "semantic", "full_memory"]):
+def generate_semantic_conversations_by_type(data_path, output_dir, sem_mem_types=["semantic_memory_equivalance", "semantic_memory_character", "semantic_memory_relation", "semantic_memory_video", "semantic_memory_general"]):
+    os.makedirs(output_dir, exist_ok=True)
+    sample_num = 0
+    with open(data_path, "r") as f:
+        for line in f:
+            sample_num += 1
+
+    with open(data_path, "r") as f:
+        for line in tqdm(f, total=sample_num, desc="Generating semantic conversations"):
+            data = json.loads(line)
+            
+            for sem_mem_type in sem_mem_types:
+                messages = [
+                    {
+                        "role": "user",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": (
+                                    prompt_generate_semantic_memory_with_ids_sft_equivalence if sem_mem_type == "semantic_memory_equivalance" else
+                                    prompt_generate_semantic_memory_with_ids_sft_character if sem_mem_type == "semantic_memory_character" else
+                                    prompt_generate_semantic_memory_with_ids_sft_relation if sem_mem_type == "semantic_memory_relation" else
+                                    prompt_generate_semantic_memory_with_ids_sft_plot if sem_mem_type == "semantic_memory_video" else
+                                    prompt_generate_semantic_memory_with_ids_sft_general_knowledge
+                                )
+                            }
+                        ]
+                    }
+                ]
+                
+                messages[0]["content"].extend(generate_video_context(data))
+                
+                messages[0]["content"].extend([
+                    {
+                        "type": "text",
+                        "text": "Video descriptions:"
+                    },
+                    {
+                        "type": "text",
+                        "text": json.dumps(data["episodic_memory"])
+                    }
+                ])
+                
+                res = {
+                    "messages": messages + [{
+                        "role": "assistant",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": json.dumps(data[sem_mem_type])
+                            }
+                        ]
+                    }]
+                }
+
+                with open(os.path.join(output_dir, f"{sem_mem_type}.jsonl"), "a") as f:
+                    f.write(json.dumps(res) + "\n")
+                
+def split_train_val(conversations_dir, val_num):
     train_conversations = []
     val_conversations = []
     
     input_paths = os.listdir(conversations_dir)
-    input_paths = [os.path.join(conversations_dir, path) for path in input_paths if path.endswith(".jsonl") and any(conversation_type in path for conversation_type in conversation_types)]
+    input_paths = [os.path.join(conversations_dir, path) for path in input_paths if path.endswith(".jsonl")]
+    
+    val_num_per_type = val_num // len(input_paths)
     
     for path in input_paths:
         temp_conversations = []
@@ -486,8 +545,8 @@ def split_train_val(conversations_dir, val_num, conversation_types=["episodic", 
             for line in f.readlines():
                 temp_conversations.append(json.loads(line)["messages"])
         print(f"{path}: {len(temp_conversations)}")
-        val_conversations.extend(temp_conversations[:val_num])
-        train_conversations.extend(temp_conversations[val_num:])
+        val_conversations.extend(temp_conversations[:val_num_per_type])
+        train_conversations.extend(temp_conversations[val_num_per_type:])
     
     if len(train_conversations) % 2 != 0:
         train_conversations.append(train_conversations[0])
@@ -576,14 +635,25 @@ def preprocess_inputs(model, processor, input_path, output_dir_prefix, index, mo
 
 if __name__ == "__main__":
     data_path = args.data_path
-    samples_path = args.samples_path
-    conversations_dir = args.conversations_dir
+    base_dir = os.path.dirname(data_path)
+    samples_path = os.path.join(base_dir, "samples/training_samples.jsonl")
+    conversations_type = args.conversations_type
+    conversations_dir = os.path.join(base_dir, "conversations", conversations_type)    
     if args.prepare_conversations:
         fix_and_transfer_data(data_path, samples_path)
-        generate_episodic_conversations(samples_path, os.path.join(conversations_dir, "episodic_conversations.jsonl"))
-        generate_semantic_conversations(samples_path, os.path.join(conversations_dir, "semantic_conversations.jsonl"))
-        generate_full_memory_conversations(samples_path, os.path.join(conversations_dir, "full_memory_conversations.jsonl"))
-        split_train_val(conversations_dir, 100, ["full_memory"])
+        if conversations_type == "epi_then_sem":
+            generate_episodic_conversations(samples_path, os.path.join(conversations_dir, "episodic_conversations.jsonl"))
+            generate_semantic_conversations(samples_path, os.path.join(conversations_dir, "semantic_conversations.jsonl"))
+            split_train_val(conversations_dir, 100)
+        elif conversations_type == "epi_then_sem_by_type":
+            generate_episodic_conversations(samples_path, os.path.join(conversations_dir, "episodic_conversations.jsonl"))
+            generate_semantic_conversations_by_type(samples_path, conversations_dir)
+            split_train_val(conversations_dir, 100)
+        elif conversations_type == "all_at_once":
+            generate_full_memory_conversations(samples_path, os.path.join(conversations_dir, "full_memory_conversations.jsonl"))
+            split_train_val(conversations_dir, 100)
+        else:
+            raise ValueError(f"Invalid conversations type: {conversations_type}")
     else:
         model_path = "/mnt/hdfs/foundation/agent/heyc/ckpts/Qwen2.5-Omni-7B-thinker"
         model = Qwen2_5OmniPreprocessor.from_pretrained(
@@ -594,5 +664,5 @@ if __name__ == "__main__":
         ).eval()
         processor = Qwen2_5OmniProcessor.from_pretrained(model_path)
         mode = "train"
-        preprocess_inputs(model, processor, os.path.join(conversations_dir, f"{mode}.jsonl"), os.path.join(args.output_dir, "memories"), args.cuda_id, mode)
+        preprocess_inputs(model, processor, os.path.join(conversations_dir, f"{mode}.jsonl"), os.path.join(args.output_dir, conversations_type, "memories"), args.cuda_id, mode)
         
