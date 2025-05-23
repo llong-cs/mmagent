@@ -182,15 +182,15 @@ def streaming_process_video(video_graph, video_path, save_dir, preprocessing=[])
 def process_single_video(args):
     video_path, save_dir = args
     video_graph = VideoGraph(**memory_config)
-    # try:
-    #     streaming_process_video(video_graph, video_path, save_dir, preprocessing=preprocessing)
-    # except Exception as e:
-    #     log_dir = processing_config["log_dir"]
-    #     os.makedirs(log_dir, exist_ok=True)
-    #     with open(os.path.join(log_dir, f"generate_memory_qwen_error.log"), "a") as f:
-    #         f.write(f"Error processing video {video_path}: {e}\n")
-    #     logger.error(f"Error processing video {video_path}: {e}")
-    streaming_process_video(video_graph, video_path, save_dir, preprocessing=preprocessing)
+    try:
+        streaming_process_video(video_graph, video_path, save_dir, preprocessing=preprocessing)
+    except Exception as e:
+        log_dir = processing_config["log_dir"]
+        os.makedirs(log_dir, exist_ok=True)
+        with open(os.path.join(log_dir, f"generate_memory_qwen_error.log"), "a") as f:
+            f.write(f"Error processing video {video_path}: {e}\n")
+        logger.error(f"Error processing video {video_path}: {e}")
+    # streaming_process_video(video_graph, video_path, save_dir, preprocessing=preprocessing)
     
 if __name__ == "__main__":
     # video paths can be paths to directories or paths to mp4 files
