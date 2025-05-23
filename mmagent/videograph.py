@@ -534,8 +534,16 @@ class VideoGraph:
         node_embeddings = np.array(node_embeddings)
         query_embeddings = np.array(query_embeddings)
         
+        # Get shape parameters for better readability
+        n_queries = query_embeddings.shape[0]
+        n_nodes = node_embeddings.shape[0]
+        n_embeddings = node_embeddings.shape[1]
+        embedding_dim = node_embeddings.shape[-1]
+        
         # Calculate similarities
-        similarities = cosine_similarity(query_embeddings, node_embeddings)
+        similarities = cosine_similarity(query_embeddings.reshape(-1, embedding_dim), node_embeddings.reshape(-1, embedding_dim))
+        # Reshape back to (n_queries, n_nodes, n_embeddings)
+        similarities = similarities.reshape(n_queries, n_nodes, n_embeddings)
         
         if node_type == 'text':
             # For text nodes, apply the specified mode
