@@ -92,8 +92,6 @@ def retrieve_from_videograph(video_graph, query, topk=5, mode='max', threshold=0
     # calculate scores for each node
     nodes = video_graph.search_text_nodes(query_embeddings, related_nodes, mode='max')
     
-    # get top k nodes
-    top_nodes = [node_id for node_id, node_score in nodes if node_score >= threshold][:topk]
     
     # collect node scores for each clip
     for node_id, node_score in nodes:
@@ -120,7 +118,7 @@ def retrieve_from_videograph(video_graph, query, topk=5, mode='max', threshold=0
     # filter out clips that have 0 score and get top k clips
     top_clips = [clip_id for clip_id, score in sorted_clips if score >= threshold][:topk]
     
-    return top_clips, clip_scores, top_nodes
+    return top_clips, clip_scores, nodes
 
 def get_related_nodes(video_graph, query):
     related_nodes = []
@@ -222,18 +220,24 @@ def select_queries(action_content, responses):
     return queries[min_similarity_idx]
 
 def search(video_graph, query, current_clips, topk=5, mode='max', threshold=0, mem_wise=False):
-    top_clips, clip_scores, top_nodes = retrieve_from_videograph(video_graph, query, topk, mode, threshold)
+    top_clips, clip_scores, nodes = retrieve_from_videograph(video_graph, query, topk, mode, threshold)
     
     if mem_wise:
         new_memories = {}
-        for top_node in top_nodes:
+        top_nodes_num = 0
+        # fetch top nodes
+        for top_node, _ in nodes:
             clip_id = video_graph.nodes[top_node].metadata['timestamp']
             if clip_id not in new_memories:
                 new_memories[clip_id] = []
-            new_memories[clip_id].append(video_graph.nodes[top_node].metadata['contents'][0])
+            new_ = translate(video_graph, video_graph.nodes[top_node].metadata['contents'])
+            new_memories[clip_id].extend(new_)
+            top_nodes_num += len(new_)
+            if top_nodes_num >= topk:
+                break
+        # sort related_memories by timestamp
         new_memories = dict(sorted(new_memories.items(), key=lambda x: x[0]))
-        new_memories = {f"CLIP_{k}": translate(video_graph, v) for k, v in new_memories.items() if len(translate(video_graph, v)) > 0}
-        # new_memories = {f"CLIP_{k}": v for k, v in new_memories.items()}
+        new_memories = {f"CLIP_{k}": v for k, v in new_memories.items() if len(v) > 0}
         return new_memories, current_clips, clip_scores
     
     new_clips = [top_clip for top_clip in top_clips if top_clip not in current_clips]
