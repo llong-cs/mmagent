@@ -296,6 +296,32 @@ def plot_cosine_similarity_distribution(embeddings1, embeddings2, save_path=None
     else:
         plt.show()
 
+def plot_value_distribution(values, save_path=None, title='Value Distribution', bins=30):
+    """Plot the distribution of values in an array.
+
+    Args:
+        values (array-like): Array of numeric values to plot
+        save_path (str, optional): Path to save the plot. If None, display plot instead
+        title (str, optional): Title of the plot. Defaults to 'Value Distribution'
+        bins (int, optional): Number of histogram bins. Defaults to 30
+    """
+    plt.figure(figsize=(8, 5))
+    plt.hist(values, bins=bins, color='skyblue', edgecolor='black')
+    plt.title(title)
+    plt.xlabel('Value')
+    plt.ylabel('Frequency') 
+    plt.grid(True, linestyle='--', alpha=0.5)
+    plt.tight_layout()
+
+    if save_path:
+        temp_path = os.path.join(TEMP_DIR, os.path.basename(save_path))
+        plt.savefig(temp_path, dpi=300, bbox_inches='tight')
+        plt.close()
+        shutil.move(temp_path, save_path)
+    else:
+        plt.show()
+
+
 def normalize_embedding(embedding):
     """Normalize embedding to unit length."""
     format_string = 'f' * (len(embedding) // struct.calcsize('f'))
