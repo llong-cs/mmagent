@@ -3,7 +3,7 @@
 # Define variables
 machine_idx=$ARNOLD_ID
 node_num=32
-node_per_machine=1
+node_per_machine=8
 version="0511"
 
 # Calculate the starting cuda_id for this machine
