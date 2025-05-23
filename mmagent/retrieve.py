@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 
 def translate(video_graph, memories):
     new_memories = []
-    for i, memory in enumerate(memories):
+    for memory in memories:
         if memory.lower().startswith("equivalence: "):
             continue
         new_memory = memory
@@ -36,7 +36,7 @@ def translate(video_graph, memories):
 
 def back_translate(video_graph, queries):
     translated_queries = []
-    for i, query in enumerate(queries):
+    for query in queries:
         entities = parse_video_caption(video_graph, query)
         entities = list(set(entities))
         to_be_translated = [query]
@@ -60,7 +60,7 @@ def back_translate(video_graph, queries):
     return translated_queries
 
 # retrieve by clip
-def retrieve_from_videograph(video_graph, query, topk=5, mode='argmax', threshold=0):
+def retrieve_from_videograph(video_graph, query, topk=5, mode='max', threshold=0):
     top_clips = []
     # find all CLIP_x in query
     pattern = r"CLIP_(\d+)"
@@ -83,38 +83,42 @@ def retrieve_from_videograph(video_graph, query, topk=5, mode='argmax', threshol
     model = "text-embedding-3-large"
     query_embeddings = parallel_get_embedding(model, queries)[0]
 
+    full_clip_scores = {}
     clip_scores = {}
 
-    if mode not in ['argmax', 'accumulate']:
+    if mode not in ['sum', 'max', 'mean']:
         raise ValueError(f"Unknown mode: {mode}")
 
-    for query_embedding in query_embeddings:
-        nodes = video_graph.search_text_nodes([query_embedding], related_nodes)
-        top_nodes = [node_id for node_id, node_score in nodes if node_score >= threshold][:topk]
-        for node in nodes:
-            node_id = node[0]
-            node_score = node[1] if abs(node[1]) >= threshold else 0
-            clip_id = video_graph.nodes[node_id].metadata['timestamp']
-            if mode == 'accumulate':
-                if clip_id not in clip_scores:
-                    clip_scores[clip_id] = 0
-                clip_scores[clip_id] += node_score
-            elif mode == 'argmax':
-                if clip_id not in clip_scores:
-                    clip_scores[clip_id] = node_score
-                elif node_score > clip_scores[clip_id]:
-                    clip_scores[clip_id] = node_score
-            else:
-                raise ValueError(f"Unknown mode: {mode}")
+    # calculate scores for each node
+    nodes = video_graph.search_text_nodes(query_embeddings, related_nodes, mode='max')
+    
+    # get top k nodes
+    top_nodes = [node_id for node_id, node_score in nodes if node_score >= threshold][:topk]
+    
+    # collect node scores for each clip
+    for node_id, node_score in nodes:
+        clip_id = video_graph.nodes[node_id].metadata['timestamp']
+        if clip_id not in full_clip_scores:
+            full_clip_scores[clip_id] = []
+        full_clip_scores[clip_id].append(node_score)
 
-                
-        # Sort clips by score and get top k clips
-        sorted_clips = sorted(clip_scores.items(), key=lambda x: x[1], reverse=True)
-        # Filter out clips that have 0 socre
-        sorted_clips = [clip_id for clip_id, score in sorted_clips if score > 0][:topk]
-        top_clips.extend(sorted_clips)
+    # calculate scores for each clip
+    for clip_id, scores in full_clip_scores.items():
+        if mode == 'sum':
+            clip_score = sum(scores)
+        elif mode == 'max':
+            clip_score = max(scores)
+        elif mode == 'mean':
+            clip_score = np.mean(scores)
+        else:
+            raise ValueError(f"Unknown mode: {mode}")
+        
+        clip_scores[clip_id] = clip_score
 
-    top_clips = list(set(top_clips))
+    # sort clips by score
+    sorted_clips = sorted(clip_scores.items(), key=lambda x: x[1], reverse=True)
+    # filter out clips that have 0 score and get top k clips
+    top_clips = [clip_id for clip_id, score in sorted_clips if score >= threshold][:topk]
     
     return top_clips, clip_scores, top_nodes
 
@@ -124,6 +128,8 @@ def get_related_nodes(video_graph, query):
     for entity in entities:
         type = entity[0]
         node_id = entity[1]
+        if not (f"{type}_{node_id}" in video_graph.character_mappings.keys() or f"{type}_{node_id}" in video_graph.reverse_character_mappings.keys()):
+            continue
         if type == "character":
             related_nodes.extend([int(node.split("_")[1]) for node in video_graph.character_mappings[f"{type}_{node_id}"]])
         else:
