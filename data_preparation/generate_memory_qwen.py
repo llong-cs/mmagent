@@ -221,10 +221,10 @@ if __name__ == "__main__":
         
     #     video_inputs.extend([(video_path, save_dir) for video_path in video_paths])
     
-    with open("data/annotations/small_test_qwen.jsonl", "r") as f:
+    with open("data/annotations/train_500.jsonl", "r") as f:
         for line in f:
             sample = json.loads(line)
-            sample["mem_path"] = sample["mem_path"].replace("mems_qwen", f"mems_qwen_{args.version}")
+            sample["mem_path"] = sample["mem_path"].replace("mems", f"mems_qwen_{args.version}")
             if not os.path.exists(sample["mem_path"]):
                 save_dir = os.path.dirname(sample["mem_path"])
                 os.makedirs(save_dir, exist_ok=True)
