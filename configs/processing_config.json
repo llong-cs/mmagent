@@ -25,8 +25,8 @@
     "input_dir": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/video_clips",
     "max_parallel_videos": 32,
     "log_dir": "logs",
-    "temperature": 0,
-    "train": true,
+    "temperature": 0.1,
+    "train": false,
     "ckpt": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/memgen_sft/0511/epi_then_sem/ckpts/checkpoint-2214",
     "model": "qwen2.5-omni"
 }
