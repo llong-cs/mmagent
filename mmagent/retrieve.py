@@ -221,7 +221,7 @@ def select_queries(action_content, responses):
     min_similarity_idx = avg_similarities.index(min(avg_similarities))
     return queries[min_similarity_idx]
 
-def search(video_graph, query, current_clips, topk=5, mode='argmax', threshold=0, mem_wise=False):
+def search(video_graph, query, current_clips, topk=5, mode='max', threshold=0, mem_wise=False):
     top_clips, clip_scores, top_nodes = retrieve_from_videograph(video_graph, query, topk, mode, threshold)
     
     if mem_wise:
@@ -253,7 +253,7 @@ def search(video_graph, query, current_clips, topk=5, mode='argmax', threshold=0
     
     return new_memories, current_clips, clip_scores
 
-def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5, auto_refresh=False, mode='argmax', multiple_queries=False, max_retrieval_steps=10, route_switch=True, threshold=0, model="gpt-4o-2024-11-20"):
+def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5, auto_refresh=False, mode='max', multiple_queries=False, max_retrieval_steps=10, route_switch=True, threshold=0, model="gpt-4o-2024-11-20"):
     if auto_refresh:
         video_graph.refresh_equivalences()
         
