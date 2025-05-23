@@ -499,26 +499,34 @@ class VideoGraph:
                 connected.add(n1)
         return list(connected)
 
-    def search_img_nodes(self, img_info):
-        """Search for face nodes using image embeddings.
+    def _search_nodes(self, query_embeddings, node_type, threshold=None, mode="mean", range_nodes=None):
+        """Unified search implementation for all node types.
         
         Args:
-            query_embeddings: Single embedding or list of embeddings
-            threshold: Minimum similarity score threshold
+            query_embeddings: Query embeddings
+            node_type: Type of nodes to search ('img', 'voice', or 'text')
+            threshold: Minimum similarity threshold (only for img and voice)
+            mode: Similarity calculation mode ('mean', 'sum', 'max', 'min') for text nodes
+            range_nodes: Optional list of nodes to restrict search to (only for text)
             
         Returns:
             List of (node_id, similarity_score) tuples sorted by score
         """
-        query_embeddings = img_info["embeddings"]
-        contents = img_info["contents"]
-
-        threshold = self.img_matching_threshold
-
-        # Get all image nodes and their embeddings in parallel
-        img_nodes = [(node_id, node.embeddings) for node_id, node in self.nodes.items() if node.type == 'img']
+        # Get target nodes
+        if node_type == 'text':
+            if range_nodes:
+                text_nodes = []
+                for node_id in range_nodes:
+                    text_nodes.extend(self.get_connected_nodes(node_id, type=['episodic', 'semantic']))
+                text_nodes = list(set(text_nodes))
+            else:
+                text_nodes = self.text_nodes
+            target_nodes = [(node_id, self.nodes[node_id].embeddings) for node_id in text_nodes]
+        else:
+            target_nodes = [(node_id, node.embeddings) for node_id, node in self.nodes.items() if node.type == node_type]
         
         # Calculate similarities in parallel using numpy
-        node_ids, node_embeddings = zip(*img_nodes) if img_nodes else ([], [])
+        node_ids, node_embeddings = zip(*target_nodes) if target_nodes else ([], [])
         if not node_ids:
             return []
             
@@ -526,48 +534,60 @@ class VideoGraph:
         node_embeddings = np.array(node_embeddings)
         query_embeddings = np.array(query_embeddings)
         
-        # Calculate average similarity across all embeddings
-        similarities = np.mean(cosine_similarity(query_embeddings, node_embeddings), axis=0)
+        # Calculate similarities
+        similarities = cosine_similarity(query_embeddings, node_embeddings)
         
-        # Filter by threshold and create results
-        results = [(node_id, sim) for node_id, sim in zip(node_ids, similarities) if sim >= threshold]
-
+        if node_type == 'text':
+            # For text nodes, apply the specified mode
+            if mode == "sum":
+                # For sum mode: first average across embeddings, then sum across queries
+                similarities = np.sum(np.mean(similarities, axis=2), axis=0)
+            else:
+                # For other modes: apply directly to all similarities
+                if mode == "mean":
+                    similarities = np.mean(similarities, axis=(0, 2))
+                elif mode == "max":
+                    similarities = np.max(similarities, axis=(0, 2))
+                elif mode == "min":
+                    similarities = np.min(similarities, axis=(0, 2))
+                else:
+                    raise ValueError(f"Invalid mode: {mode}")
+        else:
+            # For img and voice nodes, average across both query and node embeddings
+            similarities = np.mean(similarities, axis=(0, 2))
+        
+        # Create results
+        if threshold is not None:
+            results = [(node_id, sim) for node_id, sim in zip(node_ids, similarities) if sim >= threshold]
+        else:
+            results = [(node_id, sim) for node_id, sim in zip(node_ids, similarities)]
+            
         return sorted(results, key=lambda x: x[1], reverse=True)
+
+    def search_img_nodes(self, img_info):
+        """Search for face nodes using image embeddings."""
+        return self._search_nodes(
+            query_embeddings=img_info["embeddings"],
+            node_type='img',
+            threshold=self.img_matching_threshold
+        )
 
     def search_voice_nodes(self, audio_info):
-        """Search for voice nodes using audio embeddings.
-        
-        Args:
-            query_embeddings: Single embedding or list of embeddings
-            threshold: Minimum similarity score threshold
-            
-        Returns:
-            List of (node_id, similarity_score) tuples sorted by score
-        """
-        query_embeddings = audio_info["embeddings"] 
-        contents = audio_info["contents"]
+        """Search for voice nodes using audio embeddings."""
+        return self._search_nodes(
+            query_embeddings=audio_info["embeddings"],
+            node_type='voice',
+            threshold=self.audio_matching_threshold
+        )
 
-        threshold = self.audio_matching_threshold
-
-        # Get all voice nodes and their embeddings in parallel
-        voice_nodes = [(node_id, node.embeddings) for node_id, node in self.nodes.items() if node.type == 'voice']
-        
-        # Calculate similarities in parallel using numpy
-        node_ids, node_embeddings = zip(*voice_nodes) if voice_nodes else ([], [])
-        if not node_ids:
-            return []
-            
-        # Convert to numpy arrays for vectorized operations
-        node_embeddings = np.array(node_embeddings)
-        query_embeddings = np.array(query_embeddings)
-        
-        # Calculate average similarity across all embeddings
-        similarities = np.mean(cosine_similarity(query_embeddings, node_embeddings), axis=0)
-        
-        # Filter by threshold and create results
-        results = [(node_id, sim) for node_id, sim in zip(node_ids, similarities) if sim >= threshold]
-
-        return sorted(results, key=lambda x: x[1], reverse=True)
+    def search_text_nodes(self, query_embeddings, range_nodes=[], mode="mean"):
+        """Search for text nodes using text embeddings."""
+        return self._search_nodes(
+            query_embeddings=query_embeddings,
+            node_type='text',
+            mode=mode,
+            range_nodes=range_nodes
+        )
     
     def get_entity_info(self, anchor_nodes, drop_threshold=0.9):
         """Get information about entities by retrieving connected episodic and semantic nodes.
@@ -632,67 +652,6 @@ class VideoGraph:
             info_nodes.extend(connected_semantic_nodes)
             
         return info_nodes
-    
-    def search_text_nodes(self, query_embeddings, range_nodes=[], mode="mean"):
-        if range_nodes:
-            text_nodes = []
-            for node_id in range_nodes:
-                text_nodes.extend(self.get_connected_nodes(node_id, type=['episodic', 'semantic']))
-            text_nodes = list(set(text_nodes))
-        else:
-            text_nodes = self.text_nodes
-
-        # Convert query embeddings to numpy array
-        query_emb_array = np.array(query_embeddings)
-        
-        # Get all node embeddings in parallel
-        node_embeddings = []
-        node_ids = []
-        for node_id in text_nodes:
-            node = self.nodes[node_id]
-            node_embeddings.extend(node.embeddings)
-            node_ids.extend([node_id] * len(node.embeddings))
-            
-        # Convert to numpy array for vectorized computation
-        node_emb_array = np.array(node_embeddings)
-        
-        # Calculate similarities in parallel using cosine_similarity
-        similarities = cosine_similarity(query_emb_array.reshape(1, -1), node_emb_array)
-        
-        # Average similarities for each node
-        node_to_similarities = {}
-        for node_id, sim in zip(node_ids, similarities[0]):
-            if node_id not in node_to_similarities:
-                node_to_similarities[node_id] = []
-            node_to_similarities[node_id].append(sim)
-        
-        if mode == "mean":
-            matched_text_nodes = [
-                (node_id, np.mean(sims)) 
-                for node_id, sims in node_to_similarities.items()
-            ]
-        elif mode == "sum":
-            matched_text_nodes = [
-                (node_id, np.sum(sims)) 
-                for node_id, sims in node_to_similarities.items()
-            ]
-        elif mode == "max":
-            matched_text_nodes = [
-                (node_id, np.max(sims)) 
-                for node_id, sims in node_to_similarities.items()
-            ]
-        elif mode == "min":
-            matched_text_nodes = [
-                (node_id, np.min(sims)) 
-                for node_id, sims in node_to_similarities.items()
-            ]
-        else:
-            raise ValueError(f"Invalid mode: {mode}")
-        
-        # Sort by similarity scores
-        matched_text_nodes = sorted(matched_text_nodes, key=lambda x: x[1], reverse=True)
-        
-        return matched_text_nodes
     
     # Visualization functions
     
