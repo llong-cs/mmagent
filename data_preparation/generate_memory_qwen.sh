@@ -2,7 +2,7 @@
 
 # Define variables
 machine_idx=$ARNOLD_ID
-node_num=64
+node_num=32
 node_per_machine=8
 version="0511"
 
