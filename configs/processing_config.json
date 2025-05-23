@@ -27,6 +27,6 @@
     "log_dir": "logs",
     "temperature": 0,
     "train": true,
-    "ckpt": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/memgen_sft/0511/ckpts/checkpoint-2214",
+    "ckpt": "/mnt/hdfs/foundation/longlin.kylin/mmagent/data/memgen_sft/0511/epi_then_sem/ckpts/checkpoint-2214",
     "model": "qwen2.5-omni"
 }
