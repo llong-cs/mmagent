@@ -2,8 +2,8 @@
 
 # Define variables
 machine_idx=$ARNOLD_ID
-node_num=32
-node_per_machine=8
+node_num=$((ARNOLD_WORKER_NUM * ARNOLD_WORKER_GPU))
+node_per_machine=$ARNOLD_WORKER_GPU
 version="0511"
 
 # Calculate the starting cuda_id for this machine
