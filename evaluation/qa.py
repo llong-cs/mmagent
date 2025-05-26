@@ -203,13 +203,13 @@ if __name__ == "__main__":
             "max_retrieval_steps": 5,
             "retrieval_threshold": 0.5,
             "planning": False,
-            "topk": 5
+            "topk": 2
         },
         {
             "max_retrieval_steps": 5,
             "retrieval_threshold": 0.5,
             "planning": False,
-            "topk": 2
+            "topk": 5
         },
     ]
 
