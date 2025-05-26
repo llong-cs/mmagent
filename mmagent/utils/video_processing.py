@@ -160,9 +160,7 @@ def split_video_into_clips(video_path, interval, output_dir, output_format='mp4'
         str: Path to the output folder containing the clips
     """
     try:
-        # Create output folder based on video filename
-        video_name = os.path.splitext(os.path.basename(video_path))[0]
-        output_dir = os.path.join(output_dir, video_name)
+        # Create output folder
         os.makedirs(output_dir, exist_ok=True)
 
         # Get video info
@@ -211,8 +209,7 @@ def split_video_into_clips(video_path, interval, output_dir, output_format='mp4'
                 raise e
         
         # 准备所有片段的信息
-        clip_infos = [(i, i * interval, min((i + 1) * interval, duration)) 
-                      for i in range(num_clips)]
+        clip_infos = [(i, i * interval, min((i + 1) * interval, duration)) for i in range(num_clips)]
         
         # 使用线程池处理片段
         # 使用较少的线程，因为MoviePy内部已经使用了多线程
@@ -332,7 +329,7 @@ def verify_video_processing(video_path, output_dir, interval, strict=False):
                         f.write(f"Error processing {clip_file}: Has static segment.\n")
                     logger.error(f"Error processing {clip_file}: Has static segment.")
                     return False
-           
+
         return True
         
     except Exception as e:
