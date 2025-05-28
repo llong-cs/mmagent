@@ -193,12 +193,6 @@ def process_single_video(args):
     # streaming_process_video(video_graph, video_path, save_dir, preprocessing=preprocessing)
     
 if __name__ == "__main__":
-    # video paths can be paths to directories or paths to mp4 files
-    # data_list = ["CZ_1", "CZ_2", "CZ_3", "ZZ_1", "ZZ_2", "ZZ_3","ZZ_4", "ZZ_5"]
-    # data_list = ["MLVU/1_plotQA", "MLVU/2_needle", "MLVU/3_ego", "MLVU/4_count", "MLVU/5_order", "MLVU/6_anomaly_reco", "MLVU/7_topic_reasoning", "MLVU/8_sub_scene", "MLVU/9_summary"]
-    # data_list = ["Video-MME"]
-    # preprocessing = ['voice', 'face']
-    # preprocessing = []
     data_list = args.data_list.split(",")
     preprocessing = args.preprocessing.split(",")
     if len(preprocessing) == 1 and preprocessing[0] == "":
@@ -207,20 +201,6 @@ if __name__ == "__main__":
     node_num = args.node_num
     
     video_inputs = []
-    
-    # for data in data_list:
-    #     input_dir = os.path.join(processing_config["input_dir"], data)
-    #     video_files = os.listdir(input_dir)
-    #     video_paths = [os.path.join(input_dir, video_file) for video_file in video_files]
-
-    #     save_dir = os.path.join(processing_config["save_dir"], data)
-    #     os.makedirs(save_dir, exist_ok=True)
-        
-    #     generated_memories = os.listdir(save_dir)
-    #     generated_memories = [generated_memory for generated_memory in generated_memories if generated_memory.endswith(".pkl")]
-    #     video_paths = [video_path for video_path in video_paths if generate_file_name(video_path)+".pkl" not in generated_memories]
-        
-    #     video_inputs.extend([(video_path, save_dir) for video_path in video_paths])
     
     with open("data/annotations/train_500.jsonl", "r") as f:
         for line in f:
