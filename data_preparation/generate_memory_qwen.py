@@ -222,7 +222,7 @@ if __name__ == "__main__":
     logger.info(f"Total video inputs: {len(video_inputs)}")
     logger.info(f"First few video inputs: {video_inputs[:5]}")
     
-    # print(len(video_inputs))
+    print(len(video_inputs))
 
     for i, video_input in enumerate(tqdm(video_inputs)):
         if i % node_num!= cuda_id:
