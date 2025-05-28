@@ -80,9 +80,14 @@ def generate_video_context(
         face_frames.append((f"<face_{char_id}>:", frame_base64))
         face_only.append((f"<face_{char_id}>:", face["extra_data"]["face_base64"]))
     
-    num_faces = len(face_frames)
+    # faces_input = face_frames
+    faces_input = face_only
+    
+    num_faces = len(faces_input)
     if num_faces == 0:
         logger.warning("No qualified faces detected")
+    
+    
     
     # Visualize face frames with IDs
     if logging_level == "DETAIL" and num_faces > 0:
@@ -91,13 +96,13 @@ def generate_video_context(
         _, axes = plt.subplots(num_rows, 3, figsize=(15, 5 * num_rows))
         axes = axes.ravel()  # Flatten axes array for easier indexing
 
-        for i, face_frame in enumerate(face_frames):
+        for i, face_pic in enumerate(faces_input):
             # Convert base64 to image array
-            img_bytes = base64.b64decode(face_frame[1])
+            img_bytes = base64.b64decode(face_pic[1])
             img_array = np.array(Image.open(BytesIO(img_bytes)))
 
             axes[i].imshow(img_array)
-            axes[i].set_title(face_frame[0])
+            axes[i].set_title(face_pic[0])
             axes[i].axis("off")
 
         # Hide empty subplots
@@ -135,8 +140,7 @@ def generate_video_context(
         },
         {
             "type": "images/jpeg",
-            # "content": face_frames,
-            "content": face_only,
+            "content": faces_input,
         },
         {
             "type": "text",
@@ -193,6 +197,7 @@ def generate_thinkings_with_ids(video_context, video_description):
             thinkings_string = "[]"
             with open("logs/filtered_contents.txt", "a") as f:
                 f.write(f"Filtered generated contents detected\n")
+        logger.info(thinkings)
         thinkings = validate_and_fix_python_list(thinkings_string)
         if thinkings is not None:
             break
@@ -257,6 +262,7 @@ def generate_captions_and_thinkings_with_ids(
             captions_string = "[]"
             with open("logs/filtered_contents.txt", "a") as f:
                 f.write(f"Filtered generated contents detected\n")
+        logger.info(captions)
         captions = validate_and_fix_python_list(captions_string)
         if captions is not None:
             break
@@ -300,7 +306,7 @@ def generate_captions_and_thinkings_with_ids(
     
     # ================================
 
-    print(captions, thinkings)
+    logger.info(captions, thinkings)
 
     return captions, thinkings
 

@@ -25,14 +25,7 @@ logger = logging.getLogger(__name__)
 processing_config = json.load(open("configs/processing_config.json"))
 memory_config = json.load(open("configs/memory_config.json"))
 
-parser = argparse.ArgumentParser()
-parser.add_argument("--cuda_id", type=int, default=0)
-parser.add_argument("--node_num", type=int, default=8)
-# parser.add_argument("--data_list", type=str, default="/mnt/bn/videonasi18n/longlin.kylin/mmagent/data/annotations/small_test.jsonl,/mnt/bn/videonasi18n/longlin.kylin/mmagent/data/annotations/train_500.jsonl")
-parser.add_argument("--data_list", type=str, default="/mnt/bn/videonasi18n/longlin.kylin/mmagent/data/annotations/small_test.jsonl")
-parser.add_argument("--preprocessing", type=str, default="voice,face")
-parser.add_argument("--version", type=str, default="0511")
-args = parser.parse_args()
+preprocessing = []
 
 def process_segment(
     video_graph,
@@ -194,6 +187,15 @@ def process_single_video(args):
     # streaming_process_video(video_graph, video_path, save_dir, preprocessing=preprocessing)
     
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--cuda_id", type=int, default=0)
+    parser.add_argument("--node_num", type=int, default=8)
+    # parser.add_argument("--data_list", type=str, default="/mnt/bn/videonasi18n/longlin.kylin/mmagent/data/annotations/small_test.jsonl,/mnt/bn/videonasi18n/longlin.kylin/mmagent/data/annotations/train_500.jsonl")
+    parser.add_argument("--data_list", type=str, default="/mnt/bn/videonasi18n/longlin.kylin/mmagent/data/annotations/small_test.jsonl")
+    parser.add_argument("--preprocessing", type=str, default="voice,face")
+    parser.add_argument("--version", type=str, default="0511")
+    args = parser.parse_args()
+
     data_list = args.data_list.split(",")
     preprocessing = args.preprocessing.split(",")
     if len(preprocessing) == 1 and preprocessing[0] == "":
