@@ -41,13 +41,14 @@ def check_video_path(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--input_data", type=str, default="/Users/bytedance/Documents/code/mmagent/data/annotations/train_500.jsonl")
+    parser.add_argument("--input_data", type=str, default="/mnt/bn/videonasi18n/longlin.kylin/mmagent/data/annotations/train_500.jsonl,/mnt/bn/videonasi18n/longlin.kylin/mmagent/data/annotations/full_test.jsonl")
     parser.add_argument("--machine_number", type=int, default=1)
     parser.add_argument("--machine_index", type=int, default=0)
+    parser.add_argument("--log_dir", type=str, default="data/logs")
     args = parser.parse_args()
     processing_config = json.load(open("configs/processing_config.json"))
     interval = processing_config["interval_seconds"]
-    log_dir = processing_config["log_dir"]
+    log_dir = args.log_dir
         
     input_data = args.input_data.split(",")
     machine_number = args.machine_number

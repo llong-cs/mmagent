@@ -52,6 +52,7 @@ def generate_video_context(
     base64_video, base64_frames, faces_list, voices_list, video_path=None
 ):
     face_frames = []
+    face_only = []
 
     # Iterate through faces directly
     for char_id, faces in faces_list.items():
@@ -77,6 +78,7 @@ def generate_video_context(
         frame_img.save(buffered, format="JPEG")
         frame_base64 = base64.b64encode(buffered.getvalue()).decode()
         face_frames.append((f"<face_{char_id}>:", frame_base64))
+        face_only.append((f"<face_{char_id}>:", face["extra_data"]["face_base64"]))
     
     num_faces = len(face_frames)
     if num_faces == 0:
@@ -133,7 +135,8 @@ def generate_video_context(
         },
         {
             "type": "images/jpeg",
-            "content": face_frames,
+            # "content": face_frames,
+            "content": face_only,
         },
         {
             "type": "text",

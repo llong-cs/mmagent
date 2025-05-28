@@ -175,8 +175,10 @@ if __name__ == "__main__":
     parser.add_argument("--data_list", type=str, help="Comma-separated list of data names, can be paths to directories or paths to mp4 files", default="MLVU/1_plotQA,MLVU/2_needle,MLVU/3_ego,MLVU/4_count,MLVU/5_order,MLVU/6_anomaly_reco,MLVU/7_topic_reasoning,MLVU/8_sub_scene,MLVU/9_summary")
     # parser.add_argument("--data_list", type=str, default="Video-MME")
     # parser.add_argument("--data_list", type=str, default="CZ_1,CZ_2,CZ_3,ZZ_1,ZZ_2,ZZ_3,ZZ_4,ZZ_5")
+    parser.add_argument("--log_dir", type=str, default="data/logs")
     args = parser.parse_args()
-        
+    log_dir = args.log_dir
+
     preprocessing = args.preprocessing.split(',')
     if len(preprocessing) == 0:
         preprocessing = []
@@ -204,7 +206,6 @@ if __name__ == "__main__":
             try:
                 streaming_process_video(video_graph, video_path, save_dir, preprocessing=preprocessing)
             except Exception as e:
-                log_dir = processing_config["log_dir"]
                 os.makedirs(log_dir, exist_ok=True)
                 with open(os.path.join(log_dir, f"generate_memory_error.log"), "a") as f:
                     f.write(f"Error processing video {video_path}: {e}\n")
