@@ -29,22 +29,24 @@ def prepare_video_mme_data():
                         "answer": data["answer"],
                     })
     print(len(outputs))
-    with open("data/benchmarks/Video-MME.json", "w") as f:
-        json.dump(outputs, f, indent=4, ensure_ascii=False)
-    for output in outputs:
-        with open("data/benchmarks/Video-MME.jsonl", "a") as f:
+    # with open("data/benchmarks/Video-MME.json", "w") as f:
+    #     json.dump(outputs, f, indent=4, ensure_ascii=False)
+    with open("data/benchmarks/Video-MME.jsonl", "w") as f:
+        for output in outputs:
             f.write(json.dumps(output, ensure_ascii=False)+"\n")
             
 def prepare_mlvu_data():
     data_dir = "/mnt/hdfs/foundation/longlin.kylin/mmagent/benchmarks/MLVU/MLVU/json"
     videos_dir = "/mnt/hdfs/foundation/longlin.kylin/mmagent/benchmarks/MLVU/MLVU/video"
     data_list = os.listdir(data_dir)
+    ori = 0
     outputs = []
     for file in data_list:
         marker = file.split(".")[0]
         file_path = os.path.join(data_dir, file)
         with open(file_path, "r") as f:
             data = json.load(f)
+            ori += len(data)
             for sample in data:
                 video_id = sample["video"].split(".")[0]
                 video_path = os.path.join(videos_dir, marker, sample["video"])
@@ -57,7 +59,7 @@ def prepare_mlvu_data():
                             "video_path": video_path,
                             "clip_path": clip_path,
                             "mem_path": mem_path,
-                            "question": sample["question"] + "\nOptions: " + " ".join(sample["candidates"]),
+                            "question": sample["question"] + "\nOptions: " + json.dumps(sample["candidates"]),
                             "answer": sample["answer"],
                         })
                     else:
@@ -69,11 +71,12 @@ def prepare_mlvu_data():
                             "question": sample["question"],
                             "answer": sample["answer"],
                         })
+    print(ori)
     print(len(outputs))
-    with open("data/benchmarks/MLVU.json", "w") as f:
-        json.dump(outputs, f, indent=4, ensure_ascii=False)
-    for output in outputs:
-        with open("data/benchmarks/MLVU.jsonl", "a") as f:
+    # with open("data/benchmarks/MLVU.json", "w") as f:
+    #     json.dump(outputs, f, indent=4, ensure_ascii=False)
+    with open("data/benchmarks/MLVU.jsonl", "w") as f:
+        for output in outputs:
             f.write(json.dumps(output, ensure_ascii=False)+"\n")
 
 
