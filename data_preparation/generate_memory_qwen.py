@@ -28,9 +28,10 @@ memory_config = json.load(open("configs/memory_config.json"))
 parser = argparse.ArgumentParser()
 parser.add_argument("--cuda_id", type=int, default=0)
 parser.add_argument("--node_num", type=int, default=8)
-parser.add_argument("--data_list", type=str, default="/mnt/bn/videonasi18n/longlin.kylin/mmagent/data/annotations/small_test.jsonl,/mnt/bn/videonasi18n/longlin.kylin/mmagent/data/annotations/train_500.jsonl")
+# parser.add_argument("--data_list", type=str, default="/mnt/bn/videonasi18n/longlin.kylin/mmagent/data/annotations/small_test.jsonl,/mnt/bn/videonasi18n/longlin.kylin/mmagent/data/annotations/train_500.jsonl")
+parser.add_argument("--data_list", type=str, default="/mnt/bn/videonasi18n/longlin.kylin/mmagent/data/annotations/small_test.jsonl")
 parser.add_argument("--preprocessing", type=str, default="voice,face")
-parser.add_argument("--version", type=str, default="test")
+parser.add_argument("--version", type=str, default="0511")
 args = parser.parse_args()
 
 def process_segment(
@@ -221,11 +222,11 @@ if __name__ == "__main__":
     logger.info(f"Total video inputs: {len(video_inputs)}")
     logger.info(f"First few video inputs: {video_inputs[:5]}")
     
-    print(len(video_inputs))
+    # print(len(video_inputs))
 
-    # for i, video_input in enumerate(tqdm(video_inputs)):
-    #     if i % node_num!= cuda_id:
-    #         continue
-    #     video_path = video_input[0]
-    #     save_dir = video_input[1]
-    #     process_single_video((video_path, save_dir))
+    for i, video_input in enumerate(tqdm(video_inputs)):
+        if i % node_num!= cuda_id:
+            continue
+        video_path = video_input[0]
+        save_dir = video_input[1]
+        process_single_video((video_path, save_dir))
