@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Define variables
+data_list="/mnt/bn/videonasi18n/longlin.kylin/mmagent/data/annotations/small_test.jsonl,/mnt/bn/videonasi18n/longlin.kylin/mmagent/data/annotations/train_500.jsonl"
 machine_idx=$ARNOLD_ID
 node_num=$((ARNOLD_WORKER_NUM * ARNOLD_WORKER_GPU))
 node_per_machine=$ARNOLD_WORKER_GPU

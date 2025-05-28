@@ -28,7 +28,7 @@ memory_config = json.load(open("configs/memory_config.json"))
 parser = argparse.ArgumentParser()
 parser.add_argument("--cuda_id", type=int, default=0)
 parser.add_argument("--node_num", type=int, default=8)
-parser.add_argument("--data_list", type=str, default="MLVU/1_plotQA,MLVU/2_needle,MLVU/3_ego,MLVU/4_count,MLVU/5_order,MLVU/6_anomaly_reco,MLVU/7_topic_reasoning,MLVU/8_sub_scene,MLVU/9_summary")
+parser.add_argument("--data_list", type=str, default="/mnt/bn/videonasi18n/longlin.kylin/mmagent/data/annotations/small_test.jsonl,/mnt/bn/videonasi18n/longlin.kylin/mmagent/data/annotations/train_500.jsonl")
 parser.add_argument("--preprocessing", type=str, default="voice,face")
 parser.add_argument("--version", type=str, default="test")
 args = parser.parse_args()
@@ -202,14 +202,18 @@ if __name__ == "__main__":
     
     video_inputs = []
     
-    with open("data/annotations/train_500.jsonl", "r") as f:
-        for line in f:
-            sample = json.loads(line)
-            sample["mem_path"] = sample["mem_path"].replace("mems", f"mems_qwen_{args.version}")
-            if not os.path.exists(sample["mem_path"]):
+    for file in data_list:
+        with open(file, "r") as f:
+            for line in f:
+                sample = json.loads(line)
+                sample["mem_path"] = sample["mem_path"].replace("mems", f"mems_qwen_{args.version}")
                 save_dir = os.path.dirname(sample["mem_path"])
                 os.makedirs(save_dir, exist_ok=True)
-                video_inputs.append((sample["clip_path"], save_dir))
+                if not os.path.exists(sample["mem_path"]):
+                    video_inputs.append((sample["clip_path"], save_dir))
+                # else:
+                #     os.remove(sample["mem_path"])
+                #     video_inputs.append((sample["clip_path"], save_dir))
     
     # 先用set去重，再按clip_path排序
     video_inputs = sorted(set(video_inputs), key=lambda x: x[0])
@@ -217,15 +221,11 @@ if __name__ == "__main__":
     logger.info(f"Total video inputs: {len(video_inputs)}")
     logger.info(f"First few video inputs: {video_inputs[:5]}")
     
-    args = []
+    print(len(video_inputs))
 
-    print(f"cuda_id: {cuda_id}, node_num: {node_num}")
-
-    # print(len(video_inputs))
-
-    for i, video_input in enumerate(tqdm(video_inputs)):
-        if i % node_num!= cuda_id:
-            continue
-        video_path = video_input[0]
-        save_dir = video_input[1]
-        process_single_video((video_path, save_dir))
+    # for i, video_input in enumerate(tqdm(video_inputs)):
+    #     if i % node_num!= cuda_id:
+    #         continue
+    #     video_path = video_input[0]
+    #     save_dir = video_input[1]
+    #     process_single_video((video_path, save_dir))
