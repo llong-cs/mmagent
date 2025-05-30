@@ -55,7 +55,7 @@ if __name__ == "__main__":
     machine_index = args.machine_index
     
     cpu_count = multiprocessing.cpu_count()
-    max_workers = cpu_count // 2
+    max_workers = cpu_count // 3
     logger.info(f"Using {max_workers} processes (CPU cores: {cpu_count})")
     
     all_videos = []
@@ -76,10 +76,10 @@ if __name__ == "__main__":
         todo_videos = list(tqdm(executor.map(check_video_path, all_videos), total=len(all_videos), desc="Checking video paths"))
         todo_videos = [video for video in todo_videos if video is not None]
     
-    for video_path, output_dir, interval in todo_videos:
-        if not verify_video_processing(video_path, output_dir, interval, strict=True):
-            with open(os.path.join(log_dir, f"video_processing_error.log"), "a") as f:
-                f.write(video_path + "\n")
+    # for video_path, output_dir, interval in todo_videos:
+    #     if not verify_video_processing(video_path, output_dir, interval, strict=True):
+    #         with open(os.path.join(log_dir, f"video_processing_error.log"), "a") as f:
+    #             f.write(video_path + "\n")
     
     with ProcessPoolExecutor(max_workers=max_workers) as executor:
         list(tqdm(executor.map(process_video_parallel, todo_videos), total=len(todo_videos), desc="Processing videos"))

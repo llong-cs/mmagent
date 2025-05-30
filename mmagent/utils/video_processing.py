@@ -297,8 +297,7 @@ def verify_video_processing(video_path, output_dir, interval, strict=False):
         expected_clips_num = math.ceil(int(video_info["duration"]) / interval)
         
         # Get actual number of clips in output directory
-        video_name = os.path.splitext(os.path.basename(video_path))[0]
-        clip_dir = os.path.join(output_dir, video_name)
+        clip_dir = output_dir
         
         if not os.path.exists(clip_dir):
             with open("logs/video_processing_failed.log", "a") as f:
