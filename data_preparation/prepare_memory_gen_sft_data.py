@@ -17,6 +17,8 @@ parser.add_argument("--conversations_type", type=str, default="epi_then_sem", ch
 parser.add_argument("--prepare_conversations", action="store_true")
 parser.add_argument("--output_dir", type=str, default="/mnt/hdfs/foundation/longlin.kylin/mmagent/data/memgen_sft/0511")
 parser.add_argument("--cuda_id", type=int, default=0)
+parser.add_argument("--mode", type=str, default="train", choices=["train", "val"])
+parser.add_argument("--num_gpus", type=int, default=8)
 args = parser.parse_args()
 
 from transformers import Qwen2_5OmniProcessor, Qwen2_5OmniThinkerForConditionalGeneration, Qwen2_5OmniThinkerConfig, GenerationConfig
@@ -566,7 +568,7 @@ def split_train_val(conversations_dir, val_num):
         for conversation in val_conversations:
             f.write(json.dumps(conversation) + "\n")
 
-def preprocess_inputs(model, processor, input_path, output_dir_prefix, index, mode="train"):
+def preprocess_inputs(model, processor, input_path, output_dir_prefix, index, num_gpus, mode="train"):
     if mode == "train":
         output_dir = os.path.join(output_dir_prefix, "train")
         os.makedirs(output_dir, exist_ok=True)
@@ -580,7 +582,7 @@ def preprocess_inputs(model, processor, input_path, output_dir_prefix, index, mo
             conversations.append(json.loads(line))
 
     for idx in tqdm(range(0, len(conversations), 2)):
-        if (idx // 2) % 8 != index:
+        if (idx // 2) % num_gpus != index:
             continue
         ADD_GENERATION_PROMPT = False
         try:
@@ -635,6 +637,7 @@ def preprocess_inputs(model, processor, input_path, output_dir_prefix, index, mo
 
 if __name__ == "__main__":
     data_path = args.data_path
+    mode = args.mode
     base_dir = os.path.dirname(data_path)
     samples_path = os.path.join(base_dir, "samples/training_samples.jsonl")
     conversations_type = args.conversations_type
@@ -664,6 +667,5 @@ if __name__ == "__main__":
             attn_implementation="flash_attention_2",
         ).eval()
         processor = Qwen2_5OmniProcessor.from_pretrained(model_path)
-        mode = "train"
-        preprocess_inputs(model, processor, os.path.join(conversations_dir, f"{mode}.jsonl"), os.path.join(args.output_dir, conversations_type, "memories"), args.cuda_id, mode)
+        preprocess_inputs(model, processor, os.path.join(conversations_dir, f"{mode}.jsonl"), os.path.join(args.output_dir, conversations_type, "memories"), args.cuda_id, args.num_gpus, mode)
         
