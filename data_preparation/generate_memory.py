@@ -169,48 +169,50 @@ def streaming_process_video(video_graph, video_path, save_dir, preprocessing=[])
         save_dir
     )
     
+def process_single_video(args):
+    video_path, save_dir = args
+    video_graph = VideoGraph(**memory_config)
+    try:
+        streaming_process_video(video_graph, video_path, save_dir, preprocessing=preprocessing)
+    except Exception as e:
+        os.makedirs(log_dir, exist_ok=True)
+        with open(os.path.join(log_dir, f"generate_memory_error.log"), "a") as f:
+            f.write(f"Error processing video {video_path}: {e}\n")
+        logger.error(f"Error processing video {video_path}: {e}")
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--preprocessing", type=str, default="voice,face")
-    parser.add_argument("--data_list", type=str, help="Comma-separated list of data names, can be paths to directories or paths to mp4 files", default="MLVU/1_plotQA,MLVU/2_needle,MLVU/3_ego,MLVU/4_count,MLVU/5_order,MLVU/6_anomaly_reco,MLVU/7_topic_reasoning,MLVU/8_sub_scene,MLVU/9_summary")
-    # parser.add_argument("--data_list", type=str, default="Video-MME")
-    # parser.add_argument("--data_list", type=str, default="CZ_1,CZ_2,CZ_3,ZZ_1,ZZ_2,ZZ_3,ZZ_4,ZZ_5")
+    parser.add_argument("--data_list", type=str, default="/mnt/bn/videonasi18n/longlin.kylin/mmagent/data/annotations/small_test.jsonl")
     parser.add_argument("--log_dir", type=str, default="data/logs")
     args = parser.parse_args()
     log_dir = args.log_dir
 
+    data_list = args.data_list.split(',')
     preprocessing = args.preprocessing.split(',')
     if len(preprocessing) == 0:
         preprocessing = []
-    data_list = args.data_list.split(',')
     
-    for data in data_list:
-        input_dir = os.path.join(processing_config["input_dir"], data)
-        video_files = os.listdir(input_dir)
-        video_paths = [os.path.join(input_dir, video_file) for video_file in video_files]
-
-        save_dir = os.path.join(processing_config["save_dir"], data)
-        os.makedirs(save_dir, exist_ok=True)
-        generated_memories = os.listdir(save_dir)
-        generated_memories = [generated_memory for generated_memory in generated_memories if generated_memory.endswith(".pkl")]
-        video_paths = [video_path for video_path in video_paths if generate_file_name(video_path)+".pkl" not in generated_memories]
+    
+    args = []
+    
+    for file in data_list:
+        with open(file, "r") as f:
+            for line in f:
+                sample = json.loads(line)
+                if not os.path.exists(sample["mem_path"]):
+                    save_dir = os.path.dirname(sample["mem_path"])
+                    clips_dir = sample["clip_path"]
+                    os.makedirs(save_dir, exist_ok=True)
+                    args.append((clips_dir, save_dir))
+    
+    args = list(set(args))
         
-        cpu_count = multiprocessing.cpu_count()
-        max_workers = 32
-        
-        logger.info(f"Using {max_workers} processes (CPU cores: {cpu_count})")
+    cpu_count = multiprocessing.cpu_count()
+    max_workers = 32
+    
+    logger.info(f"Total video inputs: {len(args)}")
+    logger.info(f"Using {max_workers} processes (CPU cores: {cpu_count})")
 
-        def process_single_video(args):
-            video_path, save_dir = args
-            video_graph = VideoGraph(**memory_config)
-            try:
-                streaming_process_video(video_graph, video_path, save_dir, preprocessing=preprocessing)
-            except Exception as e:
-                os.makedirs(log_dir, exist_ok=True)
-                with open(os.path.join(log_dir, f"generate_memory_error.log"), "a") as f:
-                    f.write(f"Error processing video {video_path}: {e}\n")
-                logger.error(f"Error processing video {video_path}: {e}")
-
-        args = [(video_path, save_dir) for video_path in video_paths]
-        with ProcessPoolExecutor(max_workers=max_workers) as executor:
-            list(tqdm(executor.map(process_single_video, args), total=len(video_paths), desc="Processing videos"))
+    with ProcessPoolExecutor(max_workers=max_workers) as executor:
+        list(tqdm(executor.map(process_single_video, args), total=len(args), desc="Processing videos"))

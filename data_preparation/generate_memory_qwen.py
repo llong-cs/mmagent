@@ -179,12 +179,10 @@ def process_single_video(args):
     try:
         streaming_process_video(video_graph, video_path, save_dir, preprocessing=preprocessing)
     except Exception as e:
-        log_dir = processing_config["log_dir"]
         os.makedirs(log_dir, exist_ok=True)
         with open(os.path.join(log_dir, f"generate_memory_qwen_error.log"), "a") as f:
             f.write(f"Error processing video {video_path}: {e}\n")
         logger.error(f"Error processing video {video_path}: {e}")
-    # streaming_process_video(video_graph, video_path, save_dir, preprocessing=preprocessing)
     
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -192,14 +190,12 @@ if __name__ == "__main__":
     parser.add_argument("--node_num", type=int, default=8)
     # parser.add_argument("--data_list", type=str, default="/mnt/bn/videonasi18n/longlin.kylin/mmagent/data/annotations/small_test.jsonl,/mnt/bn/videonasi18n/longlin.kylin/mmagent/data/annotations/train_500.jsonl")
     parser.add_argument("--data_list", type=str, default="/mnt/bn/videonasi18n/longlin.kylin/mmagent/data/annotations/small_test.jsonl")
-    parser.add_argument("--preprocessing", type=str, default="voice,face")
     parser.add_argument("--version", type=str, default="0511")
+    parser.add_argument("--log_dir", type=str, default="data/logs")
     args = parser.parse_args()
+    log_dir = args.log_dir
 
     data_list = args.data_list.split(",")
-    preprocessing = args.preprocessing.split(",")
-    if len(preprocessing) == 1 and preprocessing[0] == "":
-        preprocessing = []
     cuda_id = args.cuda_id
     node_num = args.node_num
     
@@ -210,22 +206,17 @@ if __name__ == "__main__":
             for line in f:
                 sample = json.loads(line)
                 sample["mem_path"] = sample["mem_path"].replace("mems", f"mems_qwen_{args.version}")
-                save_dir = os.path.dirname(sample["mem_path"])
-                os.makedirs(save_dir, exist_ok=True)
                 if not os.path.exists(sample["mem_path"]):
-                    video_inputs.append((sample["clip_path"], save_dir))
-                # else:
-                #     os.remove(sample["mem_path"])
-                #     video_inputs.append((sample["clip_path"], save_dir))
+                    save_dir = os.path.dirname(sample["mem_path"])
+                    clips_dir = sample["clip_path"]
+                    os.makedirs(save_dir, exist_ok=True)
+                    video_inputs.append((clips_dir, save_dir))
     
-    # 先用set去重，再按clip_path排序
+    # First deduplicate using set, then sort by clip_path
     video_inputs = sorted(set(video_inputs), key=lambda x: x[0])
     
     logger.info(f"Total video inputs: {len(video_inputs)}")
-    logger.info(f"First few video inputs: {video_inputs[:5]}")
     
-    print(len(video_inputs))
-
     for i, video_input in enumerate(tqdm(video_inputs)):
         if i % node_num!= cuda_id:
             continue

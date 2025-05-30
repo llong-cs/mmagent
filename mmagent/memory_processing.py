@@ -78,6 +78,7 @@ def generate_video_context(
     base64_video, base64_frames, faces_list, voices_list
 ):
     face_frames = []
+    face_only = []
 
     # Iterate through faces directly
     for char_id, faces in faces_list.items():
@@ -103,8 +104,11 @@ def generate_video_context(
         frame_img.save(buffered, format="JPEG")
         frame_base64 = base64.b64encode(buffered.getvalue()).decode()
         face_frames.append((f"<face_{char_id}>:", frame_base64))
+        face_only.append((f"<face_{char_id}>:", face["extra_data"]["face_base64"]))
+        
+    faces_input = face_only
     
-    num_faces = len(face_frames)
+    num_faces = len(faces_input)
     if num_faces == 0:
         logger.warning("No qualified faces detected")
     
@@ -115,13 +119,13 @@ def generate_video_context(
         _, axes = plt.subplots(num_rows, 3, figsize=(15, 5 * num_rows))
         axes = axes.ravel()  # Flatten axes array for easier indexing
 
-        for i, face_frame in enumerate(face_frames):
+        for i, face_pic in enumerate(faces_input):
             # Convert base64 to image array
-            img_bytes = base64.b64decode(face_frame[1])
+            img_bytes = base64.b64decode(face_pic[1])
             img_array = np.array(Image.open(BytesIO(img_bytes)))
 
             axes[i].imshow(img_array)
-            axes[i].set_title(face_frame[0])
+            axes[i].set_title(face_pic[0])
             axes[i].axis("off")
 
         # Hide empty subplots
@@ -155,7 +159,7 @@ def generate_video_context(
         },
         {
             "type": "images/jpeg",
-            "content": face_frames,
+            "content": faces_input,
         },
         {
             "type": "text",

@@ -2,16 +2,6 @@ import json
 import os
 import argparse
 
-def get_filtered_questions(test_file):
-    filtered_questions = []
-    with open(test_file, 'r') as f:
-        for line in f:
-            data = json.loads(line)
-            if not data['flag']:
-                filtered_questions.append(data['question'])
-    print(f"Filtered {len(filtered_questions)} questions from {test_file}")
-    return filtered_questions
-
 def analyze_agent_results(result_dir):
     agent_results = os.listdir(result_dir)
     agent_results = [os.path.join(result_dir, f) for f in agent_results if "verified" in f]
@@ -24,6 +14,8 @@ def analyze_agent_results(result_dir):
         
         total = 0
         correct = 0
+        total_with_flag = 0
+        correct_with_flag = 0
         filtered_count = 0
         idx = 0
 
@@ -35,7 +27,7 @@ def analyze_agent_results(result_dir):
                 line = f.readline()
                 if line:
                     qa = json.loads(line)
-                    flag = qa["flag"]
+                    flag = False if "flag" not in qa else qa["flag"]
                     qa_attempts.append(qa["verify_result"].lower().startswith("yes"))
 
             # If we've reached end of files, break
@@ -43,11 +35,14 @@ def analyze_agent_results(result_dir):
                 break
 
             # Count as correct if any attempt was successful
-            # if question not in filtered_questions:
+            total += 1
+            if any(qa_attempts):
+                correct += 1
+            
             if not flag:
-                total += 1
+                total_with_flag += 1
                 if any(qa_attempts):
-                    correct += 1
+                    correct_with_flag += 1
             else:
                 filtered_count += 1
 
@@ -57,8 +52,8 @@ def analyze_agent_results(result_dir):
         for f in result_files:
             f.close()
 
-        print(f"Pass@{k}: {correct / total}")
-        
+        print(f"Pass@{k} (hard-{total_with_flag}): {correct_with_flag / total_with_flag:.4f}")
+        print(f"Pass@{k} (all-{total}): {correct / total:.4f}")
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Result analysis')
@@ -80,5 +75,7 @@ def main():
     
 if __name__ == "__main__":
     main()
-    
+
+# an example to run the code
+# python3 evaluation/result_analysis.py --result data/annotations/results/gpt-4o-2024-11-20/5_rounds_threshold_0.5_top2_no_planning_qwen_0511 --test_file data/annotations/small_test.jsonl
     

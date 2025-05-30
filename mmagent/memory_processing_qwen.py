@@ -202,8 +202,8 @@ def generate_thinkings_with_ids(video_context, video_description):
         if thinkings is not None:
             break
     if thinkings is None:
-        # thinkings = []
-        raise Exception("Failed to generate thinkings")
+        thinkings = []
+        # raise Exception("Failed to generate thinkings")
     return thinkings
 
 def generate_captions_and_thinkings_with_ids(
@@ -267,8 +267,8 @@ def generate_captions_and_thinkings_with_ids(
         if captions is not None:
             break
     if captions is None:
-        # captions = []
-        raise Exception("Failed to generate captions")
+        captions = []
+        # raise Exception("Failed to generate captions")
 
     thinkings = generate_thinkings_with_ids(video_context, captions)
     
