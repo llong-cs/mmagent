@@ -19,11 +19,12 @@ logger = logging.getLogger(__name__)
 
 
 def process_video_parallel(args):
-    video_path, interval, output_dir = args
+    video_path, output_dir, interval = args
     try:
         split_video_into_clips(video_path, interval, output_dir)
     except Exception as e:
         logger.error(f"Error processing {video_path}: {str(e)}")
+        # print(f"Error processing {video_path}: {str(e)}")
 
 def verify_video_parallel(args):
     video_path, output_dir, interval = args
@@ -44,7 +45,7 @@ if __name__ == "__main__":
     parser.add_argument("--input_data", type=str, default="/mnt/bn/videonasi18n/longlin.kylin/mmagent/data/annotations/train_500.jsonl,/mnt/bn/videonasi18n/longlin.kylin/mmagent/data/annotations/full_test.jsonl")
     parser.add_argument("--machine_number", type=int, default=1)
     parser.add_argument("--machine_index", type=int, default=0)
-    parser.add_argument("--log_dir", type=str, default="data/logs")
+    parser.add_argument("--log_dir", type=str, default="logs")
     args = parser.parse_args()
     processing_config = json.load(open("configs/processing_config.json"))
     interval = processing_config["interval_seconds"]
