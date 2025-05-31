@@ -17,4 +17,4 @@ python3 evaluation/qa.py \
     --output_dir ${output_dir} > logs/qa.out
 
 # Example usage:
-# bash evaluation/agent_qa_evaluate.sh 1 "data/annotations/results" "0511" "data/annotations/small_test.jsonl" "gpt-4o-2024-11-20" "qwen"
+# bash evaluation/agent_qa_evaluate.sh 1 "data/annotations/results" "0511" "data/annotations/small_test.jsonl" "gemini-1.5-pro-002" "qwen"
