@@ -175,35 +175,43 @@ def process_faces(video_graph, base64_frames, save_path, preprocessing=[]):
         with open(save_path, "r") as f:
             faces_json = json.load(f)
     except Exception as e:
-        try:
-            faces = get_embeddings(base64_frames, batch_size)
+        max_retries = processing_config.get("max_retries", 3)
+        retry_count = 0
+        while retry_count < max_retries:
+            try:
+                faces = get_embeddings(base64_frames, batch_size)
 
-            faces_json = [
-                {
-                    "frame_id": face.frame_id,
-                    "bounding_box": face.bounding_box,
-                    "face_emb": face.face_emb,
-                    "cluster_id": face.cluster_id,
-                    "extra_data": face.extra_data,
-                }
-                for face in faces
-            ]
+                faces_json = [
+                    {
+                        "frame_id": face.frame_id,
+                        "bounding_box": face.bounding_box,
+                        "face_emb": face.face_emb,
+                        "cluster_id": face.cluster_id,
+                        "extra_data": face.extra_data,
+                    }
+                    for face in faces
+                ]
 
-            os.makedirs(os.path.dirname(save_path), exist_ok=True)
-        
-            with open(save_path, "w") as f:
-                json.dump(faces_json, f)
+                os.makedirs(os.path.dirname(save_path), exist_ok=True)
             
-            logger.info(f"Write face detection results to {save_path}")
-        except Exception as e:
-            # Save error to log file
-            log_dir = processing_config["log_dir"]
-            os.makedirs(log_dir, exist_ok=True)
-            error_log_path = os.path.join(log_dir, "error_face_preprocessing.log")
-            with open(error_log_path, "a") as f:
-                f.write(f"Error processing {save_path}: {str(e)}\n")
-            logger.error(f"Failed to detect faces at {save_path}: {e}")
-            raise RuntimeError(f"Failed to detect faces at {save_path}: {e}")
+                with open(save_path, "w") as f:
+                    json.dump(faces_json, f)
+                
+                logger.info(f"Write face detection results to {save_path}")
+                break  # Success, exit the loop
+            except Exception as e:
+                retry_count += 1
+                if retry_count < max_retries:
+                    logger.warning(f"Attempt {retry_count} failed: {e}. Retrying...")
+                else:
+                    # Handle exception logic only on the last retry
+                    log_dir = processing_config["log_dir"]
+                    os.makedirs(log_dir, exist_ok=True)
+                    error_log_path = os.path.join(log_dir, "error_face_preprocessing.log")
+                    with open(error_log_path, "a") as f:
+                        f.write(f"Error processing {save_path} after {max_retries} attempts: {str(e)}\n")
+                    logger.error(f"Failed to detect faces at {save_path} after {max_retries} attempts: {e}")
+                    faces_json = []
             
     if "face" in preprocessing:
         return

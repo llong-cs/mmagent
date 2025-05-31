@@ -289,32 +289,41 @@ def process_voices(video_graph, base64_audio, base64_video, save_path, preproces
         for audio in audios:
             audio["audio_segment"] = audio["audio_segment"].encode("utf-8")
     except Exception as e:
-        try:
-            asrs = diarize_audio(base64_video, filter=filter_duration_based)
-            audios = create_audio_segments(base64_audio, asrs)
-            audios = [audio for audio in audios if audio["audio_segment"] is not None]
+        max_retries = processing_config.get("max_retries", 3)
+        retry_count = 0
+        while retry_count < max_retries:
+            try:
+                asrs = diarize_audio(base64_video, filter=filter_duration_based)
+                audios = create_audio_segments(base64_audio, asrs)
+                audios = [audio for audio in audios if audio["audio_segment"] is not None]
 
-            if len(audios) > 0:
-                audios = get_normed_audio_embeddings(audios)
+                if len(audios) > 0:
+                    audios = get_normed_audio_embeddings(audios)
 
-            os.makedirs(os.path.dirname(save_path), exist_ok=True)
+                os.makedirs(os.path.dirname(save_path), exist_ok=True)
 
-            with open(save_path, "w") as f:
-                for audio in audios:
-                    audio["audio_segment"] = audio["audio_segment"].decode("utf-8")
-                json.dump(audios, f)
-                for audio in audios:
-                    audio["audio_segment"] = audio["audio_segment"].encode("utf-8")
-            
-            logger.info(f"Write voice detection results to {save_path}")
-        except Exception as e:
-            # Save error to log file
-            log_dir = processing_config["log_dir"]
-            os.makedirs(log_dir, exist_ok=True)
-            error_log_path = os.path.join(log_dir, "error_voice_preprocessing.log")
-            with open(error_log_path, "a") as f:
-                f.write(f"Error processing {save_path}: {str(e)}\n")
-            raise RuntimeError(f"Failed to diarize audio at {save_path}: {e}")
+                with open(save_path, "w") as f:
+                    for audio in audios:
+                        audio["audio_segment"] = audio["audio_segment"].decode("utf-8")
+                    json.dump(audios, f)
+                    for audio in audios:
+                        audio["audio_segment"] = audio["audio_segment"].encode("utf-8")
+                
+                logger.info(f"Write voice detection results to {save_path}")
+                break  # Success, exit the loop
+            except Exception as e:
+                retry_count += 1
+                if retry_count < max_retries:
+                    logger.warning(f"Attempt {retry_count} failed: {e}. Retrying...")
+                else:
+                    # Handle exception logic only on the last retry
+                    log_dir = processing_config["log_dir"]
+                    os.makedirs(log_dir, exist_ok=True)
+                    error_log_path = os.path.join(log_dir, "error_voice_preprocessing.log")
+                    with open(error_log_path, "a") as f:
+                        f.write(f"Error processing {save_path} after {max_retries} attempts: {str(e)}\n")
+                    logger.error(f"Failed to process {save_path} after {max_retries} attempts: {e}")
+                    audios = []
     
     if "voice" in preprocessing:
         return
