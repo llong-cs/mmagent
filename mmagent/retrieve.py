@@ -261,7 +261,10 @@ def search(video_graph, query, current_clips, topk=5, mode='max', threshold=0, m
     
     return new_memories, current_clips, clip_scores
 
-def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5, auto_refresh=False, mode='max', multiple_queries=False, max_retrieval_steps=10, route_switch=True, threshold=0, model="gpt-4o-2024-11-20"):
+def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5, auto_refresh=False, mode='max', multiple_queries=False, max_retrieval_steps=10, route_switch=True, threshold=0, model="gpt-4o-2024-11-20", before_clip=None):
+    if before_clip is not None:
+        video_graph.truncate_memory_by_clip(before_clip)
+    
     if auto_refresh:
         video_graph.refresh_equivalences()
         

@@ -45,6 +45,8 @@ def process_qa(qa):
         else:
             video_clip_base64 = None
         
+        before_clip = qa.get("before_clip", None)
+        
         agent_answer, session = answer_with_retrieval(
             mem, 
             question, 
@@ -54,6 +56,7 @@ def process_qa(qa):
             max_retrieval_steps=processing_config["max_retrieval_steps"], 
             route_switch=processing_config["route_switch"],
             threshold=processing_config["retrieval_threshold"],
+            before_clip=before_clip,
         )
         
         qa["agent_answer"] = agent_answer

@@ -810,3 +810,39 @@ class VideoGraph:
             route = self.expand_route(route)
         route_contents = [self.nodes[node_id].metadata['contents'][0] for node_id in route]
         return route, route_contents
+
+    def truncate_memory_by_clip(self, clip_id):
+        # truncate the memory by clip_id
+        # remove all nodes that are after the clip_id
+        # return the truncated memory
+        
+        # find the last node with clip_id
+        last_node_id = None
+        for node_id, node in self.nodes.items():
+            if node.type in ['episodic', 'semantic'] and node.metadata['timestamp'] == clip_id:
+                last_node_id = node_id
+        if last_node_id is None:
+            return
+        # remove all nodes that are after the last_node_id
+        for node_id in self.nodes.keys():
+            if node_id > last_node_id:
+                del self.nodes[node_id]
+        # remove all edges that are after the last_node_id
+        for edge in self.edges.keys():
+            if edge[0] > last_node_id or edge[1] > last_node_id:
+                del self.edges[edge]
+        # remove all text nodes that are after the last_node_id
+        for node_id in self.text_nodes:
+            if node_id > last_node_id:
+                self.text_nodes.remove(node_id)
+        # update the text_nodes_by_clip
+        for clip_id, text_nodes in self.text_nodes_by_clip.items():
+            if clip_id > last_node_id:
+                del self.text_nodes_by_clip[clip_id]
+        # update the event_sequence_by_clip
+        for clip_id, event_sequence in self.event_sequence_by_clip.items():
+            if clip_id > last_node_id:
+                del self.event_sequence_by_clip[clip_id]
+        # update the equivalences
+        self.refresh_equivalences()
+        return
