@@ -20,7 +20,7 @@ processing_config = json.load(open("configs/processing_config.json"))
 temp = processing_config["temperature"]
 
 try:
-    config = json.load(open("/mnt/bn/videonasi18n/longlin.kylin/mmagent/api_config.json"))
+    config = json.load(open("/mnt/bn/videonasi18n/ypan/Project/9_FaceVoiceGen/configs/config.json"))
     client = {}
     for model_name in config.keys():
         client[model_name] = openai.AzureOpenAI(

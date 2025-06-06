@@ -60,7 +60,7 @@ def back_translate(video_graph, queries):
     return translated_queries
 
 # retrieve by clip
-def retrieve_from_videograph(video_graph, query, topk=5, mode='max', threshold=0):
+def retrieve_from_videograph(video_graph, query, topk=5, mode='max', threshold=0, before_clip=None):
     top_clips = []
     # find all CLIP_x in query
     pattern = r"CLIP_(\d+)"
@@ -116,8 +116,11 @@ def retrieve_from_videograph(video_graph, query, topk=5, mode='max', threshold=0
     # sort clips by score
     sorted_clips = sorted(clip_scores.items(), key=lambda x: x[1], reverse=True)
     # filter out clips that have 0 score and get top k clips
-    top_clips = [clip_id for clip_id, score in sorted_clips if score >= threshold][:topk]
-    
+    print(sorted_clips)
+    if before_clip is not None:
+        top_clips = [clip_id for clip_id, score in sorted_clips if score >= threshold and clip_id <= before_clip][:topk]
+    else:
+        top_clips = [clip_id for clip_id, score in sorted_clips if score >= threshold][:topk]
     return top_clips, clip_scores, nodes
 
 def get_related_nodes(video_graph, query):
@@ -219,8 +222,8 @@ def select_queries(action_content, responses):
     min_similarity_idx = avg_similarities.index(min(avg_similarities))
     return queries[min_similarity_idx]
 
-def search(video_graph, query, current_clips, topk=5, mode='max', threshold=0, mem_wise=False):
-    top_clips, clip_scores, nodes = retrieve_from_videograph(video_graph, query, topk, mode, threshold)
+def search(video_graph, query, current_clips, topk=5, mode='max', threshold=0, mem_wise=False, before_clip=None):
+    top_clips, clip_scores, nodes = retrieve_from_videograph(video_graph, query, topk, mode, threshold, before_clip)
     
     if mem_wise:
         new_memories = {}
@@ -228,6 +231,8 @@ def search(video_graph, query, current_clips, topk=5, mode='max', threshold=0, m
         # fetch top nodes
         for top_node, _ in nodes:
             clip_id = video_graph.nodes[top_node].metadata['timestamp']
+            if before_clip is not None and clip_id > before_clip:
+                continue
             if clip_id not in new_memories:
                 new_memories[clip_id] = []
             new_ = translate(video_graph, video_graph.nodes[top_node].metadata['contents'])
