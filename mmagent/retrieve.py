@@ -116,7 +116,6 @@ def retrieve_from_videograph(video_graph, query, topk=5, mode='max', threshold=0
     # sort clips by score
     sorted_clips = sorted(clip_scores.items(), key=lambda x: x[1], reverse=True)
     # filter out clips that have 0 score and get top k clips
-    print(sorted_clips)
     if before_clip is not None:
         top_clips = [clip_id for clip_id, score in sorted_clips if score >= threshold and clip_id <= before_clip][:topk]
     else:
