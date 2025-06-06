@@ -56,6 +56,7 @@ def process_qa(qa):
             max_retrieval_steps=processing_config["max_retrieval_steps"], 
             route_switch=processing_config["route_switch"],
             threshold=processing_config["retrieval_threshold"],
+            model=args.retrieval_model,
             before_clip=before_clip,
         )
         

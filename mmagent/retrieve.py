@@ -332,7 +332,7 @@ def answer_with_retrieval(video_graph, question, video_clip_base64=None, topk=5,
                 logger.info(f"Forced answer: {final_answer}")
                 break
             
-            new_memories, related_clips, _ = search(video_graph, action_content, related_clips, topk, mode, threshold=threshold)
+            new_memories, related_clips, _ = search(video_graph, action_content, related_clips, topk, mode, threshold=threshold, before_clip=before_clip)
             
             if len(new_memories.items()) == 0 and route_switch:
                 switch = True
