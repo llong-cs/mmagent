@@ -435,15 +435,13 @@ class VideoGraph:
                 # every voice node should have no more than one voice-face mapping        
                 # get filtered semantic nodes and their contents
                 filtered_semantic_nodes = self.fix_collisions(node_id, mode='eq_only')
-
-                if len(filtered_semantic_nodes) == 0:
-                    continue
                 
                 filtered_equivalence_nodes.extend([node for node in filtered_semantic_nodes if self.nodes[node].metadata['contents'][0].lower().startswith("equivalence")])
             elif self.nodes[node_id].type == 'img':
                 # no filtering for face nodes
-                connected_nodes = self.get_connected_nodes(node_id, type=['semantic'])
-                filtered_equivalence_nodes.extend([node for node in connected_nodes if self.nodes[node].metadata['contents'][0].lower().startswith("equivalence")])
+                connected_semantic_nodes = self.get_connected_nodes(node_id, type=['semantic'])
+                
+                filtered_equivalence_nodes.extend([node for node in connected_semantic_nodes if self.nodes[node].metadata['contents'][0].lower().startswith("equivalence")])
             else:
                 continue
             
