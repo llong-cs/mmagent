@@ -75,7 +75,7 @@ def parse_video_caption(video_graph, video_caption):
     # return entities
 
 def generate_video_context(
-    base64_video, base64_frames, faces_list, voices_list
+    base64_video, base64_frames, faces_list, voices_list, faces_input="face_only"
 ):
     face_frames = []
     face_only = []
@@ -106,7 +106,12 @@ def generate_video_context(
         face_frames.append((f"<face_{char_id}>:", frame_base64))
         face_only.append((f"<face_{char_id}>:", face["extra_data"]["face_base64"]))
         
-    faces_input = face_only
+    if faces_input == "face_only":
+        faces_input = face_only
+    elif faces_input == "face_frames":
+        faces_input = face_frames
+    else:
+        raise ValueError(f"Invalid faces input: {faces_input}")
     
     num_faces = len(faces_input)
     if num_faces == 0:
@@ -169,7 +174,34 @@ def generate_video_context(
 
     return video_context
 
-def generate_thinkings_with_ids(video_context, video_description):
+def generate_episodic_memories(video_context):
+    input = video_context + [
+        {
+            "type": "text",
+            "content": prompt_generate_captions_with_ids,
+        }
+    ]
+
+    messages = generate_messages(input)
+    # print_messages(messages)
+    model = "gemini-1.5-pro-002"
+    episodic_memories = None
+    for i in range(MAX_RETRIES):
+        episodic_memories_string = get_response_with_retry(model, messages, timeout=30)[0]
+        if not episodic_memories_string:
+            episodic_memories_string = "[]"
+            with open("logs/filtered_contents.txt", "a") as f:
+                f.write(f"Filtered generated contents detected\n")
+        episodic_memories = validate_and_fix_python_list(episodic_memories_string)
+        if episodic_memories is not None:
+            break
+        print(episodic_memories_string)
+    if episodic_memories is None:
+        episodic_memories = []
+        # raise Exception("Failed to generate episodic memories")
+    return episodic_memories
+
+def generate_semantic_memories(video_context, video_description):
     """
     Generate thinking descriptions with character IDs based on video context and description.
 
@@ -178,13 +210,13 @@ def generate_thinkings_with_ids(video_context, video_description):
         video_description (str): Description of the video content
 
     Returns:
-        list: Response from the LLM model containing generated thinking descriptions with character IDs
+        list: Response from the LLM model containing generated semantic memories with character IDs
 
     The function:
     1. Combines video context with description and prompt
     2. Generates messages for the LLM model
     3. Makes API call to Gemini model
-    4. Returns the model's response with thinking descriptions
+    4. Returns the model's response with semantic memories
     """
     
     input = video_context + [
@@ -200,52 +232,31 @@ def generate_thinkings_with_ids(video_context, video_description):
     messages = generate_messages(input)
     # print_messages(messages)
     model = "gemini-1.5-pro-002"
-    thinkings = None
+    semantic_memories = None
     for i in range(MAX_RETRIES):
-        thinkings_string = get_response_with_retry(model, messages, timeout=30)[0]
-        if not thinkings_string:
-            thinkings_string = "[]"
+        semantic_memories_string = get_response_with_retry(model, messages, timeout=30)[0]
+        if not semantic_memories_string:
+            semantic_memories_string = "[]"
             with open("logs/filtered_contents.txt", "a") as f:
                 f.write(f"Filtered generated contents detected\n")
-        thinkings = validate_and_fix_python_list(thinkings_string)
-        if thinkings is not None:
+        semantic_memories = validate_and_fix_python_list(semantic_memories_string)
+        if semantic_memories is not None:
             break
-        print(thinkings_string)
-    if thinkings is None:
-        thinkings = []
-        # raise Exception("Failed to generate thinkings")
-    return thinkings
+        print(semantic_memories_string)
+    if semantic_memories is None:
+        semantic_memories = []
+        # raise Exception("Failed to generate semantic memories")
+    return semantic_memories
 
-def generate_captions_and_thinkings_with_ids(
-    video_graph, base64_video, base64_frames, faces_list, voices_list, clip_id, video_path=None
+def generate_memories(
+    base64_video, base64_frames, faces_list, voices_list, video_path=None, generation_type="epi_then_sem"
 ):
-    """
-    Generate captions and thinking descriptions for video content with character IDs.
-
-    Args:
-        base64_video (bytes): Base64 encoded video data
-        base64_frames (list): List of base64 encoded video frames
-        base64_audio (bytes): Base64 encoded audio data
-        faces_list (dict): Dictionary mapping character IDs to lists of face detections
-        voices_list (list): List of voice/speech segments detected in the audio
-
-    Returns:
-        tuple: A tuple containing:
-            - str: Generated captions with character ID references
-            - str: Generated thinking descriptions with character ID references
-
-    The function:
-    1. Extracts face frames for each character and draws bounding boxes
-    2. Creates a context object with video, face frames and voice data
-    3. Generates captions using an LLM model
-    4. Visualizes the face frames with character IDs
-    5. Generates thinking descriptions based on the captions
-    """
     video_context = generate_video_context(
         base64_video, base64_frames, faces_list, voices_list
     )
     
     # # get the last history_length texts
+    # # deprecated
     # history_length = processing_config["history_length"]
     # history_nodes = []
     # for i in range(max(0, clip_id - history_length), clip_id):
@@ -259,80 +270,59 @@ def generate_captions_and_thinkings_with_ids(
     #     }
     # ]
 
-    input = video_context + [
-        {
-            "type": "text",
-            "content": prompt_generate_captions_with_ids,
-        }
-    ]
+    if generation_type == "epi_then_sem":
+        episodic_memories = generate_episodic_memories(video_context)
+        semantic_memories = generate_semantic_memories(video_context, episodic_memories)
+    else:
+        raise ValueError(f"Invalid generation type: {generation_type}")
 
-    messages = generate_messages(input)
-    # print_messages(messages)
-    model = "gemini-1.5-pro-002"
-    captions = None
-    for i in range(MAX_RETRIES):
-        captions_string = get_response_with_retry(model, messages, timeout=30)[0]
-        if not captions_string:
-            captions_string = "[]"
-            with open("logs/filtered_contents.txt", "a") as f:
-                f.write(f"Filtered generated contents detected\n")
-        captions = validate_and_fix_python_list(captions_string)
-        if captions is not None:
-            break
-        print(captions_string)
-    if captions is None:
-        captions = []
-        # raise Exception("Failed to generate captions")
+    return episodic_memories, semantic_memories
 
-    thinkings = generate_thinkings_with_ids(video_context, captions)
-
-    return captions, thinkings
-
-def process_captions(video_graph, caption_contents, clip_id, type='episodic'):
+def process_memories(video_graph, memory_contents, clip_id, type='episodic'):
     """
     Process video descriptions and update the video graph with text nodes and edges.
     
     Args:
         video_graph: The video graph object to update
-        video_captions_string: String containing video captions in JSON format, with entity references
+        video_memories_string: String containing video memories in JSON format, with entity references
             in the format <entity_type_id>. For example: "<char_1> walks to <char_2>"
             
     The function:
-    1. Converts the JSON string to a list of captions
-    2. For each caption:
-        - Creates a new text node with the caption
+    1. Converts the JSON string to a list of memories
+    2. For each memory:
+        - Creates a new text node with the memory
         - Extracts entity references (e.g. char_1, char_2)
         - Adds edges between the text node and referenced entity nodes
     """
-    def get_caption_embeddings(caption_contents):
-        # calculate the embedding for each caption
+    def get_memory_embeddings(memory_contents):
+        # calculate the embedding for each memory
         model = 'text-embedding-3-large'
-        embeddings = parallel_get_embedding(model, caption_contents)[0]
+        embeddings = parallel_get_embedding(model, memory_contents)[0]
         return embeddings
 
-    def insert_caption(video_graph, caption, type='episodic'):
-        # create a new text node for each caption
-        new_node_id = video_graph.add_text_node(caption, clip_id, type)
-        entities = parse_video_caption(video_graph, caption['contents'][0])
+    def insert_memory(video_graph, memory, type='episodic'):
+        # create a new text node for each memory
+        new_node_id = video_graph.add_text_node(memory, clip_id, type)
+        entities = parse_video_caption(video_graph, memory['contents'][0])
         for entity in entities:
             video_graph.add_edge(new_node_id, entity[1])
 
-    def update_video_graph(video_graph, captions, type='episodic'):
-        # append all episodic captions to the graph
+    def update_video_graph(video_graph, memories, type='episodic'):
+        # append all episodic memories to the graph
         if type == 'episodic':
-            # create a new text node for each caption
-            for caption in captions:
-                insert_caption(video_graph, caption, type)
-        # semantic captions can be used to update the existing text nodes, or create new text nodes
+            # create a new text node for each memory
+            for memory in memories:
+                insert_memory(video_graph, memory, type)
+        # semantic memories can be used to update the existing text nodes, or create new text nodes
         elif type == 'semantic':
-            for caption in captions:
-                entities = parse_video_caption(video_graph, caption['contents'][0])
+            for memory in memories:
+                entities = parse_video_caption(video_graph, memory['contents'][0])
 
                 if len(entities) == 0:
-                    insert_caption(video_graph, caption, type)
+                    insert_memory(video_graph, memory, type)
                     continue
                 
-                # update the existing text node for each caption, if needed
+                # update the existing text node for each memory, if needed
                 positive_threshold = 0.85
                 negative_threshold = 0
                 
@@ -347,14 +337,14 @@ def process_captions(video_graph, caption_contents, clip_id, type='episodic'):
                 
                 for node_id in related_nodes:
                     # related nodes to be updated should satisfy two condtions:
-                    # 1. the caption entities are a subset of the existing node entities
-                    # 2. the semantic similarity between the caption and the existing node shows a positive correlation or a negative correlation
+                    # 1. the memory entities are a subset of the existing node entities
+                    # 2. the semantic similarity between the memory and the existing node shows a positive correlation or a negative correlation
                     
-                    # see if the caption entities are a subset of the existing node entities
+                    # see if the memory entities are a subset of the existing node entities
                     related_node_entities = parse_video_caption(video_graph, video_graph.nodes[node_id].metadata['contents'][0])
                     embedding = video_graph.nodes[node_id].embeddings[0]
                     if all(entity in related_node_entities for entity in entities):
-                        similarity = np.dot(caption['embeddings'][0], embedding) / (np.linalg.norm(caption['embeddings'][0]) * np.linalg.norm(embedding))
+                        similarity = np.dot(memory['embeddings'][0], embedding) / (np.linalg.norm(memory['embeddings'][0]) * np.linalg.norm(embedding))
                         if similarity > positive_threshold:
                             video_graph.reinforce_node(node_id)
                             create_new_node = False
@@ -363,16 +353,16 @@ def process_captions(video_graph, caption_contents, clip_id, type='episodic'):
                             create_new_node = False
                 
                 if create_new_node:
-                    insert_caption(video_graph, caption, type)
+                    insert_memory(video_graph, memory, type)
     
-    captions_embeddings = get_caption_embeddings(caption_contents)
+    memories_embeddings = get_memory_embeddings(memory_contents)
 
-    captions = []
-    for caption, embedding in zip(caption_contents, captions_embeddings):
-        captions.append({
-            'contents': [caption],
+    memories = []
+    for memory, embedding in zip(memory_contents, memories_embeddings):
+        memories.append({
+            'contents': [memory],
             'embeddings': [embedding]
         })
 
-    update_video_graph(video_graph, captions, type)
+    update_video_graph(video_graph, memories, type)
     
