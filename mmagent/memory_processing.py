@@ -1,7 +1,3 @@
-"""
-This file contains functions for processing video descriptions and generating captions and thinkings with character IDs.
-"""
-
 import base64
 import json
 import logging
@@ -279,21 +275,6 @@ def generate_memories(
     return episodic_memories, semantic_memories
 
 def process_memories(video_graph, memory_contents, clip_id, type='episodic'):
-    """
-    Process video descriptions and update the video graph with text nodes and edges.
-    
-    Args:
-        video_graph: The video graph object to update
-        video_memories_string: String containing video memories in JSON format, with entity references
-            in the format <entity_type_id>. For example: "<char_1> walks to <char_2>"
-            
-    The function:
-    1. Converts the JSON string to a list of memories
-    2. For each memory:
-        - Creates a new text node with the memory
-        - Extracts entity references (e.g. char_1, char_2)
-        - Adds edges between the text node and referenced entity nodes
-    """
     def get_memory_embeddings(memory_contents):
         # calculate the embedding for each memory
         model = 'text-embedding-3-large'
@@ -337,7 +318,7 @@ def process_memories(video_graph, memory_contents, clip_id, type='episodic'):
                 
                 for node_id in related_nodes:
                     # related nodes to be updated should satisfy two condtions:
-                    # 1. the memory entities are a subset of the existing node entities
+                    # 1. the caption entities are a subset of the existing node entities
                     # 2. the semantic similarity between the memory and the existing node shows a positive correlation or a negative correlation
                     
                     # see if the memory entities are a subset of the existing node entities
