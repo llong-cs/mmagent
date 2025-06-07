@@ -512,7 +512,7 @@ class VideoGraph:
                 connected.add(n1)
         return list(set(connected))
 
-    def search_text_nodes(self, query_embeddings, range_nodes=[], mode="mean"):
+    def search_text_nodes(self, query_embeddings, range_nodes=[], mode="max"):
         """Search for text nodes using text embeddings.
         
         Args:
