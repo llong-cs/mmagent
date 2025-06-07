@@ -245,19 +245,19 @@ def generate_captions_and_thinkings_with_ids(
         base64_video, base64_frames, faces_list, voices_list
     )
     
-    # get the last history_length texts
-    history_length = processing_config["history_length"]
-    history_nodes = []
-    for i in range(max(0, clip_id - history_length), clip_id):
-        history_nodes.extend(video_graph.event_sequence_by_clip[i])
-    history_texts = [video_graph.nodes[node_id].metadata['contents'][0] for node_id in history_nodes]
+    # # get the last history_length texts
+    # history_length = processing_config["history_length"]
+    # history_nodes = []
+    # for i in range(max(0, clip_id - history_length), clip_id):
+    #     history_nodes.extend(video_graph.event_sequence_by_clip[i])
+    # history_texts = [video_graph.nodes[node_id].metadata['contents'][0] for node_id in history_nodes]
     
-    previous_clip_descriptions = [
-        {
-            "type": "text",
-            "content": f"Previous clip descriptions: {history_texts}",
-        }
-    ]
+    # previous_clip_descriptions = [
+    #     {
+    #         "type": "text",
+    #         "content": f"Previous clip descriptions: {history_texts}",
+    #     }
+    # ]
 
     input = video_context + [
         {

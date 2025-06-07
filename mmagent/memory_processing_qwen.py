@@ -25,31 +25,8 @@ MAX_RETRIES = processing_config["max_retries"]
 # Configure logging
 logger = logging.getLogger(__name__)
 
-    # entities = []
-    # current_entity = ""
-    # in_entity = False
-
-    # for char in video_caption:
-    #     if char == "<": 
-    #         in_entity = True
-    #         current_entity = ""
-    #     elif char == ">":
-    #         if in_entity:
-    #             in_entity = False
-    #             try:
-    #                 node_type, node_id = current_entity.split("_")
-    #                 node_id = int(node_id)
-    #                 entities.append((node_type, node_id))
-    #             except Exception as e:
-    #                 print(f"Entities parsing error: {e}")
-    #                 continue
-    #     else:
-    #         if in_entity:
-    #             current_entity += char
-    # return entities
-
 def generate_video_context(
-    base64_video, base64_frames, faces_list, voices_list, video_path=None
+    base64_frames, faces_list, voices_list, video_path=None, faces_input="face_only"
 ):
     face_frames = []
     face_only = []
@@ -80,14 +57,16 @@ def generate_video_context(
         face_frames.append((f"<face_{char_id}>:", frame_base64))
         face_only.append((f"<face_{char_id}>:", face["extra_data"]["face_base64"]))
     
-    # faces_input = face_frames
-    faces_input = face_only
+    if faces_input == "face_only":
+        faces_input = face_only
+    elif faces_input == "face_frames":
+        faces_input = face_frames
+    else:
+        raise ValueError(f"Invalid face input: {faces_input}")
     
     num_faces = len(faces_input)
     if num_faces == 0:
         logger.warning("No qualified faces detected")
-    
-    
     
     # Visualize face frames with IDs
     if logging_level == "DETAIL" and num_faces > 0:
@@ -154,7 +133,36 @@ def generate_video_context(
 
     return video_context
 
-def generate_thinkings_with_ids(video_context, video_description):
+def generate_episodic_memories(video_context):
+    input = [
+        {
+            "type": "text",
+            "content": prompt_generate_captions_with_ids_sft,
+        }
+    ] + video_context
+
+    messages = generate_messages(input)
+    # print_messages(messages)
+    model = "gemini-1.5-pro-002"
+    
+    episodic_memories = None
+    for i in range(MAX_RETRIES):
+        episodic_memories_string = get_response_with_retry(model, messages)[0]
+        if not episodic_memories_string:
+            episodic_memories_string = "[]"
+            with open("logs/filtered_contents.txt", "a") as f:
+                f.write(f"Filtered generated contents detected\n")
+        logger.info(episodic_memories)
+        episodic_memories = validate_and_fix_python_list(episodic_memories_string)
+        if episodic_memories is not None:
+            break
+    if episodic_memories is None:
+        episodic_memories = []
+        # raise Exception("Failed to generate episodic memories")
+
+    return episodic_memories
+
+def generate_semantic_memories(video_context, video_description):
     """
     Generate thinking descriptions with character IDs based on video context and description.
 
@@ -190,24 +198,57 @@ def generate_thinkings_with_ids(video_context, video_description):
     messages = generate_messages(input)
     # print_messages(messages)
     model = "gemini-1.5-pro-002"
-    thinkings = None
+    semantic_memories = None
     for i in range(MAX_RETRIES):
-        thinkings_string = get_response_with_retry(model, messages)[0]
-        if not thinkings_string:
-            thinkings_string = "[]"
+        semantic_memories_string = get_response_with_retry(model, messages)[0]
+        if not semantic_memories_string:
+            semantic_memories_string = "[]"
             with open("logs/filtered_contents.txt", "a") as f:
                 f.write(f"Filtered generated contents detected\n")
-        logger.info(thinkings)
-        thinkings = validate_and_fix_python_list(thinkings_string)
-        if thinkings is not None:
+        logger.info(semantic_memories)
+        semantic_memories = validate_and_fix_python_list(semantic_memories_string)
+        if semantic_memories is not None:
             break
-    if thinkings is None:
-        thinkings = []
-        # raise Exception("Failed to generate thinkings")
-    return thinkings
+    if semantic_memories is None:
+        semantic_memories = []
+        # raise Exception("Failed to generate semantic memories")
+    return semantic_memories
 
-def generate_captions_and_thinkings_with_ids(
-    video_graph, base64_video, base64_frames, faces_list, voices_list, clip_id, video_path=None
+def generate_all_memories(video_context):
+    input = [
+        {
+            "type": "text",
+            "content": prompt_generate_memory_with_ids_sft,
+        },
+    ] + video_context
+    
+    messages = generate_messages(input)
+    model = ""
+    
+    memories = None
+    for i in range(MAX_RETRIES):
+        memories_string = get_response_with_retry(model, messages)[0]
+        if not memories_string:
+            memories_string = "[]"
+            with open("logs/filtered_contents.txt", "a") as f:
+                f.write(f"Filtered generated contents detected\n")
+        memories = validate_and_fix_python_list(memories_string)
+        if memories is not None:
+            break
+    if memories is None:
+        memories = {
+            "video_description": [],
+            "high_level_conclusions": []
+        }
+        # raise Exception("Failed to generate memories")
+    
+    episodic_memories = memories["video_description"]
+    semantic_memories = memories["high_level_conclusions"]
+    
+    return episodic_memories, semantic_memories
+
+def generate_memories(
+    base64_video, base64_frames, faces_list, voices_list, video_path=None, generation_type="epi_then_sem"
 ):
     """
     Generate captions and thinking descriptions for video content with character IDs.
@@ -232,83 +273,28 @@ def generate_captions_and_thinkings_with_ids(
     5. Generates thinking descriptions based on the captions
     """
     video_context = generate_video_context(
-        base64_video, base64_frames, faces_list, voices_list, video_path
+        base64_frames, faces_list, voices_list, video_path
     )
     
-    # get the last history_length texts
-    history_length = processing_config["history_length"]
-    history_nodes = []
-    for i in range(max(0, clip_id - history_length), clip_id):
-        history_nodes.extend(video_graph.event_sequence_by_clip[i])
-    history_texts = [video_graph.nodes[node_id].metadata['contents'][0] for node_id in history_nodes]
+    # # get the last history_length texts
+    # # deprecated
+    # history_length = processing_config["history_length"]
+    # history_nodes = []
+    # for i in range(max(0, clip_id - history_length), clip_id):
+    #     history_nodes.extend(video_graph.event_sequence_by_clip[i])
+    # history_texts = [video_graph.nodes[node_id].metadata['contents'][0] for node_id in history_nodes]
     
-    # ================================
+    if generation_type == "epi_then_sem":
+        episodic_memories = generate_episodic_memories(video_context)
+        semantic_memories = generate_semantic_memories(video_context, episodic_memories)
+    elif generation_type == "all_in_one":
+        episodic_memories, semantic_memories = generate_all_memories(video_context)
+    else:
+        raise ValueError(f"Invalid generation type: {generation_type}")
 
-    input = [
-        {
-            "type": "text",
-            "content": prompt_generate_captions_with_ids_sft,
-        }
-    ] + video_context
+    logger.info(episodic_memories, semantic_memories)
 
-    messages = generate_messages(input)
-    # print_messages(messages)
-    model = "gemini-1.5-pro-002"
-    
-    captions = None
-    for i in range(MAX_RETRIES):
-        captions_string = get_response_with_retry(model, messages)[0]
-        if not captions_string:
-            captions_string = "[]"
-            with open("logs/filtered_contents.txt", "a") as f:
-                f.write(f"Filtered generated contents detected\n")
-        logger.info(captions)
-        captions = validate_and_fix_python_list(captions_string)
-        if captions is not None:
-            break
-    if captions is None:
-        captions = []
-        # raise Exception("Failed to generate captions")
-
-    thinkings = generate_thinkings_with_ids(video_context, captions)
-    
-    # ================================
-    
-    # input = [
-    #     {
-    #         "type": "text",
-    #         "content": prompt_generate_memory_with_ids_sft,
-    #     },
-    # ] + video_context
-    
-    # messages = generate_messages(input)
-    # model = ""
-    
-    # memories = None
-    # for i in range(MAX_RETRIES):
-    #     memories_string = get_response_with_retry(model, messages)[0]
-    #     if not memories_string:
-    #         memories_string = "[]"
-    #         with open("logs/filtered_contents.txt", "a") as f:
-    #             f.write(f"Filtered generated contents detected\n")
-    #     memories = validate_and_fix_python_list(memories_string)
-    #     if memories is not None:
-    #         break
-    # if memories is None:
-    #     memories = {
-    #         "video_description": [],
-    #         "high_level_conclusions": []
-    #     }
-    #     # raise Exception("Failed to generate memories")
-    
-    # captions = memories["video_description"]
-    # thinkings = memories["high_level_conclusions"]
-    
-    # ================================
-
-    logger.info(captions, thinkings)
-
-    return captions, thinkings
+    return episodic_memories, semantic_memories
 
 def process_captions(video_graph, caption_contents, clip_id, type='episodic'):
     """
