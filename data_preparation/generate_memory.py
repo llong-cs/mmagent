@@ -16,8 +16,8 @@ from mmagent.prompts import *
 from mmagent.face_processing import process_faces
 from mmagent.voice_processing import process_voices
 from mmagent.memory_processing import (
-    process_captions,
-    generate_captions_and_thinkings_with_ids,
+    process_memories,
+    generate_memories,
 )
 
 # Configure logger
@@ -62,17 +62,15 @@ def process_segment(
         logger.info("Finish preprocessing segment")
         return
 
-    episodic_captions, semantic_captions = generate_captions_and_thinkings_with_ids(
-        video_graph,
+    episodic_memories, semantic_memories = generate_memories(
         base64_video,
         base64_frames,
         id2faces,
         id2voices,
-        clip_id,
     )
 
-    process_captions(video_graph, episodic_captions, clip_id, type="episodic")
-    process_captions(video_graph, semantic_captions, clip_id, type="semantic")
+    process_memories(video_graph, episodic_memories, clip_id, type="episodic")
+    process_memories(video_graph, semantic_memories, clip_id, type="semantic")
 
     logger.info("Finish processing segment")
 
