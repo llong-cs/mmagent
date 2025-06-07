@@ -327,7 +327,7 @@ class VideoGraph:
         filtered_nodes = []
         
         if mode == 'eq_only':
-            voice_face_mapping = None
+            voice_face_mapping_node = None
             max_edge_weight = 0
             
             for node in connected_nodes:
@@ -342,11 +342,15 @@ class VideoGraph:
                         edge_weight = self.edges[(node_id, node)]
                         if edge_weight > max_edge_weight:
                             max_edge_weight = edge_weight
-                            voice_face_mapping = node
+                            voice_face_mapping_node = node
+                        elif edge_weight == max_edge_weight:
+                            # if the edge weight is the same, randomly select one
+                            if random.random() < 0.5:
+                                voice_face_mapping_node = node
                 else:
                     filtered_nodes.append(node)
-            if voice_face_mapping is not None:
-                filtered_nodes.append(voice_face_mapping)
+            if voice_face_mapping_node is not None:
+                filtered_nodes.append(voice_face_mapping_node)
             return filtered_nodes
 
         # cluster the connected nodes
@@ -423,22 +427,25 @@ class VideoGraph:
             if rank[px] == rank[py]:
                 rank[px] += 1
         
-        # TODO: add face-face equivalences        
-        # Process each voice node
+        # Process each face/voice node
+        filtered_equivalence_nodes = []
+        
         for node_id in self.nodes:
-            if self.nodes[node_id].type != 'voice':
-                continue
+            if self.nodes[node_id].type == 'voice':        
+                # every voice node should have no more than one voice-face mapping        
+                # get filtered semantic nodes and their contents
+                filtered_semantic_nodes = self.fix_collisions(node_id, mode='eq_only')
+
+                if len(filtered_semantic_nodes) == 0:
+                    continue
                 
-            # Get filtered semantic nodes and their contents
-            filtered_semantic_nodes = self.fix_collisions(node_id, mode='argmax')
-
-            if len(filtered_semantic_nodes) == 0:
+                filtered_equivalence_nodes.extend([node for node in filtered_semantic_nodes if self.nodes[node].metadata['contents'][0].lower().startswith("equivalence")])
+            elif self.nodes[node_id].type == 'img':
+                # no filtering for face nodes
+                connected_nodes = self.get_connected_nodes(node_id, type=['semantic'])
+                filtered_equivalence_nodes.extend([node for node in connected_nodes if self.nodes[node].metadata['contents'][0].lower().startswith("equivalence")])
+            else:
                 continue
-
-            filtered_semantics = [self.nodes[filtered_semantic_node].metadata['contents'][0] 
-                                for filtered_semantic_node in filtered_semantic_nodes]
-            
-            equivalences = [filtered_semantic for filtered_semantic in filtered_semantics if filtered_semantic.lower().startswith("equivalence")]
             
             # # Generate equivalences using LLM
             # input = [
@@ -460,14 +467,16 @@ class VideoGraph:
             # if equivalences is None:
             #     raise Exception("Failed to generate equivalences")
             
-            # Add equivalent nodes to disjoint sets
-            for equivalence in equivalences:
-                entities = parse_video_caption(self, equivalence)
-                if len(entities) >= 2:
-                    # Union all entities in this equivalence group
-                    anchor_node = entities[0][1]  # Get ID of first entity
-                    for entity in entities[1:]:
-                        union(anchor_node, entity[1])
+        # Add equivalent nodes to disjoint sets
+        filtered_equivalence_nodes = list(set(filtered_equivalence_nodes))
+        equivalences = [self.nodes[node].metadata['contents'][0] for node in filtered_equivalence_nodes]
+        for equivalence in equivalences:
+            entities = parse_video_caption(self, equivalence)
+            if len(entities) >= 2:
+                # Union all entities in this equivalence group
+                anchor_node = entities[0][1]  # Get ID of first entity
+                for entity in entities[1:]:
+                    union(anchor_node, entity[1])
 
         # Group nodes by their representative (character)
         character_mappings = {}
@@ -521,7 +530,7 @@ class VideoGraph:
                 connected.add(n2)
             elif n2 == node_id and self.nodes[n1].type in type:
                 connected.add(n1)
-        return list(connected)
+        return list(set(connected))
 
     def search_text_nodes(self, query_embeddings, range_nodes=[], mode="mean"):
         """Search for text nodes using text embeddings.
