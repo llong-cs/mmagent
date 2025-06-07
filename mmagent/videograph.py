@@ -311,8 +311,8 @@ class VideoGraph:
     #         new_semantic_memory.extend(summary)
             
     #     process_captions(self, new_semantic_memory, type='semantic')
-        
-    def fix_collisions(self, node_id, mode='argmax'):
+    
+    def fix_collisions(self, node_id, mode='eq_only'):
         # detect collisions through clustering (one-node-cluster is allowed)
         # mode: argmax, dropout
         # argmax: select the node with the highest edge weight from each cluster
@@ -323,14 +323,37 @@ class VideoGraph:
         
         if len(connected_nodes) == 0:
             return []
+        
+        filtered_nodes = []
+        
+        if mode == 'eq_only':
+            voice_face_mapping = None
+            max_edge_weight = 0
+            
+            for node in connected_nodes:
+                if self.nodes[node].metadata['contents'][0].lower().startswith("equivalence"):
+                    equal_nodes = parse_video_caption(self, self.nodes[node].metadata['contents'][0])
+                    # get the other node in the equal_nodes
+                    equal_nodes = [n for n in equal_nodes if n[1] != node]
+                    if not any(n[0] == 'face' for n in equal_nodes):
+                        filtered_nodes.append(node)
+                    else:
+                        # find the node with the highest edge weight
+                        edge_weight = self.edges[(node_id, node)]
+                        if edge_weight > max_edge_weight:
+                            max_edge_weight = edge_weight
+                            voice_face_mapping = node
+                else:
+                    filtered_nodes.append(node)
+            if voice_face_mapping is not None:
+                filtered_nodes.append(voice_face_mapping)
+            return filtered_nodes
 
         # cluster the connected nodes
         clusters = self._cluster_semantic_nodes(connected_nodes)
         
         cluster_ids = list(set(clusters))
         cluster_ids.sort()
-        
-        filtered_nodes = []
         
         for cluster_id in cluster_ids:
             cluster_nodes = [connected_nodes[i] for i in range(len(connected_nodes)) if clusters[i] == cluster_id]
@@ -399,7 +422,8 @@ class VideoGraph:
             parent[py] = px
             if rank[px] == rank[py]:
                 rank[px] += 1
-                
+        
+        # TODO: add face-face equivalences        
         # Process each voice node
         for node_id in self.nodes:
             if self.nodes[node_id].type != 'voice':
