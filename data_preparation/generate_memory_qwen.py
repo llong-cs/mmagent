@@ -69,7 +69,8 @@ def process_segment(
         base64_frames,
         id2faces,
         id2voices,
-        full_path
+        full_path,
+        args.generation_type
     )
 
     process_memories(video_graph, episodic_memories, clip_id, type="episodic")
@@ -190,8 +191,11 @@ if __name__ == "__main__":
     parser.add_argument("--data_list", type=str, default="/mnt/bn/videonasi18n/longlin.kylin/mmagent/data/annotations/small_test.jsonl")
     parser.add_argument("--version", type=str, default="0511")
     parser.add_argument("--log_dir", type=str, default="data/logs")
+    parser.add_argument("--generation_type", type=str, default="epi_then_sem")
     args = parser.parse_args()
     log_dir = args.log_dir
+    
+    assert args.generation_type in ["epi_then_sem", "all_in_one"], "Invalid generation type"
 
     data_list = args.data_list.split(",")
     cuda_id = args.cuda_id
