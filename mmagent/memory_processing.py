@@ -191,7 +191,6 @@ def generate_episodic_memories(video_context):
         episodic_memories = validate_and_fix_python_list(episodic_memories_string)
         if episodic_memories is not None:
             break
-        print(episodic_memories_string)
     if episodic_memories is None:
         episodic_memories = []
         # raise Exception("Failed to generate episodic memories")
@@ -238,7 +237,6 @@ def generate_semantic_memories(video_context, video_description):
         semantic_memories = validate_and_fix_python_list(semantic_memories_string)
         if semantic_memories is not None:
             break
-        print(semantic_memories_string)
     if semantic_memories is None:
         semantic_memories = []
         # raise Exception("Failed to generate semantic memories")
