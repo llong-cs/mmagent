@@ -233,12 +233,12 @@ def generate_all_memories(video_context):
             break
     if memories is None:
         memories = {
-            "video_description": [],
+            "video_descriptions": [],
             "high_level_conclusions": []
         }
         # raise Exception("Failed to generate memories")
     
-    episodic_memories = memories["video_description"]
+    episodic_memories = memories["video_descriptions"]
     semantic_memories = memories["high_level_conclusions"]
     
     return episodic_memories, semantic_memories
