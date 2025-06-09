@@ -837,25 +837,40 @@ class VideoGraph:
         if last_node_id is None:
             return
         # remove all nodes that are after the last_node_id
+        del_node = []
         for node_id in self.nodes.keys():
             if node_id > last_node_id:
-                del self.nodes[node_id]
+                del_node.append(node_id)
+        for node_id in del_node:
+            del self.nodes[node_id]
         # remove all edges that are after the last_node_id
+        del_edges = []
         for edge in self.edges.keys():
             if edge[0] > last_node_id or edge[1] > last_node_id:
-                del self.edges[edge]
+                del_edges.append(edge)
+        for edge in del_edges:
+            del self.edges[edge]
         # remove all text nodes that are after the last_node_id
+        del_nodes = []
         for node_id in self.text_nodes:
             if node_id > last_node_id:
-                self.text_nodes.remove(node_id)
+                del_nodes.append(node_id)
+        for node_id in del_nodes:
+            self.text_nodes.remove(node_id)
         # update the text_nodes_by_clip
-        for clip_id, text_nodes in self.text_nodes_by_clip.items():
+        del_clip = []
+        for clip_id, _ in self.text_nodes_by_clip.items():
             if clip_id > last_node_id:
-                del self.text_nodes_by_clip[clip_id]
+                del_clip.append(clip_id)
+        for clip_id in del_clip:
+            del self.text_nodes_by_clip[clip_id]
         # update the event_sequence_by_clip
-        for clip_id, event_sequence in self.event_sequence_by_clip.items():
+        del_clip = []
+        for clip_id, _ in self.event_sequence_by_clip.items():
             if clip_id > last_node_id:
-                del self.event_sequence_by_clip[clip_id]
+                del_clip.append(clip_id)
+        for clip_id in del_clip:
+            del self.event_sequence_by_clip[clip_id]
         # update the equivalences
         self.refresh_equivalences()
         return
