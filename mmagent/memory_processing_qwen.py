@@ -10,7 +10,7 @@ from PIL import Image, ImageDraw
 
 from .utils.chat_api import parallel_get_embedding
 from .utils.chat_qwen import generate_messages, get_response_with_retry
-from .utils.general import validate_and_fix_python_list
+from .utils.general import validate_and_fix_python_list, validate_and_fix_json
 from .prompts import prompt_generate_captions_with_ids_sft, prompt_generate_thinkings_with_ids_sft, prompt_generate_memory_with_ids_sft
 from .memory_processing import parse_video_caption
 
@@ -228,7 +228,7 @@ def generate_all_memories(video_context):
             memories_string = "[]"
             with open("logs/filtered_contents.txt", "a") as f:
                 f.write(f"Filtered generated contents detected\n")
-        memories = validate_and_fix_python_list(memories_string)
+        memories = validate_and_fix_json(memories_string)
         if memories is not None:
             break
     if memories is None:
