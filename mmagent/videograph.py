@@ -851,9 +851,12 @@ class VideoGraph:
         for edge in del_edges:
             del self.edges[edge]
         # remove all text nodes that are after the last_node_id
+        del_nodes = []
         for node_id in self.text_nodes:
             if node_id > last_node_id:
-                self.text_nodes.remove(node_id)
+                del_nodes.append(node_id)
+        for node_id in del_nodes:
+            self.text_nodes.remove(node_id)
         # update the text_nodes_by_clip
         del_clip = []
         for clip_id, _ in self.text_nodes_by_clip.items():
