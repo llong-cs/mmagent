@@ -393,17 +393,23 @@ def calculate_similarity(mem, query, related_nodes):
     return similarities.tolist()
 
 def retrieve_all_episodic_memories(video_graph):
-    episodic_memories = []
+    episodic_memories = {}
     for node_id in video_graph.text_nodes:
         if video_graph.nodes[node_id].metadata["type"] == "episodic":
-            episodic_memories.extend(video_graph.nodes[node_id].metadata["contents"])
+            clips_id = f"CLIP_{video_graph.nodes[node_id].metadata['timestamp']}"
+            if clips_id not in episodic_memories:
+                episodic_memories[clips_id] = []
+            episodic_memories[clips_id].extend(video_graph.nodes[node_id].metadata["contents"])
     return episodic_memories
 
 def retrieve_all_semantic_memories(video_graph):
-    semantic_memories = []
+    semantic_memories = {}
     for node_id in video_graph.text_nodes:
         if video_graph.nodes[node_id].metadata["type"] == "semantic":
-            semantic_memories.extend(video_graph.nodes[node_id].metadata["contents"])
+            clips_id = f"CLIP_{video_graph.nodes[node_id].metadata['timestamp']}"
+            if clips_id not in semantic_memories:
+                semantic_memories[clips_id] = []
+            semantic_memories[clips_id].extend(video_graph.nodes[node_id].metadata["contents"])
     return semantic_memories
 
 
