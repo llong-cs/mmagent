@@ -395,7 +395,7 @@ def calculate_similarity(mem, query, related_nodes):
 def retrieve_all_episodic_memories(video_graph):
     episodic_memories = {}
     for node_id in video_graph.text_nodes:
-        if video_graph.nodes[node_id].metadata["type"] == "episodic":
+        if video_graph.nodes[node_id].type == "episodic":
             clips_id = f"CLIP_{video_graph.nodes[node_id].metadata['timestamp']}"
             if clips_id not in episodic_memories:
                 episodic_memories[clips_id] = []
@@ -405,7 +405,7 @@ def retrieve_all_episodic_memories(video_graph):
 def retrieve_all_semantic_memories(video_graph):
     semantic_memories = {}
     for node_id in video_graph.text_nodes:
-        if video_graph.nodes[node_id].metadata["type"] == "semantic":
+        if video_graph.nodes[node_id].type == "semantic":
             clips_id = f"CLIP_{video_graph.nodes[node_id].metadata['timestamp']}"
             if clips_id not in semantic_memories:
                 semantic_memories[clips_id] = []
