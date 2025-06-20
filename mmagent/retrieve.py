@@ -392,6 +392,21 @@ def calculate_similarity(mem, query, related_nodes):
     similarities = cosine_similarity(query_embedding, related_nodes_embeddings)[0]
     return similarities.tolist()
 
+def retrieve_all_episodic_memories(video_graph):
+    episodic_memories = []
+    for node_id in video_graph.text_nodes:
+        if video_graph.nodes[node_id].metadata["type"] == "episodic":
+            episodic_memories.extend(video_graph.nodes[node_id].metadata["contents"])
+    return episodic_memories
+
+def retrieve_all_semantic_memories(video_graph):
+    semantic_memories = []
+    for node_id in video_graph.text_nodes:
+        if video_graph.nodes[node_id].metadata["type"] == "semantic":
+            semantic_memories.extend(video_graph.nodes[node_id].metadata["contents"])
+    return semantic_memories
+
+
 if __name__ == "__main__":
     from utils.general import load_video_graph
     import base64
