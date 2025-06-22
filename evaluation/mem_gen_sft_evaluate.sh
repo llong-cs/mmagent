@@ -5,6 +5,8 @@ val_path="data/sft/memgen/0511/conversations/val.jsonl"
 output_dir="data/sft/memgen/0511/evaluation"
 node_num=8
 val_num=200
+model_type="sft"
+# model_type="vanilla"
 
 # Define an array of checkpoint paths
 ckpt_paths=(
@@ -23,6 +25,7 @@ for ckpt_path in "${ckpt_paths[@]}"; do
             --val_path ${val_path} \
             --output_dir ${output_dir} \
             --generate \
+            --model_type ${model_type} \
             --cuda_id $i & \
     done
     wait
@@ -31,5 +34,6 @@ for ckpt_path in "${ckpt_paths[@]}"; do
         --ckpt_path ${ckpt_path} \
         --val_path ${val_path} \
         --output_dir ${output_dir} \
-        --val_num ${val_num}
+        --val_num ${val_num} \
+        --model_type ${model_type}
 done

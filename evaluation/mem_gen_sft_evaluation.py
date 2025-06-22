@@ -8,6 +8,7 @@ from transformers import Qwen2_5OmniProcessor, Qwen2_5OmniThinkerForConditionalG
 from qwen_omni_utils import process_mm_info
 from evaluation.memory_evaluation import eval_vdcscore, eval_autodq, eval_equivalence
 from mmagent.utils.general import validate_and_fix_python_list
+from mmagent.prompts import prompt_generate_captions_with_ids, prompt_generate_thinkings_with_ids
 
 import logging
 logger = logging.getLogger(__name__)
@@ -21,6 +22,7 @@ parser.add_argument("--cuda_id", type=int, default=0)
 parser.add_argument("--node_num", type=int, default=8)
 parser.add_argument("--debug", action="store_true")
 parser.add_argument("--generate", action="store_true")
+parser.add_argument("--model_type", type=str, default="sft", choices=["sft", "vanilla"])
 args = parser.parse_args()
 
 
@@ -66,7 +68,7 @@ def evaluate_sft_compare(model, processor, data_path, val_num=5):
             if count >= val_num:
                 break
 
-def generate_sft_data(model, processor, data_path, output_dir):
+def generate_sft_data(model, processor, data_path, output_dir, model_type="sft"):
     os.makedirs(output_dir, exist_ok=True)
     model.eval()
     samples = []
@@ -76,6 +78,18 @@ def generate_sft_data(model, processor, data_path, output_dir):
     with open(data_path, "r") as f:
         for line in f:
             sample = json.loads(line)
+            if model_type == "vanilla":
+                old_prompt = sample[0]["content"]
+                new_prompt = old_prompt[1:]
+                new_instruction = old_prompt[0]
+                if "atomic event or description" in new_instruction["text"]:
+                    new_instruction["text"] = prompt_generate_captions_with_ids
+                elif "one high-level conclusion" in new_instruction["text"]:
+                    new_instruction["text"] = prompt_generate_thinkings_with_ids
+                else:
+                    raise ValueError(f"Invalid instruction: {new_instruction['text']}")
+                new_prompt.append(new_instruction)
+                sample[0]["content"] = new_prompt
             samples.append(sample)
 
     for i, sample in enumerate(tqdm(samples)):
@@ -180,7 +194,11 @@ def evaluate_sft(gt_path, output_dir, save_path_autodq, save_path_vdcscore, val_
             
             
 if __name__ == "__main__":
-    ckpt_path = args.ckpt_path
+    model_type = args.model_type
+    if model_type == "vanilla":
+        ckpt_path = "/mnt/hdfs/foundation/agent/heyc/ckpts/Qwen2.5-Omni-7B-thinker"
+    else:
+        ckpt_path = args.ckpt_path
     val_path = args.val_path
     output_dir = args.output_dir
     ckpt_name = ckpt_path.split("/")[-1]
@@ -188,15 +206,16 @@ if __name__ == "__main__":
     response_dir = os.path.join(eval_dir, "val_gen")
     val_num = args.val_num
     
+    
     if args.debug:
         model = Qwen2_5OmniThinkerForConditionalGeneration.from_pretrained(ckpt_path, torch_dtype="auto", device_map="auto", attn_implementation="flash_attention_2")
         processor = Qwen2_5OmniProcessor.from_pretrained(ckpt_path)
-        evaluate_sft_compare(model, processor, val_path, val_num=args.val_num)
+        evaluate_sft_compare(model, processor, val_path, val_num)
         exit()
     if args.generate:
         model = Qwen2_5OmniThinkerForConditionalGeneration.from_pretrained(ckpt_path, torch_dtype="auto", device_map="auto", attn_implementation="flash_attention_2")
         processor = Qwen2_5OmniProcessor.from_pretrained(ckpt_path)
-        generate_sft_data(model, processor, val_path, response_dir)
+        generate_sft_data(model, processor, val_path, response_dir, model_type)
     else:
         evaluate_sft(val_path, response_dir, os.path.join(eval_dir, f"autodq_evaluation_val_{val_num}.json"), os.path.join(eval_dir, f"vdcscore_evaluation_val_{val_num}.json"), val_num)
     
