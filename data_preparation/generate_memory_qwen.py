@@ -70,7 +70,8 @@ def process_segment(
         id2faces,
         id2voices,
         full_path,
-        args.generation_type
+        args.generation_type,
+        args.model_type
     )
 
     process_memories(video_graph, episodic_memories, clip_id, type="episodic")
@@ -192,6 +193,7 @@ if __name__ == "__main__":
     parser.add_argument("--version", type=str, default="0511")
     parser.add_argument("--log_dir", type=str, default="data/logs")
     parser.add_argument("--generation_type", type=str, default="epi_then_sem")
+    parser.add_argument("--model_type", type=str, default="sft", choices=["sft", "vanilla"])
     args = parser.parse_args()
     log_dir = args.log_dir
     

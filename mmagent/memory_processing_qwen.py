@@ -11,7 +11,7 @@ from PIL import Image, ImageDraw
 from .utils.chat_api import parallel_get_embedding
 from .utils.chat_qwen import generate_messages, get_response_with_retry
 from .utils.general import validate_and_fix_python_list, validate_and_fix_json
-from .prompts import prompt_generate_captions_with_ids_sft, prompt_generate_thinkings_with_ids_sft, prompt_generate_memory_with_ids_sft
+from .prompts import prompt_generate_captions_with_ids_sft, prompt_generate_thinkings_with_ids_sft, prompt_generate_memory_with_ids_sft, prompt_generate_captions_with_ids, prompt_generate_thinkings_with_ids
 from .memory_processing import parse_video_caption
 
 processing_config = json.load(open("configs/processing_config.json"))
@@ -129,13 +129,23 @@ def generate_video_context(
 
     return video_context
 
-def generate_episodic_memories(video_context):
-    input = [
-        {
-            "type": "text",
-            "content": prompt_generate_captions_with_ids_sft,
-        }
-    ] + video_context
+def generate_episodic_memories(video_context, model_type="sft"):
+    if model_type == "sft":
+        input = [
+            {
+                "type": "text",
+                "content": prompt_generate_captions_with_ids_sft,
+            }
+        ] + video_context
+    elif model_type == "vanilla":
+        input = video_context + [
+            {
+                "type": "text",
+                "content": prompt_generate_captions_with_ids,
+            }
+        ]
+    else:
+        raise ValueError(f"Invalid model type: {model_type}")
 
     messages = generate_messages(input)
     # print_messages(messages)
@@ -158,7 +168,7 @@ def generate_episodic_memories(video_context):
 
     return episodic_memories
 
-def generate_semantic_memories(video_context, video_description):
+def generate_semantic_memories(video_context, video_description, model_type="sft"):
     """
     Generate thinking descriptions with character IDs based on video context and description.
 
@@ -176,21 +186,40 @@ def generate_semantic_memories(video_context, video_description):
     4. Returns the model's response with thinking descriptions
     """
     
-    input = [
-        {
-            "type": "text",
-            "content": prompt_generate_thinkings_with_ids_sft,
-        },
-    ] + video_context + [
-        {
-            "type": "text",
-            "content": "Video descriptions:",
-        },
-        {
-            "type": "text",
-            "content": json.dumps(video_description),
-        }
-    ]
+    if model_type == "sft":
+        input = [
+            {
+                "type": "text",
+                "content": prompt_generate_thinkings_with_ids_sft,
+            },
+        ] + video_context + [
+            {
+                "type": "text",
+                "content": "Video descriptions:",
+            },
+            {
+                "type": "text",
+                "content": json.dumps(video_description),
+            }
+        ]
+    elif model_type == "vanilla":
+        input = video_context + [
+            {
+                "type": "text",
+                "content": "Video descriptions:",
+            },
+            {
+                "type": "text",
+                "content": json.dumps(video_description),
+            },
+            {
+                "type": "text",
+                "content": prompt_generate_thinkings_with_ids,
+            }
+        ]
+    else:
+        raise ValueError(f"Invalid model type: {model_type}")
+    
     messages = generate_messages(input)
     # print_messages(messages)
     model = "gemini-1.5-pro-002"
@@ -210,7 +239,7 @@ def generate_semantic_memories(video_context, video_description):
         # raise Exception("Failed to generate semantic memories")
     return semantic_memories
 
-def generate_all_memories(video_context):
+def generate_all_memories(video_context, model_type="sft"):
     input = [
         {
             "type": "text",
@@ -244,7 +273,7 @@ def generate_all_memories(video_context):
     return episodic_memories, semantic_memories
 
 def generate_memories(
-    base64_video, base64_frames, faces_list, voices_list, video_path=None, generation_type="epi_then_sem"
+    base64_video, base64_frames, faces_list, voices_list, video_path=None, generation_type="epi_then_sem", model_type="sft"
 ):
     video_context = generate_video_context(
         base64_frames, faces_list, voices_list, video_path
@@ -259,10 +288,10 @@ def generate_memories(
     # history_texts = [video_graph.nodes[node_id].metadata['contents'][0] for node_id in history_nodes]
     
     if generation_type == "epi_then_sem":
-        episodic_memories = generate_episodic_memories(video_context)
-        semantic_memories = generate_semantic_memories(video_context, episodic_memories)
+        episodic_memories = generate_episodic_memories(video_context, model_type)
+        semantic_memories = generate_semantic_memories(video_context, episodic_memories, model_type)
     elif generation_type == "all_in_one":
-        episodic_memories, semantic_memories = generate_all_memories(video_context)
+        episodic_memories, semantic_memories = generate_all_memories(video_context, model_type)
     else:
         raise ValueError(f"Invalid generation type: {generation_type}")
 

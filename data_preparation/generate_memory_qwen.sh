@@ -5,6 +5,7 @@ data_list=${1:-"/mnt/bn/videonasi18n/longlin.kylin/mmagent/data/annotations/smal
 version=${2:-"0511"}
 log_dir=${3:-"data/logs"}
 generation_type=${4:-"epi_then_sem"}
+model_type=${5:-"sft"}
 
 machine_idx=$ARNOLD_ID
 node_num=$((ARNOLD_WORKER_NUM * ARNOLD_WORKER_GPU))
@@ -22,6 +23,7 @@ for local_cuda_id in $(seq 0 $((node_per_machine - 1))); do
         --version $version \
         --log_dir $log_dir \
         --generation_type $generation_type \
+        --model_type $model_type \
         --data_list $data_list &
 done
 wait
