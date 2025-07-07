@@ -221,7 +221,7 @@ def select_queries(action_content, responses):
     min_similarity_idx = avg_similarities.index(min(avg_similarities))
     return queries[min_similarity_idx]
 
-def search(video_graph, query, current_clips, topk=5, mode='max', threshold=0, mem_wise=False, before_clip=None):
+def search(video_graph, query, current_clips, topk=5, mode='max', threshold=0, mem_wise=False, before_clip=None, episodic_only=False):
     top_clips, clip_scores, nodes = retrieve_from_videograph(video_graph, query, topk, mode, threshold, before_clip)
     
     if mem_wise:
@@ -253,7 +253,7 @@ def search(video_graph, query, current_clips, topk=5, mode='max', threshold=0, m
             new_memories[new_clip] = [f"CLIP_{new_clip} not found in memory bank, please search for other information"]
         else:
             related_nodes = video_graph.text_nodes_by_clip[new_clip]
-            new_memories[new_clip] = translate(video_graph, [video_graph.nodes[node_id].metadata['contents'][0] for node_id in related_nodes])
+            new_memories[new_clip] = translate(video_graph, [video_graph.nodes[node_id].metadata['contents'][0] for node_id in related_nodes if (not episodic_only and video_graph.nodes[node_id].type != "semantic")])
                         
     # sort related_memories by timestamp
     new_memories = dict(sorted(new_memories.items(), key=lambda x: x[0]))

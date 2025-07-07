@@ -499,6 +499,32 @@ class VideoGraph:
 
         logger.info(f"Found {character_count} characters")
                 
+    def order_character(self):
+        """
+        ablation study, without equivalence
+        """
+        character_mappings = {}
+        reverse_character_mappings = {}
+        character_count = 0
+
+        for node_id in self.nodes:
+            node_type = self.nodes[node_id].type
+            if node_type not in ['img', 'voice']:
+                continue
+
+        character = f"character_{character_count}"
+        character_count += 1
+
+        tag = f"face_{node_id}" if node_type == 'img' else f"voice_{node_id}"
+
+        character_mappings[character] = [tag]
+        reverse_character_mappings[tag] = character
+
+        self.character_mappings = character_mappings
+        self.reverse_character_mappings = reverse_character_mappings
+
+        logger.info(f"Assigned {character_count} characters (no equivalence used)")
+
     
     # Retrieval functions
 
