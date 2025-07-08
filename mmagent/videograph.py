@@ -863,40 +863,75 @@ class VideoGraph:
         if last_node_id is None:
             return
         # remove all nodes that are after the last_node_id
-        del_node = []
+        to_del = []
         for node_id in self.nodes.keys():
             if node_id > last_node_id:
-                del_node.append(node_id)
-        for node_id in del_node:
+                to_del.append(node_id)
+        for node_id in to_del:
             del self.nodes[node_id]
         # remove all edges that are after the last_node_id
-        del_edges = []
+        to_del = []
         for edge in self.edges.keys():
             if edge[0] > last_node_id or edge[1] > last_node_id:
-                del_edges.append(edge)
-        for edge in del_edges:
+                to_del.append(edge)
+        for edge in to_del:
             del self.edges[edge]
         # remove all text nodes that are after the last_node_id
-        del_nodes = []
+        to_del = []
         for node_id in self.text_nodes:
             if node_id > last_node_id:
-                del_nodes.append(node_id)
-        for node_id in del_nodes:
+                to_del.append(node_id)
+        for node_id in to_del:
             self.text_nodes.remove(node_id)
         # update the text_nodes_by_clip
-        del_clip = []
-        for clip_id, _ in self.text_nodes_by_clip.items():
-            if clip_id > last_node_id:
-                del_clip.append(clip_id)
-        for clip_id in del_clip:
-            del self.text_nodes_by_clip[clip_id]
+        to_del = []
+        for clip, _ in self.text_nodes_by_clip.items():
+            if clip > clip_id:
+                to_del.append(clip)
+        for clip in to_del:
+            del self.text_nodes_by_clip[clip]
         # update the event_sequence_by_clip
-        del_clip = []
-        for clip_id, _ in self.event_sequence_by_clip.items():
-            if clip_id > last_node_id:
-                del_clip.append(clip_id)
-        for clip_id in del_clip:
-            del self.event_sequence_by_clip[clip_id]
+        to_del = []
+        for clip, _ in self.event_sequence_by_clip.items():
+            if clip > clip_id:
+                to_del.append(clip)
+        for clip in to_del:
+            del self.event_sequence_by_clip[clip]
+        # update the equivalences
+        self.refresh_equivalences()
+        return
+    
+    def prune_memory_by_node_type(self, node_type='semantic'):
+        del_nodes = []
+        for node_id, node in self.nodes.items():
+            if node.type == node_type:
+                del_nodes.append(node_id)
+        for node_id in del_nodes:
+            del self.nodes[node_id]
+        # update the edges
+        to_del = []
+        for edge in self.edges.keys():
+            if edge[0] in del_nodes or edge[1] in del_nodes:
+                to_del.append(edge)
+        for edge in to_del:
+            del self.edges[edge]
+        # update the text_nodes
+        to_del = []
+        for node_id in self.text_nodes:
+            if node_id in del_nodes:
+                to_del.append(node_id)
+        for node_id in to_del:
+            self.text_nodes.remove(node_id) 
+        # update the text_nodes_by_clip
+        for clip_id, text_nodes in self.text_nodes_by_clip.items():
+            to_del = [node_id for node_id in text_nodes if node_id in del_nodes]
+            for node_id in to_del:
+                text_nodes.remove(node_id)
+        # update the event_sequence_by_clip
+        for clip_id, event_sequence in self.event_sequence_by_clip.items():
+            to_del = [node_id for node_id in event_sequence if node_id in del_nodes]
+            for node_id in to_del:
+                event_sequence.remove(node_id)
         # update the equivalences
         self.refresh_equivalences()
         return
