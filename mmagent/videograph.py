@@ -512,13 +512,13 @@ class VideoGraph:
             if node_type not in ['img', 'voice']:
                 continue
 
-        character = f"character_{character_count}"
-        character_count += 1
+            character = f"character_{character_count}"
+            character_count += 1
 
-        tag = f"face_{node_id}" if node_type == 'img' else f"voice_{node_id}"
+            tag = f"face_{node_id}" if node_type == 'img' else f"voice_{node_id}"
 
-        character_mappings[character] = [tag]
-        reverse_character_mappings[tag] = character
+            character_mappings[character] = [tag]
+            reverse_character_mappings[tag] = character
 
         self.character_mappings = character_mappings
         self.reverse_character_mappings = reverse_character_mappings
