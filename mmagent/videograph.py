@@ -850,7 +850,7 @@ class VideoGraph:
         route_contents = [self.nodes[node_id].metadata['contents'][0] for node_id in route]
         return route, route_contents
 
-    def truncate_memory_by_clip(self, clip_id):
+    def truncate_memory_by_clip(self, clip_id, refresh=True):
         # truncate the memory by clip_id
         # remove all nodes that are after the clip_id
         # return the truncated memory
@@ -898,7 +898,8 @@ class VideoGraph:
         for clip in to_del:
             del self.event_sequence_by_clip[clip]
         # update the equivalences
-        self.refresh_equivalences()
+        if refresh:
+            self.refresh_equivalences()
         return
     
     def prune_memory_by_node_type(self, node_type='semantic'):
